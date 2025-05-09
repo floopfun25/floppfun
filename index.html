@@ -21,9 +21,10 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 </head>
 <body>
+  <!-- ÜST MENÜ -->
   <header class="main-header">
     <div class="nav-left">
-      <img src="https://floppfun.com/mascot.png" class="logo-icon" alt="Floop" />
+      <img src="images/floop-mascot.png" class="logo-icon" alt="Floop" />
       <h1 class="logo-text">Floop.fun</h1>
     </div>
     <div class="nav-right">
@@ -33,6 +34,7 @@
     </div>
   </header>
 
+  <!-- MOBİL MENÜ -->
   <div class="mobile-menu" id="mobileMenu">
     <ul>
       <li><span>✨</span> bir tarikat başlatın (ücretsiz!)</li>
@@ -42,15 +44,36 @@
       <li><span>𝕏</span> x'i takip et</li>
     </ul>
   </div>
+
+  <!-- KAOS GİRİŞİ (maskot + animasyon + buton alanı PART 2'de gelecek) -->
+
+  <!-- HERO -->
   <main class="hero-section">
     <div class="hero-content">
       <h2 class="hero-title">Launch Your Meme Token</h2>
       <p class="hero-subtitle">No presale. No dev wallet. Just pure meme magic.</p>
-      <button id="launchBtn" class="launch-btn">Launch Token</button>
+      <button id="launchBtn" class="launch-btn">Release The Chaos</button>
     </div>
   </main>
 
-  <!-- FORM SECTION (başta gizli, PART 3'te içeriği geliyor) -->
+  <!-- ORTA FİLTRE BUTONLARI -->
+  <section class="filter-bar">
+    <button class="filter-btn active">Yeni Başlatıldı</button>
+    <button class="filter-btn">Mezun Olmak Üzere</button>
+    <button class="filter-btn">En Yüksek MCAP</button>
+    <button class="filter-btn">Hacme Göre</button>
+    <button class="filter-btn">En Çok Flooplananlar</button>
+  </section>
+  <!-- CHAOS ANİMASYONU (zıplayan Solana + ateş + maskot) -->
+  <section id="chaosAnimation" class="chaos-animation">
+    <div class="chaos-container">
+      <img src="images/solana.svg" alt="Solana" class="solana-bounce" />
+      <img src="images/fire.gif" alt="Fire" class="chaos-fire" />
+      <img src="images/floop-mascot.png" alt="Mascot" class="mascot-img" />
+    </div>
+  </section>
+
+  <!-- TOKEN FORMU -->
   <section id="tokenFormSection" class="form-wrapper hidden">
     <h3>Create Your Token</h3>
     <form id="tokenForm">
@@ -64,116 +87,127 @@
     </form>
     <div id="formStatus" class="wallet-status"></div>
   </section>
+  <!-- TOP FLOOPED TOKENLAR -->
   <section id="topTokens">
     <h3>Top Flooped Tokens</h3>
     <ul id="topFloopList"></ul>
   </section>
 
+  <!-- FOOTER -->
   <footer>
     <p>&copy; 2025 Floop.fun. All rights reserved.</p>
   </footer>
-<script>
-  const connectBtn = document.getElementById("connectWallet");
-  const launchBtn = document.getElementById("launchBtn");
-  const formSection = document.getElementById("tokenFormSection");
-  const mobileMenu = document.getElementById("mobileMenu");
-  const menuBtn = document.getElementById("menuBtn");
-  let userPublicKey = null;
 
-  // Formu aç
-  launchBtn.addEventListener("click", () => {
-    formSection.classList.remove("hidden");
-    formSection.scrollIntoView({ behavior: "smooth" });
-  });
+  <!-- SCRIPT BAŞLANGICI -->
+  <script>
+    const connectBtn = document.getElementById("connectWallet");
+    const launchBtn = document.getElementById("launchBtn");
+    const formSection = document.getElementById("tokenFormSection");
+    const chaos = document.getElementById("chaosAnimation");
+    const mobileMenu = document.getElementById("mobileMenu");
+    const menuBtn = document.getElementById("menuBtn");
+    let userPublicKey = null;
 
-  // Mobil menüyü aç/kapat
-  let menuOpen = false;
-  menuBtn.addEventListener("click", () => {
-    menuOpen = !menuOpen;
-    mobileMenu.style.display = menuOpen ? "block" : "none";
-  });
+    // Mobil menü toggle
+    let menuOpen = false;
+    menuBtn.addEventListener("click", () => {
+      menuOpen = !menuOpen;
+      mobileMenu.style.display = menuOpen ? "block" : "none";
+    });
 
-  // Cüzdan bağla
-  async function connectWallet() {
-    if ("solana" in window) {
-      const provider = window.solana;
-      if (provider.isPhantom) {
-        try {
-          const response = await provider.connect();
-          userPublicKey = response.publicKey;
-          connectBtn.innerText = "Connected";
-          connectBtn.disabled = true;
-        } catch (err) {
-          alert("Bağlantı iptal edildi.");
+    // CHAOS TETİĞİ (animasyon göster + 3sn sonra formu aç)
+    launchBtn.addEventListener("click", () => {
+      chaos.style.display = "flex";
+      formSection.classList.add("hidden");
+      setTimeout(() => {
+        chaos.style.display = "none";
+        formSection.classList.remove("hidden");
+        formSection.scrollIntoView({ behavior: "smooth" });
+      }, 3000);
+    });
+
+    // Wallet bağlantısı
+    async function connectWallet() {
+      if ("solana" in window) {
+        const provider = window.solana;
+        if (provider.isPhantom) {
+          try {
+            const response = await provider.connect();
+            userPublicKey = response.publicKey;
+            connectBtn.innerText = "Connected";
+            connectBtn.disabled = true;
+          } catch (err) {
+            alert("Bağlantı iptal edildi.");
+          }
+        } else {
+          alert("Phantom Wallet yüklü değil.");
         }
       } else {
-        alert("Phantom Wallet yüklü değil.");
+        alert("Solana tarayıcı desteği yok.");
       }
-    } else {
-      alert("Solana tarayıcı desteği yok.");
-    }
-  }
-
-  connectBtn.addEventListener("click", connectWallet);
-  const supabaseUrl = 'https://ugzbsmmaxxklojwlijrt.supabase.co';
-  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVnemJzbW1heHhrbG9qd2xpanJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM2MDAyNTYsImV4cCI6MjA1OTE3NjI1Nn0.TZr8hu2fldqEyeOZBVxTO-bnQZio6HFqy6LP7AZ085o';
-  const supabase = supabase.createClient(supabaseUrl, supabaseKey);
-
-  // Top Flooped Tokenları Yükle
-  async function loadTopTokens() {
-    const { data, error } = await supabase
-      .from('floop_counts')
-      .select('*')
-      .order('count', { ascending: false })
-      .limit(5);
-
-    const list = document.getElementById("topFloopList");
-    if (data && data.length > 0) {
-      data.forEach((token) => {
-        const li = document.createElement("li");
-        li.innerHTML = `<a href="token.html?mint=${token.mint}&symbol=FLOOP">${token.mint} — ${token.count} floops</a>`;
-        list.appendChild(li);
-      });
-    } else {
-      list.innerHTML = "<li>No tokens yet.</li>";
-    }
-  }
-
-  loadTopTokens();
-
-  // Token Oluşturma İşlemi
-  const tokenForm = document.getElementById("tokenForm");
-  const formStatus = document.getElementById("formStatus");
-
-  tokenForm.addEventListener("submit", async function (e) {
-    e.preventDefault();
-
-    const name = document.getElementById("tokenName").value.trim();
-    const symbol = document.getElementById("tokenSymbol").value.trim();
-    const supply = parseInt(document.getElementById("tokenSupply").value.trim());
-    const description = document.getElementById("tokenDescription").value.trim();
-    const socialLink = document.getElementById("socialLink").value.trim();
-    const imageUrl = document.getElementById("tokenImage").value.trim();
-
-    if (!userPublicKey) {
-      formStatus.innerText = "Please connect your wallet first.";
-      formStatus.style.color = "orange";
-      return;
     }
 
-    formStatus.innerText = "Creating token on Solana...";
-    formStatus.style.color = "blue";
+    connectBtn.addEventListener("click", connectWallet);
+    // Supabase bağlantısı
+    const supabaseUrl = 'https://ugzbsmmaxxklojwlijrt.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFz...'; // kısa tutuldu
+    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-    try {
-      // Buraya Solana token creation logic eklenecek (gerekirse ayrı dosyada yapılabilir)
-      formStatus.innerText = "Token created successfully! (mock)";
-      formStatus.style.color = "lime";
-    } catch (err) {
-      console.error(err);
-      formStatus.innerText = "Token creation failed.";
-      formStatus.style.color = "red";
+    // Top Tokenları Yükle
+    async function loadTopTokens() {
+      const { data, error } = await supabase
+        .from('floop_counts')
+        .select('*')
+        .order('count', { ascending: false })
+        .limit(5);
+
+      const list = document.getElementById("topFloopList");
+      if (data && data.length > 0) {
+        data.forEach((token) => {
+          const li = document.createElement("li");
+          li.innerHTML = `<a href="token.html?mint=${token.mint}&symbol=FLOOP">${token.mint} — ${token.count} floops</a>`;
+          list.appendChild(li);
+        });
+      } else {
+        list.innerHTML = "<li>No tokens yet.</li>";
+      }
     }
-  });
-</script>
+
+    loadTopTokens();
+
+    // Token Oluşturma
+    const tokenForm = document.getElementById("tokenForm");
+    const formStatus = document.getElementById("formStatus");
+
+    tokenForm.addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById("tokenName").value.trim();
+      const symbol = document.getElementById("tokenSymbol").value.trim();
+      const supply = parseInt(document.getElementById("tokenSupply").value.trim());
+      const description = document.getElementById("tokenDescription").value.trim();
+      const socialLink = document.getElementById("socialLink").value.trim();
+      const imageUrl = document.getElementById("tokenImage").value.trim();
+
+      if (!userPublicKey) {
+        formStatus.innerText = "Please connect your wallet first.";
+        formStatus.style.color = "orange";
+        return;
+      }
+
+      formStatus.innerText = "Creating token on Solana...";
+      formStatus.style.color = "blue";
+
+      try {
+        // Gerçek token oluşturma işlemi burada entegre edilecek
+        formStatus.innerText = "Token created successfully! (mock)";
+        formStatus.style.color = "lime";
+      } catch (err) {
+        console.error(err);
+        formStatus.innerText = "Token creation failed.";
+        formStatus.style.color = "red";
+      }
+    });
+  </script>
 </body>
 </html>
