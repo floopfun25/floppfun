@@ -1,5 +1,4 @@
-/* Boop.fun tarzı Floop style.css — PART 1/3 */
-
+/* Genel Sıfırlama */
 * {
   margin: 0;
   padding: 0;
@@ -8,90 +7,181 @@
 
 body {
   font-family: 'Poppins', sans-serif;
-  background-color: #ffffff;
-  color: #111;
-  line-height: 1.6;
+  background: radial-gradient(ellipse at top, #0a0a23, #000);
+  color: #fff;
   text-align: center;
+  line-height: 1.6;
+  padding-bottom: 60px;
 }
 
-header {
-  background: #fff;
-  padding: 20px 0;
-  border-bottom: 2px solid #eee;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.container {
-  width: 90%;
-  max-width: 1200px;
-  margin: auto;
+/* HEADER */
+.main-header {
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(6px);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 14px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
-.logo {
-  font-size: 2rem;
+.nav-left {
+  display: flex;
+  align-items: center;
+}
+
+.logo-icon {
+  width: 34px;
+  height: 34px;
+  margin-right: 10px;
+}
+
+.logo-text {
+  font-size: 1.4rem;
   font-weight: bold;
-  color: #ff5cb3;
+  color: #00ffee;
 }
 
-#connectWallet {
-  padding: 12px 24px;
-  background-color: #ffd700;
+.nav-right {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.connect-btn {
+  background: #ffd700;
   color: #111;
   border: none;
-  border-radius: 12px;
+  border-radius: 20px;
+  padding: 10px 18px;
   font-weight: bold;
-  font-size: 1rem;
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease, background-color 0.3s ease;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
-#connectWallet:hover {
-  background-color: #ffc300;
+.connect-btn:hover {
+  background: #ffc300;
   transform: scale(1.05);
 }
 
-main {
-  padding: 60px 20px;
-}
-/* Boop.fun tarzı Floop style.css — PART 2/3 */
-
-#intro h2 {
-  font-size: 2.2rem;
-  margin-bottom: 10px;
-  color: #333;
+.icon-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.4rem;
+  color: #fff;
+  cursor: pointer;
 }
 
-#intro p {
+.mobile-menu {
+  display: none;
+  position: fixed;
+  right: 20px;
+  top: 70px;
+  background: #111a;
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
+  padding: 16px;
+  z-index: 999;
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.1);
+  animation: slideIn 0.3s ease;
+}
+
+.mobile-menu ul {
+  list-style: none;
+  padding: 0;
+}
+
+.mobile-menu li {
+  padding: 10px 0;
+  color: #fff;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid #333;
+  cursor: pointer;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* HERO BÖLÜMÜ */
+.hero-section {
+  padding: 80px 20px 40px;
+}
+
+.hero-title {
+  font-size: 2.6rem;
+  font-weight: bold;
+  color: #00ffee;
+  margin-bottom: 20px;
+}
+
+.hero-subtitle {
   font-size: 1.2rem;
-  color: #555;
-  margin-bottom: 40px;
+  color: #ccc;
+  margin-bottom: 30px;
 }
 
-#tokenFormSection {
-  background-color: #f9f9f9;
-  padding: 30px 20px;
-  border-radius: 16px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
-  width: 100%;
+.launch-btn {
+  background: #ff5cb3;
+  color: #fff;
+  font-weight: bold;
+  padding: 16px 36px;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 0 12px #ff5cb3aa;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.launch-btn:hover {
+  background: #e04899;
+  transform: scale(1.05);
+}
+
+/* FORM BÖLÜMÜ */
+.form-wrapper {
   max-width: 600px;
-  margin: auto;
+  margin: 40px auto;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 30px;
+  border-radius: 20px;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.05);
+}
+
+.form-wrapper.hidden {
+  display: none;
+}
+
+.form-wrapper h3 {
+  color: #00ffee;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
 }
 
 #tokenForm input,
 #tokenForm textarea {
   width: 100%;
   padding: 14px;
-  margin: 10px 0;
+  margin-bottom: 12px;
   border-radius: 10px;
-  border: 1px solid #ddd;
+  border: none;
+  background: #fff;
+  color: #000;
   font-size: 1rem;
-  background-color: #fff;
 }
 
 #tokenForm textarea {
@@ -100,98 +190,103 @@ main {
 }
 
 #tokenForm button {
-  background-color: #ff5cb3;
-  color: white;
+  background-color: #00ffee;
+  color: #000;
   font-weight: bold;
   padding: 14px 28px;
   border: none;
-  border-radius: 12px;
+  border-radius: 999px;
   cursor: pointer;
-  margin-top: 20px;
+  margin-top: 10px;
   font-size: 1.1rem;
   transition: transform 0.2s ease, background-color 0.3s ease;
 }
 
 #tokenForm button:hover {
-  background-color: #e04899;
+  background-color: #00e6d4;
   transform: scale(1.05);
 }
 
 .wallet-status {
   margin-top: 20px;
   font-size: 1rem;
-  color: #00aa55;
+  color: #00ffaa;
 }
 
+/* TOP TOKENS */
 #topTokens {
-  margin-top: 50px;
+  margin-top: 60px;
 }
 
 #topTokens h3 {
-  font-size: 1.5rem;
-  margin-bottom: 15px;
-  color: #ff5cb3;
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+  color: #00ffee;
 }
 
-#topTokens ul {
+#topFloopList {
   list-style: none;
   padding: 0;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
-#topTokens li {
-  padding: 12px;
-  margin-bottom: 10px;
-  border-radius: 10px;
-  background-color: #fff0f6;
-  transition: background-color 0.3s ease;
+#topFloopList li {
+  background: rgba(255, 255, 255, 0.05);
+  margin-bottom: 12px;
+  padding: 14px;
+  border-radius: 12px;
+  transition: background 0.3s ease;
 }
 
-#topTokens li:hover {
-  background-color: #ffe4ef;
+#topFloopList li:hover {
+  background: rgba(0, 255, 255, 0.1);
 }
 
-#topTokens a {
-  color: #d10082;
+#topFloopList a {
+  color: #00ffee;
   text-decoration: none;
   font-weight: bold;
 }
-/* Boop.fun tarzı Floop style.css — PART 3/3 */
-
+/* FOOTER */
 footer {
-  background-color: #f1f1f1;
+  background-color: rgba(255, 255, 255, 0.02);
   text-align: center;
   padding: 20px;
   font-size: 0.9rem;
-  color: #555;
-  margin-top: 60px;
-  border-top: 2px solid #eee;
+  color: #aaa;
+  margin-top: 80px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 /* RESPONSIVE TASARIM */
-
 @media (max-width: 768px) {
-  .container {
+  .main-header {
     flex-direction: column;
-    align-items: center;
-    gap: 10px;
+    gap: 12px;
   }
 
-  header .logo {
-    font-size: 1.7rem;
+  .logo-text {
+    font-size: 1.2rem;
     text-align: center;
   }
 
-  #connectWallet {
-    font-size: 0.95rem;
-    padding: 10px 20px;
+  .hero-title {
+    font-size: 2rem;
   }
 
-  #intro h2 {
-    font-size: 1.6rem;
-  }
-
-  #intro p {
+  .hero-subtitle {
     font-size: 1rem;
+  }
+
+  .launch-btn {
+    padding: 12px 26px;
+    font-size: 1rem;
+  }
+
+  .form-wrapper {
+    padding: 20px 15px;
+    margin: 30px 10px;
   }
 
   #tokenForm input,
@@ -201,20 +296,34 @@ footer {
     padding: 12px;
   }
 
-  #tokenFormSection {
-    padding: 20px 15px;
-    margin: 30px 10px;
-  }
-
   #topTokens h3 {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
   }
 
-  #topTokens li {
+  #topFloopList li {
     font-size: 0.95rem;
   }
 
   footer {
     font-size: 0.8rem;
+  }
+
+  .connect-btn {
+    font-size: 0.95rem;
+    padding: 8px 16px;
+  }
+
+  .icon-btn {
+    font-size: 1.2rem;
+  }
+
+  .mobile-menu {
+    right: 10px;
+    top: 65px;
+    padding: 12px;
+  }
+
+  .mobile-menu li {
+    font-size: 0.9rem;
   }
 }
