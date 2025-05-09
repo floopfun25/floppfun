@@ -1,0 +1,232 @@
+<!-- floppfun/token.html — PART 1/3 (GÜNCELLENMİŞ) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Your Token</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
+  <style>
+    body {
+      background: #0a0a23;
+      color: #fff;
+      font-family: sans-serif;
+      text-align: center;
+      padding: 50px;
+    }
+    .box {
+      background: #1a1a3d;
+      padding: 20px;
+      border-radius: 8px;
+      display: inline-block;
+      max-width: 90%;
+    }
+    a {
+      color: #00ffe7;
+      text-decoration: none;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: #00ffe7;
+      color: black;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    #floopResult, #floopCount {
+      margin-top: 15px;
+      font-weight: bold;
+      color: #00ffe7;
+    }
+    #shareBox button {
+      margin: 6px;
+      padding: 8px 14px;
+      background: #222;
+      border: 1px solid #00ffe7;
+      color: #00ffe7;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    #shareBox button:hover {
+      background: #00ffe7;
+      color: black;
+    }
+    #welcomeBanner {
+      display: none;
+      margin-bottom: 20px;
+      padding: 12px;
+      background-color: #003333;
+      border: 1px solid #00ffe7;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      color: #00ffe7;
+    }
+    img#tokenImage {
+      margin: 20px auto 10px;
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      border-radius: 12px;
+      border: 2px solid #00ffe7;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <div id="welcomeBanner">Token successfully created! Now you can share it or let others floop it.</div>
+    <h2>Token Created Successfully!</h2>
+    <p id="mintAddress"></p>
+    <p id="symbol"></p>
+    <img id="tokenImage" src="" alt="Token Image" style="display:none;" />
+    <div id="floopCount">Flooped: ...</div>
+    <button id="floopBtn">Floop This Token (0.01 SOL)</button>
+    <p id="floopResult"></p>
+    <div id="shareBox">
+      <p style="font-weight: bold;">Share your token:</p>
+      <button onclick="shareOnTwitter()">Twitter</button>
+      <button onclick="shareOnTelegram()">Telegram</button>
+      <button onclick="copyMint()">Copy Mint</button>
+      <p id="copyResult" style="margin-top: 10px; font-size: 0.9rem;"></p>
+    </div>
+
+    <div style="margin-top:30px;">
+      <a href="index.html">Back to Home</a>
+    </div>
+
+    <div style="margin-top:40px;">
+      <h3 style="color:#00ffe7;">Buy Your Token on Jupiter</h3>
+      <iframe id="dexFrame" width="100%" height="500" style="border:none;border-radius:10px;"></iframe>
+    </div>
+  </div>
+
+<script>
+  const url = new URLSearchParams(window.location.search);
+  const mint = url.get('mint');
+  const symbol = url.get('symbol');
+  const image = url.get('image');
+
+  document.getElementById("mintAddress").innerText = "Mint Address: " + mint;
+  document.getElementById("symbol").innerText = "Symbol: " + symbol;
+
+  if (image) {
+    const img = document.getElementById("tokenImage");
+    img.src = decodeURIComponent(image);
+    img.style.display = "block";
+  }
+
+  const dexFrame = document.getElementById("dexFrame");
+  dexFrame.src = `https://jup.ag/swap/SOL-${mint}`;
+  
+  const supabaseUrl = 'https://ugzbsmmaxxklojwlijrt.supabase.co';
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVnemJzbW1heHhrbG9qd2xpanJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM2MDAyNTYsImV4cCI6MjA1OTE3NjI1Nn0.TZr8hu2fldqEyeOZBVxTO-bnQZio6HFqy6LP7AZ085o';
+  const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+  const floopBtn = document.getElementById("floopBtn");
+  const floopResult = document.getElementById("floopResult");
+  const floopCountEl = document.getElementById("floopCount");
+
+  async function loadFloopCount() {
+    const { data, error } = await supabase
+      .from('floop_counts')
+      .select('count')
+      .eq('mint', mint)
+      .single();
+
+    if (data && data.count !== undefined) {
+      floopCountEl.innerText = `Flooped: ${data.count}`;
+    } else {
+      floopCountEl.innerText = `Flooped: 0`;
+    }
+  }
+
+  loadFloopCount();
+  floopBtn.addEventListener("click", async () => {
+    if (!window.solana || !window.solana.isPhantom) {
+      alert("Please connect Phantom Wallet.");
+      return;
+    }
+
+    try {
+      const connection = new solanaWeb3.Connection(
+        solanaWeb3.clusterApiUrl("mainnet-beta"),
+        "confirmed"
+      );
+      const response = await window.solana.connect();
+      const user = response.publicKey;
+      const transaction = new solanaWeb3.Transaction().add(
+        solanaWeb3.SystemProgram.transfer({
+          fromPubkey: user,
+          toPubkey: new solanaWeb3.PublicKey("BiDrwH1vdp8KtKMsmtKV2aSfwzjbrFe8KbxUGg1DKfi"),
+          lamports: solanaWeb3.LAMPORTS_PER_SOL * 0.01
+        })
+      );
+
+      transaction.feePayer = user;
+      const blockhash = await connection.getRecentBlockhash();
+      transaction.recentBlockhash = blockhash.blockhash;
+
+      const signed = await window.solana.signTransaction(transaction);
+      const signature = await connection.sendRawTransaction(signed.serialize());
+      await connection.confirmTransaction(signature);
+
+      floopResult.innerText = "Thanks! Token successfully Flooped.";
+      floopResult.style.color = "lime";
+
+      const { data } = await supabase
+        .from('floop_counts')
+        .select('count')
+        .eq('mint', mint)
+        .single();
+
+      if (data) {
+        await supabase.from('floop_counts')
+          .update({ count: data.count + 1 })
+          .eq('mint', mint);
+      } else {
+        await supabase.from('floop_counts')
+          .insert({ mint: mint, count: 1 });
+      }
+
+      loadFloopCount();
+    } catch (err) {
+      console.error(err);
+      floopResult.innerText = "Transaction failed or cancelled.";
+      floopResult.style.color = "red";
+    }
+  });
+
+  function shareOnTwitter() {
+    const url = `https://floppfun.com/token.html?mint=${mint}&symbol=${symbol}`;
+    const text = `Check out my meme token ${symbol} on Solana!`;
+    const tweet = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+    window.open(tweet, '_blank');
+  }
+
+  function shareOnTelegram() {
+    const url = `https://floppfun.com/token.html?mint=${mint}&symbol=${symbol}`;
+    const msg = `Check out my meme token ${symbol} on Solana: ${url}`;
+    const tg = `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(msg)}`;
+    window.open(tg, '_blank');
+  }
+
+  function copyMint() {
+    navigator.clipboard.writeText(mint).then(() => {
+      document.getElementById("copyResult").innerText = "Mint address copied!";
+      setTimeout(() => {
+        document.getElementById("copyResult").innerText = "";
+      }, 2000);
+    });
+  }
+
+  window.addEventListener("load", () => {
+    if (document.referrer.includes("index.html")) {
+      document.getElementById("welcomeBanner").style.display = "block";
+    }
+  });
+</script>
+</body>
+</html>

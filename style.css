@@ -1,0 +1,189 @@
+/* floppfun/style.css — PART 1/2 (GÜNCELLENMİŞ TAM HALİ) */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #0a0a23;
+  color: #f5f5f5;
+  line-height: 1.6;
+}
+
+header {
+  background: #111133;
+  padding: 20px 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.8rem;
+  color: #00ffe7;
+}
+
+#connectWallet {
+  padding: 10px 20px;
+  background-color: #00ffe7;
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#connectWallet:hover {
+  background-color: #00ccba;
+}
+
+main {
+  padding: 60px 20px;
+  text-align: center;
+}
+
+#intro h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+#intro p {
+  font-size: 1.2rem;
+  color: #cccccc;
+}
+
+.wallet-status {
+  margin-top: 20px;
+  font-size: 1rem;
+  color: lime;
+}
+
+footer {
+  background-color: #111133;
+  text-align: center;
+  padding: 20px;
+  font-size: 0.9rem;
+  color: #888;
+  position: relative;
+  margin-top: 40px;
+}
+
+#tokenFormSection {
+  margin-top: 40px;
+  padding: 20px;
+  background-color: #1b1b3a;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#tokenForm input,
+#tokenForm textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 6px;
+  border: none;
+  font-size: 1rem;
+}
+
+#tokenForm button {
+  background-color: #00ffe7;
+  color: #000;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+#tokenForm button:hover {
+  background-color: #00ccba;
+}
+
+/* Top tokens hover efekti */
+#topTokens li:hover {
+  background-color: #222244;
+  border-radius: 6px;
+  transition: background 0.3s ease;
+}
+/* floppfun/style.css — PART 2/2 (DEVAMI - Responsive Düzenlemeler) */
+
+@media (max-width: 600px) {
+  .container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  #tokenFormSection {
+    width: 100%;
+    padding: 15px;
+  }
+
+  #tokenForm input,
+  #tokenForm textarea,
+  #tokenForm button {
+    font-size: 0.95rem;
+    padding: 8px;
+  }
+
+  header .logo {
+    font-size: 1.5rem;
+  }
+
+  #intro h2 {
+    font-size: 1.4rem;
+  }
+
+  #intro p {
+    font-size: 1rem;
+  }
+
+  .wallet-status {
+    font-size: 0.95rem;
+  }
+
+  table {
+    font-size: 0.9rem;
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+  }
+
+  th, td {
+    padding: 8px;
+    white-space: nowrap;
+  }
+
+  #shareBox button {
+    display: block;
+    width: 100%;
+    margin: 6px 0;
+  }
+
+  #floopResult,
+  #floopCount {
+    font-size: 1rem;
+  }
+
+  button,
+  input,
+  textarea {
+    width: 100%;
+  }
+}

@@ -1,0 +1,210 @@
+<!-- floppfun/index.html — PART 1/3 (GÜNCELLENMİŞ) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Floop.fun - Meme Token Creator</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- SEO & Meta -->
+  <meta name="description" content="Create and launch meme tokens instantly on Solana. No presale. No dev wallet." />
+  <meta property="og:title" content="Floop.fun - Launch Your Meme Token on Solana" />
+  <meta property="og:description" content="No presale. No dev wallet. Just pure meme magic." />
+  <meta property="og:url" content="https://floppfun.com/" />
+  <meta property="og:image" content="https://floppfun.com/preview.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Floop.fun - Meme Token Creator on Solana" />
+  <meta name="twitter:description" content="No presale. No dev wallet. Launch your own meme token now!" />
+  <meta name="twitter:image" content="https://floppfun.com/preview.jpg" />
+  <link rel="icon" href="https://floppfun.com/favicon.ico" type="image/x-icon" />
+
+  <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@solana/spl-token@latest/lib/index.iife.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1 class="logo">Floop.fun</h1>
+      <button id="connectWallet">Connect Wallet</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="intro">
+      <h2>Launch Your Meme Token on Solana</h2>
+      <p>Quick. Fair. Fun. No presale. No dev wallet.</p>
+    </section>
+
+    <section id="tokenFormSection">
+      <h3>Create Your Token</h3>
+      <form id="tokenForm">
+        <input type="text" id="tokenName" placeholder="Token Name" required />
+        <input type="text" id="tokenSymbol" placeholder="Token Symbol (e.g. FLOP)" maxlength="5" required />
+        <input type="number" id="tokenSupply" placeholder="Total Supply (e.g. 1000000)" required min="1" />
+        <input type="url" id="tokenImage" placeholder="Token Image URL (optional)" />
+        <textarea id="tokenDescription" placeholder="Describe your token (optional)"></textarea>
+        <input type="url" id="socialLink" placeholder="Social Media Link (optional)" />
+        <button type="submit">Launch Token</button>
+      </form>
+      <div id="formStatus" class="wallet-status"></div>
+    </section>
+
+    <div id="walletStatus" class="wallet-status"></div>
+
+    <section id="topTokens" style="margin-top: 50px;">
+      <h3 style="color:#00ffe7; margin-bottom: 15px;">Top Flooped Tokens</h3>
+      <ul id="topFloopList" style="list-style: none; padding: 0; font-size: 0.95rem;"></ul>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 Floop.fun. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const connectBtn = document.getElementById("connectWallet");
+    const walletStatus = document.getElementById("walletStatus");
+    let userPublicKey = null;
+
+    async function connectWallet() {
+      if ("solana" in window) {
+        const provider = window.solana;
+        if (provider.isPhantom) {
+          try {
+            const response = await provider.connect();
+            userPublicKey = response.publicKey;
+            walletStatus.innerText = "Wallet Connected: " + userPublicKey.toString();
+            walletStatus.style.color = "lime";
+          } catch (err) {
+            walletStatus.innerText = "Connection cancelled.";
+            walletStatus.style.color = "red";
+          }
+        } else {
+          alert("Phantom Wallet not found.");
+        }
+      } else {
+        alert("Solana object not available. Please install Phantom Wallet.");
+      }
+    }
+
+    connectBtn.addEventListener("click", connectWallet);
+
+    const tokenForm = document.getElementById("tokenForm");
+    const formStatus = document.getElementById("formStatus");
+
+    tokenForm.addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById("tokenName").value.trim();
+      const symbol = document.getElementById("tokenSymbol").value.trim();
+      const supply = parseInt(document.getElementById("tokenSupply").value.trim());
+      const description = document.getElementById("tokenDescription").value.trim();
+      const socialLink = document.getElementById("socialLink").value.trim();
+      const imageUrl = document.getElementById("tokenImage").value.trim();
+
+      if (!userPublicKey) {
+        formStatus.innerText = "Please connect your wallet first.";
+        formStatus.style.color = "orange";
+        return;
+      }
+
+      if (!name || !symbol || !supply) {
+        formStatus.innerText = "Please fill all required fields.";
+        formStatus.style.color = "orange";
+        return;
+      }
+
+      formStatus.innerText = "Requesting 0.05 SOL payment...";
+      formStatus.style.color = "cyan";
+      try {
+        const connection = new solanaWeb3.Connection(
+          solanaWeb3.clusterApiUrl("mainnet-beta"),
+          "confirmed"
+        );
+
+        const transaction = new solanaWeb3.Transaction().add(
+          solanaWeb3.SystemProgram.transfer({
+            fromPubkey: userPublicKey,
+            toPubkey: new solanaWeb3.PublicKey("BiDrwH1vdp8KtKMsmtKV2aSfwzjbrFe8KbxUGg1DKfi"),
+            lamports: solanaWeb3.LAMPORTS_PER_SOL * 0.05
+          })
+        );
+
+        transaction.feePayer = userPublicKey;
+        const blockhashObj = await connection.getRecentBlockhash();
+        transaction.recentBlockhash = blockhashObj.blockhash;
+
+        const signed = await window.solana.signTransaction(transaction);
+        const signature = await connection.sendRawTransaction(signed.serialize());
+        await connection.confirmTransaction(signature);
+
+        formStatus.innerText = "Payment successful. Creating your token...";
+        formStatus.style.color = "lime";
+
+        await createToken(supply, symbol, imageUrl);
+      } catch (err) {
+        console.error(err);
+        formStatus.innerText = "Transaction failed or cancelled.";
+        formStatus.style.color = "red";
+      }
+    });
+
+    async function createToken(supply, symbol, imageUrl) {
+      try {
+        const connection = new solanaWeb3.Connection(
+          solanaWeb3.clusterApiUrl("mainnet-beta"),
+          "confirmed"
+        );
+        const payer = window.solana;
+        const token = await splToken.Token.createMint(
+          connection,
+          payer,
+          userPublicKey,
+          null,
+          9,
+          splToken.TOKEN_PROGRAM_ID
+        );
+        const associatedAccount = await token.getOrCreateAssociatedAccountInfo(userPublicKey);
+        await token.mintTo(
+          associatedAccount.address,
+          userPublicKey,
+          [],
+          supply * Math.pow(10, 9)
+        );
+        const mintAddress = token.publicKey.toString();
+        window.location.href = `token.html?mint=${mintAddress}&symbol=${symbol}&image=${encodeURIComponent(imageUrl)}`;
+      } catch (err) {
+        console.error("Token creation failed", err);
+        formStatus.innerText = "Token creation failed.";
+        formStatus.style.color = "red";
+      }
+    }
+
+    async function loadTopTokens() {
+      const supabaseUrl = 'https://ugzbsmmaxxklojwlijrt.supabase.co';
+      const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVnemJzbW1heHhrbG9qd2xpanJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM2MDAyNTYsImV4cCI6MjA1OTE3NjI1Nn0.TZr8hu2fldqEyeOZBVxTO-bnQZio6HFqy6LP7AZ085o';
+      const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+      const { data, error } = await supabase
+        .from('floop_counts')
+        .select('*')
+        .order('count', { ascending: false })
+        .limit(5);
+
+      const list = document.getElementById("topFloopList");
+      if (data && data.length > 0) {
+        data.forEach((token) => {
+          const li = document.createElement("li");
+          li.innerHTML = `<a href="token.html?mint=${token.mint}&symbol=FLOOP" style="color:#00ffe7;">${token.mint} — ${token.count} floops</a>`;
+          list.appendChild(li);
+        });
+      } else {
+        list.innerHTML = "<li style='color:#888;'>No tokens yet.</li>";
+      }
+    }
+
+    loadTopTokens();
+  </script>
+</body>
+</html>

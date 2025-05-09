@@ -1,0 +1,101 @@
+<!-- floppfun/leaderboard.html — PART 1/2 (GÜNCELLENMİŞ) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Floop Leaderboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      background: #0a0a23;
+      color: #fff;
+      font-family: sans-serif;
+      text-align: center;
+      padding: 40px;
+    }
+    h1 {
+      color: #00ffe7;
+      margin-bottom: 20px;
+      font-size: 2rem;
+    }
+    table {
+      width: 100%;
+      max-width: 700px;
+      margin: auto;
+      border-collapse: collapse;
+      font-size: 1rem;
+    }
+    th, td {
+      padding: 12px;
+      border: 1px solid #444;
+      word-break: break-word;
+    }
+    th {
+      background-color: #1a1a3d;
+    }
+    tr:nth-child(even) {
+      background-color: #222;
+    }
+    a {
+      color: #00ffe7;
+      text-decoration: none;
+    }
+
+    @media (max-width: 600px) {
+      table {
+        font-size: 0.9rem;
+      }
+      th, td {
+        padding: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Top Flooped Tokens</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Mint Address</th>
+        <th>Floop Count</th>
+      </tr>
+    </thead>
+    <tbody id="leaderboard"></tbody>
+  </table>
+
+  <p style="margin-top: 40px;"><a href="index.html">Back to Home</a></p>
+  <script>
+    const supabaseUrl = 'https://ugzbsmmaxxklojwlijrt.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVnemJzbW1heHhrbG9qd2xpanJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM2MDAyNTYsImV4cCI6MjA1OTE3NjI1Nn0.TZr8hu2fldqEyeOZBVxTO-bnQZio6HFqy6LP7AZ085o';
+    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+    async function loadLeaderboard() {
+      const { data, error } = await supabase
+        .from('floop_counts')
+        .select('*')
+        .order('count', { ascending: false });
+
+      const tbody = document.getElementById("leaderboard");
+
+      if (error || !data || data.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="3">No data available or failed to load.</td></tr>';
+        return;
+      }
+
+      data.forEach((row, index) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${index + 1}</td>
+          <td><a href="token.html?mint=${row.mint}&symbol=FLOOP">${row.mint}</a></td>
+          <td>${row.count}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    loadLeaderboard();
+  </script>
+</body>
+</html>
