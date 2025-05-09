@@ -1,4 +1,4 @@
-/* Genel Sıfırlama */
+/* GENEL SIFIRLAMA */
 * {
   margin: 0;
   padding: 0;
@@ -74,7 +74,7 @@ body {
   color: #fff;
   cursor: pointer;
 }
-
+/* MOBİL MENÜ */
 .mobile-menu {
   display: none;
   position: fixed;
@@ -115,6 +115,7 @@ body {
     transform: translateY(0);
   }
 }
+
 /* HERO BÖLÜMÜ */
 .hero-section {
   padding: 80px 20px 40px;
@@ -151,7 +152,90 @@ body {
   transform: scale(1.05);
 }
 
-/* FORM BÖLÜMÜ */
+/* FİLTRE ŞERİDİ */
+.filter-bar {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 30px auto 40px;
+}
+
+.filter-btn {
+  padding: 10px 22px;
+  background: #fff;
+  color: #000;
+  border: none;
+  border-radius: 999px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 12px rgba(0, 255, 255, 0.1);
+}
+
+.filter-btn:hover {
+  background: #00ffee;
+  transform: scale(1.05);
+}
+
+.filter-btn.active {
+  background: #00ffee;
+  color: #000;
+}
+/* CHAOS ANİMASYON BLOĞU */
+.chaos-animation {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 60px 20px;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.chaos-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.solana-bounce {
+  width: 60px;
+  animation: bounce 1s infinite ease-in-out;
+  position: absolute;
+  top: -80px;
+}
+
+.chaos-fire {
+  width: 80px;
+  position: absolute;
+  bottom: -40px;
+  opacity: 0.8;
+}
+
+.mascot-img {
+  width: 120px;
+  height: 120px;
+  border-radius: 20px;
+  border: 2px solid #00ffee;
+  background: #111;
+  padding: 10px;
+  z-index: 2;
+}
+
+/* ANİMASYONLAR */
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* TOKEN FORMU */
 .form-wrapper {
   max-width: 600px;
   margin: 40px auto;
@@ -212,8 +296,7 @@ body {
   font-size: 1rem;
   color: #00ffaa;
 }
-
-/* TOP TOKENS */
+/* TOP TOKENLAR (LEADERBOARD KARTLARI) */
 #topTokens {
   margin-top: 60px;
 }
@@ -248,6 +331,7 @@ body {
   text-decoration: none;
   font-weight: bold;
 }
+
 /* FOOTER */
 footer {
   background-color: rgba(255, 255, 255, 0.02);
@@ -259,7 +343,7 @@ footer {
   border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* RESPONSIVE TASARIM */
+/* RESPONSIVE */
 @media (max-width: 768px) {
   .main-header {
     flex-direction: column;
@@ -326,83 +410,19 @@ footer {
   .mobile-menu li {
     font-size: 0.9rem;
   }
-}
-/* LEADERBOARD KART SİSTEMİ */
-.token-card {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 16px;
-  padding: 20px;
-  margin: 20px auto;
-  max-width: 800px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.05);
-  position: relative;
-}
 
-.token-card .badge {
-  position: absolute;
-  left: -12px;
-  top: -12px;
-  background: #00ffee;
-  color: #000;
-  font-weight: bold;
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-size: 0.9rem;
-}
-
-.token-info {
-  flex: 1;
-  text-align: left;
-}
-
-.token-info h2 {
-  font-size: 1.4rem;
-  margin-bottom: 5px;
-  color: #00ffee;
-}
-
-.token-info p {
-  font-size: 0.95rem;
-  color: #ccc;
-  margin: 4px 0;
-}
-
-.token-user {
-  display: flex;
-  align-items: center;
-  margin-top: 10px;
-}
-
-.token-user img {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  margin-right: 8px;
-}
-
-.token-image {
-  width: 80px;
-  height: 80px;
-  border-radius: 12px;
-  background: #222;
-  object-fit: cover;
-  border: 2px solid #00ffee;
-}
-
-@media (max-width: 600px) {
-  .token-card {
-    flex-direction: column;
-    text-align: center;
+  .solana-bounce {
+    width: 40px;
+    top: -60px;
   }
 
-  .token-user {
-    justify-content: center;
+  .chaos-fire {
+    width: 60px;
+    bottom: -30px;
   }
 
-  .token-image {
-    margin-top: 20px;
+  .mascot-img {
+    width: 100px;
+    height: 100px;
   }
 }
