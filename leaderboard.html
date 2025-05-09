@@ -5,104 +5,105 @@
   <title>Floop Leaderboard</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
-      background: #ffffff;
-      color: #111;
+      background: radial-gradient(ellipse at top, #0a0a23, #000);
+      color: #fff;
       font-family: 'Poppins', sans-serif;
-      text-align: center;
       padding: 40px 20px;
     }
 
     h1 {
-      color: #00c2ff;
-      margin-bottom: 20px;
-      font-size: 2.2rem;
+      text-align: center;
+      color: #00ffee;
+      font-size: 2.4rem;
+      margin-bottom: 30px;
     }
 
-    table {
-      width: 100%;
-      max-width: 700px;
-      margin: auto;
-      border-collapse: collapse;
-      font-size: 1rem;
+    .token-card {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 800px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.05);
+      position: relative;
+    }
+
+    .token-card .badge {
+      position: absolute;
+      left: -12px;
+      top: -12px;
+      background: #00ffee;
+      color: #000;
+      font-weight: bold;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+
+    .token-info {
+      flex: 1;
+      text-align: left;
+    }
+
+    .token-info h2 {
+      font-size: 1.4rem;
+      margin-bottom: 5px;
+      color: #00ffee;
+    }
+
+    .token-info p {
+      font-size: 0.95rem;
+      color: #ccc;
+      margin: 4px 0;
+    }
+
+    .token-user {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .token-user img {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      margin-right: 8px;
+    }
+
+    .token-image {
+      width: 80px;
+      height: 80px;
       border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
-    }
-
-    th, td {
-      padding: 14px;
-      border-bottom: 1px solid #ddd;
-      word-break: break-word;
-    }
-
-    th {
-      background-color: #f0f0f0;
-      font-weight: bold;
-    }
-
-    tr:nth-child(even) {
-      background-color: #fafafa;
-    }
-
-    tr:hover {
-      background-color: #e9f7ff;
-    }
-
-    a {
-      color: #007acc;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    .back-link {
-      margin-top: 40px;
-      display: inline-block;
-      background: #ffd700;
-      color: #111;
-      padding: 12px 24px;
-      border-radius: 10px;
-      text-decoration: none;
-      font-weight: bold;
-      transition: background 0.3s ease;
-    }
-
-    .back-link:hover {
-      background: #e6c200;
+      background: #222;
+      object-fit: cover;
+      border: 2px solid #00ffee;
     }
 
     @media (max-width: 600px) {
-      table {
-        font-size: 0.9rem;
+      .token-card {
+        flex-direction: column;
+        text-align: center;
       }
-      th, td {
-        padding: 10px;
+
+      .token-image {
+        margin-top: 20px;
       }
-      h1 {
-        font-size: 1.6rem;
+
+      .token-user {
+        justify-content: center;
       }
     }
   </style>
 </head>
 <body>
   <h1>Top Flooped Tokens</h1>
-  <table>
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Mint Address</th>
-        <th>Floop Count</th>
-      </tr>
-    </thead>
-    <tbody id="leaderboard"></tbody>
-  </table>
-
-  <a href="index.html" class="back-link">← Back to Home</a>
+  <div id="leaderboard"></div>
   <script>
     const supabaseUrl = 'https://ugzbsmmaxxklojwlijrt.supabase.co';
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVnemJzbW1heHhrbG9qd2xpanJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM2MDAyNTYsImV4cCI6MjA1OTE3NjI1Nn0.TZr8hu2fldqEyeOZBVxTO-bnQZio6HFqy6LP7AZ085o';
@@ -114,21 +115,35 @@
         .select('*')
         .order('count', { ascending: false });
 
-      const tbody = document.getElementById("leaderboard");
+      const container = document.getElementById("leaderboard");
 
       if (error || !data || data.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="3">No data available or failed to load.</td></tr>';
+        container.innerHTML = '<p style="color:red;">No data available or failed to load.</p>';
         return;
       }
 
       data.forEach((row, index) => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>${index + 1}</td>
-          <td><a href="token.html?mint=${row.mint}&symbol=FLOOP">${row.mint}</a></td>
-          <td>${row.count}</td>
+        const image = row.image_url || "https://floppfun.com/default.png";
+        const username = row.username || "@anon";
+        const avatar = row.avatar || "https://floppfun.com/avatar.png";
+        const percent = (row.count * 10).toFixed(1); // örnek % değeri
+
+        const card = document.createElement("div");
+        card.className = "token-card";
+        card.innerHTML = `
+          <div class="badge">%${percent}</div>
+          <div class="token-info">
+            <h2>${row.symbol || "Unnamed"}</h2>
+            <p>${row.description || "No description"}</p>
+            <p>Flooped: ${row.count}</p>
+            <div class="token-user">
+              <img src="${avatar}" alt="user" />
+              <span>${username}</span>
+            </div>
+          </div>
+          <img class="token-image" src="${image}" alt="token" />
         `;
-        tbody.appendChild(tr);
+        container.appendChild(card);
       });
     }
 
