@@ -327,3 +327,82 @@ footer {
     font-size: 0.9rem;
   }
 }
+/* LEADERBOARD KART SİSTEMİ */
+.token-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 800px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.05);
+  position: relative;
+}
+
+.token-card .badge {
+  position: absolute;
+  left: -12px;
+  top: -12px;
+  background: #00ffee;
+  color: #000;
+  font-weight: bold;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.token-info {
+  flex: 1;
+  text-align: left;
+}
+
+.token-info h2 {
+  font-size: 1.4rem;
+  margin-bottom: 5px;
+  color: #00ffee;
+}
+
+.token-info p {
+  font-size: 0.95rem;
+  color: #ccc;
+  margin: 4px 0;
+}
+
+.token-user {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.token-user img {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.token-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+  background: #222;
+  object-fit: cover;
+  border: 2px solid #00ffee;
+}
+
+@media (max-width: 600px) {
+  .token-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .token-user {
+    justify-content: center;
+  }
+
+  .token-image {
+    margin-top: 20px;
+  }
+}
