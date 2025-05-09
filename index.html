@@ -1,4 +1,3 @@
-<!-- floppfun/index.html — PART 1/3 (GÜNCELLENMİŞ) -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,6 +18,7 @@
   <meta name="twitter:image" content="https://floppfun.com/preview.jpg" />
   <link rel="icon" href="https://floppfun.com/favicon.ico" type="image/x-icon" />
 
+  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@solana/spl-token@latest/lib/index.iife.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
@@ -36,7 +36,6 @@
       <h2>Launch Your Meme Token on Solana</h2>
       <p>Quick. Fair. Fun. No presale. No dev wallet.</p>
     </section>
-
     <section id="tokenFormSection">
       <h3>Create Your Token</h3>
       <form id="tokenForm">
@@ -53,15 +52,15 @@
 
     <div id="walletStatus" class="wallet-status"></div>
 
-    <section id="topTokens" style="margin-top: 50px;">
-      <h3 style="color:#00ffe7; margin-bottom: 15px;">Top Flooped Tokens</h3>
-      <ul id="topFloopList" style="list-style: none; padding: 0; font-size: 0.95rem;"></ul>
+    <section id="topTokens">
+      <h3>Top Flooped Tokens</h3>
+      <ul id="topFloopList"></ul>
     </section>
   </main>
+
   <footer>
     <p>&copy; 2025 Floop.fun. All rights reserved.</p>
   </footer>
-
   <script>
     const connectBtn = document.getElementById("connectWallet");
     const walletStatus = document.getElementById("walletStatus");
@@ -75,7 +74,7 @@
             const response = await provider.connect();
             userPublicKey = response.publicKey;
             walletStatus.innerText = "Wallet Connected: " + userPublicKey.toString();
-            walletStatus.style.color = "lime";
+            walletStatus.style.color = "green";
           } catch (err) {
             walletStatus.innerText = "Connection cancelled.";
             walletStatus.style.color = "red";
@@ -116,7 +115,8 @@
       }
 
       formStatus.innerText = "Requesting 0.05 SOL payment...";
-      formStatus.style.color = "cyan";
+      formStatus.style.color = "blue";
+
       try {
         const connection = new solanaWeb3.Connection(
           solanaWeb3.clusterApiUrl("mainnet-beta"),
@@ -132,15 +132,14 @@
         );
 
         transaction.feePayer = userPublicKey;
-        const blockhashObj = await connection.getRecentBlockhash();
-        transaction.recentBlockhash = blockhashObj.blockhash;
+        transaction.recentBlockhash = (await connection.getRecentBlockhash()).blockhash;
 
         const signed = await window.solana.signTransaction(transaction);
         const signature = await connection.sendRawTransaction(signed.serialize());
         await connection.confirmTransaction(signature);
 
         formStatus.innerText = "Payment successful. Creating your token...";
-        formStatus.style.color = "lime";
+        formStatus.style.color = "green";
 
         await createToken(supply, symbol, imageUrl);
       } catch (err) {
@@ -183,7 +182,7 @@
 
     async function loadTopTokens() {
       const supabaseUrl = 'https://ugzbsmmaxxklojwlijrt.supabase.co';
-      const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVnemJzbW1heHhrbG9qd2xpanJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM2MDAyNTYsImV4cCI6MjA1OTE3NjI1Nn0.TZr8hu2fldqEyeOZBVxTO-bnQZio6HFqy6LP7AZ085o';
+      const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'; // Kısaltıldı
       const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
       const { data, error } = await supabase
@@ -196,11 +195,11 @@
       if (data && data.length > 0) {
         data.forEach((token) => {
           const li = document.createElement("li");
-          li.innerHTML = `<a href="token.html?mint=${token.mint}&symbol=FLOOP" style="color:#00ffe7;">${token.mint} — ${token.count} floops</a>`;
+          li.innerHTML = `<a href="token.html?mint=${token.mint}&symbol=FLOOP">${token.mint} — ${token.count} floops</a>`;
           list.appendChild(li);
         });
       } else {
-        list.innerHTML = "<li style='color:#888;'>No tokens yet.</li>";
+        list.innerHTML = "<li>No tokens yet.</li>";
       }
     }
 
