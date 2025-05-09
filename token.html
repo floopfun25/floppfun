@@ -3,146 +3,81 @@
 <head>
   <meta charset="UTF-8" />
   <title>Your Token</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
-      background: #ffffff;
-      color: #111;
+      background: radial-gradient(ellipse at top, #0a0a23, #000);
+      color: #fff;
       font-family: 'Poppins', sans-serif;
       text-align: center;
       padding: 40px 20px;
     }
 
-    .box {
-      background: #f9f9f9;
-      padding: 30px 20px;
-      border-radius: 16px;
-      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.05);
-      display: inline-block;
-      max-width: 95%;
-      width: 100%;
+    .token-box {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 30px;
+      border-radius: 20px;
       max-width: 600px;
+      margin: auto;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.08);
+      backdrop-filter: blur(6px);
     }
 
     h2 {
-      margin-top: 10px;
-      font-size: 1.8rem;
-      color: #00c2ff;
+      font-size: 2rem;
+      margin-bottom: 10px;
+      color: #00ffee;
     }
 
-    a {
-      color: #007acc;
-      text-decoration: none;
+    p {
+      margin: 6px 0;
+    }
+
+    #mintAddress,
+    #symbol {
       font-weight: bold;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    button {
-      margin-top: 15px;
-      padding: 12px 24px;
-      background: #ffd700;
-      color: #111;
-      border: none;
-      border-radius: 10px;
-      font-weight: bold;
-      cursor: pointer;
       font-size: 1rem;
-      transition: background 0.3s ease, transform 0.2s ease;
+      color: #ccc;
     }
 
-    button:hover {
-      background: #e6c200;
+    #tokenImage {
+      width: 120px;
+      height: 120px;
+      border-radius: 16px;
+      border: 2px solid #00ffee;
+      margin: 20px 0;
+      object-fit: contain;
+    }
+
+    #floopBtn {
+      margin-top: 20px;
+      background: #00ffee;
+      color: #000;
+      font-weight: bold;
+      border: none;
+      border-radius: 999px;
+      padding: 14px 28px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 0 12px #00ffee88;
+    }
+
+    #floopBtn:hover {
+      background: #00e6d4;
       transform: scale(1.05);
     }
 
     #floopResult, #floopCount {
       margin-top: 15px;
       font-weight: bold;
-      color: #00c2ff;
-    }
-    #shareBox {
-      margin-top: 30px;
-    }
-
-    #shareBox button {
-      margin: 6px;
-      padding: 10px 18px;
-      background: #f0f0f0;
-      border: 1px solid #00c2ff;
-      color: #00c2ff;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: background 0.3s ease;
-    }
-
-    #shareBox button:hover {
-      background: #00c2ff;
-      color: white;
-    }
-
-    #copyResult {
-      margin-top: 10px;
-      font-size: 0.9rem;
-    }
-
-    #welcomeBanner {
-      display: none;
-      margin-bottom: 20px;
-      padding: 14px;
-      background-color: #e9f7ff;
-      border: 1px solid #00c2ff;
-      border-radius: 10px;
-      font-size: 0.95rem;
-      color: #007acc;
-    }
-
-    img#tokenImage {
-      margin: 20px auto 10px;
-      width: 120px;
-      height: 120px;
-      object-fit: contain;
-      border-radius: 12px;
-      border: 2px solid #00c2ff;
-      display: block;
-    }
-
-    iframe#dexFrame {
-      width: 100%;
-      height: 500px;
-      border: none;
-      border-radius: 12px;
-      margin-top: 20px;
-    }
-
-    @media (max-width: 600px) {
-      .box {
-        padding: 20px 15px;
-      }
-
-      h2 {
-        font-size: 1.5rem;
-      }
-
-      button, #shareBox button {
-        font-size: 0.95rem;
-        padding: 10px 14px;
-      }
-
-      iframe#dexFrame {
-        height: 400px;
-      }
+      color: #00ffee;
     }
   </style>
 </head>
 <body>
-  <div class="box">
-    <div id="welcomeBanner">Token successfully created! Now you can share it or let others floop it.</div>
+  <div class="token-box">
     <h2>Token Created Successfully!</h2>
     <p id="mintAddress"></p>
     <p id="symbol"></p>
@@ -150,31 +85,26 @@
     <div id="floopCount">Flooped: ...</div>
     <button id="floopBtn">Floop This Token (0.01 SOL)</button>
     <p id="floopResult"></p>
-    <div id="shareBox">
+    <div id="shareBox" style="margin-top: 30px;">
       <p style="font-weight: bold;">Share your token:</p>
-      <button onclick="shareOnTwitter()">Twitter</button>
-      <button onclick="shareOnTelegram()">Telegram</button>
-      <button onclick="copyMint()">Copy Mint</button>
-      <p id="copyResult"></p>
+      <button onclick="shareOnTwitter()" style="background:none; border:1px solid #00ffee; color:#00ffee; padding:10px 18px; border-radius:10px; margin:6px; cursor:pointer; font-weight:bold;">Twitter</button>
+      <button onclick="shareOnTelegram()" style="background:none; border:1px solid #00ffee; color:#00ffee; padding:10px 18px; border-radius:10px; margin:6px; cursor:pointer; font-weight:bold;">Telegram</button>
+      <button onclick="copyMint()" style="background:none; border:1px solid #00ffee; color:#00ffee; padding:10px 18px; border-radius:10px; margin:6px; cursor:pointer; font-weight:bold;">Copy Mint</button>
+      <p id="copyResult" style="margin-top: 10px; font-size: 0.9rem;"></p>
     </div>
 
-    <div style="margin-top:30px;">
-      <a href="index.html">← Back to Home</a>
-    </div>
-
-    <div style="margin-top:40px;">
-      <h3 style="color:#00c2ff;">Buy Your Token on Jupiter</h3>
-      <iframe id="dexFrame"></iframe>
+    <div style="margin-top: 40px;">
+      <h3 style="color:#00ffee; margin-bottom: 10px;">Buy Your Token on Jupiter</h3>
+      <iframe id="dexFrame" style="width:100%; height:500px; border:none; border-radius:12px;"></iframe>
     </div>
   </div>
-
   <script>
     const url = new URLSearchParams(window.location.search);
     const mint = url.get('mint');
     const symbol = url.get('symbol');
     const image = url.get('image');
 
-    document.getElementById("mintAddress").innerText = "Mint Address: " + mint;
+    document.getElementById("mintAddress").innerText = "Mint: " + mint;
     document.getElementById("symbol").innerText = "Symbol: " + symbol;
 
     if (image) {
@@ -183,11 +113,10 @@
       img.style.display = "block";
     }
 
-    const dexFrame = document.getElementById("dexFrame");
-    dexFrame.src = `https://jup.ag/swap/SOL-${mint}`;
+    document.getElementById("dexFrame").src = `https://jup.ag/swap/SOL-${mint}`;
 
     const supabaseUrl = 'https://ugzbsmmaxxklojwlijrt.supabase.co';
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'; // kısaltıldı
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFz...'; // kısaltıldı
     const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
     const floopBtn = document.getElementById("floopBtn");
@@ -208,7 +137,7 @@
 
     floopBtn.addEventListener("click", async () => {
       if (!window.solana || !window.solana.isPhantom) {
-        alert("Please connect Phantom Wallet.");
+        alert("Please install Phantom Wallet.");
         return;
       }
 
@@ -262,16 +191,16 @@
     });
 
     function shareOnTwitter() {
-      const url = `https://floppfun.com/token.html?mint=${mint}&symbol=${symbol}`;
+      const pageUrl = window.location.href;
       const text = `Check out my meme token ${symbol} on Solana!`;
-      const tweet = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+      const tweet = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(pageUrl)}`;
       window.open(tweet, '_blank');
     }
 
     function shareOnTelegram() {
-      const url = `https://floppfun.com/token.html?mint=${mint}&symbol=${symbol}`;
-      const msg = `Check out my meme token ${symbol} on Solana: ${url}`;
-      const tg = `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(msg)}`;
+      const pageUrl = window.location.href;
+      const msg = `Check out my meme token ${symbol} on Solana: ${pageUrl}`;
+      const tg = `https://t.me/share/url?url=${encodeURIComponent(pageUrl)}&text=${encodeURIComponent(msg)}`;
       window.open(tg, '_blank');
     }
 
@@ -283,12 +212,6 @@
         }, 2000);
       });
     }
-
-    window.addEventListener("load", () => {
-      if (document.referrer.includes("index.html")) {
-        document.getElementById("welcomeBanner").style.display = "block";
-      }
-    });
   </script>
 </body>
 </html>
