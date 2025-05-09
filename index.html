@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Floop.fun - Meme Token Creator</title>
   <link rel="stylesheet" href="style.css" />
-
-  <!-- SEO & Meta -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="icon" href="https://floppfun.com/favicon.ico" type="image/x-icon" />
   <meta name="description" content="Create and launch meme tokens instantly on Solana. No presale. No dev wallet." />
   <meta property="og:title" content="Floop.fun - Launch Your Meme Token on Solana" />
   <meta property="og:description" content="No presale. No dev wallet. Just pure meme magic." />
@@ -16,194 +16,164 @@
   <meta name="twitter:title" content="Floop.fun - Meme Token Creator on Solana" />
   <meta name="twitter:description" content="No presale. No dev wallet. Launch your own meme token now!" />
   <meta name="twitter:image" content="https://floppfun.com/preview.jpg" />
-  <link rel="icon" href="https://floppfun.com/favicon.ico" type="image/x-icon" />
-
-  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@solana/spl-token@latest/lib/index.iife.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 </head>
 <body>
-  <header>
-    <div class="container">
-      <h1 class="logo">Floop.fun</h1>
-      <button id="connectWallet">Connect Wallet</button>
+  <header class="main-header">
+    <div class="nav-left">
+      <img src="https://floppfun.com/mascot.png" class="logo-icon" alt="Floop" />
+      <h1 class="logo-text">Floop.fun</h1>
+    </div>
+    <div class="nav-right">
+      <button id="connectWallet" class="connect-btn">bağlamak</button>
+      <button class="icon-btn" id="searchBtn">🔍</button>
+      <button class="icon-btn" id="menuBtn">☰</button>
     </div>
   </header>
 
-  <main>
-    <section id="intro">
-      <h2>Launch Your Meme Token on Solana</h2>
-      <p>Quick. Fair. Fun. No presale. No dev wallet.</p>
-    </section>
-    <section id="tokenFormSection">
-      <h3>Create Your Token</h3>
-      <form id="tokenForm">
-        <input type="text" id="tokenName" placeholder="Token Name" required />
-        <input type="text" id="tokenSymbol" placeholder="Token Symbol (e.g. FLOP)" maxlength="5" required />
-        <input type="number" id="tokenSupply" placeholder="Total Supply (e.g. 1000000)" required min="1" />
-        <input type="url" id="tokenImage" placeholder="Token Image URL (optional)" />
-        <textarea id="tokenDescription" placeholder="Describe your token (optional)"></textarea>
-        <input type="url" id="socialLink" placeholder="Social Media Link (optional)" />
-        <button type="submit">Launch Token</button>
-      </form>
-      <div id="formStatus" class="wallet-status"></div>
-    </section>
-
-    <div id="walletStatus" class="wallet-status"></div>
-
-    <section id="topTokens">
-      <h3>Top Flooped Tokens</h3>
-      <ul id="topFloopList"></ul>
-    </section>
+  <div class="mobile-menu" id="mobileMenu">
+    <ul>
+      <li><span>✨</span> bir tarikat başlatın (ücretsiz!)</li>
+      <li><span>📄</span> Uwu bu ne</li>
+      <li><span>🔍</span> Solscan'da BOOP</li>
+      <li><span>✈️</span> telegrama katıl</li>
+      <li><span>𝕏</span> x'i takip et</li>
+    </ul>
+  </div>
+  <main class="hero-section">
+    <div class="hero-content">
+      <h2 class="hero-title">Launch Your Meme Token</h2>
+      <p class="hero-subtitle">No presale. No dev wallet. Just pure meme magic.</p>
+      <button id="launchBtn" class="launch-btn">Launch Token</button>
+    </div>
   </main>
+
+  <!-- FORM SECTION (başta gizli, PART 3'te içeriği geliyor) -->
+  <section id="tokenFormSection" class="form-wrapper hidden">
+    <h3>Create Your Token</h3>
+    <form id="tokenForm">
+      <input type="text" id="tokenName" placeholder="Token Name" required />
+      <input type="text" id="tokenSymbol" placeholder="Symbol (e.g. FLOP)" maxlength="5" required />
+      <input type="number" id="tokenSupply" placeholder="Total Supply" required min="1" />
+      <input type="url" id="tokenImage" placeholder="Image URL (optional)" />
+      <textarea id="tokenDescription" placeholder="Describe your token (optional)"></textarea>
+      <input type="url" id="socialLink" placeholder="Social Media Link (optional)" />
+      <button type="submit">Create Token</button>
+    </form>
+    <div id="formStatus" class="wallet-status"></div>
+  </section>
+  <section id="topTokens">
+    <h3>Top Flooped Tokens</h3>
+    <ul id="topFloopList"></ul>
+  </section>
 
   <footer>
     <p>&copy; 2025 Floop.fun. All rights reserved.</p>
   </footer>
-  <script>
-    const connectBtn = document.getElementById("connectWallet");
-    const walletStatus = document.getElementById("walletStatus");
-    let userPublicKey = null;
+<script>
+  const connectBtn = document.getElementById("connectWallet");
+  const launchBtn = document.getElementById("launchBtn");
+  const formSection = document.getElementById("tokenFormSection");
+  const mobileMenu = document.getElementById("mobileMenu");
+  const menuBtn = document.getElementById("menuBtn");
+  let userPublicKey = null;
 
-    async function connectWallet() {
-      if ("solana" in window) {
-        const provider = window.solana;
-        if (provider.isPhantom) {
-          try {
-            const response = await provider.connect();
-            userPublicKey = response.publicKey;
-            walletStatus.innerText = "Wallet Connected: " + userPublicKey.toString();
-            walletStatus.style.color = "green";
-          } catch (err) {
-            walletStatus.innerText = "Connection cancelled.";
-            walletStatus.style.color = "red";
-          }
-        } else {
-          alert("Phantom Wallet not found.");
+  // Formu aç
+  launchBtn.addEventListener("click", () => {
+    formSection.classList.remove("hidden");
+    formSection.scrollIntoView({ behavior: "smooth" });
+  });
+
+  // Mobil menüyü aç/kapat
+  let menuOpen = false;
+  menuBtn.addEventListener("click", () => {
+    menuOpen = !menuOpen;
+    mobileMenu.style.display = menuOpen ? "block" : "none";
+  });
+
+  // Cüzdan bağla
+  async function connectWallet() {
+    if ("solana" in window) {
+      const provider = window.solana;
+      if (provider.isPhantom) {
+        try {
+          const response = await provider.connect();
+          userPublicKey = response.publicKey;
+          connectBtn.innerText = "Connected";
+          connectBtn.disabled = true;
+        } catch (err) {
+          alert("Bağlantı iptal edildi.");
         }
       } else {
-        alert("Solana object not available. Please install Phantom Wallet.");
+        alert("Phantom Wallet yüklü değil.");
       }
+    } else {
+      alert("Solana tarayıcı desteği yok.");
+    }
+  }
+
+  connectBtn.addEventListener("click", connectWallet);
+  const supabaseUrl = 'https://ugzbsmmaxxklojwlijrt.supabase.co';
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVnemJzbW1heHhrbG9qd2xpanJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM2MDAyNTYsImV4cCI6MjA1OTE3NjI1Nn0.TZr8hu2fldqEyeOZBVxTO-bnQZio6HFqy6LP7AZ085o';
+  const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+  // Top Flooped Tokenları Yükle
+  async function loadTopTokens() {
+    const { data, error } = await supabase
+      .from('floop_counts')
+      .select('*')
+      .order('count', { ascending: false })
+      .limit(5);
+
+    const list = document.getElementById("topFloopList");
+    if (data && data.length > 0) {
+      data.forEach((token) => {
+        const li = document.createElement("li");
+        li.innerHTML = `<a href="token.html?mint=${token.mint}&symbol=FLOOP">${token.mint} — ${token.count} floops</a>`;
+        list.appendChild(li);
+      });
+    } else {
+      list.innerHTML = "<li>No tokens yet.</li>";
+    }
+  }
+
+  loadTopTokens();
+
+  // Token Oluşturma İşlemi
+  const tokenForm = document.getElementById("tokenForm");
+  const formStatus = document.getElementById("formStatus");
+
+  tokenForm.addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const name = document.getElementById("tokenName").value.trim();
+    const symbol = document.getElementById("tokenSymbol").value.trim();
+    const supply = parseInt(document.getElementById("tokenSupply").value.trim());
+    const description = document.getElementById("tokenDescription").value.trim();
+    const socialLink = document.getElementById("socialLink").value.trim();
+    const imageUrl = document.getElementById("tokenImage").value.trim();
+
+    if (!userPublicKey) {
+      formStatus.innerText = "Please connect your wallet first.";
+      formStatus.style.color = "orange";
+      return;
     }
 
-    connectBtn.addEventListener("click", connectWallet);
+    formStatus.innerText = "Creating token on Solana...";
+    formStatus.style.color = "blue";
 
-    const tokenForm = document.getElementById("tokenForm");
-    const formStatus = document.getElementById("formStatus");
-
-    tokenForm.addEventListener("submit", async function (e) {
-      e.preventDefault();
-
-      const name = document.getElementById("tokenName").value.trim();
-      const symbol = document.getElementById("tokenSymbol").value.trim();
-      const supply = parseInt(document.getElementById("tokenSupply").value.trim());
-      const description = document.getElementById("tokenDescription").value.trim();
-      const socialLink = document.getElementById("socialLink").value.trim();
-      const imageUrl = document.getElementById("tokenImage").value.trim();
-
-      if (!userPublicKey) {
-        formStatus.innerText = "Please connect your wallet first.";
-        formStatus.style.color = "orange";
-        return;
-      }
-
-      if (!name || !symbol || !supply) {
-        formStatus.innerText = "Please fill all required fields.";
-        formStatus.style.color = "orange";
-        return;
-      }
-
-      formStatus.innerText = "Requesting 0.05 SOL payment...";
-      formStatus.style.color = "blue";
-
-      try {
-        const connection = new solanaWeb3.Connection(
-          solanaWeb3.clusterApiUrl("mainnet-beta"),
-          "confirmed"
-        );
-
-        const transaction = new solanaWeb3.Transaction().add(
-          solanaWeb3.SystemProgram.transfer({
-            fromPubkey: userPublicKey,
-            toPubkey: new solanaWeb3.PublicKey("BiDrwH1vdp8KtKMsmtKV2aSfwzjbrFe8KbxUGg1DKfi"),
-            lamports: solanaWeb3.LAMPORTS_PER_SOL * 0.05
-          })
-        );
-
-        transaction.feePayer = userPublicKey;
-        transaction.recentBlockhash = (await connection.getRecentBlockhash()).blockhash;
-
-        const signed = await window.solana.signTransaction(transaction);
-        const signature = await connection.sendRawTransaction(signed.serialize());
-        await connection.confirmTransaction(signature);
-
-        formStatus.innerText = "Payment successful. Creating your token...";
-        formStatus.style.color = "green";
-
-        await createToken(supply, symbol, imageUrl);
-      } catch (err) {
-        console.error(err);
-        formStatus.innerText = "Transaction failed or cancelled.";
-        formStatus.style.color = "red";
-      }
-    });
-
-    async function createToken(supply, symbol, imageUrl) {
-      try {
-        const connection = new solanaWeb3.Connection(
-          solanaWeb3.clusterApiUrl("mainnet-beta"),
-          "confirmed"
-        );
-        const payer = window.solana;
-        const token = await splToken.Token.createMint(
-          connection,
-          payer,
-          userPublicKey,
-          null,
-          9,
-          splToken.TOKEN_PROGRAM_ID
-        );
-        const associatedAccount = await token.getOrCreateAssociatedAccountInfo(userPublicKey);
-        await token.mintTo(
-          associatedAccount.address,
-          userPublicKey,
-          [],
-          supply * Math.pow(10, 9)
-        );
-        const mintAddress = token.publicKey.toString();
-        window.location.href = `token.html?mint=${mintAddress}&symbol=${symbol}&image=${encodeURIComponent(imageUrl)}`;
-      } catch (err) {
-        console.error("Token creation failed", err);
-        formStatus.innerText = "Token creation failed.";
-        formStatus.style.color = "red";
-      }
+    try {
+      // Buraya Solana token creation logic eklenecek (gerekirse ayrı dosyada yapılabilir)
+      formStatus.innerText = "Token created successfully! (mock)";
+      formStatus.style.color = "lime";
+    } catch (err) {
+      console.error(err);
+      formStatus.innerText = "Token creation failed.";
+      formStatus.style.color = "red";
     }
-
-    async function loadTopTokens() {
-      const supabaseUrl = 'https://ugzbsmmaxxklojwlijrt.supabase.co';
-      const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'; // Kısaltıldı
-      const supabase = supabase.createClient(supabaseUrl, supabaseKey);
-
-      const { data, error } = await supabase
-        .from('floop_counts')
-        .select('*')
-        .order('count', { ascending: false })
-        .limit(5);
-
-      const list = document.getElementById("topFloopList");
-      if (data && data.length > 0) {
-        data.forEach((token) => {
-          const li = document.createElement("li");
-          li.innerHTML = `<a href="token.html?mint=${token.mint}&symbol=FLOOP">${token.mint} — ${token.count} floops</a>`;
-          list.appendChild(li);
-        });
-      } else {
-        list.innerHTML = "<li>No tokens yet.</li>";
-      }
-    }
-
-    loadTopTokens();
-  </script>
+  });
+</script>
 </body>
 </html>
