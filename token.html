@@ -5,6 +5,7 @@
   <title>Your Token</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
   <style>
     body {
       background: radial-gradient(ellipse at top, #0a0a23, #000);
@@ -98,6 +99,7 @@
       <iframe id="dexFrame" style="width:100%; height:500px; border:none; border-radius:12px;"></iframe>
     </div>
   </div>
+
   <script>
     const url = new URLSearchParams(window.location.search);
     const mint = url.get('mint');
@@ -114,9 +116,8 @@
     }
 
     document.getElementById("dexFrame").src = `https://jup.ag/swap/SOL-${mint}`;
-
     const supabaseUrl = 'https://ugzbsmmaxxklojwlijrt.supabase.co';
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFz...'; // kısaltıldı
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'; // Kısaltıldı
     const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
     const floopBtn = document.getElementById("floopBtn");
