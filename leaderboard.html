@@ -1,4 +1,3 @@
-<!-- floppfun/leaderboard.html — PART 1/2 (GÜNCELLENMİŞ) -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,38 +7,73 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     body {
-      background: #0a0a23;
-      color: #fff;
-      font-family: sans-serif;
+      background: #ffffff;
+      color: #111;
+      font-family: 'Poppins', sans-serif;
       text-align: center;
-      padding: 40px;
+      padding: 40px 20px;
     }
+
     h1 {
-      color: #00ffe7;
+      color: #00c2ff;
       margin-bottom: 20px;
-      font-size: 2rem;
+      font-size: 2.2rem;
     }
+
     table {
       width: 100%;
       max-width: 700px;
       margin: auto;
       border-collapse: collapse;
       font-size: 1rem;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
     }
+
     th, td {
-      padding: 12px;
-      border: 1px solid #444;
+      padding: 14px;
+      border-bottom: 1px solid #ddd;
       word-break: break-word;
     }
+
     th {
-      background-color: #1a1a3d;
+      background-color: #f0f0f0;
+      font-weight: bold;
     }
+
     tr:nth-child(even) {
-      background-color: #222;
+      background-color: #fafafa;
     }
+
+    tr:hover {
+      background-color: #e9f7ff;
+    }
+
     a {
-      color: #00ffe7;
+      color: #007acc;
       text-decoration: none;
+      font-weight: bold;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .back-link {
+      margin-top: 40px;
+      display: inline-block;
+      background: #ffd700;
+      color: #111;
+      padding: 12px 24px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+
+    .back-link:hover {
+      background: #e6c200;
     }
 
     @media (max-width: 600px) {
@@ -47,7 +81,10 @@
         font-size: 0.9rem;
       }
       th, td {
-        padding: 8px;
+        padding: 10px;
+      }
+      h1 {
+        font-size: 1.6rem;
       }
     }
   </style>
@@ -65,7 +102,7 @@
     <tbody id="leaderboard"></tbody>
   </table>
 
-  <p style="margin-top: 40px;"><a href="index.html">Back to Home</a></p>
+  <a href="index.html" class="back-link">← Back to Home</a>
   <script>
     const supabaseUrl = 'https://ugzbsmmaxxklojwlijrt.supabase.co';
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVnemJzbW1heHhrbG9qd2xpanJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM2MDAyNTYsImV4cCI6MjA1OTE3NjI1Nn0.TZr8hu2fldqEyeOZBVxTO-bnQZio6HFqy6LP7AZ085o';
