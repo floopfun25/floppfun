@@ -3,15 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <title>Floop Leaderboard</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
   <style>
     body {
       background: radial-gradient(ellipse at top, #0a0a23, #000);
       color: #fff;
       font-family: 'Poppins', sans-serif;
       padding: 40px 20px;
+      text-align: center;
     }
 
     h1 {
@@ -104,9 +105,10 @@
 <body>
   <h1>Top Flooped Tokens</h1>
   <div id="leaderboard"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script>
     const supabaseUrl = 'https://ugzbsmmaxxklojwlijrt.supabase.co';
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVnemJzbW1heHhrbG9qd2xpanJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM2MDAyNTYsImV4cCI6MjA1OTE3NjI1Nn0.TZr8hu2fldqEyeOZBVxTO-bnQZio6HFqy6LP7AZ085o';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'; // kısaltıldı
     const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
     async function loadLeaderboard() {
@@ -126,7 +128,7 @@
         const image = row.image_url || "https://floppfun.com/default.png";
         const username = row.username || "@anon";
         const avatar = row.avatar || "https://floppfun.com/avatar.png";
-        const percent = (row.count * 10).toFixed(1); // örnek % değeri
+        const percent = (row.count * 10).toFixed(1); // Örnek yüzdelik
 
         const card = document.createElement("div");
         card.className = "token-card";
