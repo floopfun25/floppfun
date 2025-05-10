@@ -1,11 +1,6 @@
-// floppfun/script.js — PART 1/2 (OPTİMİZE EDİLMİŞ)
-document.addEventListener("DOMContentLoaded", () => {
-  const url = new URLSearchParams(window.location.search);
-  const mint = url.get('mint');
-  const symbol = url.get('symbol');
-  const image = url.get('image');
+  // floppfun/script.js — PART 1/2
 
-  // CONNECT WALLET
+document.addEventListener("DOMContentLoaded", () => {
   const connectBtn = document.getElementById("connectWallet");
   connectBtn?.addEventListener("click", async () => {
     if (window.solana && window.solana.isPhantom) {
@@ -21,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // SEARCH TOGGLE
+  // Arama kutusu toggle
   const searchBtn = document.getElementById("searchBtn");
   const searchContainer = document.getElementById("searchContainer");
   const searchInput = document.getElementById("searchInput");
@@ -32,14 +27,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // MENU TOGGLE
+  // Menü toggle
   const menuBtn = document.getElementById("menuBtn");
   const mobileMenu = document.getElementById("mobileMenu");
   menuBtn?.addEventListener("click", () => {
     mobileMenu?.classList.toggle("visible");
   });
 
-  // MUTE TOGGLE (safe fallback)
+  // Ses toggle
   const muteToggle = document.getElementById("muteToggle");
   if (muteToggle) {
     const bgAudio = document.createElement("audio");
@@ -56,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // CHAOS ANIMASYON → FORM GEÇİŞİ
+  // Chaos animasyonu → form aç
   window.toggleForm = () => {
     const chaos = document.getElementById("chaosAnimation");
     const form = document.getElementById("tokenFormSection");
@@ -68,8 +63,8 @@ document.addEventListener("DOMContentLoaded", () => {
       form?.scrollIntoView({ behavior: "smooth" });
     }, 2500);
   };
+// floppfun/script.js — PART 2/2
 
-  // FORM GÖNDERME
   const tokenForm = document.getElementById("tokenForm");
   const formStatus = document.getElementById("formStatus");
 
@@ -86,8 +81,19 @@ document.addEventListener("DOMContentLoaded", () => {
       const tokenDescription = document.getElementById("tokenDescription").value;
       const socialLink = document.getElementById("socialLink").value;
 
+      const supabaseUrl = 'https://ugzbsmmaxxklojwlijrt.supabase.co';
+      const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR...'; // gizli key kırpıldı
+      const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
       await supabase.from('tokens').insert([
-        { name: tokenName, symbol: tokenSymbol, supply: tokenSupply, image: tokenImage, description: tokenDescription, social_link: socialLink }
+        {
+          name: tokenName,
+          symbol: tokenSymbol,
+          supply: tokenSupply,
+          image: tokenImage,
+          description: tokenDescription,
+          social_link: socialLink
+        }
       ]);
 
       formStatus.innerText = `Token ${tokenName} created successfully!`;
@@ -100,111 +106,4 @@ document.addEventListener("DOMContentLoaded", () => {
       formStatus.style.color = "red";
     }
   });
-
-  // PART 2: floop işlemi + paylaşım + floop count geliyor.
-});
-// floppfun/script.js — PART 2/2 (FLOOP + PAYLAŞIM)
-
-document.addEventListener("DOMContentLoaded", () => {
-  const url = new URLSearchParams(window.location.search);
-  const mint = url.get('mint');
-  const symbol = url.get('symbol');
-
-  const floopBtn = document.getElementById("floopBtn");
-  const floopResult = document.getElementById("floopResult");
-  const floopCountEl = document.getElementById("floopCount");
-
-  async function loadFloopCount() {
-    if (!floopCountEl || !mint) return;
-    const { data } = await supabase
-      .from('floop_counts')
-      .select('count')
-      .eq('mint', mint)
-      .single();
-
-    floopCountEl.innerText = `Flooped: ${data?.count ?? 0}`;
-  }
-
-  loadFloopCount();
-
-  floopBtn?.addEventListener("click", async () => {
-    if (!window.solana || !window.solana.isPhantom) {
-      alert("Please install Phantom Wallet.");
-      return;
-    }
-
-    try {
-      const connection = new solanaWeb3.Connection(
-        solanaWeb3.clusterApiUrl("mainnet-beta"),
-        "confirmed"
-      );
-      const response = await window.solana.connect();
-      const user = response.publicKey;
-
-      const transaction = new solanaWeb3.Transaction().add(
-        solanaWeb3.SystemProgram.transfer({
-          fromPubkey: user,
-          toPubkey: new solanaWeb3.PublicKey("BiDrwH1vdp8KtKMsmtKV2aSfwzjbrFe8KbxUGg1DKfi"),
-          lamports: solanaWeb3.LAMPORTS_PER_SOL * 0.01
-        })
-      );
-
-      transaction.feePayer = user;
-      transaction.recentBlockhash = (await connection.getRecentBlockhash()).blockhash;
-
-      const signed = await window.solana.signTransaction(transaction);
-      const signature = await connection.sendRawTransaction(signed.serialize());
-      await connection.confirmTransaction(signature);
-
-      floopResult.innerText = "Thanks! Token successfully Flooped.";
-      floopResult.style.color = "lime";
-
-      const { data } = await supabase
-        .from('floop_counts')
-        .select('count')
-        .eq('mint', mint)
-        .single();
-
-      if (data) {
-        await supabase.from('floop_counts')
-          .update({ count: data.count + 1 })
-          .eq('mint', mint);
-      } else {
-        await supabase.from('floop_counts')
-          .insert({ mint: mint, count: 1 });
-      }
-
-      loadFloopCount();
-    } catch (err) {
-      console.error(err);
-      floopResult.innerText = "Transaction failed or cancelled.";
-      floopResult.style.color = "red";
-    }
-  });
-
-  // PAYLAŞIM FONKSİYONLARI
-  window.shareOnTwitter = () => {
-    const pageUrl = window.location.href;
-    const text = `Check out my meme token ${symbol || ''} on Solana!`;
-    const tweet = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(pageUrl)}`;
-    window.open(tweet, '_blank');
-  };
-
-  window.shareOnTelegram = () => {
-    const pageUrl = window.location.href;
-    const msg = `Check out my meme token ${symbol || ''} on Solana: ${pageUrl}`;
-    const tg = `https://t.me/share/url?url=${encodeURIComponent(pageUrl)}&text=${encodeURIComponent(msg)}`;
-    window.open(tg, '_blank');
-  };
-
-  window.copyMint = () => {
-    if (!mint) return;
-    navigator.clipboard.writeText(mint).then(() => {
-      const copyResult = document.getElementById("copyResult");
-      if (copyResult) {
-        copyResult.innerText = "Mint address copied!";
-        setTimeout(() => (copyResult.innerText = ""), 2000);
-      }
-    });
-  };
 });
