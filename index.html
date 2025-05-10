@@ -250,50 +250,50 @@
     display: none;
   }
 </style>
-<!-- floppfun/index.html — FINAL CHAOS FIXED PART 5/5 -->
+
+<!-- floppfun/index.html — FINAL CHAOS PATCHED PART 5/5 -->
 
 <script>
   // Cüzdan popup modalını aç
   function openWalletModal() {
-    const modal = document.getElementById("walletModal");
-    modal.classList.remove("hidden");
+    document.getElementById("walletModal").classList.remove("hidden");
   }
 
   // Cüzdan popup modalını kapat
   function closeWalletModal() {
-    const modal = document.getElementById("walletModal");
-    modal.classList.add("hidden");
+    document.getElementById("walletModal").classList.add("hidden");
   }
 
-  // Cüzdan bağlantısı
+  // Cüzdan bağlantısı (Boop-style Phantom bağlantısı)
   async function connectWithWallet(wallet) {
     closeWalletModal();
     const connectBtn = document.getElementById("connectWallet");
 
     if (wallet === "phantom") {
-      if (window.solana && window.solana.isPhantom) {
+      if (window.solana?.isPhantom) {
         try {
-          const response = await window.solana.connect();
-          const pubkey = response.publicKey.toString();
+          const res = await window.solana.connect({ onlyIfTrusted: false });
+          const pubkey = res.publicKey.toString();
           connectBtn.innerText = pubkey.slice(0, 4) + "..." + pubkey.slice(-4);
           connectBtn.disabled = true;
         } catch (err) {
-          alert("Connection to Phantom failed or was cancelled.");
+          alert("Connection canceled or failed.");
         }
       } else {
-        alert("Phantom Wallet not found. Please open this site inside the Phantom app.");
+        // Phantom yüklü değilse mobildee yönlendir
+        window.location.href = "https://phantom.app/ul/browse/floop.fun";
       }
     } else if (wallet === "solflare") {
-      alert("Solflare support is coming soon.");
+      alert("Solflare support coming soon.");
     } else if (wallet === "backpack") {
-      alert("Backpack support is coming soon.");
+      alert("Backpack support coming soon.");
     }
   }
 
   // Connect butonuna tıklanınca popup'ı aç
   document.getElementById("connectWallet").addEventListener("click", openWalletModal);
 
-  // KAOS FORM AÇ-KAPAT
+  // KAOS ANİMASYON + FORM AÇ/KAPAT
   function toggleForm() {
     const chaos = document.getElementById("chaosAnimation");
     const form = document.getElementById("tokenFormSection");
@@ -309,7 +309,7 @@
     }
   }
 
-  // Token görseli önizleme
+  // Görsel önizleme
   document.getElementById("tokenImage").addEventListener("input", function () {
     const preview = document.getElementById("imagePreview");
     const url = this.value.trim();
@@ -325,3 +325,4 @@
 <script src="script.js"></script>
 </body>
 </html>
+
