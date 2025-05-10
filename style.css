@@ -1,306 +1,124 @@
-8/* === style.css — PART 1/2 === */
+/* === YENİ EKLENENLER === */
 
-/* Genel reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* Üstteki maskot ve ses butonu kapsayıcısı */
+.floating-top-left {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 9999;
 }
-
-body {
-  font-family: 'Poppins', sans-serif;
-  background: radial-gradient(ellipse at top, #0a0a23, #000);
-  color: #fff;
-  text-align: center;
-  line-height: 1.6;
-  padding-bottom: 90px;
+.floating-mascot {
+  width: 34px;
+  height: 34px;
 }
-
-a {
+.mute-button {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
   color: #00ffee;
-  text-decoration: none;
-}
-
-button {
-  font-family: 'Poppins', sans-serif;
-}
-
-img {
-  max-width: 100%;
-  display: block;
-}
-
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-thumb {
-  background-color: #00ffee99;
-  border-radius: 10px;
-}
-
-/* === ÜST MASKOT + SES BUTONU === */
-#muteToggle {
   cursor: pointer;
   transition: transform 0.2s ease;
 }
-#muteToggle:hover {
+.mute-button:hover {
   transform: scale(1.1);
 }
 
-/* === CHAOS ANİMASYONU STİLLERİ === */
-.chaos-overlay {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0,0,0,0.85);
-  backdrop-filter: blur(12px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  animation: fadeIn 0.3s ease-in-out;
+/* Arama kutusu */
+.search-container {
+  padding: 20px;
+  text-align: center;
 }
-
-.chaos-overlay.hidden {
+.search-container.hidden {
   display: none;
 }
-
-.chaos-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 24px;
-}
-
-.chaos-bounce {
-  width: 80px;
-  animation: bounce 1s infinite;
-}
-
-.chaos-fire {
-  width: 120px;
-  animation: flicker 1.2s infinite alternate;
-}
-
-.chaos-mascot {
-  width: 100px;
-  animation: float 3s ease-in-out infinite;
-}
-
-/* Animasyon efektleri */
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-@keyframes flicker {
-  0% { opacity: 1; }
-  50% { opacity: 0.4; }
-  100% { opacity: 1; }
-}
-
-@keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); }
-  100% { transform: translateY(0px); }
-}
-
-/* === BOOP-style HEADER === */
-.boop-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+#searchInput {
   padding: 12px 20px;
-  background: rgba(255,255,255,0.03);
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-  backdrop-filter: blur(6px);
-  position: sticky;
-  top: 0;
-  z-index: 1001;
-}
-.boop-left .boop-logo {
-  width: 36px;
-  height: 36px;
-}
-.boop-center {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.boop-right .icon-btn,
-.boop-center .icon-btn {
-  background: transparent;
+  width: 80%;
+  max-width: 400px;
+  border-radius: 999px;
   border: none;
-  font-size: 1.3rem;
-  color: #fff;
-  cursor: pointer;
-}
-/* === style.css — PART 2/2 === */
-
-/* Mobil Menü */
-.mobile-menu {
-  display: none;
-  position: fixed;
-  right: 20px;
-  top: 70px;
-  background: #111a;
-  backdrop-filter: blur(8px);
-  border-radius: 12px;
-  padding: 16px;
-  z-index: 999;
-  box-shadow: 0 0 12px rgba(0, 255, 255, 0.1);
-  animation: slideIn 0.3s ease;
-}
-.mobile-menu ul {
-  list-style: none;
-  padding: 0;
-}
-.mobile-menu li {
-  padding: 10px 0;
-  color: #fff;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  border-bottom: 1px solid #333;
-  cursor: pointer;
-}
-@keyframes slideIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Token Formu */
-.form-wrapper {
-  max-width: 600px;
-  margin: 40px auto;
-  background: rgba(255, 255, 255, 0.04);
-  padding: 30px;
-  border-radius: 20px;
-  backdrop-filter: blur(6px);
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.05);
-}
-.form-wrapper.hidden {
-  display: none;
-}
-.form-wrapper h3 {
-  color: #00ffee;
-  margin-bottom: 20px;
-  font-size: 1.5rem;
-}
-#tokenForm input,
-#tokenForm textarea {
-  width: 100%;
-  padding: 14px;
-  margin-bottom: 12px;
-  border-radius: 10px;
-  border: none;
-  background: #fff;
-  color: #000;
   font-size: 1rem;
 }
-#tokenForm textarea {
-  resize: vertical;
-  min-height: 80px;
+
+/* Başlık ve alt başlık */
+.hero-section {
+  padding: 60px 20px 30px;
 }
-#tokenForm button {
-  background-color: #00ffee;
-  color: #000;
-  font-weight: bold;
-  padding: 14px 28px;
-  border: none;
+.hero-title {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #00ffee;
+}
+.hero-subtitle {
+  font-size: 1.2rem;
+  color: #aaa;
+}
+
+/* Filtre butonları */
+.filter-bar {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 20px auto;
+  padding: 10px 20px;
+}
+.filter-btn {
+  background: #1a1a2a;
+  border: 1px solid #00ffee55;
+  color: #00ffee;
+  padding: 8px 18px;
   border-radius: 999px;
   cursor: pointer;
-  margin-top: 10px;
-  font-size: 1.1rem;
-  transition: transform 0.2s ease, background-color 0.3s ease;
+  font-size: 0.85rem;
+  transition: background-color 0.2s ease, transform 0.2s ease;
 }
-#tokenForm button:hover {
-  background-color: #00e6d4;
+.filter-btn.active {
+  background: #00ffee33;
+}
+.filter-btn:hover {
+  background-color: #00ffee22;
   transform: scale(1.05);
 }
 
-/* Alt Menü */
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: #080820;
-  border-top: 1px solid rgba(255,255,255,0.1);
-  display: flex;
-  justify-content: space-around;
-  padding: 8px 0;
-  z-index: 999;
-}
-.bottom-nav a {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 0.7rem;
-  color: #aaa;
-  text-decoration: none;
-}
-.bottom-nav a.active {
-  color: #00ffee;
-}
-.bottom-nav img {
-  width: 22px;
-  margin-bottom: 3px;
-}
-/* === Genel Düzenlemeler === */
-* {
-  margin: 0;
+/* Token listesi */
+.token-list {
+  list-style: none;
   padding: 0;
-  box-sizing: border-box;
+  margin: 30px auto;
+  max-width: 600px;
+  text-align: left;
 }
-
-body {
-  font-family: 'Poppins', sans-serif;
-  background: #121212; /* Koyu arka plan */
-  color: #fff;
-  text-align: center;
-  line-height: 1.6;
-  padding-bottom: 90px;
-}
-
-/* Bağlantı, Arama, ve Hamburger Menüsü */
-.boop-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.token-list li {
   padding: 12px 20px;
-  background: rgba(255,255,255,0.03);
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-  backdrop-filter: blur(6px);
-  position: sticky;
-  top: 0;
-  z-index: 1001;
-}
-
-/* Maskot ve İkonlar */
-.boop-left .boop-logo {
-  width: 36px;
-  height: 36px;
-}
-
-.boop-center, .boop-right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.icon-btn {
-  background: transparent;
-  border: none;
-  font-size: 1.4rem;
+  background: rgba(255, 255, 255, 0.04);
+  margin-bottom: 12px;
+  border-radius: 10px;
   color: #fff;
-  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.token-list li:hover {
+  background: rgba(255, 255, 255, 0.07);
+}
+.token-list a {
+  color: #00ffee;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 0.95rem;
 }
 
-/* Start Your Cult Butonu */
+/* Wallet durum mesajları */
+.wallet-status {
+  margin-top: 12px;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+/* Devamı PART 2'de */
+/* === Start Your Cult Butonu Görsel === */
 .start-your-cult-box {
   background: linear-gradient(135deg, #00ffee, #ff5cb3);
   padding: 16px 36px;
@@ -308,67 +126,79 @@ body {
   color: #000;
   font-weight: bold;
   cursor: pointer;
-  margin-top: 40px;
+  margin: 40px auto 20px;
+  display: inline-block;
+  box-shadow: 0 4px 12px rgba(0,255,255,0.3);
+  transition: transform 0.3s ease;
+}
+.start-your-cult-box:hover {
+  transform: scale(1.05);
 }
 
-/* Arka Plan Renk Düzenlemesi */
-.token-box {
-  background: rgba(255, 255, 255, 0.1);  /* Koyu gri arka plan */
-  padding: 20px;
-  border-radius: 15px;
-  margin: 20px auto;
+/* Chaos animasyon içeriği */
+.chaos-content img {
+  max-width: 100%;
+  display: block;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .boop-header {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .filter-bar {
+    flex-direction: column;
+    align-items: center;
+  }
+  .mobile-menu {
+    width: 80%;
+    right: 10%;
+  }
+  .form-wrapper {
+    padding: 20px;
+    margin: 20px 12px;
+  }
+  .token-list li {
+    padding: 10px 14px;
+  }
+}
+
+/* Görsel küçük kutular için stil (gelecekteki token kartları için) */
+.token-card {
+  background: #1a1a2d;
+  padding: 16px;
+  margin: 10px auto;
+  border-radius: 12px;
   max-width: 600px;
-  color: #fff;
-}
-
-/* Token Formu */
-#tokenForm input, #tokenForm textarea {
-  width: 100%;
-  padding: 14px;
-  margin-bottom: 12px;
-  border-radius: 10px;
-  background: #333; /* Koyu arka plan */
-  color: #fff;
-  border: 1px solid #444;
-}
-
-#tokenForm button {
-  background-color: #00ffee;
-  color: #000;
-  font-weight: bold;
-  padding: 14px 28px;
-  border-radius: 999px;
-  cursor: pointer;
-  margin-top: 10px;
-}
-
-/* Alt Menü */
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: #080820;
   display: flex;
-  justify-content: space-around;
-  padding: 8px 0;
-  z-index: 999;
-}
-
-.bottom-nav a {
-  display: flex;
-  flex-direction: column;
+  gap: 16px;
   align-items: center;
-  font-size: 0.7rem;
-  color: #aaa;
-  text-decoration: none;
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.05);
 }
-
-.bottom-nav a.active {
+.token-card img {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+}
+.token-info {
+  text-align: left;
+}
+.token-info h3 {
   color: #00ffee;
+  font-size: 1.1rem;
+  margin: 0;
+}
+.token-info p {
+  font-size: 0.85rem;
+  color: #ccc;
+  margin: 4px 0;
 }
 
-.bottom-nav img {
-  width: 22px;
-  margin-bottom: 3px;
+/* Giriş ve animasyon fade */
+.hidden {
+  display: none;
+}
+.visible {
+  display: block !important;
 }
