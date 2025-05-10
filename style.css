@@ -1,4 +1,4 @@
-/* === style.css — PART 1/4 — GENEL RESET + TEMEL TEMA === */
+/* === style.css — PART 1/4 — GENEL RESET + TEMA + HEADER === */
 
 * {
   margin: 0;
@@ -37,41 +37,57 @@ img {
   background-color: #00ffee99;
   border-radius: 10px;
 }
-/* === style.css — PART 2/4 — HEADER, NAVBAR, MOBİL MENÜ === */
 
-.main-header {
-  background: rgba(255, 255, 255, 0.03);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(6px);
+/* === ÜST MASKOT + SES BUTONU === */
+#muteToggle {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+#muteToggle:hover {
+  transform: scale(1.1);
+}
+
+/* === BOOP-style HEADER === */
+.boop-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 14px 20px;
+  padding: 12px 20px;
+  background: rgba(255,255,255,0.03);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  backdrop-filter: blur(6px);
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 1001;
 }
-
-.nav-left {
+.boop-left .boop-logo {
+  width: 36px;
+  height: 36px;
+}
+.boop-center {
   display: flex;
   align-items: center;
+  gap: 12px;
 }
-.logo-icon {
-  width: 34px;
-  height: 34px;
-  margin-right: 10px;
-}
-.logo-text {
-  font-size: 1.4rem;
-  font-weight: bold;
-  color: #00ffee;
+.boop-right .icon-btn,
+.boop-center .icon-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.3rem;
+  color: #fff;
+  cursor: pointer;
 }
 
-.nav-right {
-  display: flex;
-  gap: 10px;
-  align-items: center;
+/* === Arama Kutusu === */
+#searchContainer {
+  animation: fadeIn 0.2s ease-in-out;
 }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+/* === style.css — PART 2/4 — MOBİL MENÜ + CONNECT BUTONU === */
+
 .connect-btn {
   background: #fff;
   color: #111;
@@ -87,6 +103,7 @@ img {
   background: #ddd;
   transform: scale(1.05);
 }
+
 .icon-btn {
   background: transparent;
   border: none;
@@ -128,38 +145,7 @@ img {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* === BOOP-style HEADER (ekleme) === */
-.boop-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 20px;
-  background: rgba(255,255,255,0.03);
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-  backdrop-filter: blur(6px);
-  position: sticky;
-  top: 0;
-  z-index: 1001;
-}
-.boop-left .boop-logo {
-  width: 36px;
-  height: 36px;
-}
-.boop-center {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.boop-right .icon-btn,
-.boop-center .icon-btn {
-  background: transparent;
-  border: none;
-  font-size: 1.3rem;
-  color: #fff;
-  cursor: pointer;
-}
-/* === style.css — PART 3/4 — HERO, FİLTRE, ANİMASYON, FORM === */
-
+/* Boop-style hero başlık */
 .hero-section {
   padding: 80px 20px 40px;
 }
@@ -174,33 +160,22 @@ img {
   color: #ccc;
   margin-bottom: 30px;
 }
-.launch-btn {
-  background: #ff5cb3;
-  color: #fff;
-  font-weight: bold;
-  padding: 16px 36px;
-  font-size: 1.1rem;
-  border: none;
-  border-radius: 999px;
-  cursor: pointer;
-  box-shadow: 0 0 12px #ff5cb3aa;
-  transition: background 0.3s ease, transform 0.2s ease;
-}
-.launch-btn:hover {
-  background: #e04899;
-  transform: scale(1.05);
-}
+/* === style.css — PART 3/4 — FİLTRE BAR + FORM + ANİMASYON === */
 
-/* Filtre Butonları */
 .filter-bar {
+  overflow-x: auto;
   display: flex;
-  justify-content: center;
+  align-items: center;
   gap: 12px;
-  flex-wrap: wrap;
-  margin: 30px auto 40px;
+  padding: 10px 16px;
+  margin-bottom: 20px;
+  scrollbar-width: none;
+}
+.filter-bar::-webkit-scrollbar {
+  display: none;
 }
 .filter-btn {
-  padding: 10px 22px;
+  padding: 10px 20px;
   background: #fff;
   color: #000;
   border: none;
@@ -209,7 +184,6 @@ img {
   cursor: pointer;
   transition: background 0.3s ease, transform 0.2s ease;
   font-size: 0.95rem;
-  box-shadow: 0 4px 12px rgba(0, 255, 255, 0.1);
 }
 .filter-btn:hover {
   background: #00ffee;
@@ -218,64 +192,6 @@ img {
 .filter-btn.active {
   background: #00ffee;
   color: #000;
-}
-
-/* Chaos Animasyonu */
-.chaos-animation {
-  display: none;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  padding: 60px 20px;
-}
-.chaos-container {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.solana-bounce {
-  width: 60px;
-  animation: bounce 1s infinite ease-in-out;
-  position: absolute;
-  top: -80px;
-}
-.chaos-fire {
-  width: 80px;
-  position: absolute;
-  bottom: -40px;
-  opacity: 0.8;
-}
-.mascot-img {
-  width: 120px;
-  height: 120px;
-  border-radius: 20px;
-  border: 2px solid #00ffee;
-  background: #111;
-  padding: 10px;
-  z-index: 2;
-}
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-20px); }
-}
-
-/* START YOUR CULT KUTUSU */
-.start-your-cult-box {
-  margin: 40px auto 20px;
-  background: linear-gradient(135deg, #00ffee, #ff5cb3);
-  color: #000;
-  font-weight: bold;
-  font-size: 1rem;
-  padding: 16px 36px;
-  border-radius: 999px;
-  width: fit-content;
-  cursor: pointer;
-  box-shadow: 0 0 20px rgba(0,255,255,0.15);
-  transition: transform 0.3s ease;
-}
-.start-your-cult-box:hover {
-  transform: scale(1.05);
 }
 
 /* Token Form */
@@ -332,36 +248,38 @@ img {
   font-size: 1rem;
   color: #00ffaa;
 }
-/* === style.css — PART 4/4 — LİSTE KARTLARI, FOOTER, ALT MENÜ === */
-
-#topTokens {
-  margin-top: 60px;
-}
-#topTokens h3 {
-  font-size: 1.6rem;
-  margin-bottom: 20px;
-  color: #00ffee;
-}
-#topFloopList {
-  list-style: none;
-  padding: 0;
-  max-width: 600px;
-  margin: 0 auto;
-}
-#topFloopList li {
-  background: rgba(255, 255, 255, 0.05);
-  margin-bottom: 12px;
-  padding: 14px;
-  border-radius: 12px;
-  transition: background 0.3s ease;
-}
-#topFloopList li:hover {
-  background: rgba(0, 255, 255, 0.1);
-}
-#topFloopList a {
-  color: #00ffee;
-  text-decoration: none;
+/* START YOUR CULT (Release The Chaos) */
+.start-your-cult-box {
+  margin: 40px auto 20px;
+  background: linear-gradient(135deg, #00ffee, #ff5cb3);
+  color: #000;
   font-weight: bold;
+  font-size: 1rem;
+  padding: 16px 36px;
+  border-radius: 999px;
+  width: fit-content;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(0,255,255,0.15);
+  transition: transform 0.3s ease;
+}
+.start-your-cult-box:hover {
+  transform: scale(1.05);
+}
+
+/* Token Kartları */
+.token-card {
+  background: rgba(255,255,255,0.04);
+  border-radius: 16px;
+  padding: 20px;
+  margin: 20px auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.05);
+  max-width: 800px;
+}
+.token-card img {
+  border-radius: 12px;
 }
 
 /* Footer */
@@ -402,76 +320,4 @@ footer {
 .bottom-nav img {
   width: 22px;
   margin-bottom: 3px;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .main-header {
-    flex-direction: column;
-    gap: 12px;
-  }
-  .logo-text {
-    font-size: 1.2rem;
-    text-align: center;
-  }
-  .hero-title {
-    font-size: 2rem;
-  }
-  .hero-subtitle {
-    font-size: 1rem;
-  }
-  .launch-btn {
-    padding: 12px 26px;
-    font-size: 1rem;
-  }
-  .form-wrapper {
-    padding: 20px 15px;
-    margin: 30px 10px;
-  }
-  #tokenForm input,
-  #tokenForm textarea,
-  #tokenForm button {
-    font-size: 1rem;
-    padding: 12px;
-  }
-  #topTokens h3 {
-    font-size: 1.4rem;
-  }
-  #topFloopList li {
-    font-size: 0.95rem;
-  }
-  footer {
-    font-size: 0.8rem;
-  }
-  .connect-btn {
-    font-size: 0.95rem;
-    padding: 8px 16px;
-  }
-  .icon-btn {
-    font-size: 1.2rem;
-  }
-  .mobile-menu {
-    right: 10px;
-    top: 65px;
-    padding: 12px;
-  }
-  .mobile-menu li {
-    font-size: 0.9rem;
-  }
-  .solana-bounce {
-    width: 40px;
-    top: -60px;
-  }
-  .chaos-fire {
-    width: 60px;
-    bottom: -30px;
-  }
-  .mascot-img {
-    width: 100px;
-    height: 100px;
-  }
-  .start-your-cult-box {
-    font-size: 0.9rem;
-    padding: 12px 24px;
-  }
 }
