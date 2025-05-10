@@ -1,11 +1,13 @@
+<!-- floppfun/leaderboard.html — PART 1/3 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Floop Leaderboard</title>
+  <title>Leaderboard - Floop.fun</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="images/icons/floop-favicon.ico" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
 </head>
 <body>
 
@@ -34,95 +36,81 @@
   <input id="searchInput" type="text" placeholder="Search tokens..." />
 </div>
 
-<!-- MOBİL MENÜ -->
-<div class="mobile-menu" id="mobileMenu">
-  <ul>
-    <li><span>✨</span> Start a Chaos!</li>
-    <li><span>📄</span> Uwu bu ne</li>
-    <li><span>🔎</span> Solscan’da BOOP</li>
-    <li><span>✈️</span> telegrama katıl</li>
-    <li><span>𝕏</span> x’i takip et</li>
-  </ul>
-</div>
+<!-- HERO BAŞLIK -->
+<main class="hero-section">
+  <div class="hero-content">
+    <h2 class="hero-title">Top Flooped Tokens</h2>
+    <p class="hero-subtitle">See what the cult is flooping!</p>
+  </div>
+</main>
 
-<h1 style="font-size: 2rem; color: #00ffee; margin: 40px 0 20px;">Top Flooped Tokens</h1>
+<!-- TOKEN KART LİSTESİ -->
+<section id="leaderboardList">
+  <!-- JavaScript ile doldurulacak -->
+</section>
+<!-- floppfun/leaderboard.html — PART 2/3 -->
 
-<!-- FLOOPED TOKEN LİSTESİ -->
-<div id="leaderboard" style="max-width: 800px; margin: auto;"></div>
-<!-- ALT SABİT MENÜ -->
+<!-- ALT MENÜ -->
 <nav class="bottom-nav">
-  <a href="index.html" class="nav-link"><img src="images/icons/cult.png" alt="" /><span>cults</span></a>
-  <a href="rewards.html" class="nav-link"><img src="images/icons/rewards.png" alt="" /><span>rewards</span></a>
-  <a href="staking.html" class="nav-link"><img src="images/icons/staking.png" alt="" /><span>staking</span></a>
-  <a href="leaderboard.html" class="nav-link active"><img src="images/icons/leaderboard.png" alt="" /><span>leaderb.</span></a>
-  <a href="#" class="nav-link"><img src="images/icons/airdrop.png" alt="" /><span>airdrop</span></a>
+  <a href="index.html" class="nav-link">
+    <img src="images/icons/cult.png" alt="cults" />
+    <span>cults</span>
+  </a>
+  <a href="rewards.html" class="nav-link">
+    <img src="images/icons/rewards.png" alt="rewards" />
+    <span>rewards</span>
+  </a>
+  <a href="staking.html" class="nav-link">
+    <img src="images/icons/staking.png" alt="staking" />
+    <span>staking</span>
+  </a>
+  <a href="leaderboard.html" class="nav-link active">
+    <img src="images/icons/leaderboard.png" alt="leaderboard" />
+    <span>leaderb.</span>
+  </a>
+  <a href="airdrop.html" class="nav-link">
+    <img src="images/icons/airdrop.png" alt="airdrop" />
+    <span>airdrop</span>
+  </a>
 </nav>
 
+<!-- JS KÜTÜPHANELERİ -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
 <script>
   const supabaseUrl = 'https://ugzbsmmaxxklojwlijrt.supabase.co';
-  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR...'; // gizli key
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR...'; // gizli keyin kırpılmış hali
   const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
   async function loadLeaderboard() {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from('floop_counts')
       .select('*')
-      .order('count', { ascending: false });
+      .order('count', { ascending: false })
+      .limit(20);
 
-    const container = document.getElementById("leaderboard");
+    const list = document.getElementById("leaderboardList");
 
-    if (error || !data || data.length === 0) {
-      container.innerHTML = '<p style="color:red;">No data available or failed to load.</p>';
+    if (!data || data.length === 0) {
+      list.innerHTML = "<p style='color:#aaa;'>No tokens yet. Be the first to floop!</p>";
       return;
     }
 
-    data.forEach((row) => {
-      const image = row.image_url || "https://floppfun.com/default.png";
-      const username = row.username || "@anon";
-      const avatar = row.avatar || "https://floppfun.com/avatar.png";
-      const percent = (row.count * 10).toFixed(1);
-
-      const card = document.createElement("div");
-      card.className = "token-card";
-      card.innerHTML = `
-        <div class="badge">%${percent}</div>
+    list.innerHTML = data.map(token => `
+      <div class="token-card">
+        <img src="images/icons/cult.png" alt="${token.symbol}" />
         <div class="token-info">
-          <h2>${row.symbol || "Unnamed"}</h2>
-          <p>${row.description || "No description"}</p>
-          <p>Flooped: ${row.count}</p>
-          <div class="user-info">
-            <img src="${avatar}" alt="user" />
-            <span>${username}</span>
-          </div>
+          <h3>${token.symbol || "FLOOP"}</h3>
+          <p>${token.mint}</p>
+          <p>Flooped: ${token.count}</p>
         </div>
-        <img src="${image}" alt="token" class="token-img" />
-      `;
-
-      container.appendChild(card);
-    });
+      </div>
+    `).join('');
   }
 
   loadLeaderboard();
-</script>
-<script>
-  // CÜZDAN BAĞLAMA
-  const connectBtn = document.getElementById("connectWallet");
-  connectBtn?.addEventListener("click", async () => {
-    if (window.solana && window.solana.isPhantom) {
-      try {
-        const resp = await window.solana.connect();
-        connectBtn.innerText = `Connected: ${resp.publicKey.toString().slice(0, 4)}...`;
-        connectBtn.disabled = true;
-      } catch {
-        alert("Connection failed.");
-      }
-    } else {
-      alert("Phantom wallet not found.");
-    }
-  });
-
-  // ARAMA TOGGLE
+// floppfun/leaderboard.html — PART 3/3 (Devamı)
+  // Arama kutusunu aç/kapat
   document.getElementById("searchBtn")?.addEventListener("click", () => {
     const box = document.getElementById("searchContainer");
     box.classList.toggle("hidden");
@@ -131,31 +119,28 @@
     }
   });
 
-  // SES AÇ-KAPA
-  const muteToggle = document.getElementById("muteToggle");
-  const bgAudio = new Audio("sounds/loop.mp3"); // varsa loop.mp3
-  bgAudio.loop = true;
-  bgAudio.volume = 0.4;
-  document.body.appendChild(bgAudio);
-  muteToggle?.addEventListener("click", () => {
-    if (bgAudio.paused) {
-      bgAudio.play();
-      muteToggle.innerText = "🔊";
-    } else {
-      bgAudio.pause();
-      muteToggle.innerText = "🔇";
-    }
-  });
-
-  // MOBİL MENÜ
+  // Menü toggle
   document.getElementById("menuBtn")?.addEventListener("click", () => {
-    document.getElementById("mobileMenu").classList.toggle("visible");
+    const menu = document.getElementById("mobileMenu");
+    menu?.classList.toggle("visible");
   });
-</script>
-<!-- FOOTER -->
-<footer class="footer">
-  <p>&copy; 2025 Floop.fun. All rights reserved.</p>
-</footer>
 
+  // Ses butonu toggle
+  const muteToggle = document.getElementById("muteToggle");
+  if (muteToggle) {
+    const bgAudio = document.createElement("audio");
+    bgAudio.src = "sounds/loop.mp3";
+    bgAudio.loop = true;
+    bgAudio.volume = 0.4;
+    document.body.appendChild(bgAudio);
+
+    let isMuted = false;
+    muteToggle.addEventListener("click", () => {
+      isMuted = !isMuted;
+      muteToggle.innerText = isMuted ? "🔇" : "🔊";
+      isMuted ? bgAudio.pause() : bgAudio.play();
+    });
+  }
+</script>
 </body>
 </html>
