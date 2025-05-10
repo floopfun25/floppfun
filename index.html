@@ -1,25 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Floop.fun - Meme Token Creator</title>
-  <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="icon" href="https://floppfun.com/favicon.ico" type="image/x-icon" />
-  <meta name="description" content="Create and launch meme tokens instantly on Solana. No presale. No dev wallet." />
-  <meta property="og:title" content="Floop.fun - Launch Your Meme Token on Solana" />
-  <meta property="og:description" content="No presale. No dev wallet. Just pure meme magic." />
-  <meta property="og:url" content="https://floppfun.com/" />
-  <meta property="og:image" content="https://floppfun.com/preview.jpg" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Floop.fun - Meme Token Creator on Solana" />
-  <meta name="twitter:description" content="No presale. No dev wallet. Launch your own meme token now!" />
-  <meta name="twitter:image" content="https://floppfun.com/preview.jpg" />
-  <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@solana/spl-token@latest/lib/index.iife.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-</head>
 <body>
   <!-- ÜST MENÜ -->
   <header class="main-header">
@@ -45,13 +23,11 @@
     </ul>
   </div>
 
-  <!-- KAOS GİRİŞİ (maskot + animasyon + buton alanı PART 2'de gelecek) -->
-
   <!-- HERO -->
   <main class="hero-section">
     <div class="hero-content">
       <h2 class="hero-title">Launch Your Meme Token</h2>
-      <p class="hero-subtitle">No presale. No dev wallet. Just pure meme magic.</p>
+      <!-- ALT YAZI KALDIRILDI -->
       <button id="launchBtn" class="launch-btn">Release The Chaos</button>
     </div>
   </main>
@@ -64,7 +40,8 @@
     <button class="filter-btn">Hacme Göre</button>
     <button class="filter-btn">En Çok Flooplananlar</button>
   </section>
-  <!-- CHAOS ANİMASYONU (zıplayan Solana + ateş + maskot) -->
+
+  <!-- CHAOS ANİMASYONU -->
   <section id="chaosAnimation" class="chaos-animation">
     <div class="chaos-container">
       <img src="images/solana.svg" alt="Solana" class="solana-bounce" />
@@ -72,7 +49,6 @@
       <img src="images/floop-mascot.png" alt="Mascot" class="mascot-img" />
     </div>
   </section>
-
   <!-- TOKEN FORMU -->
   <section id="tokenFormSection" class="form-wrapper hidden">
     <h3>Create Your Token</h3>
@@ -87,16 +63,40 @@
     </form>
     <div id="formStatus" class="wallet-status"></div>
   </section>
+
   <!-- TOP FLOOPED TOKENLAR -->
   <section id="topTokens">
     <h3>Top Flooped Tokens</h3>
     <ul id="topFloopList"></ul>
   </section>
-
   <!-- FOOTER -->
   <footer>
     <p>&copy; 2025 Floop.fun. All rights reserved.</p>
   </footer>
+
+  <!-- ALT SABİT MENÜ -->
+  <nav style="position: fixed; bottom: 0; left: 0; right: 0; background: #0a0a23; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid rgba(255,255,255,0.1); z-index: 999;">
+    <div style="text-align:center; color:#fff; font-size:0.9rem;">
+      <div>🏠</div>
+      <div>cults</div>
+    </div>
+    <div style="text-align:center; color:#fff; font-size:0.9rem;">
+      <div>🎁</div>
+      <div>rewards</div>
+    </div>
+    <div style="text-align:center; color:#fff; font-size:0.9rem;">
+      <div>📈</div>
+      <div>staking</div>
+    </div>
+    <div style="text-align:center; color:#fff; font-size:0.9rem;">
+      <div>⭐</div>
+      <div>leaderb.</div>
+    </div>
+    <div style="text-align:center; color:#fff; font-size:0.9rem;">
+      <div>🎯</div>
+      <div>airdrop</div>
+    </div>
+  </nav>
 
   <!-- SCRIPT BAŞLANGICI -->
   <script>
@@ -148,9 +148,10 @@
     }
 
     connectBtn.addEventListener("click", connectWallet);
+
     // Supabase bağlantısı
     const supabaseUrl = 'https://ugzbsmmaxxklojwlijrt.supabase.co';
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFz...'; // kısa tutuldu
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'; // kısa tutuldu
     const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
     // Top Tokenları Yükle
@@ -199,7 +200,7 @@
       formStatus.style.color = "blue";
 
       try {
-        // Gerçek token oluşturma işlemi burada entegre edilecek
+        // Token oluşturma (demo)
         formStatus.innerText = "Token created successfully! (mock)";
         formStatus.style.color = "lime";
       } catch (err) {
