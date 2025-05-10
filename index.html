@@ -1,4 +1,4 @@
-<!-- floppfun/index.html — PART 1/4 (GÜNCELLENMİŞ) -->
+<!-- floppfun/index.html — PART 1/4 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,7 +33,7 @@
   <button id="muteToggle" style="background:none; border:none; font-size: 1.2rem; color:#00ffee;">🔊</button>
 </div>
 
-<!-- BOOP FUN TARZI HEADER -->
+<!-- HEADER -->
 <header class="boop-header">
   <div class="boop-left">
     <img src="images/floop-mascot.png" alt="Floop" class="boop-logo" />
@@ -63,7 +63,6 @@
     <li><span>𝕏</span> x’i takip et</li>
   </ul>
 </div>
-
 <!-- BOOP-STYLE START BUTONU -->
 <div class="start-your-cult-box" onclick="toggleForm()">
   <span>Release The Chaos</span>
@@ -77,7 +76,7 @@
   </div>
 </main>
 
-<!-- FİLTRE ŞERİDİ (YATAY + AYAR SİMGESİ) -->
+<!-- FİLTRE ŞERİDİ -->
 <section class="filter-bar" style="display: flex; align-items: center; overflow-x: auto; padding: 10px 16px; gap: 12px;">
   <div style="flex-shrink: 0; font-size: 1.2rem;">⚙️</div>
   <button class="filter-btn active">🔥 yeni başlatıldı</button>
@@ -86,6 +85,7 @@
   <button class="filter-btn">📊 hacme göre</button>
   <button class="filter-btn">💎 en çok flooplananlar</button>
 </section>
+
 <!-- CHAOS ANİMASYONU -->
 <section id="chaosAnimation" class="chaos-animation">
   <div class="chaos-container">
@@ -94,7 +94,6 @@
     <img src="images/floop-mascot.png" alt="Mascot" class="mascot-img" />
   </div>
 </section>
-
 <!-- TOKEN FORMU -->
 <section id="tokenFormSection" class="form-wrapper hidden">
   <h3>Create Your Token</h3>
@@ -115,7 +114,6 @@
   <h3>Top Flooped Tokens</h3>
   <ul id="topFloopList"></ul>
 </section>
-
 <!-- FOOTER -->
 <footer>
   <p>&copy; 2025 Floop.fun. All rights reserved.</p>
@@ -124,73 +122,21 @@
 <!-- ALT MENÜ -->
 <nav class="bottom-nav">
   <a href="#" class="nav-link active"><img src="images/icons/cult.png" alt="" /><span>cults</span></a>
-  <a href="#" class="nav-link"><img src="images/icons/rewards.png" alt="" /><span>rewards</span></a>
-  <a href="#" class="nav-link"><img src="images/icons/staking.png" alt="" /><span>staking</span></a>
+  <a href="rewards.html" class="nav-link"><img src="images/icons/rewards.png" alt="" /><span>rewards</span></a>
+  <a href="staking.html" class="nav-link"><img src="images/icons/staking.png" alt="" /><span>staking</span></a>
   <a href="leaderboard.html" class="nav-link"><img src="images/icons/leaderboard.png" alt="" /><span>leaderb.</span></a>
-  <a href="#" class="nav-link"><img src="images/icons/airdrop.png" alt="" /><span>airdrop</span></a>
+  <a href="airdrop.html" class="nav-link"><img src="images/icons/airdrop.png" alt="" /><span>airdrop</span></a>
 </nav>
-<!-- SCRIPT -->
+
+<!-- ORTAK JS DOSYASI -->
+<script src="script.js"></script>
+
+<!-- SUPABASE İŞLEMLERİ -->
 <script>
-  const connectBtn = document.getElementById("connectWallet");
-  const launchBtn = document.getElementById("launchBtn");
-  const formSection = document.getElementById("tokenFormSection");
-  const chaos = document.getElementById("chaosAnimation");
-  const mobileMenu = document.getElementById("mobileMenu");
-  const menuBtn = document.getElementById("menuBtn");
-
-  // Mobil Menü Toggle
-  let menuOpen = false;
-  menuBtn.addEventListener("click", () => {
-    menuOpen = !menuOpen;
-    mobileMenu.style.display = menuOpen ? "block" : "none";
-  });
-
-  // START YOUR CULT kutusu tıklanınca formu aç
-  function toggleForm() {
-    formSection.classList.toggle("hidden");
-    if (!formSection.classList.contains("hidden")) {
-      formSection.scrollIntoView({ behavior: "smooth" });
-    }
-  }
-
-  // CHAOS animasyon butonu (eğer kullanılacaksa)
-  launchBtn?.addEventListener("click", () => {
-    chaos.style.display = "flex";
-    formSection.classList.add("hidden");
-    setTimeout(() => {
-      chaos.style.display = "none";
-      formSection.classList.remove("hidden");
-      formSection.scrollIntoView({ behavior: "smooth" });
-    }, 3000);
-  });
-
-  // Phantom Wallet bağlantısı
-  async function connectWallet() {
-    if ("solana" in window) {
-      const provider = window.solana;
-      if (provider.isPhantom) {
-        try {
-          const response = await provider.connect();
-          connectBtn.innerText = "Connected";
-          connectBtn.disabled = true;
-        } catch {
-          alert("Bağlantı iptal edildi.");
-        }
-      } else {
-        alert("Phantom Wallet yüklü değil.");
-      }
-    } else {
-      alert("Solana tarayıcı desteği yok.");
-    }
-  }
-  connectBtn.addEventListener("click", connectWallet);
-
-  // Supabase bağlantısı
   const supabaseUrl = 'https://ugzbsmmaxxklojwlijrt.supabase.co';
-  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR...'; // kısaltıldı
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR...'; // gizli
   const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-  // En çok flooplanan tokenları yükle
   async function loadTopTokens() {
     const { data } = await supabase
       .from('floop_counts')
@@ -204,7 +150,7 @@
       : "<li>No tokens yet.</li>";
   }
   loadTopTokens();
-  // Token oluşturma formu (mock)
+
   const tokenForm = document.getElementById("tokenForm");
   const formStatus = document.getElementById("formStatus");
 
@@ -223,39 +169,13 @@
     }
   });
 
-  // Arama alanı göster/gizle
-  const searchBtn = document.getElementById("searchBtn");
-  const searchContainer = document.getElementById("searchContainer");
-  const searchInput = document.getElementById("searchInput");
-
-  searchBtn?.addEventListener("click", () => {
-    if (searchContainer.style.display === "none") {
-      searchContainer.style.display = "block";
-      searchInput.focus();
-    } else {
-      searchContainer.style.display = "none";
+  function toggleForm() {
+    const formSection = document.getElementById("tokenFormSection");
+    formSection.classList.toggle("hidden");
+    if (!formSection.classList.contains("hidden")) {
+      formSection.scrollIntoView({ behavior: "smooth" });
     }
-  });
-
-  // Enter ile arama yapılınca demo alert
-  searchInput?.addEventListener("keypress", (e) => {
-    if (e.key === "Enter") {
-      const query = searchInput.value.trim();
-      if (query) {
-        alert(`Searching for "${query}"... (demo)`);
-      }
-    }
-  });
-
-  // Ses butonu toggle
-  const muteToggle = document.getElementById("muteToggle");
-  let isMuted = false;
-
-  muteToggle?.addEventListener("click", () => {
-    isMuted = !isMuted;
-    muteToggle.innerText = isMuted ? "🔇" : "🔊";
-    // Buraya müzik kontrolü eklersen senkronize edebilirsin
-  });
+  }
 </script>
 </body>
 </html>
