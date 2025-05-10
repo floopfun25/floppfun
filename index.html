@@ -1,4 +1,4 @@
-<!-- floppfun/index.html — PART 1/5 -->
+<!-- floppfun/index.html — FIXED PART 1/5 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -55,7 +55,7 @@
     <img src="images/floop-mascot.png" alt="Mascot" class="chaos-mascot" />
   </div>
 </section>
-<!-- floppfun/index.html — PART 2/5 -->
+<!-- floppfun/index.html — FIXED PART 2/5 -->
 
 <!-- ANİMASYONLU BAŞLIK -->
 <main class="hero-section">
@@ -89,7 +89,7 @@
   </form>
   <div id="formStatus" class="wallet-status"></div>
 </section>
-<!-- floppfun/index.html — PART 3/5 -->
+<!-- floppfun/index.html — FIXED PART 3/5 -->
 
 <!-- EN ÇOK FLOOPLANAN TOKENLAR -->
 <section id="topTokens">
@@ -130,77 +130,96 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/spl-token@latest/lib/index.iife.min.js"></script>
-<script src="script.js"></script>
-<!-- floppfun/index.html — PART 4/5 -->
+<!-- floppfun/index.html — FIXED PART 4/5 -->
 
-<!-- MULTI-WALLET POPUP -->
+<!-- MULTI-WALLET POPUP (ikonlu, Boop-style) -->
 <div id="walletModal" class="wallet-modal hidden">
   <div class="wallet-modal-content">
     <h3>Select a Wallet</h3>
-    <button class="wallet-option" onclick="connectWithWallet('phantom')">Phantom</button>
-    <button class="wallet-option" onclick="connectWithWallet('solflare')">Solflare</button>
-    <button class="wallet-option" onclick="connectWithWallet('backpack')">Backpack</button>
+    <button class="wallet-option" onclick="connectWithWallet('phantom')">
+      <img src="images/icons/phantom.svg" alt="Phantom" class="wallet-icon" />
+      Phantom
+    </button>
+    <button class="wallet-option" onclick="connectWithWallet('solflare')">
+      <img src="images/icons/solflare.svg" alt="Solflare" class="wallet-icon" />
+      Solflare
+    </button>
+    <button class="wallet-option" onclick="connectWithWallet('backpack')">
+      <img src="images/icons/backpack.svg" alt="Backpack" class="wallet-icon" />
+      Backpack
+    </button>
     <button class="wallet-cancel" onclick="closeWalletModal()">Cancel</button>
   </div>
 </div>
 
-<!-- CSS SINIFLARI (style.css'e eklemen gerek) -->
+<!-- CSS — WALLET MODAL STİLİ -->
 <style>
   .wallet-modal {
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0, 0, 0, 0.6);
-    display: flex; justify-content: center; align-items: center;
-    z-index: 9999;
+    position: absolute;
+    top: 70px;
+    right: 20px;
+    background: #111;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 0 20px #00ffee55;
+    z-index: 1000;
   }
   .wallet-modal-content {
-    background: #111;
-    padding: 25px 30px;
-    border-radius: 16px;
-    text-align: center;
-    box-shadow: 0 0 20px #00ffeeaa;
-    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
   }
   .wallet-modal-content h3 {
     color: #00ffee;
-    margin-bottom: 20px;
-    font-size: 1.2rem;
+    margin-bottom: 10px;
+    font-size: 1rem;
   }
   .wallet-option {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 10px;
     background: #00ffee;
     color: #000;
-    margin: 10px 0;
-    padding: 10px 20px;
+    margin: 6px 0;
+    padding: 8px 16px;
     font-weight: bold;
     border: none;
     border-radius: 999px;
     cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  .wallet-option:hover {
+    background: #00ddcc;
+  }
+  .wallet-icon {
+    width: 20px;
+    height: 20px;
   }
   .wallet-cancel {
-    background: transparent;
+    background: none;
     color: #aaa;
     border: none;
-    margin-top: 12px;
+    margin-top: 10px;
     cursor: pointer;
+    font-size: 0.9rem;
   }
 </style>
-<!-- floppfun/index.html — PART 5/5 -->
+<!-- floppfun/index.html — FIXED PART 5/5 -->
 
 <script>
-  // Cüzdan Modal'ı açma
+  // Cüzdan popup modalını aç
   function openWalletModal() {
     const modal = document.getElementById("walletModal");
     modal.classList.remove("hidden");
   }
 
-  // Cüzdan Modal'ı kapatma
+  // Cüzdan popup modalını kapat
   function closeWalletModal() {
     const modal = document.getElementById("walletModal");
     modal.classList.add("hidden");
   }
 
-  // Seçilen cüzdanla bağlantı kurma
+  // Cüzdan bağlantısı
   async function connectWithWallet(wallet) {
     closeWalletModal();
     const connectBtn = document.getElementById("connectWallet");
@@ -208,22 +227,27 @@
     if (wallet === "phantom") {
       if (window.solana && window.solana.isPhantom) {
         try {
-          const response = await window.solana.connect();
-          connectBtn.innerText = `Connected: ${response.publicKey.toString().slice(0, 4)}...`;
+          const response = await window.solana.connect({ onlyIfTrusted: false });
+          const pubkey = response.publicKey.toString();
+          connectBtn.innerText = pubkey.slice(0, 4) + "..." + pubkey.slice(-4);
           connectBtn.disabled = true;
-        } catch (error) {
-          alert("Failed to connect to Phantom.");
+        } catch (err) {
+          alert("Connection to Phantom failed or was cancelled.");
         }
       } else {
-        alert("Phantom Wallet not found. Please install Phantom.");
+        // Phantom yüklü değilse yönlendirme yap
+        window.open("https://phantom.app", "_blank");
       }
     } else if (wallet === "solflare") {
-      alert("Solflare wallet is under development.");
+      alert("Solflare support is coming soon.");
     } else if (wallet === "backpack") {
-      alert("Backpack wallet is under development.");
+      alert("Backpack support is coming soon.");
     }
   }
 
-  // Connect button'a tıklanınca modalı aç
+  // Connect butonuna tıklanınca popup'ı aç
   document.getElementById("connectWallet").addEventListener("click", openWalletModal);
 </script>
+
+</body>
+</html>
