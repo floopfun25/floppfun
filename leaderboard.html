@@ -1,4 +1,4 @@
-<!-- floppfun/leaderboard.html — PART 1/2 (GÜNCELLENMİŞ) -->
+<!-- floppfun/leaderboard.html — PART 1/4 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,6 +37,8 @@
 </div>
 
 <h1 style="font-size: 2rem; color: #00ffee; margin: 40px 0 20px;">Top Flooped Tokens</h1>
+
+<!-- FLOOPED TOKEN LİSTESİ -->
 <div id="leaderboard" style="max-width: 800px; margin: auto;"></div>
 
 <!-- ALT SABİT MENÜ -->
@@ -47,6 +49,8 @@
   <a href="leaderboard.html" class="nav-link active"><img src="images/icons/leaderboard.png" alt="" /><span>leaderb.</span></a>
   <a href="#" class="nav-link"><img src="images/icons/airdrop.png" alt="" /><span>airdrop</span></a>
 </nav>
+<!-- floppfun/leaderboard.html — PART 2/4 -->
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script>
   const supabaseUrl = 'https://ugzbsmmaxxklojwlijrt.supabase.co';
@@ -124,43 +128,78 @@
   }
 
   loadLeaderboard();
-
-  // Wallet connect
-  document.getElementById("connectWallet").addEventListener("click", async () => {
-    if (window.solana && window.solana.isPhantom) {
-      try {
-        const response = await window.solana.connect();
-        document.getElementById("connectWallet").innerText = "Connected";
-      } catch (err) {
-        alert("Connection cancelled.");
-      }
-    } else {
-      alert("Please install Phantom wallet.");
-    }
-  });
-
-  // Arama aç/kapa
-  const searchBtn = document.getElementById("searchBtn");
-  const searchContainer = document.getElementById("searchContainer");
-  const searchInput = document.getElementById("searchInput");
-
-  searchBtn?.addEventListener("click", () => {
-    if (searchContainer.style.display === "none") {
-      searchContainer.style.display = "block";
-      searchInput.focus();
-    } else {
-      searchContainer.style.display = "none";
-    }
-  });
-
-  // Ses kontrol
-  const muteToggle = document.getElementById("muteToggle");
-  let isMuted = false;
-
-  muteToggle?.addEventListener("click", () => {
-    isMuted = !isMuted;
-    muteToggle.innerText = isMuted ? "🔇" : "🔊";
-  });
 </script>
 </body>
 </html>
+<!-- floppfun/leaderboard.html — PART 3/4 -->
+
+<script>
+  // CONNECT WALLET for leaderboard
+  const connectBtn = document.getElementById("connectWallet");
+  connectBtn?.addEventListener("click", async () => {
+    if (window.solana && window.solana.isPhantom) {
+      try {
+        const resp = await window.solana.connect();
+        connectBtn.innerText = `Connected: ${resp.publicKey.toString().slice(0, 4)}...`;
+        connectBtn.disabled = true;
+      } catch {
+        alert("Connection failed.");
+      }
+    } else {
+      alert("Phantom wallet not found.");
+    }
+  });
+
+  // SEARCH TOGGLE for leaderboard
+  const searchBtn = document.getElementById("searchBtn");
+  const searchBox = document.getElementById("searchContainer");
+  const searchInput = document.getElementById("searchInput");
+  searchBtn?.addEventListener("click", () => {
+    if (searchBox.style.display === "none" || !searchBox.style.display) {
+      searchBox.style.display = "block";
+      searchInput?.focus();
+    } else {
+      searchBox.style.display = "none";
+    }
+  });
+
+  // MUTE TOGGLE for leaderboard
+  const muteBtn = document.getElementById("muteToggle");
+  const bgAudio = document.createElement("audio");
+  bgAudio.src = "sounds/loop.mp3"; // varsa müziğin yolu burası
+  bgAudio.loop = true;
+  bgAudio.volume = 0.4;
+  document.body.appendChild(bgAudio);
+  muteBtn?.addEventListener("click", () => {
+    if (bgAudio.paused) {
+      bgAudio.play();
+      muteBtn.innerText = "🔊";
+    } else {
+      bgAudio.pause();
+      muteBtn.innerText = "🔇";
+    }
+  });
+
+  // MENU TOGGLE for leaderboard
+  const menuBtn = document.getElementById("menuBtn");
+  const mobileMenu = document.getElementById("mobileMenu");
+  menuBtn?.addEventListener("click", () => {
+    mobileMenu.style.display = mobileMenu.style.display === "block" ? "none" : "block";
+  });
+});
+</script>
+<!-- floppfun/leaderboard.html — PART 4/4 -->
+
+<!-- Footer -->
+<footer>
+  <p>&copy; 2025 Floop.fun. All rights reserved.</p>
+</footer>
+
+<!-- Alt Menü -->
+<nav class="bottom-nav">
+  <a href="index.html" class="nav-link"><img src="images/icons/cult.png" alt="" /><span>cults</span></a>
+  <a href="rewards.html" class="nav-link"><img src="images/icons/rewards.png" alt="" /><span>rewards</span></a>
+  <a href="staking.html" class="nav-link"><img src="images/icons/staking.png" alt="" /><span>staking</span></a>
+  <a href="leaderboard.html" class="nav-link active"><img src="images/icons/leaderboard.png" alt="" /><span>leaderb.</span></a>
+  <a href="#" class="nav-link"><img src="images/icons/airdrop.png" alt="" /><span>airdrop</span></a>
+</nav>
