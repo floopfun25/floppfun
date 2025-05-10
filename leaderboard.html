@@ -1,3 +1,4 @@
+<!-- floppfun/leaderboard.html — PART 1/2 (GÜNCELLENMİŞ) -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +10,13 @@
 </head>
 <body>
 
-<!-- BOOP-STYLE ÜST HEADER -->
+<!-- ÜST MASKOT + SES -->
+<div style="position: absolute; top: 12px; left: 12px; display: flex; align-items: center; gap: 10px; z-index: 9999;">
+  <img src="images/floop-mascot.png" alt="Mascot" style="width: 34px; height: 34px;" />
+  <button id="muteToggle" style="background:none; border:none; font-size: 1.2rem; color:#00ffee;">🔊</button>
+</div>
+
+<!-- BOOP-STYLE HEADER -->
 <header class="boop-header">
   <div class="boop-left">
     <img src="images/floop-mascot.png" alt="Floop" class="boop-logo" />
@@ -23,8 +30,15 @@
   </div>
 </header>
 
+<!-- ARAMA GİRİŞİ -->
+<div id="searchContainer" style="display: none; padding: 20px; text-align: center;">
+  <input id="searchInput" type="text" placeholder="Search tokens..." 
+    style="padding: 12px 20px; width: 80%; max-width: 400px; border-radius: 999px; border: none; font-size: 1rem;" />
+</div>
+
 <h1 style="font-size: 2rem; color: #00ffee; margin: 40px 0 20px;">Top Flooped Tokens</h1>
 <div id="leaderboard" style="max-width: 800px; margin: auto;"></div>
+
 <!-- ALT SABİT MENÜ -->
 <nav class="bottom-nav">
   <a href="index.html" class="nav-link"><img src="images/icons/cult.png" alt="" /><span>cults</span></a>
@@ -33,7 +47,6 @@
   <a href="leaderboard.html" class="nav-link active"><img src="images/icons/leaderboard.png" alt="" /><span>leaderb.</span></a>
   <a href="#" class="nav-link"><img src="images/icons/airdrop.png" alt="" /><span>airdrop</span></a>
 </nav>
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script>
   const supabaseUrl = 'https://ugzbsmmaxxklojwlijrt.supabase.co';
@@ -53,7 +66,7 @@
       return;
     }
 
-    data.forEach((row, index) => {
+    data.forEach((row) => {
       const image = row.image_url || "https://floppfun.com/default.png";
       const username = row.username || "@anon";
       const avatar = row.avatar || "https://floppfun.com/avatar.png";
@@ -112,7 +125,7 @@
 
   loadLeaderboard();
 
-  // Wallet connect (opsiyonel): boop-header'daki connect butonu
+  // Wallet connect
   document.getElementById("connectWallet").addEventListener("click", async () => {
     if (window.solana && window.solana.isPhantom) {
       try {
@@ -124,6 +137,29 @@
     } else {
       alert("Please install Phantom wallet.");
     }
+  });
+
+  // Arama aç/kapa
+  const searchBtn = document.getElementById("searchBtn");
+  const searchContainer = document.getElementById("searchContainer");
+  const searchInput = document.getElementById("searchInput");
+
+  searchBtn?.addEventListener("click", () => {
+    if (searchContainer.style.display === "none") {
+      searchContainer.style.display = "block";
+      searchInput.focus();
+    } else {
+      searchContainer.style.display = "none";
+    }
+  });
+
+  // Ses kontrol
+  const muteToggle = document.getElementById("muteToggle");
+  let isMuted = false;
+
+  muteToggle?.addEventListener("click", () => {
+    isMuted = !isMuted;
+    muteToggle.innerText = isMuted ? "🔇" : "🔊";
   });
 </script>
 </body>
