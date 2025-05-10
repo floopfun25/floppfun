@@ -7,8 +7,6 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="images/icons/floop-favicon.ico" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
-
-  <!-- SEO -->
   <meta name="description" content="Launch your meme token on Solana. Just chaos. No presale. No dev wallet." />
   <meta property="og:title" content="Floop.fun - Launch Meme Tokens Instantly" />
   <meta property="og:image" content="images/preview.jpg" />
@@ -28,7 +26,7 @@
     <img src="images/floop-mascot.png" alt="Floop" class="boop-logo" />
   </div>
   <div class="boop-center">
-    <button id="connectWallet" class="connect-btn">connect</button>
+    <button id="connectWallet" class="connect-btn">Connect</button>
     <button class="icon-btn" id="searchBtn">🔍</button>
   </div>
   <div class="boop-right">
@@ -36,17 +34,17 @@
   </div>
 </header>
 
-<!-- ARAMA GİRİŞİ -->
+<!-- SEARCH -->
 <div id="searchContainer" class="search-container hidden">
   <input id="searchInput" type="text" placeholder="Search tokens..." />
 </div>
 
-<!-- START YOUR CULT BOX -->
+<!-- START YOUR CULT -->
 <div class="start-your-cult-box" onclick="toggleForm()">
   <span>Release The Chaos</span>
 </div>
 
-<!-- CHAOS ANİMASYONU -->
+<!-- CHAOS ANIMATION -->
 <section id="chaosAnimation" class="chaos-overlay hidden">
   <div class="chaos-content">
     <img src="images/solana.svg" alt="Solana" class="chaos-bounce" />
@@ -55,14 +53,15 @@
   </div>
 </section>
 
-<!-- HERO BAŞLIK -->
+<!-- HERO -->
 <main class="hero-section">
   <div class="hero-content">
     <h2 class="hero-title">Launch Your Meme Token</h2>
     <p class="hero-subtitle">Just pure meme magic.</p>
   </div>
 </main>
-<!-- FILTER BAR (Boop Style - Updated) -->
+
+<!-- FILTER BAR -->
 <section class="filter-bar">
   <button class="filter-btn active">Newly Launched</button>
   <button class="filter-btn">About to Graduate</button>
@@ -70,8 +69,7 @@
   <button class="filter-btn">Top Gainers</button>
   <button class="filter-btn">Oldest</button>
 </section>
-
-<!-- TOKEN FORMU -->
+<!-- TOKEN FORM -->
 <section id="tokenFormSection" class="form-wrapper hidden">
   <h3>Create Your Token</h3>
   <form id="tokenForm">
@@ -87,7 +85,7 @@
   <div id="formStatus" class="wallet-status"></div>
 </section>
 
-<!-- EN ÇOK FLOOPLANAN TOKENLAR -->
+<!-- TOP FLOOPED TOKENS -->
 <section id="topTokens">
   <h3>Top Flooped Tokens</h3>
   <ul id="topFloopList" class="token-list"></ul>
@@ -98,7 +96,7 @@
   <p>&copy; 2025 Floop.fun. All rights reserved.</p>
 </footer>
 
-<!-- ALT MENÜ -->
+<!-- BOTTOM NAV -->
 <nav class="bottom-nav">
   <a href="index.html" class="nav-link active">
     <img src="images/icons/cult.png" alt="cults" />
@@ -121,12 +119,12 @@
     <span>airdrop</span>
   </a>
 </nav>
-<!-- JS KÜTÜPHANELERİ -->
+<!-- JS LIBRARIES -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/spl-token@latest/lib/index.iife.min.js"></script>
 
-<!-- MULTI-WALLET POPUP (Boop-Style) -->
+<!-- WALLET MODAL -->
 <div id="walletModal" class="wallet-modal hidden">
   <div class="wallet-modal-content">
     <h3>Select a Wallet</h3>
@@ -145,7 +143,7 @@
     <button class="wallet-cancel" onclick="closeWalletModal()">Cancel</button>
   </div>
 </div>
-<!-- CSS — WALLET + CHAOS + FILTER STİLLERİ -->
+<!-- STYLE BLOCK -->
 <style>
   .wallet-modal {
     position: absolute;
@@ -157,19 +155,11 @@
     box-shadow: 0 0 20px #00ffee55;
     z-index: 1000;
   }
-
   .wallet-modal-content {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
   }
-
-  .wallet-modal-content h3 {
-    color: #00ffee;
-    margin-bottom: 10px;
-    font-size: 1rem;
-  }
-
   .wallet-option {
     display: flex;
     align-items: center;
@@ -184,16 +174,13 @@
     cursor: pointer;
     transition: background 0.2s ease;
   }
-
   .wallet-option:hover {
     background: #00ddcc;
   }
-
   .wallet-icon {
     width: 20px;
     height: 20px;
   }
-
   .wallet-cancel {
     background: none;
     color: #aaa;
@@ -213,17 +200,13 @@
     z-index: 999;
     animation: fadeIn 0.5s ease;
   }
-
   .chaos-content {
-    position: relative;
     text-align: center;
   }
-
   .chaos-bounce {
     width: 80px;
     animation: bounce 1s infinite alternate;
   }
-
   .chaos-fire {
     position: absolute;
     bottom: -20px;
@@ -231,77 +214,27 @@
     transform: translateX(-50%);
     width: 100px;
   }
-
   .chaos-mascot {
     width: 60px;
     margin-top: 10px;
   }
-
   @keyframes bounce {
     0% { transform: translateY(0); }
     100% { transform: translateY(-20px); }
   }
-
   @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
   }
-
-  #imagePreview {
-    width: 80px;
-    height: 80px;
-    object-fit: contain;
-    border: 1px solid #00ffee55;
-    margin: 10px auto;
-    display: none;
-  }
-
-  .hidden {
-    display: none !important;
-  }
-
-  /* FILTER BAR - BOOP STYLE */
-  .filter-bar {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    padding: 20px 10px;
-    background: #0a0a23;
-    flex-wrap: wrap;
-  }
-
-  .filter-btn {
-    background: #1e1e2f;
-    color: #00ffee;
-    padding: 8px 14px;
-    border-radius: 999px;
-    border: 1px solid #00ffee55;
-    font-size: 0.85rem;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-
-  .filter-btn:hover {
-    background: #00ffee33;
-  }
-
-  .filter-btn.active {
-    background: #00ffee;
-    color: #000;
-  }
 </style>
 <script>
-  // Cüzdan popup modalını aç
   function openWalletModal() {
     document.getElementById("walletModal").classList.remove("hidden");
   }
-
-  // Cüzdan popup modalını kapat
   function closeWalletModal() {
     document.getElementById("walletModal").classList.add("hidden");
   }
 
-  // PHANTOM bağlantısı (fix edilmiş)
   async function connectWithWallet(wallet) {
     closeWalletModal();
     const connectBtn = document.getElementById("connectWallet");
@@ -326,7 +259,6 @@
 
   document.getElementById("connectWallet").addEventListener("click", openWalletModal);
 
-  // KAOS + FORM GEÇİŞİ
   function toggleForm() {
     const chaos = document.getElementById("chaosAnimation");
     const form = document.getElementById("tokenFormSection");
@@ -343,7 +275,6 @@
     }
   }
 
-  // Görsel önizleme
   document.getElementById("tokenImage").addEventListener("input", function () {
     const preview = document.getElementById("imagePreview");
     const url = this.value.trim();
