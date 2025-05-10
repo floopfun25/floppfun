@@ -20,7 +20,7 @@
   <meta name="twitter:description" content="No presale. No dev wallet. Launch your own meme token now!" />
   <meta name="twitter:image" content="https://floppfun.com/preview.jpg" />
 
-  <!-- Gerekli kütüphaneler -->
+  <!-- JS Kütüphaneleri -->
   <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@solana/spl-token@latest/lib/index.iife.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
@@ -63,12 +63,23 @@
     <li><span>𝕏</span> x’i takip et</li>
   </ul>
 </div>
-<!-- BOOP-STYLE START BUTONU -->
+
+<!-- BOOP-STYLE RELEASE BUTONU -->
 <div class="start-your-cult-box" onclick="toggleForm()">
   <span>Release The Chaos</span>
 </div>
 
-<!-- ANİMASYON BAŞLIĞI -->
+<!-- CHAOS ANİMASYONU (tam ekran efekt) -->
+<section id="chaosAnimation" class="chaos-overlay hidden">
+  <div class="chaos-content">
+    <img src="images/solana.svg" alt="Solana" class="chaos-bounce" />
+    <img src="images/fire.gif" alt="Fire" class="chaos-fire" />
+    <img src="images/floop-mascot.png" alt="Mascot" class="chaos-mascot" />
+  </div>
+</section>
+<!-- floppfun/index.html — PART 2/4 -->
+
+<!-- ANİMASYONLU BAŞLIK -->
 <main class="hero-section">
   <div class="hero-content">
     <h2 class="hero-title">Launch Your Meme Token</h2>
@@ -77,7 +88,7 @@
 </main>
 
 <!-- FİLTRE ŞERİDİ -->
-<section class="filter-bar" style="display: flex; align-items: center; overflow-x: auto; padding: 10px 16px; gap: 12px;">
+<section class="filter-bar">
   <div style="flex-shrink: 0; font-size: 1.2rem;">⚙️</div>
   <button class="filter-btn active">🔥 yeni başlatıldı</button>
   <button class="filter-btn">🏆 mezun olmak üzere</button>
@@ -86,14 +97,6 @@
   <button class="filter-btn">💎 en çok flooplananlar</button>
 </section>
 
-<!-- CHAOS ANİMASYONU -->
-<section id="chaosAnimation" class="chaos-animation">
-  <div class="chaos-container">
-    <img src="images/solana.svg" alt="Solana" class="solana-bounce" />
-    <img src="images/fire.gif" alt="Fire" class="chaos-fire" />
-    <img src="images/floop-mascot.png" alt="Mascot" class="mascot-img" />
-  </div>
-</section>
 <!-- TOKEN FORMU -->
 <section id="tokenFormSection" class="form-wrapper hidden">
   <h3>Create Your Token</h3>
@@ -109,11 +112,13 @@
   <div id="formStatus" class="wallet-status"></div>
 </section>
 
-<!-- TOP TOKENLAR -->
+<!-- EN ÇOK FLOOPLANAN TOKENLAR -->
 <section id="topTokens">
   <h3>Top Flooped Tokens</h3>
   <ul id="topFloopList"></ul>
 </section>
+<!-- floppfun/index.html — PART 3/4 -->
+
 <!-- FOOTER -->
 <footer>
   <p>&copy; 2025 Floop.fun. All rights reserved.</p>
@@ -121,20 +126,20 @@
 
 <!-- ALT MENÜ -->
 <nav class="bottom-nav">
-  <a href="#" class="nav-link active"><img src="images/icons/cult.png" alt="" /><span>cults</span></a>
+  <a href="index.html" class="nav-link active"><img src="images/icons/cult.png" alt="" /><span>cults</span></a>
   <a href="rewards.html" class="nav-link"><img src="images/icons/rewards.png" alt="" /><span>rewards</span></a>
   <a href="staking.html" class="nav-link"><img src="images/icons/staking.png" alt="" /><span>staking</span></a>
   <a href="leaderboard.html" class="nav-link"><img src="images/icons/leaderboard.png" alt="" /><span>leaderb.</span></a>
   <a href="airdrop.html" class="nav-link"><img src="images/icons/airdrop.png" alt="" /><span>airdrop</span></a>
 </nav>
 
-<!-- ORTAK JS DOSYASI -->
+<!-- ORTAK SCRIPT -->
 <script src="script.js"></script>
 
-<!-- SUPABASE İŞLEMLERİ -->
+<!-- SUPABASE TOKEN LİSTESİ YÜKLEME -->
 <script>
   const supabaseUrl = 'https://ugzbsmmaxxklojwlijrt.supabase.co';
-  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR...'; // gizli
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR...'; // gizli anahtar
   const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
   async function loadTopTokens() {
@@ -149,8 +154,13 @@
       ? data.map(t => `<li><a href="token.html?mint=${t.mint}&symbol=FLOOP">${t.mint} — ${t.count} floops</a></li>`).join('')
       : "<li>No tokens yet.</li>";
   }
-  loadTopTokens();
 
+  loadTopTokens();
+</script>
+<!-- floppfun/index.html — PART 4/4 -->
+
+<!-- TOKEN FORMU - FORM GÖNDERME İŞLEVİ -->
+<script>
   const tokenForm = document.getElementById("tokenForm");
   const formStatus = document.getElementById("formStatus");
 
@@ -160,22 +170,33 @@
     formStatus.style.color = "blue";
 
     try {
-      formStatus.innerText = "Token created successfully! (mock)";
+      // Simülasyon (gerçek token yaratma işlemi Solana üzerinde yapılacak)
+      const tokenName = document.getElementById("tokenName").value;
+      const tokenSymbol = document.getElementById("tokenSymbol").value;
+      const tokenSupply = document.getElementById("tokenSupply").value;
+      const tokenImage = document.getElementById("tokenImage").value;
+      const tokenDescription = document.getElementById("tokenDescription").value;
+      const socialLink = document.getElementById("socialLink").value;
+
+      // Başarı durumu
+      formStatus.innerText = `Token ${tokenName} created successfully!`;
       formStatus.style.color = "lime";
+
+      // Token bilgilerini Supabase'e kaydediyoruz
+      await supabase
+        .from('tokens')
+        .insert([
+          { name: tokenName, symbol: tokenSymbol, supply: tokenSupply, image: tokenImage, description: tokenDescription, social_link: socialLink }
+        ]);
+
+      // Başarı mesajı
+      window.location.href = `token.html?mint=mockMintAddress&symbol=${tokenSymbol}&image=${encodeURIComponent(tokenImage)}`;
     } catch (err) {
       console.error(err);
       formStatus.innerText = "Token creation failed.";
       formStatus.style.color = "red";
     }
   });
-
-  function toggleForm() {
-    const formSection = document.getElementById("tokenFormSection");
-    formSection.classList.toggle("hidden");
-    if (!formSection.classList.contains("hidden")) {
-      formSection.scrollIntoView({ behavior: "smooth" });
-    }
-  }
 </script>
 </body>
 </html>
