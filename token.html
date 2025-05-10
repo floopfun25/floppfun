@@ -1,11 +1,10 @@
-<!-- floppfun/token.html — PART 1/3 (GÜNCELLENMİŞ) -->
+<!-- floppfun/token.html — PART 1/4 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <title>Your Token</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -16,7 +15,7 @@
   <button id="muteToggle" style="background:none; border:none; font-size: 1.2rem; color:#00ffee;">🔊</button>
 </div>
 
-<!-- BOOP-STYLE HEADER -->
+<!-- HEADER -->
 <header class="boop-header">
   <div class="boop-left">
     <img src="images/floop-mascot.png" alt="Floop" class="boop-logo" />
@@ -29,12 +28,6 @@
     <button class="icon-btn" id="menuBtn">☰</button>
   </div>
 </header>
-
-<!-- ARAMA GİRİŞİ -->
-<div id="searchContainer" style="display: none; padding: 20px; text-align: center;">
-  <input id="searchInput" type="text" placeholder="Search tokens..." 
-    style="padding: 12px 20px; width: 80%; max-width: 400px; border-radius: 999px; border: none; font-size: 1rem;" />
-</div>
 
 <!-- TOKEN BİLGİLERİ -->
 <div class="token-box">
@@ -207,5 +200,177 @@
     // Müziğe bağlayacak fonksiyon varsa buraya yazılır
   });
 </script>
+
+</body>
+</html>
+<!-- floppfun/token.html — PART 2/4 -->
+
+<!-- TOKEN BİLGİLERİ VE FLOOP İŞLEMİ -->
+<div class="token-box">
+  <h2>Token Created Successfully!</h2>
+  <p id="mintAddress"></p>
+  <p id="symbol"></p>
+  <img id="tokenImage" src="" alt="Token Image" style="display:none;" />
+  <div id="floopCount">Flooped: ...</div>
+  <button id="floopBtn">Floop This Token (0.01 SOL)</button>
+  <p id="floopResult"></p>
+  
+  <!-- PAYLAŞIM BUTONLARI -->
+  <div id="shareBox" style="margin-top: 30px;">
+    <p style="font-weight: bold;">Share your token:</p>
+    <button onclick="shareOnTwitter()" class="connect-btn" style="background:none; border:1px solid #00ffee; color:#00ffee;">Twitter</button>
+    <button onclick="shareOnTelegram()" class="connect-btn" style="background:none; border:1px solid #00ffee; color:#00ffee;">Telegram</button>
+    <button onclick="copyMint()" class="connect-btn" style="background:none; border:1px solid #00ffee; color:#00ffee;">Copy Mint</button>
+    <p id="copyResult" style="margin-top: 10px; font-size: 0.9rem;"></p>
+  </div>
+
+  <!-- JUPITER DEX FRAME -->
+  <div style="margin-top: 40px;">
+    <h3 style="color:#00ffee; margin-bottom: 10px;">Buy Your Token on Jupiter</h3>
+    <iframe id="dexFrame" style="width:100%; height:500px; border:none; border-radius:12px;"></iframe>
+  </div>
+</div>
+
+<!-- ALT MENÜ -->
+<nav class="bottom-nav">
+  <a href="index.html" class="nav-link"><img src="images/icons/cult.png" alt="" /><span>cults</span></a>
+  <a href="#" class="nav-link"><img src="images/icons/rewards.png" alt="" /><span>rewards</span></a>
+  <a href="#" class="nav-link"><img src="images/icons/staking.png" alt="" /><span>staking</span></a>
+  <a href="leaderboard.html" class="nav-link"><img src="images/icons/leaderboard.png" alt="" /><span>leaderb.</span></a>
+  <a href="#" class="nav-link active"><img src="images/icons/airdrop.png" alt="" /><span>airdrop</span></a>
+</nav>
+<!-- floppfun/token.html — PART 3/4 -->
+
+<script>
+  // Token Flooplama işlemi
+  const floopBtn = document.getElementById("floopBtn");
+  const floopResult = document.getElementById("floopResult");
+  const floopCountEl = document.getElementById("floopCount");
+
+  async function loadFloopCount() {
+    const { data } = await supabase
+      .from('floop_counts')
+      .select('count')
+      .eq('mint', mint)
+      .single();
+
+    floopCountEl.innerText = `Flooped: ${data?.count ?? 0}`;
+  }
+
+  loadFloopCount();
+
+  floopBtn.addEventListener("click", async () => {
+    if (!window.solana || !window.solana.isPhantom) {
+      alert("Please install Phantom Wallet.");
+      return;
+    }
+
+    try {
+      const connection = new solanaWeb3.Connection(
+        solanaWeb3.clusterApiUrl("mainnet-beta"),
+        "confirmed"
+      );
+      const response = await window.solana.connect();
+      const user = response.publicKey;
+
+      // Transfer işlemi: 0.01 SOL gönderimi
+      const transaction = new solanaWeb3.Transaction().add(
+        solanaWeb3.SystemProgram.transfer({
+          fromPubkey: user,
+          toPubkey: new solanaWeb3.PublicKey("BiDrwH1vdp8KtKMsmtKV2aSfwzjbrFe8KbxUGg1DKfi"),
+          lamports: solanaWeb3.LAMPORTS_PER_SOL * 0.01
+        })
+      );
+
+      transaction.feePayer = user;
+      transaction.recentBlockhash = (await connection.getRecentBlockhash()).blockhash;
+
+      // İşlemi imzala ve gönder
+      const signed = await window.solana.signTransaction(transaction);
+      const signature = await connection.sendRawTransaction(signed.serialize());
+      await connection.confirmTransaction(signature);
+
+      // Başarılı işlem sonucu
+      floopResult.innerText = "Thanks! Token successfully Flooped.";
+      floopResult.style.color = "lime";
+
+      // Supabase'e floop sayısını güncelle
+      const { data } = await supabase
+        .from('floop_counts')
+        .select('count')
+        .eq('mint', mint)
+        .single();
+
+      if (data) {
+        await supabase.from('floop_counts')
+          .update({ count: data.count + 1 })
+          .eq('mint', mint);
+      } else {
+        await supabase.from('floop_counts')
+          .insert({ mint: mint, count: 1 });
+      }
+
+      loadFloopCount();
+    } catch (err) {
+      console.error(err);
+      floopResult.innerText = "Transaction failed or cancelled.";
+      floopResult.style.color = "red";
+    }
+  });
+</script>
+<!-- floppfun/token.html — PART 4/4 -->
+
+<script>
+  // Twitter paylaşım butonu
+  function shareOnTwitter() {
+    const pageUrl = window.location.href;
+    const text = `Check out my meme token ${symbol} on Solana!`;
+    const tweet = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(pageUrl)}`;
+    window.open(tweet, '_blank');
+  }
+
+  // Telegram paylaşım butonu
+  function shareOnTelegram() {
+    const pageUrl = window.location.href;
+    const msg = `Check out my meme token ${symbol} on Solana: ${pageUrl}`;
+    const tg = `https://t.me/share/url?url=${encodeURIComponent(pageUrl)}&text=${encodeURIComponent(msg)}`;
+    window.open(tg, '_blank');
+  }
+
+  // Mint adresini kopyalama
+  function copyMint() {
+    navigator.clipboard.writeText(mint).then(() => {
+      document.getElementById("copyResult").innerText = "Mint address copied!";
+      setTimeout(() => {
+        document.getElementById("copyResult").innerText = "";
+      }, 2000);
+    });
+  }
+
+  // Arama alanı toggle
+  const searchBtn = document.getElementById("searchBtn");
+  const searchContainer = document.getElementById("searchContainer");
+  const searchInput = document.getElementById("searchInput");
+
+  searchBtn?.addEventListener("click", () => {
+    if (searchContainer.style.display === "none") {
+      searchContainer.style.display = "block";
+      searchInput.focus();
+    } else {
+      searchContainer.style.display = "none";
+    }
+  });
+
+  // Ses kontrol butonu
+  const muteToggle = document.getElementById("muteToggle");
+  let isMuted = false;
+
+  muteToggle?.addEventListener("click", () => {
+    isMuted = !isMuted;
+    muteToggle.innerText = isMuted ? "🔇" : "🔊";
+    // Müziğe bağlayacak fonksiyon varsa buraya yazılır
+  });
+</script>
+
 </body>
 </html>
