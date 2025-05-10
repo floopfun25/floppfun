@@ -8,78 +8,94 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>Top Flooped Tokens</h1>
-  <div id="leaderboard"></div>
+  <h1 style="font-size: 2rem; color: #00ffee; margin: 40px 0 20px;">Top Flooped Tokens</h1>
+  <div id="leaderboard" style="max-width: 800px; margin: auto;"></div>
 
   <!-- ALT SABİT MENÜ -->
-  <nav style="position: fixed; bottom: 0; left: 0; right: 0; background: #0a0a23; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid rgba(255,255,255,0.1); z-index: 999;">
-    <div style="text-align:center; color:#fff; font-size:0.9rem;">
-      <div>🏠</div>
-      <div>cults</div>
-    </div>
-    <div style="text-align:center; color:#fff; font-size:0.9rem;">
-      <div>🎁</div>
-      <div>rewards</div>
-    </div>
-    <div style="text-align:center; color:#fff; font-size:0.9rem;">
-      <div>📈</div>
-      <div>staking</div>
-    </div>
-    <div style="text-align:center; color:#fff; font-size:0.9rem;">
-      <div>⭐</div>
-      <div>leaderb.</div>
-    </div>
-    <div style="text-align:center; color:#fff; font-size:0.9rem;">
-      <div>🎯</div>
-      <div>airdrop</div>
-    </div>
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-link"><img src="images/icons/cult.png" alt="" /><span>cults</span></a>
+    <a href="#" class="nav-link"><img src="images/icons/rewards.png" alt="" /><span>rewards</span></a>
+    <a href="#" class="nav-link"><img src="images/icons/staking.png" alt="" /><span>staking</span></a>
+    <a href="leaderboard.html" class="nav-link active"><img src="images/icons/leaderboard.png" alt="" /><span>leaderb.</span></a>
+    <a href="#" class="nav-link"><img src="images/icons/airdrop.png" alt="" /><span>airdrop</span></a>
   </nav>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script>
+  const supabaseUrl = 'https://ugzbsmmaxxklojwlijrt.supabase.co';
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR...'; // kısaltıldı
+  const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <script>
-    const supabaseUrl = 'https://ugzbsmmaxxklojwlijrt.supabase.co';
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'; // kısaltıldı
-    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+  async function loadLeaderboard() {
+    const { data, error } = await supabase
+      .from('floop_counts')
+      .select('*')
+      .order('count', { ascending: false });
 
-    async function loadLeaderboard() {
-      const { data, error } = await supabase
-        .from('floop_counts')
-        .select('*')
-        .order('count', { ascending: false });
+    const container = document.getElementById("leaderboard");
 
-      const container = document.getElementById("leaderboard");
-
-      if (error || !data || data.length === 0) {
-        container.innerHTML = '<p style="color:red;">No data available or failed to load.</p>';
-        return;
-      }
-
-      data.forEach((row, index) => {
-        const image = row.image_url || "https://floppfun.com/default.png";
-        const username = row.username || "@anon";
-        const avatar = row.avatar || "https://floppfun.com/avatar.png";
-        const percent = (row.count * 10).toFixed(1);
-
-        const card = document.createElement("div");
-        card.className = "token-card";
-        card.innerHTML = `
-          <div class="badge">%${percent}</div>
-          <div class="token-info">
-            <h2>${row.symbol || "Unnamed"}</h2>
-            <p>${row.description || "No description"}</p>
-            <p>Flooped: ${row.count}</p>
-            <div class="token-user">
-              <img src="${avatar}" alt="user" />
-              <span>${username}</span>
-            </div>
-          </div>
-          <img class="token-image" src="${image}" alt="token" />
-        `;
-        container.appendChild(card);
-      });
+    if (error || !data || data.length === 0) {
+      container.innerHTML = '<p style="color:red;">No data available or failed to load.</p>';
+      return;
     }
 
-    loadLeaderboard();
-  </script>
+    data.forEach((row, index) => {
+      const image = row.image_url || "https://floppfun.com/default.png";
+      const username = row.username || "@anon";
+      const avatar = row.avatar || "https://floppfun.com/avatar.png";
+      const percent = (row.count * 10).toFixed(1);
+
+      const card = document.createElement("div");
+      card.className = "token-card";
+      card.style = `
+        background: rgba(255,255,255,0.04);
+        border-radius: 16px;
+        padding: 20px;
+        margin: 20px auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.05);
+        position: relative;
+      `;
+
+      card.innerHTML = `
+        <div class="badge" style="
+          position:absolute;
+          left:-12px;
+          top:-12px;
+          background:#00ffee;
+          color:#000;
+          font-weight:bold;
+          padding:6px 12px;
+          border-radius:8px;
+          font-size:0.9rem;
+        ">%${percent}</div>
+
+        <div class="token-info" style="flex:1; text-align:left;">
+          <h2 style="font-size:1.4rem; margin-bottom:5px; color:#00ffee;">${row.symbol || "Unnamed"}</h2>
+          <p style="font-size:0.95rem; color:#ccc;">${row.description || "No description"}</p>
+          <p style="font-size:0.9rem; color:#aaa;">Flooped: ${row.count}</p>
+          <div style="display:flex; align-items:center; margin-top:10px;">
+            <img src="${avatar}" alt="user" style="width:28px; height:28px; border-radius:50%; margin-right:8px;" />
+            <span style="font-size:0.9rem;">${username}</span>
+          </div>
+        </div>
+
+        <img src="${image}" alt="token" style="
+          width: 80px;
+          height: 80px;
+          border-radius: 12px;
+          background: #222;
+          object-fit: cover;
+          border: 2px solid #00ffee;
+        " />
+      `;
+
+      container.appendChild(card);
+    });
+  }
+
+  loadLeaderboard();
+</script>
 </body>
 </html>
