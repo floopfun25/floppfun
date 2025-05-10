@@ -8,21 +8,36 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1 style="font-size: 2rem; color: #00ffee; margin: 40px 0 20px;">Top Flooped Tokens</h1>
-  <div id="leaderboard" style="max-width: 800px; margin: auto;"></div>
 
-  <!-- ALT SABİT MENÜ -->
-  <nav class="bottom-nav">
-    <a href="index.html" class="nav-link"><img src="images/icons/cult.png" alt="" /><span>cults</span></a>
-    <a href="#" class="nav-link"><img src="images/icons/rewards.png" alt="" /><span>rewards</span></a>
-    <a href="#" class="nav-link"><img src="images/icons/staking.png" alt="" /><span>staking</span></a>
-    <a href="leaderboard.html" class="nav-link active"><img src="images/icons/leaderboard.png" alt="" /><span>leaderb.</span></a>
-    <a href="#" class="nav-link"><img src="images/icons/airdrop.png" alt="" /><span>airdrop</span></a>
-  </nav>
+<!-- BOOP-STYLE ÜST HEADER -->
+<header class="boop-header">
+  <div class="boop-left">
+    <img src="images/floop-mascot.png" alt="Floop" class="boop-logo" />
+  </div>
+  <div class="boop-center">
+    <button id="connectWallet" class="connect-btn">connect</button>
+    <button class="icon-btn" id="searchBtn">🔍</button>
+  </div>
+  <div class="boop-right">
+    <button class="icon-btn" id="menuBtn">☰</button>
+  </div>
+</header>
+
+<h1 style="font-size: 2rem; color: #00ffee; margin: 40px 0 20px;">Top Flooped Tokens</h1>
+<div id="leaderboard" style="max-width: 800px; margin: auto;"></div>
+<!-- ALT SABİT MENÜ -->
+<nav class="bottom-nav">
+  <a href="index.html" class="nav-link"><img src="images/icons/cult.png" alt="" /><span>cults</span></a>
+  <a href="#" class="nav-link"><img src="images/icons/rewards.png" alt="" /><span>rewards</span></a>
+  <a href="#" class="nav-link"><img src="images/icons/staking.png" alt="" /><span>staking</span></a>
+  <a href="leaderboard.html" class="nav-link active"><img src="images/icons/leaderboard.png" alt="" /><span>leaderb.</span></a>
+  <a href="#" class="nav-link"><img src="images/icons/airdrop.png" alt="" /><span>airdrop</span></a>
+</nav>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script>
   const supabaseUrl = 'https://ugzbsmmaxxklojwlijrt.supabase.co';
-  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR...'; // kısaltıldı
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR...'; // gizli
   const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
   async function loadLeaderboard() {
@@ -96,6 +111,20 @@
   }
 
   loadLeaderboard();
+
+  // Wallet connect (opsiyonel): boop-header'daki connect butonu
+  document.getElementById("connectWallet").addEventListener("click", async () => {
+    if (window.solana && window.solana.isPhantom) {
+      try {
+        const response = await window.solana.connect();
+        document.getElementById("connectWallet").innerText = "Connected";
+      } catch (err) {
+        alert("Connection cancelled.");
+      }
+    } else {
+      alert("Please install Phantom wallet.");
+    }
+  });
 </script>
 </body>
 </html>
