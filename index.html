@@ -1,4 +1,4 @@
-<!-- floppfun/index.html - PART 1/3 -->
+<!-- floppfun/index.html — PART 1/4 (GÜNCELLENMİŞ) -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,6 +27,12 @@
 </head>
 <body>
 
+<!-- ÜST MASKOT + SES -->
+<div style="position: absolute; top: 12px; left: 12px; display: flex; align-items: center; gap: 10px; z-index: 9999;">
+  <img src="images/floop-mascot.png" alt="Mascot" style="width: 34px; height: 34px;" />
+  <button id="muteToggle" style="background:none; border:none; font-size: 1.2rem; color:#00ffee;">🔊</button>
+</div>
+
 <!-- BOOP FUN TARZI HEADER -->
 <header class="boop-header">
   <div class="boop-left">
@@ -41,53 +47,45 @@
   </div>
 </header>
 
-<!-- BOOP-STYLE START BUTONU -->
-<div class="start-your-cult-box" onclick="toggleForm()">
-  <span>START YOUR CULT</span>
+<!-- ARAMA GİRİŞİ -->
+<div id="searchContainer" style="display: none; padding: 20px; text-align: center;">
+  <input id="searchInput" type="text" placeholder="Search tokens..." 
+    style="padding: 12px 20px; width: 80%; max-width: 400px; border-radius: 999px; border: none; font-size: 1rem;" />
 </div>
-
-<!-- SENİN GÖNDERDİĞİN KODUN GÖVDESİ BURADAN DEVAM EDİYOR... -->
-<!-- HEADER -->
-<header class="main-header">
-  <div class="nav-left">
-    <img src="images/floop-mascot.png" class="logo-icon" alt="Floop" />
-    <h1 class="logo-text">Floop.fun</h1>
-  </div>
-  <div class="nav-right">
-    <button id="connectWallet" class="connect-btn">bağlamak</button>
-    <button class="icon-btn" id="searchBtn">🔍</button>
-    <button class="icon-btn" id="menuBtn">☰</button>
-  </div>
-</header>
 
 <!-- MOBİL MENÜ -->
 <div class="mobile-menu" id="mobileMenu">
   <ul>
-    <li><span>✨</span> bir tarikat başlatın (ücretsiz!)</li>
+    <li><span>✨</span> Start a Chaos!</li>
     <li><span>📄</span> Uwu bu ne</li>
-    <li><span>🔍</span> Solscan'da BOOP</li>
+    <li><span>🔎</span> Solscan’da BOOP</li>
     <li><span>✈️</span> telegrama katıl</li>
-    <li><span>𝕏</span> x'i takip et</li>
+    <li><span>𝕏</span> x’i takip et</li>
   </ul>
 </div>
+
+<!-- BOOP-STYLE START BUTONU -->
+<div class="start-your-cult-box" onclick="toggleForm()">
+  <span>Release The Chaos</span>
+</div>
+
 <!-- ANİMASYON BAŞLIĞI -->
 <main class="hero-section">
   <div class="hero-content">
     <h2 class="hero-title">Launch Your Meme Token</h2>
     <p class="hero-subtitle">Just pure meme magic.</p>
-    <button id="launchBtn" class="launch-btn">Release The Chaos</button>
   </div>
 </main>
 
-<!-- FİLTRE ŞERİDİ -->
-<section class="filter-bar">
-  <button class="filter-btn active">Yeni Başlatıldı</button>
-  <button class="filter-btn">Mezun Olmak Üzere</button>
-  <button class="filter-btn">En Yüksek MCAP</button>
-  <button class="filter-btn">Hacme Göre</button>
-  <button class="filter-btn">En Çok Flooplananlar</button>
+<!-- FİLTRE ŞERİDİ (YATAY + AYAR SİMGESİ) -->
+<section class="filter-bar" style="display: flex; align-items: center; overflow-x: auto; padding: 10px 16px; gap: 12px;">
+  <div style="flex-shrink: 0; font-size: 1.2rem;">⚙️</div>
+  <button class="filter-btn active">🔥 yeni başlatıldı</button>
+  <button class="filter-btn">🏆 mezun olmak üzere</button>
+  <button class="filter-btn">💰 en yüksek MCAP</button>
+  <button class="filter-btn">📊 hacme göre</button>
+  <button class="filter-btn">💎 en çok flooplananlar</button>
 </section>
-
 <!-- CHAOS ANİMASYONU -->
 <section id="chaosAnimation" class="chaos-animation">
   <div class="chaos-container">
@@ -147,7 +145,15 @@
     mobileMenu.style.display = menuOpen ? "block" : "none";
   });
 
-  // Animasyon Sonrası Form Gösterimi
+  // START YOUR CULT kutusu tıklanınca formu aç
+  function toggleForm() {
+    formSection.classList.toggle("hidden");
+    if (!formSection.classList.contains("hidden")) {
+      formSection.scrollIntoView({ behavior: "smooth" });
+    }
+  }
+
+  // CHAOS animasyon butonu (eğer kullanılacaksa)
   launchBtn?.addEventListener("click", () => {
     chaos.style.display = "flex";
     formSection.classList.add("hidden");
@@ -157,14 +163,6 @@
       formSection.scrollIntoView({ behavior: "smooth" });
     }, 3000);
   });
-
-  // Alternatif olarak üstteki "START YOUR CULT" butonu için
-  function toggleForm() {
-    formSection.classList.toggle("hidden");
-    if (!formSection.classList.contains("hidden")) {
-      formSection.scrollIntoView({ behavior: "smooth" });
-    }
-  }
 
   // Phantom Wallet bağlantısı
   async function connectWallet() {
@@ -206,7 +204,6 @@
       : "<li>No tokens yet.</li>";
   }
   loadTopTokens();
-
   // Token oluşturma formu (mock)
   const tokenForm = document.getElementById("tokenForm");
   const formStatus = document.getElementById("formStatus");
@@ -224,6 +221,40 @@
       formStatus.innerText = "Token creation failed.";
       formStatus.style.color = "red";
     }
+  });
+
+  // Arama alanı göster/gizle
+  const searchBtn = document.getElementById("searchBtn");
+  const searchContainer = document.getElementById("searchContainer");
+  const searchInput = document.getElementById("searchInput");
+
+  searchBtn?.addEventListener("click", () => {
+    if (searchContainer.style.display === "none") {
+      searchContainer.style.display = "block";
+      searchInput.focus();
+    } else {
+      searchContainer.style.display = "none";
+    }
+  });
+
+  // Enter ile arama yapılınca demo alert
+  searchInput?.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+      const query = searchInput.value.trim();
+      if (query) {
+        alert(`Searching for "${query}"... (demo)`);
+      }
+    }
+  });
+
+  // Ses butonu toggle
+  const muteToggle = document.getElementById("muteToggle");
+  let isMuted = false;
+
+  muteToggle?.addEventListener("click", () => {
+    isMuted = !isMuted;
+    muteToggle.innerText = isMuted ? "🔇" : "🔊";
+    // Buraya müzik kontrolü eklersen senkronize edebilirsin
   });
 </script>
 </body>
