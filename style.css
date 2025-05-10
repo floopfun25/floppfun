@@ -127,6 +127,37 @@ img {
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* === BOOP-style HEADER (ekleme) === */
+.boop-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background: rgba(255,255,255,0.03);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  backdrop-filter: blur(6px);
+  position: sticky;
+  top: 0;
+  z-index: 1001;
+}
+.boop-left .boop-logo {
+  width: 36px;
+  height: 36px;
+}
+.boop-center {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.boop-right .icon-btn,
+.boop-center .icon-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.3rem;
+  color: #fff;
+  cursor: pointer;
+}
 /* === style.css — PART 3/4 — HERO, FİLTRE, ANİMASYON, FORM === */
 
 .hero-section {
@@ -227,6 +258,24 @@ img {
 @keyframes bounce {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-20px); }
+}
+
+/* START YOUR CULT KUTUSU */
+.start-your-cult-box {
+  margin: 40px auto 20px;
+  background: linear-gradient(135deg, #00ffee, #ff5cb3);
+  color: #000;
+  font-weight: bold;
+  font-size: 1rem;
+  padding: 16px 36px;
+  border-radius: 999px;
+  width: fit-content;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(0,255,255,0.15);
+  transition: transform 0.3s ease;
+}
+.start-your-cult-box:hover {
+  transform: scale(1.05);
 }
 
 /* Token Form */
@@ -420,5 +469,9 @@ footer {
   .mascot-img {
     width: 100px;
     height: 100px;
+  }
+  .start-your-cult-box {
+    font-size: 0.9rem;
+    padding: 12px 24px;
   }
 }
