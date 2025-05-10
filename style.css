@@ -1,4 +1,4 @@
-/* === style.css — PART 1/2 === */
+8/* === style.css — PART 1/2 === */
 
 /* Genel reset */
 * {
@@ -246,6 +246,128 @@ img {
 .bottom-nav a.active {
   color: #00ffee;
 }
+.bottom-nav img {
+  width: 22px;
+  margin-bottom: 3px;
+}
+/* === Genel Düzenlemeler === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #121212; /* Koyu arka plan */
+  color: #fff;
+  text-align: center;
+  line-height: 1.6;
+  padding-bottom: 90px;
+}
+
+/* Bağlantı, Arama, ve Hamburger Menüsü */
+.boop-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background: rgba(255,255,255,0.03);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  backdrop-filter: blur(6px);
+  position: sticky;
+  top: 0;
+  z-index: 1001;
+}
+
+/* Maskot ve İkonlar */
+.boop-left .boop-logo {
+  width: 36px;
+  height: 36px;
+}
+
+.boop-center, .boop-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.icon-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.4rem;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Start Your Cult Butonu */
+.start-your-cult-box {
+  background: linear-gradient(135deg, #00ffee, #ff5cb3);
+  padding: 16px 36px;
+  border-radius: 999px;
+  color: #000;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 40px;
+}
+
+/* Arka Plan Renk Düzenlemesi */
+.token-box {
+  background: rgba(255, 255, 255, 0.1);  /* Koyu gri arka plan */
+  padding: 20px;
+  border-radius: 15px;
+  margin: 20px auto;
+  max-width: 600px;
+  color: #fff;
+}
+
+/* Token Formu */
+#tokenForm input, #tokenForm textarea {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  background: #333; /* Koyu arka plan */
+  color: #fff;
+  border: 1px solid #444;
+}
+
+#tokenForm button {
+  background-color: #00ffee;
+  color: #000;
+  font-weight: bold;
+  padding: 14px 28px;
+  border-radius: 999px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+/* Alt Menü */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #080820;
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 0;
+  z-index: 999;
+}
+
+.bottom-nav a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.7rem;
+  color: #aaa;
+  text-decoration: none;
+}
+
+.bottom-nav a.active {
+  color: #00ffee;
+}
+
 .bottom-nav img {
   width: 22px;
   margin-bottom: 3px;
