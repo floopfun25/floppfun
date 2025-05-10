@@ -1,35 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Your Token</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
 <body>
-  <div class="token-box">
-    <h2>Token Created Successfully!</h2>
-    <p id="mintAddress"></p>
-    <p id="symbol"></p>
-    <img id="tokenImage" src="" alt="Token Image" style="display:none;" />
-    <div id="floopCount">Flooped: ...</div>
-    <button id="floopBtn">Floop This Token (0.01 SOL)</button>
-    <p id="floopResult"></p>
 
-    <div id="shareBox" style="margin-top: 30px;">
-      <p style="font-weight: bold;">Share your token:</p>
-      <button onclick="shareOnTwitter()" class="connect-btn" style="background:none; border:1px solid #00ffee; color:#00ffee;">Twitter</button>
-      <button onclick="shareOnTelegram()" class="connect-btn" style="background:none; border:1px solid #00ffee; color:#00ffee;">Telegram</button>
-      <button onclick="copyMint()" class="connect-btn" style="background:none; border:1px solid #00ffee; color:#00ffee;">Copy Mint</button>
-      <p id="copyResult" style="margin-top: 10px; font-size: 0.9rem;"></p>
-    </div>
+<!-- BOOP-STYLE ÜST HEADER -->
+<header class="boop-header">
+  <div class="boop-left">
+    <img src="images/floop-mascot.png" alt="Floop" class="boop-logo" />
+  </div>
+  <div class="boop-center">
+    <button id="connectWallet" class="connect-btn">connect</button>
+    <button class="icon-btn" id="searchBtn">🔍</button>
+  </div>
+  <div class="boop-right">
+    <button class="icon-btn" id="menuBtn">☰</button>
+  </div>
+</header>
 
-    <div style="margin-top: 40px;">
-      <h3 style="color:#00ffee; margin-bottom: 10px;">Buy Your Token on Jupiter</h3>
-      <iframe id="dexFrame" style="width:100%; height:500px; border:none; border-radius:12px;"></iframe>
-    </div>
+<!-- TOKEN BİLGİLERİ -->
+<div class="token-box">
+  <h2>Token Created Successfully!</h2>
+  <p id="mintAddress"></p>
+  <p id="symbol"></p>
+  <img id="tokenImage" src="" alt="Token Image" style="display:none;" />
+  <div id="floopCount">Flooped: ...</div>
+  <button id="floopBtn">Floop This Token (0.01 SOL)</button>
+  <p id="floopResult"></p>
+  <div id="shareBox" style="margin-top: 30px;">
+    <p style="font-weight: bold;">Share your token:</p>
+    <button onclick="shareOnTwitter()" class="connect-btn" style="background:none; border:1px solid #00ffee; color:#00ffee;">Twitter</button>
+    <button onclick="shareOnTelegram()" class="connect-btn" style="background:none; border:1px solid #00ffee; color:#00ffee;">Telegram</button>
+    <button onclick="copyMint()" class="connect-btn" style="background:none; border:1px solid #00ffee; color:#00ffee;">Copy Mint</button>
+    <p id="copyResult" style="margin-top: 10px; font-size: 0.9rem;"></p>
   </div>
 
-  <!-- ALT MENÜ -->
-  <nav class="bottom-nav">
-    <a href="index.html" class="nav-link"><img src="images/icons/cult.png" alt="" /><span>cults</span></a>
-    <a href="#" class="nav-link"><img src="images/icons/rewards.png" alt="" /><span>rewards</span></a>
-    <a href="#" class="nav-link"><img src="images/icons/staking.png" alt="" /><span>staking</span></a>
-    <a href="leaderboard.html" class="nav-link"><img src="images/icons/leaderboard.png" alt="" /><span>leaderb.</span></a>
-    <a href="#" class="nav-link active"><img src="images/icons/airdrop.png" alt="" /><span>airdrop</span></a>
-  </nav>
+  <div style="margin-top: 40px;">
+    <h3 style="color:#00ffee; margin-bottom: 10px;">Buy Your Token on Jupiter</h3>
+    <iframe id="dexFrame" style="width:100%; height:500px; border:none; border-radius:12px;"></iframe>
+  </div>
+</div>
+
+<!-- ALT MENÜ -->
+<nav class="bottom-nav">
+  <a href="index.html" class="nav-link"><img src="images/icons/cult.png" alt="" /><span>cults</span></a>
+  <a href="#" class="nav-link"><img src="images/icons/rewards.png" alt="" /><span>rewards</span></a>
+  <a href="#" class="nav-link"><img src="images/icons/staking.png" alt="" /><span>staking</span></a>
+  <a href="leaderboard.html" class="nav-link"><img src="images/icons/leaderboard.png" alt="" /><span>leaderb.</span></a>
+  <a href="#" class="nav-link active"><img src="images/icons/airdrop.png" alt="" /><span>airdrop</span></a>
+</nav>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script>
   const url = new URLSearchParams(window.location.search);
   const mint = url.get('mint');
@@ -48,7 +73,7 @@
   document.getElementById("dexFrame").src = `https://jup.ag/swap/SOL-${mint}`;
 
   const supabaseUrl = 'https://ugzbsmmaxxklojwlijrt.supabase.co';
-  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR...'; // gizlendi
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR...'; // gizli
   const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
   const floopBtn = document.getElementById("floopBtn");
@@ -144,6 +169,20 @@
       }, 2000);
     });
   }
+
+  // Wallet connect için event ekle (boop-header'daki buton)
+  document.getElementById("connectWallet").addEventListener("click", async () => {
+    if (window.solana && window.solana.isPhantom) {
+      try {
+        const response = await window.solana.connect();
+        document.getElementById("connectWallet").innerText = "Connected";
+      } catch (err) {
+        alert("Connection cancelled.");
+      }
+    } else {
+      alert("Please install Phantom wallet.");
+    }
+  });
 </script>
 </body>
 </html>
