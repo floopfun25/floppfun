@@ -1,177 +1,31 @@
+<!-- floppfun/index.html - PART 1/4 - HEAD BAŞLANGICI -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Your Token</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <title>Floop.fun - Meme Token Creator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="icon" href="https://floppfun.com/favicon.ico" type="image/x-icon" />
+
+  <!-- SEO -->
+  <meta name="description" content="Create and launch meme tokens instantly on Solana. No presale. No dev wallet." />
+  <meta property="og:title" content="Floop.fun - Launch Your Meme Token on Solana" />
+  <meta property="og:description" content="No presale. No dev wallet. Just pure meme magic." />
+  <meta property="og:url" content="https://floppfun.com/" />
+  <meta property="og:image" content="https://floppfun.com/preview.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Floop.fun - Meme Token Creator on Solana" />
+  <meta name="twitter:description" content="No presale. No dev wallet. Launch your own meme token now!" />
+  <meta name="twitter:image" content="https://floppfun.com/preview.jpg" />
+
+  <!-- Gerekli kütüphaneler -->
+  <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@solana/spl-token@latest/lib/index.iife.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 </head>
 <body>
-  <div class="token-box">
-    <h2>Token Created Successfully!</h2>
-    <p id="mintAddress"></p>
-    <p id="symbol"></p>
-    <img id="tokenImage" src="" alt="Token Image" style="display:none;" />
-    <div id="floopCount">Flooped: ...</div>
-    <button id="floopBtn">Floop This Token (0.01 SOL)</button>
-    <p id="floopResult"></p>
-
-    <div id="shareBox" style="margin-top: 30px;">
-      <p style="font-weight: bold;">Share your token:</p>
-      <button onclick="shareOnTwitter()" class="connect-btn" style="background:none; border:1px solid #00ffee; color:#00ffee;">Twitter</button>
-      <button onclick="shareOnTelegram()" class="connect-btn" style="background:none; border:1px solid #00ffee; color:#00ffee;">Telegram</button>
-      <button onclick="copyMint()" class="connect-btn" style="background:none; border:1px solid #00ffee; color:#00ffee;">Copy Mint</button>
-      <p id="copyResult" style="margin-top: 10px; font-size: 0.9rem;"></p>
-    </div>
-
-    <div style="margin-top: 40px;">
-      <h3 style="color:#00ffee; margin-bottom: 10px;">Buy Your Token on Jupiter</h3>
-      <iframe id="dexFrame" style="width:100%; height:500px; border:none; border-radius:12px;"></iframe>
-    </div>
-  </div>
-
-  <!-- ALT SABİT MENÜ -->
-  <nav style="position: fixed; bottom: 0; left: 0; right: 0; background: #0a0a23; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid rgba(255,255,255,0.1); z-index: 999;">
-    <div style="text-align:center; color:#fff; font-size:0.9rem;">
-      <div>🏠</div>
-      <div>cults</div>
-    </div>
-    <div style="text-align:center; color:#fff; font-size:0.9rem;">
-      <div>🎁</div>
-      <div>rewards</div>
-    </div>
-    <div style="text-align:center; color:#fff; font-size:0.9rem;">
-      <div>📈</div>
-      <div>staking</div>
-    </div>
-    <div style="text-align:center; color:#fff; font-size:0.9rem;">
-      <div>⭐</div>
-      <div>leaderb.</div>
-    </div>
-    <div style="text-align:center; color:#fff; font-size:0.9rem;">
-      <div>🎯</div>
-      <div>airdrop</div>
-    </div>
-  </nav>
-
-  <script>
-    const url = new URLSearchParams(window.location.search);
-    const mint = url.get('mint');
-    const symbol = url.get('symbol');
-    const image = url.get('image');
-
-    document.getElementById("mintAddress").innerText = "Mint: " + mint;
-    document.getElementById("symbol").innerText = "Symbol: " + symbol;
-
-    if (image) {
-      const img = document.getElementById("tokenImage");
-      img.src = decodeURIComponent(image);
-      img.style.display = "block";
-    }
-
-    document.getElementById("dexFrame").src = `https://jup.ag/swap/SOL-${mint}`;
-
-    const supabaseUrl = 'https://ugzbsmmaxxklojwlijrt.supabase.co';
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...';
-    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
-
-    const floopBtn = document.getElementById("floopBtn");
-    const floopResult = document.getElementById("floopResult");
-    const floopCountEl = document.getElementById("floopCount");
-
-    async function loadFloopCount() {
-      const { data } = await supabase
-        .from('floop_counts')
-        .select('count')
-        .eq('mint', mint)
-        .single();
-
-      floopCountEl.innerText = `Flooped: ${data?.count ?? 0}`;
-    }
-
-    loadFloopCount();
-
-    floopBtn.addEventListener("click", async () => {
-      if (!window.solana || !window.solana.isPhantom) {
-        alert("Please install Phantom Wallet.");
-        return;
-      }
-
-      try {
-        const connection = new solanaWeb3.Connection(
-          solanaWeb3.clusterApiUrl("mainnet-beta"),
-          "confirmed"
-        );
-        const response = await window.solana.connect();
-        const user = response.publicKey;
-
-        const transaction = new solanaWeb3.Transaction().add(
-          solanaWeb3.SystemProgram.transfer({
-            fromPubkey: user,
-            toPubkey: new solanaWeb3.PublicKey("BiDrwH1vdp8KtKMsmtKV2aSfwzjbrFe8KbxUGg1DKfi"),
-            lamports: solanaWeb3.LAMPORTS_PER_SOL * 0.01
-          })
-        );
-
-        transaction.feePayer = user;
-        transaction.recentBlockhash = (await connection.getRecentBlockhash()).blockhash;
-
-        const signed = await window.solana.signTransaction(transaction);
-        const signature = await connection.sendRawTransaction(signed.serialize());
-        await connection.confirmTransaction(signature);
-
-        floopResult.innerText = "Thanks! Token successfully Flooped.";
-        floopResult.style.color = "lime";
-
-        const { data } = await supabase
-          .from('floop_counts')
-          .select('count')
-          .eq('mint', mint)
-          .single();
-
-        if (data) {
-          await supabase.from('floop_counts')
-            .update({ count: data.count + 1 })
-            .eq('mint', mint);
-        } else {
-          await supabase.from('floop_counts')
-            .insert({ mint: mint, count: 1 });
-        }
-
-        loadFloopCount();
-      } catch (err) {
-        console.error(err);
-        floopResult.innerText = "Transaction failed or cancelled.";
-        floopResult.style.color = "red";
-      }
-    });
-
-    function shareOnTwitter() {
-      const pageUrl = window.location.href;
-      const text = `Check out my meme token ${symbol} on Solana!`;
-      const tweet = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(pageUrl)}`;
-      window.open(tweet, '_blank');
-    }
-
-    function shareOnTelegram() {
-      const pageUrl = window.location.href;
-      const msg = `Check out my meme token ${symbol} on Solana: ${pageUrl}`;
-      const tg = `https://t.me/share/url?url=${encodeURIComponent(pageUrl)}&text=${encodeURIComponent(msg)}`;
-      window.open(tg, '_blank');
-    }
-
-    function copyMint() {
-      navigator.clipboard.writeText(mint).then(() => {
-        document.getElementById("copyResult").innerText = "Mint address copied!";
-        setTimeout(() => {
-          document.getElementById("copyResult").innerText = "";
-        }, 2000);
-      });
-    }
-  </script>
-</body>
-</html>
 <!-- floppfun/index.html - PART 2/4 - BODY BAŞLANGICI -->
 
 <!-- HEADER -->
