@@ -1,28 +1,19 @@
+<!-- floppfun/index.html — PART 1/4 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <title>Floop.fun - Meme Token Creator</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="images/icons/floop-favicon.ico" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="icon" href="https://floppfun.com/favicon.ico" type="image/x-icon" />
 
   <!-- SEO -->
-  <meta name="description" content="Create and launch meme tokens instantly on Solana. No presale. No dev wallet." />
-  <meta property="og:title" content="Floop.fun - Launch Your Meme Token on Solana" />
-  <meta property="og:description" content="No presale. No dev wallet. Just pure meme magic." />
-  <meta property="og:url" content="https://floppfun.com/" />
-  <meta property="og:image" content="https://floppfun.com/preview.jpg" />
+  <meta name="description" content="Launch your meme token on Solana. No presale. No dev wallet. Just chaos." />
+  <meta property="og:title" content="Floop.fun - Launch Meme Tokens Instantly" />
+  <meta property="og:image" content="images/preview.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Floop.fun - Meme Token Creator on Solana" />
-  <meta name="twitter:description" content="No presale. No dev wallet. Launch your own meme token now!" />
-  <meta name="twitter:image" content="https://floppfun.com/preview.jpg" />
-
-  <!-- JS Kütüphaneleri -->
-  <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@solana/spl-token@latest/lib/index.iife.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 </head>
 <body>
 
@@ -51,21 +42,18 @@
   <input id="searchInput" type="text" placeholder="Search tokens..." />
 </div>
 
-<!-- MOBİL MENÜ -->
-<div class="mobile-menu" id="mobileMenu">
-  <ul>
-    <li><span>✨</span> Start a Chaos!</li>
-    <li><span>📄</span> Uwu bu ne</li>
-    <li><span>🔎</span> Solscan’da BOOP</li>
-    <li><span>✈️</span> telegrama katıl</li>
-    <li><span>𝕏</span> x’i takip et</li>
-  </ul>
+<!-- KAYAN BİLGİ ŞERİDİ -->
+<div class="info-strip">
+  <marquee behavior="scroll" direction="left" scrollamount="4">
+    No presale — No dev wallet — 100% Meme Power — Launch your token today!
+  </marquee>
 </div>
 
-<!-- RELEASE BOX -->
+<!-- START YOUR CULT BOX -->
 <div class="start-your-cult-box" onclick="toggleForm()">
   <span>Release The Chaos</span>
 </div>
+<!-- floppfun/index.html — PART 2/4 -->
 
 <!-- CHAOS ANİMASYONU (tam ekran efekt) -->
 <section id="chaosAnimation" class="chaos-overlay hidden">
@@ -75,6 +63,7 @@
     <img src="images/floop-mascot.png" alt="Mascot" class="chaos-mascot" />
   </div>
 </section>
+
 <!-- ANİMASYONLU BAŞLIK -->
 <main class="hero-section">
   <div class="hero-content">
@@ -86,11 +75,11 @@
 <!-- FİLTRE ŞERİDİ -->
 <section class="filter-bar">
   <div class="filter-icon">⚙️</div>
-  <button class="filter-btn active">🔥 yeni başlatıldı</button>
-  <button class="filter-btn">🎓 mezun olmak üzere</button>
-  <button class="filter-btn">💰 en yüksek MCAP</button>
-  <button class="filter-btn">📊 hacme göre</button>
-  <button class="filter-btn">💎 en çok flooplananlar</button>
+  <button class="filter-btn active">🔥 newly launched</button>
+  <button class="filter-btn">🎓 graduating</button>
+  <button class="filter-btn">💰 top MCAP</button>
+  <button class="filter-btn">📊 by volume</button>
+  <button class="filter-btn">💎 most flooped</button>
 </section>
 
 <!-- TOKEN FORMU -->
@@ -107,12 +96,14 @@
   </form>
   <div id="formStatus" class="wallet-status"></div>
 </section>
+<!-- floppfun/index.html — PART 3/4 -->
 
 <!-- EN ÇOK FLOOPLANAN TOKENLAR -->
 <section id="topTokens">
   <h3>Top Flooped Tokens</h3>
   <ul id="topFloopList" class="token-list"></ul>
 </section>
+
 <!-- FOOTER -->
 <footer class="footer">
   <p>&copy; 2025 Floop.fun. All rights reserved.</p>
@@ -142,15 +133,19 @@
   </a>
 </nav>
 
-<!-- ORTAK SCRIPT -->
+<!-- JS KÜTÜPHANELERİ -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
 <script src="script.js"></script>
+<!-- floppfun/index.html — PART 4/4 -->
 
-<!-- SUPABASE TOKEN LİSTESİ YÜKLEME -->
 <script>
+  // SUPABASE BAĞLANTI
   const supabaseUrl = 'https://ugzbsmmaxxklojwlijrt.supabase.co';
-  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR...'; // gizli key kesildi
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR...'; // key burada gizlenmeli
   const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
+  // EN ÇOK FLOOPLANANLARI YÜKLE
   async function loadTopTokens() {
     const { data } = await supabase
       .from('floop_counts')
@@ -165,13 +160,12 @@
   }
 
   loadTopTokens();
-</script>
-<!-- TOKEN FORMU - FORM GÖNDERME İŞLEVİ -->
-<script>
+
+  // FORM SUBMIT
   const tokenForm = document.getElementById("tokenForm");
   const formStatus = document.getElementById("formStatus");
 
-  tokenForm.addEventListener("submit", async (e) => {
+  tokenForm?.addEventListener("submit", async (e) => {
     e.preventDefault();
     formStatus.innerText = "Creating token...";
     formStatus.style.color = "aqua";
@@ -205,6 +199,7 @@
     }
   });
 
+  // CHAOS → FORM GEÇİŞİ
   function toggleForm() {
     const chaosAnim = document.getElementById("chaosAnimation");
     const formSection = document.getElementById("tokenFormSection");
@@ -216,14 +211,17 @@
     }, 2000);
   }
 
-  // Arama kutusunu aç/kapat
-  document.getElementById("searchBtn").addEventListener("click", () => {
+  // Arama kutusu
+  document.getElementById("searchBtn")?.addEventListener("click", () => {
     const box = document.getElementById("searchContainer");
     box.classList.toggle("hidden");
+    if (!box.classList.contains("hidden")) {
+      document.getElementById("searchInput").focus();
+    }
   });
 
   // Menü
-  document.getElementById("menuBtn").addEventListener("click", () => {
+  document.getElementById("menuBtn")?.addEventListener("click", () => {
     const menu = document.getElementById("mobileMenu");
     menu.classList.toggle("visible");
   });
