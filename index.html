@@ -1,4 +1,3 @@
-<!-- floppfun/index.html — FINAL CHAOS FIXED PART 1/5 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -55,8 +54,6 @@
     <img src="images/floop-mascot.png" alt="Mascot" class="chaos-mascot" />
   </div>
 </section>
-<!-- floppfun/index.html — FINAL CHAOS FIXED PART 2/5 -->
-
 <!-- ANİMASYONLU BAŞLIK -->
 <main class="hero-section">
   <div class="hero-content">
@@ -90,7 +87,6 @@
   </form>
   <div id="formStatus" class="wallet-status"></div>
 </section>
-<!-- floppfun/index.html — FINAL CHAOS FIXED PART 3/5 -->
 
 <!-- EN ÇOK FLOOPLANAN TOKENLAR -->
 <section id="topTokens">
@@ -102,7 +98,6 @@
 <footer class="footer">
   <p>&copy; 2025 Floop.fun. All rights reserved.</p>
 </footer>
-
 <!-- ALT MENÜ -->
 <nav class="bottom-nav">
   <a href="index.html" class="nav-link active">
@@ -131,7 +126,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/spl-token@latest/lib/index.iife.min.js"></script>
-<!-- floppfun/index.html — FINAL CHAOS FIXED PART 4/5 -->
 
 <!-- MULTI-WALLET POPUP (ikonlu, Boop-style) -->
 <div id="walletModal" class="wallet-modal hidden">
@@ -152,7 +146,6 @@
     <button class="wallet-cancel" onclick="closeWalletModal()">Cancel</button>
   </div>
 </div>
-
 <!-- CSS — WALLET + CHAOS STİLLERİ -->
 <style>
   .wallet-modal {
@@ -249,10 +242,10 @@
     margin: 10px auto;
     display: none;
   }
+  .hidden {
+    display: none !important;
+  }
 </style>
-
-<!-- floppfun/index.html — FINAL CHAOS PATCHED PART 5/5 -->
-
 <script>
   // Cüzdan popup modalını aç
   function openWalletModal() {
@@ -264,36 +257,32 @@
     document.getElementById("walletModal").classList.add("hidden");
   }
 
-  // Cüzdan bağlantısı (Boop-style Phantom bağlantısı)
+  // PHANTOM bağlantı düzeltildi
   async function connectWithWallet(wallet) {
     closeWalletModal();
     const connectBtn = document.getElementById("connectWallet");
 
     if (wallet === "phantom") {
-      if (window.solana?.isPhantom) {
+      if (window.solana && window.solana.isPhantom) {
         try {
-          const res = await window.solana.connect({ onlyIfTrusted: false });
+          const res = await window.solana.connect();
           const pubkey = res.publicKey.toString();
           connectBtn.innerText = pubkey.slice(0, 4) + "..." + pubkey.slice(-4);
           connectBtn.disabled = true;
         } catch (err) {
-          alert("Connection canceled or failed.");
+          alert("Phantom connection failed or was canceled.");
         }
       } else {
-        // Phantom yüklü değilse mobildee yönlendir
-        window.location.href = "https://phantom.app/ul/browse/floop.fun";
+        window.open("https://phantom.app/", "_blank");
       }
-    } else if (wallet === "solflare") {
-      alert("Solflare support coming soon.");
-    } else if (wallet === "backpack") {
-      alert("Backpack support coming soon.");
+    } else {
+      alert(wallet + " support coming soon.");
     }
   }
 
-  // Connect butonuna tıklanınca popup'ı aç
   document.getElementById("connectWallet").addEventListener("click", openWalletModal);
 
-  // KAOS ANİMASYON + FORM AÇ/KAPAT
+  // KAOS + FORM GEÇİŞİ
   function toggleForm() {
     const chaos = document.getElementById("chaosAnimation");
     const form = document.getElementById("tokenFormSection");
@@ -301,8 +290,9 @@
     if (chaos.classList.contains("hidden")) {
       chaos.classList.remove("hidden");
       setTimeout(() => {
+        chaos.classList.add("hidden");
         form.classList.remove("hidden");
-      }, 800);
+      }, 1500);
     } else {
       form.classList.add("hidden");
       chaos.classList.add("hidden");
@@ -325,4 +315,3 @@
 <script src="script.js"></script>
 </body>
 </html>
-
