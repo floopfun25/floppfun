@@ -6,105 +6,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
-  <style>
-    body {
-      background: radial-gradient(ellipse at top, #0a0a23, #000);
-      color: #fff;
-      font-family: 'Poppins', sans-serif;
-      padding: 40px 20px;
-      text-align: center;
-    }
-
-    h1 {
-      text-align: center;
-      color: #00ffee;
-      font-size: 2.4rem;
-      margin-bottom: 30px;
-    }
-
-    .token-card {
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 16px;
-      padding: 20px;
-      margin: 20px auto;
-      max-width: 800px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 0 20px rgba(0, 255, 255, 0.05);
-      position: relative;
-    }
-
-    .token-card .badge {
-      position: absolute;
-      left: -12px;
-      top: -12px;
-      background: #00ffee;
-      color: #000;
-      font-weight: bold;
-      padding: 6px 12px;
-      border-radius: 8px;
-      font-size: 0.9rem;
-    }
-
-    .token-info {
-      flex: 1;
-      text-align: left;
-    }
-
-    .token-info h2 {
-      font-size: 1.4rem;
-      margin-bottom: 5px;
-      color: #00ffee;
-    }
-
-    .token-info p {
-      font-size: 0.95rem;
-      color: #ccc;
-      margin: 4px 0;
-    }
-
-    .token-user {
-      display: flex;
-      align-items: center;
-      margin-top: 10px;
-    }
-
-    .token-user img {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      margin-right: 8px;
-    }
-
-    .token-image {
-      width: 80px;
-      height: 80px;
-      border-radius: 12px;
-      background: #222;
-      object-fit: cover;
-      border: 2px solid #00ffee;
-    }
-
-    @media (max-width: 600px) {
-      .token-card {
-        flex-direction: column;
-        text-align: center;
-      }
-
-      .token-image {
-        margin-top: 20px;
-      }
-
-      .token-user {
-        justify-content: center;
-      }
-    }
-  </style>
 </head>
 <body>
   <h1>Top Flooped Tokens</h1>
   <div id="leaderboard"></div>
+
+  <!-- ALT SABİT MENÜ -->
+  <nav style="position: fixed; bottom: 0; left: 0; right: 0; background: #0a0a23; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid rgba(255,255,255,0.1); z-index: 999;">
+    <div style="text-align:center; color:#fff; font-size:0.9rem;">
+      <div>🏠</div>
+      <div>cults</div>
+    </div>
+    <div style="text-align:center; color:#fff; font-size:0.9rem;">
+      <div>🎁</div>
+      <div>rewards</div>
+    </div>
+    <div style="text-align:center; color:#fff; font-size:0.9rem;">
+      <div>📈</div>
+      <div>staking</div>
+    </div>
+    <div style="text-align:center; color:#fff; font-size:0.9rem;">
+      <div>⭐</div>
+      <div>leaderb.</div>
+    </div>
+    <div style="text-align:center; color:#fff; font-size:0.9rem;">
+      <div>🎯</div>
+      <div>airdrop</div>
+    </div>
+  </nav>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script>
     const supabaseUrl = 'https://ugzbsmmaxxklojwlijrt.supabase.co';
@@ -128,7 +58,7 @@
         const image = row.image_url || "https://floppfun.com/default.png";
         const username = row.username || "@anon";
         const avatar = row.avatar || "https://floppfun.com/avatar.png";
-        const percent = (row.count * 10).toFixed(1); // Örnek yüzdelik
+        const percent = (row.count * 10).toFixed(1);
 
         const card = document.createElement("div");
         card.className = "token-card";
