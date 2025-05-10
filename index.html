@@ -1,4 +1,4 @@
-<!-- floppfun/index.html — PART 1/4 -->
+<!-- floppfun/index.html — PART 1/5 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -55,7 +55,7 @@
     <img src="images/floop-mascot.png" alt="Mascot" class="chaos-mascot" />
   </div>
 </section>
-<!-- floppfun/index.html — PART 2/4 -->
+<!-- floppfun/index.html — PART 2/5 -->
 
 <!-- ANİMASYONLU BAŞLIK -->
 <main class="hero-section">
@@ -89,7 +89,7 @@
   </form>
   <div id="formStatus" class="wallet-status"></div>
 </section>
-<!-- floppfun/index.html — PART 3/4 -->
+<!-- floppfun/index.html — PART 3/5 -->
 
 <!-- EN ÇOK FLOOPLANAN TOKENLAR -->
 <section id="topTokens">
@@ -131,119 +131,99 @@
 <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/spl-token@latest/lib/index.iife.min.js"></script>
 <script src="script.js"></script>
-<!-- floppfun/index.html — PART 4/4 -->
+<!-- floppfun/index.html — PART 4/5 -->
+
+<!-- MULTI-WALLET POPUP -->
+<div id="walletModal" class="wallet-modal hidden">
+  <div class="wallet-modal-content">
+    <h3>Select a Wallet</h3>
+    <button class="wallet-option" onclick="connectWithWallet('phantom')">Phantom</button>
+    <button class="wallet-option" onclick="connectWithWallet('solflare')">Solflare</button>
+    <button class="wallet-option" onclick="connectWithWallet('backpack')">Backpack</button>
+    <button class="wallet-cancel" onclick="closeWalletModal()">Cancel</button>
+  </div>
+</div>
+
+<!-- CSS SINIFLARI (style.css'e eklemen gerek) -->
+<style>
+  .wallet-modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 9999;
+  }
+  .wallet-modal-content {
+    background: #111;
+    padding: 25px 30px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 0 20px #00ffeeaa;
+    max-width: 300px;
+  }
+  .wallet-modal-content h3 {
+    color: #00ffee;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+  }
+  .wallet-option {
+    display: block;
+    background: #00ffee;
+    color: #000;
+    margin: 10px 0;
+    padding: 10px 20px;
+    font-weight: bold;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+  .wallet-cancel {
+    background: transparent;
+    color: #aaa;
+    border: none;
+    margin-top: 12px;
+    cursor: pointer;
+  }
+</style>
+<!-- floppfun/index.html — PART 5/5 -->
 
 <script>
-  const supabaseUrl = 'https://ugzbsmmaxxklojwlijrt.supabase.co';
-  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR...'; // gizli tutulmalı
-  const supabase = supabase.createClient(supabaseUrl, supabaseKey);
-
-  async function createSolanaToken({ name, symbol, supply }) {
-    const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl("mainnet-beta"), "confirmed");
-    const provider = window.solana;
-    const user = await provider.connect();
-    const userPubkey = user.publicKey;
-
-    const mint = solanaWeb3.Keypair.generate();
-    const lamports = await connection.getMinimumBalanceForRentExemption(splToken.MINT_SIZE);
-
-    const tx = new solanaWeb3.Transaction().add(
-      solanaWeb3.SystemProgram.createAccount({
-        fromPubkey: userPubkey,
-        newAccountPubkey: mint.publicKey,
-        space: splToken.MINT_SIZE,
-        lamports,
-        programId: splToken.TOKEN_PROGRAM_ID
-      }),
-      splToken.createInitializeMintInstruction(
-        mint.publicKey, 9, userPubkey, null, splToken.TOKEN_PROGRAM_ID
-      ),
-      splToken.createAssociatedTokenAccountInstruction(
-        userPubkey,
-        await splToken.getAssociatedTokenAddress(mint.publicKey, userPubkey),
-        userPubkey,
-        mint.publicKey
-      ),
-      splToken.createMintToInstruction(
-        mint.publicKey,
-        await splToken.getAssociatedTokenAddress(mint.publicKey, userPubkey),
-        userPubkey,
-        BigInt(supply * 1_000_000_000)
-      )
-    );
-
-    tx.feePayer = userPubkey;
-    tx.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
-    const signed = await provider.signTransaction(tx);
-    const txid = await connection.sendRawTransaction(signed.serialize());
-    await connection.confirmTransaction(txid);
-    return mint.publicKey.toString();
+  // Cüzdan Modal'ı açma
+  function openWalletModal() {
+    const modal = document.getElementById("walletModal");
+    modal.classList.remove("hidden");
   }
 
-  const tokenForm = document.getElementById("tokenForm");
-  const formStatus = document.getElementById("formStatus");
-
-  tokenForm?.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    formStatus.innerText = "Minting your token...";
-    formStatus.style.color = "aqua";
-
-    try {
-      const tokenName = document.getElementById("tokenName").value;
-      const tokenSymbol = document.getElementById("tokenSymbol").value;
-      const tokenSupply = parseFloat(document.getElementById("tokenSupply").value);
-      const tokenImage = document.getElementById("tokenImage").value;
-      const tokenDescription = document.getElementById("tokenDescription").value;
-      const socialLink = document.getElementById("socialLink").value;
-
-      const mintAddress = await createSolanaToken({
-        name: tokenName,
-        symbol: tokenSymbol,
-        supply: tokenSupply
-      });
-
-      await supabase.from('tokens').insert([{
-        name: tokenName,
-        symbol: tokenSymbol,
-        supply: tokenSupply,
-        image: tokenImage,
-        description: tokenDescription,
-        social_link: socialLink,
-        mint: mintAddress
-      }]);
-
-      formStatus.innerText = `Token created! Mint: ${mintAddress}`;
-      formStatus.style.color = "lime";
-      window.location.href = `token.html?mint=${mintAddress}&symbol=${tokenSymbol}&image=${encodeURIComponent(tokenImage)}`;
-
-    } catch (err) {
-      console.error(err);
-      formStatus.innerText = "Token minting failed.";
-      formStatus.style.color = "red";
-    }
-  });
-
-  function toggleForm() {
-    const chaosAnim = document.getElementById("chaosAnimation");
-    const formSection = document.getElementById("tokenFormSection");
-    chaosAnim.classList.remove("hidden");
-    setTimeout(() => {
-      chaosAnim.classList.add("hidden");
-      formSection.classList.toggle("hidden");
-    }, 2000);
+  // Cüzdan Modal'ı kapatma
+  function closeWalletModal() {
+    const modal = document.getElementById("walletModal");
+    modal.classList.add("hidden");
   }
 
-  document.getElementById("searchBtn")?.addEventListener("click", () => {
-    const box = document.getElementById("searchContainer");
-    box.classList.toggle("hidden");
-    if (!box.classList.contains("hidden")) {
-      document.getElementById("searchInput").focus();
-    }
-  });
+  // Seçilen cüzdanla bağlantı kurma
+  async function connectWithWallet(wallet) {
+    closeWalletModal();
+    const connectBtn = document.getElementById("connectWallet");
 
-  document.getElementById("menuBtn")?.addEventListener("click", () => {
-    document.getElementById("mobileMenu")?.classList.toggle("visible");
-  });
+    if (wallet === "phantom") {
+      if (window.solana && window.solana.isPhantom) {
+        try {
+          const response = await window.solana.connect();
+          connectBtn.innerText = `Connected: ${response.publicKey.toString().slice(0, 4)}...`;
+          connectBtn.disabled = true;
+        } catch (error) {
+          alert("Failed to connect to Phantom.");
+        }
+      } else {
+        alert("Phantom Wallet not found. Please install Phantom.");
+      }
+    } else if (wallet === "solflare") {
+      alert("Solflare wallet is under development.");
+    } else if (wallet === "backpack") {
+      alert("Backpack wallet is under development.");
+    }
+  }
+
+  // Connect button'a tıklanınca modalı aç
+  document.getElementById("connectWallet").addEventListener("click", openWalletModal);
 </script>
-</body>
-</html>
