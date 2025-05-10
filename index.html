@@ -1,4 +1,4 @@
-<!-- floppfun/index.html — FIXED PART 1/5 -->
+<!-- floppfun/index.html — FINAL CHAOS FIXED PART 1/5 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -55,7 +55,7 @@
     <img src="images/floop-mascot.png" alt="Mascot" class="chaos-mascot" />
   </div>
 </section>
-<!-- floppfun/index.html — FIXED PART 2/5 -->
+<!-- floppfun/index.html — FINAL CHAOS FIXED PART 2/5 -->
 
 <!-- ANİMASYONLU BAŞLIK -->
 <main class="hero-section">
@@ -83,13 +83,14 @@
     <input type="text" id="tokenSymbol" placeholder="Symbol (e.g. FLOP)" maxlength="5" required />
     <input type="number" id="tokenSupply" placeholder="Total Supply" required min="1" />
     <input type="url" id="tokenImage" placeholder="Image URL (optional)" />
+    <img id="imagePreview" alt="Preview" />
     <textarea id="tokenDescription" placeholder="Describe your token (optional)"></textarea>
     <input type="url" id="socialLink" placeholder="Social Media Link (optional)" />
     <button type="submit">Create Token</button>
   </form>
   <div id="formStatus" class="wallet-status"></div>
 </section>
-<!-- floppfun/index.html — FIXED PART 3/5 -->
+<!-- floppfun/index.html — FINAL CHAOS FIXED PART 3/5 -->
 
 <!-- EN ÇOK FLOOPLANAN TOKENLAR -->
 <section id="topTokens">
@@ -130,7 +131,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/spl-token@latest/lib/index.iife.min.js"></script>
-<!-- floppfun/index.html — FIXED PART 4/5 -->
+<!-- floppfun/index.html — FINAL CHAOS FIXED PART 4/5 -->
 
 <!-- MULTI-WALLET POPUP (ikonlu, Boop-style) -->
 <div id="walletModal" class="wallet-modal hidden">
@@ -152,7 +153,7 @@
   </div>
 </div>
 
-<!-- CSS — WALLET MODAL STİLİ -->
+<!-- CSS — WALLET + CHAOS STİLLERİ -->
 <style>
   .wallet-modal {
     position: absolute;
@@ -203,8 +204,53 @@
     cursor: pointer;
     font-size: 0.9rem;
   }
+  .chaos-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    animation: fadeIn 0.5s ease;
+  }
+  .chaos-content {
+    position: relative;
+    text-align: center;
+  }
+  .chaos-bounce {
+    width: 80px;
+    animation: bounce 1s infinite alternate;
+  }
+  .chaos-fire {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+  }
+  .chaos-mascot {
+    width: 60px;
+    margin-top: 10px;
+  }
+  @keyframes bounce {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-20px); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  #imagePreview {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    border: 1px solid #00ffee55;
+    margin: 10px auto;
+    display: none;
+  }
 </style>
-<!-- floppfun/index.html — FIXED PART 5/5 -->
+<!-- floppfun/index.html — FINAL CHAOS FIXED PART 5/5 -->
 
 <script>
   // Cüzdan popup modalını aç
@@ -227,7 +273,7 @@
     if (wallet === "phantom") {
       if (window.solana && window.solana.isPhantom) {
         try {
-          const response = await window.solana.connect({ onlyIfTrusted: false });
+          const response = await window.solana.connect();
           const pubkey = response.publicKey.toString();
           connectBtn.innerText = pubkey.slice(0, 4) + "..." + pubkey.slice(-4);
           connectBtn.disabled = true;
@@ -235,8 +281,7 @@
           alert("Connection to Phantom failed or was cancelled.");
         }
       } else {
-        // Phantom yüklü değilse yönlendirme yap
-        window.open("https://phantom.app", "_blank");
+        alert("Phantom Wallet not found. Please open this site inside the Phantom app.");
       }
     } else if (wallet === "solflare") {
       alert("Solflare support is coming soon.");
@@ -247,7 +292,36 @@
 
   // Connect butonuna tıklanınca popup'ı aç
   document.getElementById("connectWallet").addEventListener("click", openWalletModal);
+
+  // KAOS FORM AÇ-KAPAT
+  function toggleForm() {
+    const chaos = document.getElementById("chaosAnimation");
+    const form = document.getElementById("tokenFormSection");
+
+    if (chaos.classList.contains("hidden")) {
+      chaos.classList.remove("hidden");
+      setTimeout(() => {
+        form.classList.remove("hidden");
+      }, 800);
+    } else {
+      form.classList.add("hidden");
+      chaos.classList.add("hidden");
+    }
+  }
+
+  // Token görseli önizleme
+  document.getElementById("tokenImage").addEventListener("input", function () {
+    const preview = document.getElementById("imagePreview");
+    const url = this.value.trim();
+    if (url) {
+      preview.src = url;
+      preview.style.display = "block";
+    } else {
+      preview.style.display = "none";
+    }
+  });
 </script>
 
+<script src="script.js"></script>
 </body>
 </html>
