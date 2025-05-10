@@ -1,5 +1,6 @@
-/* === style.css — PART 1/4 — GENEL RESET + TEMA + HEADER === */
+/* === style.css — PART 1/2 === */
 
+/* Genel reset */
 * {
   margin: 0;
   padding: 0;
@@ -47,6 +48,65 @@ img {
   transform: scale(1.1);
 }
 
+/* === CHAOS ANİMASYONU STİLLERİ === */
+.chaos-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.chaos-overlay.hidden {
+  display: none;
+}
+
+.chaos-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.chaos-bounce {
+  width: 80px;
+  animation: bounce 1s infinite;
+}
+
+.chaos-fire {
+  width: 120px;
+  animation: flicker 1.2s infinite alternate;
+}
+
+.chaos-mascot {
+  width: 100px;
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Animasyon efektleri */
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes flicker {
+  0% { opacity: 1; }
+  50% { opacity: 0.4; }
+  100% { opacity: 1; }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0px); }
+}
+
 /* === BOOP-style HEADER === */
 .boop-header {
   display: flex;
@@ -77,40 +137,7 @@ img {
   color: #fff;
   cursor: pointer;
 }
-
-/* === Arama Kutusu === */
-#searchContainer {
-  animation: fadeIn 0.2s ease-in-out;
-}
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-/* === style.css — PART 2/4 — MOBİL MENÜ + CONNECT BUTONU === */
-
-.connect-btn {
-  background: #fff;
-  color: #111;
-  border: none;
-  border-radius: 999px;
-  padding: 10px 18px;
-  font-weight: bold;
-  cursor: pointer;
-  font-size: 0.95rem;
-  transition: background 0.3s ease, transform 0.2s ease;
-}
-.connect-btn:hover {
-  background: #ddd;
-  transform: scale(1.05);
-}
-
-.icon-btn {
-  background: transparent;
-  border: none;
-  font-size: 1.4rem;
-  color: #fff;
-  cursor: pointer;
-}
+/* === style.css — PART 2/2 === */
 
 /* Mobil Menü */
 .mobile-menu {
@@ -145,56 +172,7 @@ img {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Boop-style hero başlık */
-.hero-section {
-  padding: 80px 20px 40px;
-}
-.hero-title {
-  font-size: 2.6rem;
-  font-weight: bold;
-  color: #00ffee;
-  margin-bottom: 20px;
-}
-.hero-subtitle {
-  font-size: 1.2rem;
-  color: #ccc;
-  margin-bottom: 30px;
-}
-/* === style.css — PART 3/4 — FİLTRE BAR + FORM + ANİMASYON === */
-
-.filter-bar {
-  overflow-x: auto;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 16px;
-  margin-bottom: 20px;
-  scrollbar-width: none;
-}
-.filter-bar::-webkit-scrollbar {
-  display: none;
-}
-.filter-btn {
-  padding: 10px 20px;
-  background: #fff;
-  color: #000;
-  border: none;
-  border-radius: 999px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
-  font-size: 0.95rem;
-}
-.filter-btn:hover {
-  background: #00ffee;
-  transform: scale(1.05);
-}
-.filter-btn.active {
-  background: #00ffee;
-  color: #000;
-}
-
-/* Token Form */
+/* Token Formu */
 .form-wrapper {
   max-width: 600px;
   margin: 40px auto;
@@ -243,57 +221,8 @@ img {
   background-color: #00e6d4;
   transform: scale(1.05);
 }
-.wallet-status {
-  margin-top: 20px;
-  font-size: 1rem;
-  color: #00ffaa;
-}
-/* START YOUR CULT (Release The Chaos) */
-.start-your-cult-box {
-  margin: 40px auto 20px;
-  background: linear-gradient(135deg, #00ffee, #ff5cb3);
-  color: #000;
-  font-weight: bold;
-  font-size: 1rem;
-  padding: 16px 36px;
-  border-radius: 999px;
-  width: fit-content;
-  cursor: pointer;
-  box-shadow: 0 0 20px rgba(0,255,255,0.15);
-  transition: transform 0.3s ease;
-}
-.start-your-cult-box:hover {
-  transform: scale(1.05);
-}
 
-/* Token Kartları */
-.token-card {
-  background: rgba(255,255,255,0.04);
-  border-radius: 16px;
-  padding: 20px;
-  margin: 20px auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.05);
-  max-width: 800px;
-}
-.token-card img {
-  border-radius: 12px;
-}
-
-/* Footer */
-footer {
-  background-color: rgba(255, 255, 255, 0.02);
-  text-align: center;
-  padding: 20px;
-  font-size: 0.9rem;
-  color: #aaa;
-  margin-top: 80px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-/* Bottom Fixed Menu */
+/* Alt Menü */
 .bottom-nav {
   position: fixed;
   bottom: 0;
