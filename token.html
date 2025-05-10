@@ -1,3 +1,4 @@
+<!-- floppfun/token.html — PART 1/3 (GÜNCELLENMİŞ) -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +10,13 @@
 </head>
 <body>
 
-<!-- BOOP-STYLE ÜST HEADER -->
+<!-- ÜST MASKOT + SES -->
+<div style="position: absolute; top: 12px; left: 12px; display: flex; align-items: center; gap: 10px; z-index: 9999;">
+  <img src="images/floop-mascot.png" alt="Mascot" style="width: 34px; height: 34px;" />
+  <button id="muteToggle" style="background:none; border:none; font-size: 1.2rem; color:#00ffee;">🔊</button>
+</div>
+
+<!-- BOOP-STYLE HEADER -->
 <header class="boop-header">
   <div class="boop-left">
     <img src="images/floop-mascot.png" alt="Floop" class="boop-logo" />
@@ -22,6 +29,12 @@
     <button class="icon-btn" id="menuBtn">☰</button>
   </div>
 </header>
+
+<!-- ARAMA GİRİŞİ -->
+<div id="searchContainer" style="display: none; padding: 20px; text-align: center;">
+  <input id="searchInput" type="text" placeholder="Search tokens..." 
+    style="padding: 12px 20px; width: 80%; max-width: 400px; border-radius: 999px; border: none; font-size: 1rem;" />
+</div>
 
 <!-- TOKEN BİLGİLERİ -->
 <div class="token-box">
@@ -54,6 +67,7 @@
   <a href="leaderboard.html" class="nav-link"><img src="images/icons/leaderboard.png" alt="" /><span>leaderb.</span></a>
   <a href="#" class="nav-link active"><img src="images/icons/airdrop.png" alt="" /><span>airdrop</span></a>
 </nav>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script>
   const url = new URLSearchParams(window.location.search);
@@ -71,7 +85,6 @@
   }
 
   document.getElementById("dexFrame").src = `https://jup.ag/swap/SOL-${mint}`;
-
   const supabaseUrl = 'https://ugzbsmmaxxklojwlijrt.supabase.co';
   const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR...'; // gizli
   const supabase = supabase.createClient(supabaseUrl, supabaseKey);
@@ -170,18 +183,28 @@
     });
   }
 
-  // Wallet connect için event ekle (boop-header'daki buton)
-  document.getElementById("connectWallet").addEventListener("click", async () => {
-    if (window.solana && window.solana.isPhantom) {
-      try {
-        const response = await window.solana.connect();
-        document.getElementById("connectWallet").innerText = "Connected";
-      } catch (err) {
-        alert("Connection cancelled.");
-      }
+  // Arama alanı toggle
+  const searchBtn = document.getElementById("searchBtn");
+  const searchContainer = document.getElementById("searchContainer");
+  const searchInput = document.getElementById("searchInput");
+
+  searchBtn?.addEventListener("click", () => {
+    if (searchContainer.style.display === "none") {
+      searchContainer.style.display = "block";
+      searchInput.focus();
     } else {
-      alert("Please install Phantom wallet.");
+      searchContainer.style.display = "none";
     }
+  });
+
+  // Ses kontrol butonu
+  const muteToggle = document.getElementById("muteToggle");
+  let isMuted = false;
+
+  muteToggle?.addEventListener("click", () => {
+    isMuted = !isMuted;
+    muteToggle.innerText = isMuted ? "🔇" : "🔊";
+    // Müziğe bağlayacak fonksiyon varsa buraya yazılır
   });
 </script>
 </body>
