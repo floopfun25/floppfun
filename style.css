@@ -1,6 +1,4 @@
-/* floppfun/style.css — PART 1/4 */
-
-/* RESET VE GENEL STİL */
+/* RESET & GENEL STİL */
 * {
   margin: 0;
   padding: 0;
@@ -16,20 +14,17 @@ body {
   padding-bottom: 90px;
 }
 
-/* LINKLER */
 a {
   color: #00ffee;
   text-decoration: none;
 }
 
-/* BUTONLAR */
 button {
   font-family: 'Poppins', sans-serif;
   border: none;
   cursor: pointer;
 }
 
-/* SCROLLBAR */
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -38,7 +33,7 @@ button {
   border-radius: 10px;
 }
 
-/* ÜSTTEKİ MASKOT + SES */
+/* MASKOT + SES */
 .floating-top-left {
   position: absolute;
   top: 12px;
@@ -54,7 +49,6 @@ button {
 }
 .mute-button {
   background: none;
-  border: none;
   font-size: 1.2rem;
   color: #00ffee;
   cursor: pointer;
@@ -64,165 +58,118 @@ button {
   transform: scale(1.1);
 }
 
-/* HEADER (boop tarzı) */
+/* HEADER */
 .boop-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 20px;
+  padding: 14px 20px;
   background: transparent;
 }
-.boop-left img,
-.boop-center button,
-.boop-right button {
-  vertical-align: middle;
-}
 .boop-logo {
-  width: 34px;
-  height: 34px;
+  width: 30px;
+  height: 30px;
 }
 .connect-btn {
   background: #00ffee;
   color: #000;
   padding: 6px 18px;
   border-radius: 999px;
-  font-weight: bold;
-  margin-right: 10px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: box-shadow 0.2s ease;
+}
+.connect-btn:hover {
+  box-shadow: 0 0 10px #00ffeeaa;
 }
 .icon-btn {
   background: none;
-  font-size: 20px;
+  font-size: 18px;
   color: #00ffee;
   margin: 0 6px;
 }
-
-/* ARAMA GİRİŞİ */
+/* ARAMA KUTUSU */
 .search-container {
-  padding: 20px;
+  padding: 16px;
   text-align: center;
 }
 .search-container.hidden {
   display: none;
 }
 #searchInput {
-  padding: 12px 20px;
+  padding: 10px 18px;
   width: 80%;
   max-width: 400px;
   border-radius: 999px;
   border: none;
-  font-size: 1rem;
-}
-
-/* KAYAN BİLGİ ŞERİDİ */
-.info-strip {
-  background: #ffd600;
-  color: #000;
-  padding: 6px 20px;
-  font-weight: bold;
+  background: #1a1a2f;
+  color: #fff;
   font-size: 0.9rem;
+  box-shadow: 0 0 10px #00ffee33 inset;
 }
 
-/* START YOUR CULT BUTONU */
+/* START YOUR CULT BOX */
 .start-your-cult-box {
-  background: linear-gradient(135deg, #00ffee, #ff5cb3);
-  padding: 16px 36px;
-  border-radius: 999px;
-  color: #000;
+  background: #1a1a2f;
+  color: #00ffee;
   font-weight: bold;
-  cursor: pointer;
-  margin: 40px auto 20px;
+  border: 2px dashed #00ffee88;
+  padding: 14px 28px;
+  border-radius: 16px;
   display: inline-block;
-  box-shadow: 0 4px 12px rgba(0,255,255,0.3);
-  transition: transform 0.3s ease;
+  margin: 30px auto;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 .start-your-cult-box:hover {
+  background: #00ffee11;
   transform: scale(1.05);
 }
-/* floppfun/style.css — PART 2/4 */
 
-/* CHAOS ANİMASYONU */
-.chaos-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(10, 10, 35, 0.95);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
-}
-.chaos-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-}
-.chaos-bounce {
-  width: 64px;
-  animation: bounce 0.8s infinite alternate;
-}
-.chaos-fire {
-  width: 60px;
-}
-.chaos-mascot {
-  width: 48px;
-  filter: drop-shadow(0 0 6px #ff5cb3);
-}
-
-@keyframes bounce {
-  from { transform: translateY(0); }
-  to { transform: translateY(-10px); }
-}
-
-/* BAŞLIK VE ALT BAŞLIK */
+/* HERO */
 .hero-section {
-  padding: 60px 20px 30px;
+  padding: 40px 20px 20px;
 }
 .hero-title {
-  font-size: 2rem;
+  font-size: 1.8rem;
   margin-bottom: 10px;
   color: #00ffee;
 }
 .hero-subtitle {
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: #aaa;
 }
 
-/* FİLTRE BUTONLARI */
+/* FILTER BAR */
 .filter-bar {
   display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
   justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 14px;
+  background: #0b0b1d;
+  border-radius: 16px;
+  max-width: 90%;
   margin: 20px auto;
-  padding: 10px 20px;
-}
-.filter-icon {
-  font-size: 18px;
-  color: #ffd600;
-  margin-right: 8px;
 }
 .filter-btn {
-  background: #1a1a2a;
-  border: 1px solid #00ffee55;
+  background: transparent;
   color: #00ffee;
-  padding: 8px 18px;
+  padding: 6px 14px;
+  font-size: 0.8rem;
+  border: 1px solid #00ffee88;
   border-radius: 999px;
-  cursor: pointer;
-  font-size: 0.85rem;
-  transition: background-color 0.2s ease, transform 0.2s ease;
-}
-.filter-btn.active {
-  background: #00ffee33;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 .filter-btn:hover {
-  background-color: #00ffee22;
-  transform: scale(1.05);
+  background: #00ffee22;
+  transform: scale(1.04);
 }
-
-/* TOKEN FORMU */
+.filter-btn.active {
+  background: #00ffee;
+  color: #000;
+}
+/* TOKEN FORM */
 .form-wrapper {
   background: #111827;
   border: 1px solid #00ffee22;
@@ -242,7 +189,7 @@ button {
   margin-bottom: 14px;
   border-radius: 8px;
   border: none;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   background: #1e1e2d;
   color: #fff;
 }
@@ -250,21 +197,26 @@ button {
   background: #00ffee;
   color: #000;
   font-weight: bold;
-  padding: 10px 26px;
+  padding: 10px 24px;
   border-radius: 999px;
   transition: transform 0.2s ease;
 }
 .form-wrapper button:hover {
   transform: scale(1.04);
 }
-
-/* Form mesajı */
 .wallet-status {
   margin-top: 12px;
   font-weight: bold;
-  font-size: 1rem;
+  font-size: 0.95rem;
 }
-/* floppfun/style.css — PART 3/4 */
+#imagePreview {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  border: 1px solid #00ffee55;
+  margin: 10px auto;
+  display: none;
+}
 
 /* TOKEN LİSTESİ */
 .token-list {
@@ -291,15 +243,14 @@ button {
   font-weight: bold;
   font-size: 0.95rem;
 }
-
 /* FOOTER */
 .footer {
   margin-top: 40px;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: #666;
 }
 
-/* ALT NAVBAR */
+/* BOTTOM NAV */
 .bottom-nav {
   position: fixed;
   bottom: 0;
@@ -317,7 +268,7 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   text-decoration: none;
   transition: color 0.2s ease;
 }
@@ -339,7 +290,6 @@ button {
 .nav-link:hover img {
   filter: brightness(1.2);
 }
-/* floppfun/style.css — PART 4/4 */
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
@@ -359,52 +309,9 @@ button {
     padding: 10px 14px;
   }
   .bottom-nav {
-    font-size: 0.65rem;
+    font-size: 0.6rem;
   }
 }
 
-/* TOKEN KARTI (gelecek kullanımlar için) */
-.token-card {
-  background: #1a1a2d;
-  padding: 16px;
-  margin: 10px auto;
-  border-radius: 12px;
-  max-width: 600px;
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  box-shadow: 0 0 12px rgba(0, 255, 255, 0.05);
-}
-.token-card img {
-  width: 48px;
-  height: 48px;
-  border-radius: 8px;
-}
-.token-info {
-  text-align: left;
-}
-.token-info h3 {
-  color: #00ffee;
-  font-size: 1.1rem;
-  margin: 0;
-}
-.token-info p {
-  font-size: 0.85rem;
-  color: #ccc;
-  margin: 4px 0;
-}
-
-/* GİZLE / GÖSTER SINIFLARI */
-.hidden {
-  display: none;
-}
-.visible {
-  display: block !important;
-}
-
-/* GEÇİŞLER / HOVERLAR */
-.start-your-cult-box:hover,
-.connect-btn:hover,
-.filter-btn:hover {
-  transform: scale(1.05);
-}
+.hidden { display: none !important; }
+.visible { display: block !important; }
