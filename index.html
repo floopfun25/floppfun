@@ -1,78 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Your Token</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
 <body>
-  <!-- ÜST MENÜ -->
-  <header class="main-header">
-    <div class="nav-left">
-      <img src="images/floop-mascot.png" class="logo-icon" alt="Floop" />
-      <h1 class="logo-text">Floop.fun</h1>
-    </div>
-    <div class="nav-right">
-      <button id="connectWallet" class="connect-btn">bağlamak</button>
-      <button class="icon-btn" id="searchBtn">🔍</button>
-      <button class="icon-btn" id="menuBtn">☰</button>
-    </div>
-  </header>
+  <div class="token-box">
+    <h2>Token Created Successfully!</h2>
+    <p id="mintAddress"></p>
+    <p id="symbol"></p>
+    <img id="tokenImage" src="" alt="Token Image" style="display:none;" />
+    <div id="floopCount">Flooped: ...</div>
+    <button id="floopBtn">Floop This Token (0.01 SOL)</button>
+    <p id="floopResult"></p>
 
-  <!-- MOBİL MENÜ -->
-  <div class="mobile-menu" id="mobileMenu">
-    <ul>
-      <li><span>✨</span> bir tarikat başlatın (ücretsiz!)</li>
-      <li><span>📄</span> Uwu bu ne</li>
-      <li><span>🔍</span> Solscan'da BOOP</li>
-      <li><span>✈️</span> telegrama katıl</li>
-      <li><span>𝕏</span> x'i takip et</li>
-    </ul>
+    <div id="shareBox" style="margin-top: 30px;">
+      <p style="font-weight: bold;">Share your token:</p>
+      <button onclick="shareOnTwitter()" class="connect-btn" style="background:none; border:1px solid #00ffee; color:#00ffee;">Twitter</button>
+      <button onclick="shareOnTelegram()" class="connect-btn" style="background:none; border:1px solid #00ffee; color:#00ffee;">Telegram</button>
+      <button onclick="copyMint()" class="connect-btn" style="background:none; border:1px solid #00ffee; color:#00ffee;">Copy Mint</button>
+      <p id="copyResult" style="margin-top: 10px; font-size: 0.9rem;"></p>
+    </div>
+
+    <div style="margin-top: 40px;">
+      <h3 style="color:#00ffee; margin-bottom: 10px;">Buy Your Token on Jupiter</h3>
+      <iframe id="dexFrame" style="width:100%; height:500px; border:none; border-radius:12px;"></iframe>
+    </div>
   </div>
-
-  <!-- HERO -->
-  <main class="hero-section">
-    <div class="hero-content">
-      <h2 class="hero-title">Launch Your Meme Token</h2>
-      <!-- ALT YAZI KALDIRILDI -->
-      <button id="launchBtn" class="launch-btn">Release The Chaos</button>
-    </div>
-  </main>
-
-  <!-- ORTA FİLTRE BUTONLARI -->
-  <section class="filter-bar">
-    <button class="filter-btn active">Yeni Başlatıldı</button>
-    <button class="filter-btn">Mezun Olmak Üzere</button>
-    <button class="filter-btn">En Yüksek MCAP</button>
-    <button class="filter-btn">Hacme Göre</button>
-    <button class="filter-btn">En Çok Flooplananlar</button>
-  </section>
-
-  <!-- CHAOS ANİMASYONU -->
-  <section id="chaosAnimation" class="chaos-animation">
-    <div class="chaos-container">
-      <img src="images/solana.svg" alt="Solana" class="solana-bounce" />
-      <img src="images/fire.gif" alt="Fire" class="chaos-fire" />
-      <img src="images/floop-mascot.png" alt="Mascot" class="mascot-img" />
-    </div>
-  </section>
-  <!-- TOKEN FORMU -->
-  <section id="tokenFormSection" class="form-wrapper hidden">
-    <h3>Create Your Token</h3>
-    <form id="tokenForm">
-      <input type="text" id="tokenName" placeholder="Token Name" required />
-      <input type="text" id="tokenSymbol" placeholder="Symbol (e.g. FLOP)" maxlength="5" required />
-      <input type="number" id="tokenSupply" placeholder="Total Supply" required min="1" />
-      <input type="url" id="tokenImage" placeholder="Image URL (optional)" />
-      <textarea id="tokenDescription" placeholder="Describe your token (optional)"></textarea>
-      <input type="url" id="socialLink" placeholder="Social Media Link (optional)" />
-      <button type="submit">Create Token</button>
-    </form>
-    <div id="formStatus" class="wallet-status"></div>
-  </section>
-
-  <!-- TOP FLOOPED TOKENLAR -->
-  <section id="topTokens">
-    <h3>Top Flooped Tokens</h3>
-    <ul id="topFloopList"></ul>
-  </section>
-  <!-- FOOTER -->
-  <footer>
-    <p>&copy; 2025 Floop.fun. All rights reserved.</p>
-  </footer>
 
   <!-- ALT SABİT MENÜ -->
   <nav style="position: fixed; bottom: 0; left: 0; right: 0; background: #0a0a23; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid rgba(255,255,255,0.1); z-index: 999;">
@@ -98,117 +55,295 @@
     </div>
   </nav>
 
-  <!-- SCRIPT BAŞLANGICI -->
   <script>
-    const connectBtn = document.getElementById("connectWallet");
-    const launchBtn = document.getElementById("launchBtn");
-    const formSection = document.getElementById("tokenFormSection");
-    const chaos = document.getElementById("chaosAnimation");
-    const mobileMenu = document.getElementById("mobileMenu");
-    const menuBtn = document.getElementById("menuBtn");
-    let userPublicKey = null;
+    const url = new URLSearchParams(window.location.search);
+    const mint = url.get('mint');
+    const symbol = url.get('symbol');
+    const image = url.get('image');
 
-    // Mobil menü toggle
-    let menuOpen = false;
-    menuBtn.addEventListener("click", () => {
-      menuOpen = !menuOpen;
-      mobileMenu.style.display = menuOpen ? "block" : "none";
-    });
+    document.getElementById("mintAddress").innerText = "Mint: " + mint;
+    document.getElementById("symbol").innerText = "Symbol: " + symbol;
 
-    // CHAOS TETİĞİ (animasyon göster + 3sn sonra formu aç)
-    launchBtn.addEventListener("click", () => {
-      chaos.style.display = "flex";
-      formSection.classList.add("hidden");
-      setTimeout(() => {
-        chaos.style.display = "none";
-        formSection.classList.remove("hidden");
-        formSection.scrollIntoView({ behavior: "smooth" });
-      }, 3000);
-    });
-
-    // Wallet bağlantısı
-    async function connectWallet() {
-      if ("solana" in window) {
-        const provider = window.solana;
-        if (provider.isPhantom) {
-          try {
-            const response = await provider.connect();
-            userPublicKey = response.publicKey;
-            connectBtn.innerText = "Connected";
-            connectBtn.disabled = true;
-          } catch (err) {
-            alert("Bağlantı iptal edildi.");
-          }
-        } else {
-          alert("Phantom Wallet yüklü değil.");
-        }
-      } else {
-        alert("Solana tarayıcı desteği yok.");
-      }
+    if (image) {
+      const img = document.getElementById("tokenImage");
+      img.src = decodeURIComponent(image);
+      img.style.display = "block";
     }
 
-    connectBtn.addEventListener("click", connectWallet);
+    document.getElementById("dexFrame").src = `https://jup.ag/swap/SOL-${mint}`;
 
-    // Supabase bağlantısı
     const supabaseUrl = 'https://ugzbsmmaxxklojwlijrt.supabase.co';
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'; // kısa tutuldu
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...';
     const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-    // Top Tokenları Yükle
-    async function loadTopTokens() {
-      const { data, error } = await supabase
-        .from('floop_counts')
-        .select('*')
-        .order('count', { ascending: false })
-        .limit(5);
+    const floopBtn = document.getElementById("floopBtn");
+    const floopResult = document.getElementById("floopResult");
+    const floopCountEl = document.getElementById("floopCount");
 
-      const list = document.getElementById("topFloopList");
-      if (data && data.length > 0) {
-        data.forEach((token) => {
-          const li = document.createElement("li");
-          li.innerHTML = `<a href="token.html?mint=${token.mint}&symbol=FLOOP">${token.mint} — ${token.count} floops</a>`;
-          list.appendChild(li);
-        });
-      } else {
-        list.innerHTML = "<li>No tokens yet.</li>";
-      }
+    async function loadFloopCount() {
+      const { data } = await supabase
+        .from('floop_counts')
+        .select('count')
+        .eq('mint', mint)
+        .single();
+
+      floopCountEl.innerText = `Flooped: ${data?.count ?? 0}`;
     }
 
-    loadTopTokens();
+    loadFloopCount();
 
-    // Token Oluşturma
-    const tokenForm = document.getElementById("tokenForm");
-    const formStatus = document.getElementById("formStatus");
-
-    tokenForm.addEventListener("submit", async function (e) {
-      e.preventDefault();
-
-      const name = document.getElementById("tokenName").value.trim();
-      const symbol = document.getElementById("tokenSymbol").value.trim();
-      const supply = parseInt(document.getElementById("tokenSupply").value.trim());
-      const description = document.getElementById("tokenDescription").value.trim();
-      const socialLink = document.getElementById("socialLink").value.trim();
-      const imageUrl = document.getElementById("tokenImage").value.trim();
-
-      if (!userPublicKey) {
-        formStatus.innerText = "Please connect your wallet first.";
-        formStatus.style.color = "orange";
+    floopBtn.addEventListener("click", async () => {
+      if (!window.solana || !window.solana.isPhantom) {
+        alert("Please install Phantom Wallet.");
         return;
       }
 
-      formStatus.innerText = "Creating token on Solana...";
-      formStatus.style.color = "blue";
-
       try {
-        // Token oluşturma (demo)
-        formStatus.innerText = "Token created successfully! (mock)";
-        formStatus.style.color = "lime";
+        const connection = new solanaWeb3.Connection(
+          solanaWeb3.clusterApiUrl("mainnet-beta"),
+          "confirmed"
+        );
+        const response = await window.solana.connect();
+        const user = response.publicKey;
+
+        const transaction = new solanaWeb3.Transaction().add(
+          solanaWeb3.SystemProgram.transfer({
+            fromPubkey: user,
+            toPubkey: new solanaWeb3.PublicKey("BiDrwH1vdp8KtKMsmtKV2aSfwzjbrFe8KbxUGg1DKfi"),
+            lamports: solanaWeb3.LAMPORTS_PER_SOL * 0.01
+          })
+        );
+
+        transaction.feePayer = user;
+        transaction.recentBlockhash = (await connection.getRecentBlockhash()).blockhash;
+
+        const signed = await window.solana.signTransaction(transaction);
+        const signature = await connection.sendRawTransaction(signed.serialize());
+        await connection.confirmTransaction(signature);
+
+        floopResult.innerText = "Thanks! Token successfully Flooped.";
+        floopResult.style.color = "lime";
+
+        const { data } = await supabase
+          .from('floop_counts')
+          .select('count')
+          .eq('mint', mint)
+          .single();
+
+        if (data) {
+          await supabase.from('floop_counts')
+            .update({ count: data.count + 1 })
+            .eq('mint', mint);
+        } else {
+          await supabase.from('floop_counts')
+            .insert({ mint: mint, count: 1 });
+        }
+
+        loadFloopCount();
       } catch (err) {
         console.error(err);
-        formStatus.innerText = "Token creation failed.";
-        formStatus.style.color = "red";
+        floopResult.innerText = "Transaction failed or cancelled.";
+        floopResult.style.color = "red";
       }
     });
+
+    function shareOnTwitter() {
+      const pageUrl = window.location.href;
+      const text = `Check out my meme token ${symbol} on Solana!`;
+      const tweet = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(pageUrl)}`;
+      window.open(tweet, '_blank');
+    }
+
+    function shareOnTelegram() {
+      const pageUrl = window.location.href;
+      const msg = `Check out my meme token ${symbol} on Solana: ${pageUrl}`;
+      const tg = `https://t.me/share/url?url=${encodeURIComponent(pageUrl)}&text=${encodeURIComponent(msg)}`;
+      window.open(tg, '_blank');
+    }
+
+    function copyMint() {
+      navigator.clipboard.writeText(mint).then(() => {
+        document.getElementById("copyResult").innerText = "Mint address copied!";
+        setTimeout(() => {
+          document.getElementById("copyResult").innerText = "";
+        }, 2000);
+      });
+    }
   </script>
+</body>
+</html>
+<!-- floppfun/index.html - PART 2/4 - BODY BAŞLANGICI -->
+
+<!-- HEADER -->
+<header class="main-header">
+  <div class="nav-left">
+    <img src="images/floop-mascot.png" class="logo-icon" alt="Floop" />
+    <h1 class="logo-text">Floop.fun</h1>
+  </div>
+  <div class="nav-right">
+    <button id="connectWallet" class="connect-btn">bağlamak</button>
+    <button class="icon-btn" id="searchBtn">🔍</button>
+    <button class="icon-btn" id="menuBtn">☰</button>
+  </div>
+</header>
+
+<!-- MOBİL MENÜ -->
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><span>✨</span> bir tarikat başlatın (ücretsiz!)</li>
+    <li><span>📄</span> Uwu bu ne</li>
+    <li><span>🔍</span> Solscan'da BOOP</li>
+    <li><span>✈️</span> telegrama katıl</li>
+    <li><span>𝕏</span> x'i takip et</li>
+  </ul>
+</div>
+
+<!-- ANİMASYON BAŞLIĞI -->
+<main class="hero-section">
+  <div class="hero-content">
+    <h2 class="hero-title">Launch Your Meme Token</h2>
+    <p class="hero-subtitle">Just pure meme magic.</p>
+    <button id="launchBtn" class="launch-btn">Release The Chaos</button>
+  </div>
+</main>
+<!-- FİLTRE ŞERİDİ -->
+<section class="filter-bar">
+  <button class="filter-btn active">Yeni Başlatıldı</button>
+  <button class="filter-btn">Mezun Olmak Üzere</button>
+  <button class="filter-btn">En Yüksek MCAP</button>
+  <button class="filter-btn">Hacme Göre</button>
+  <button class="filter-btn">En Çok Flooplananlar</button>
+</section>
+
+<!-- CHAOS ANİMASYONU -->
+<section id="chaosAnimation" class="chaos-animation">
+  <div class="chaos-container">
+    <img src="images/solana.svg" alt="Solana" class="solana-bounce" />
+    <img src="images/fire.gif" alt="Fire" class="chaos-fire" />
+    <img src="images/floop-mascot.png" alt="Mascot" class="mascot-img" />
+  </div>
+</section>
+
+<!-- TOKEN FORMU -->
+<section id="tokenFormSection" class="form-wrapper hidden">
+  <h3>Create Your Token</h3>
+  <form id="tokenForm">
+    <input type="text" id="tokenName" placeholder="Token Name" required />
+    <input type="text" id="tokenSymbol" placeholder="Symbol (e.g. FLOP)" maxlength="5" required />
+    <input type="number" id="tokenSupply" placeholder="Total Supply" required min="1" />
+    <input type="url" id="tokenImage" placeholder="Image URL (optional)" />
+    <textarea id="tokenDescription" placeholder="Describe your token (optional)"></textarea>
+    <input type="url" id="socialLink" placeholder="Social Media Link (optional)" />
+    <button type="submit">Create Token</button>
+  </form>
+  <div id="formStatus" class="wallet-status"></div>
+</section>
+<!-- TOP TOKENLAR -->
+<section id="topTokens">
+  <h3>Top Flooped Tokens</h3>
+  <ul id="topFloopList"></ul>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2025 Floop.fun. All rights reserved.</p>
+</footer>
+
+<!-- ALT MENÜ -->
+<nav class="bottom-nav">
+  <a href="#" class="nav-link active"><img src="images/icons/cult.png" alt="" /><span>cults</span></a>
+  <a href="#" class="nav-link"><img src="images/icons/rewards.png" alt="" /><span>rewards</span></a>
+  <a href="#" class="nav-link"><img src="images/icons/staking.png" alt="" /><span>staking</span></a>
+  <a href="leaderboard.html" class="nav-link"><img src="images/icons/leaderboard.png" alt="" /><span>leaderb.</span></a>
+  <a href="#" class="nav-link"><img src="images/icons/airdrop.png" alt="" /><span>airdrop</span></a>
+</nav>
+
+<!-- SCRIPT -->
+<script>
+  const connectBtn = document.getElementById("connectWallet");
+  const launchBtn = document.getElementById("launchBtn");
+  const formSection = document.getElementById("tokenFormSection");
+  const chaos = document.getElementById("chaosAnimation");
+  const mobileMenu = document.getElementById("mobileMenu");
+  const menuBtn = document.getElementById("menuBtn");
+
+  // Mobil Menü Toggle
+  let menuOpen = false;
+  menuBtn.addEventListener("click", () => {
+    menuOpen = !menuOpen;
+    mobileMenu.style.display = menuOpen ? "block" : "none";
+  });
+
+  // Animasyon Sonrası Form Gösterimi
+  launchBtn.addEventListener("click", () => {
+    chaos.style.display = "flex";
+    formSection.classList.add("hidden");
+    setTimeout(() => {
+      chaos.style.display = "none";
+      formSection.classList.remove("hidden");
+      formSection.scrollIntoView({ behavior: "smooth" });
+    }, 3000);
+  });
+
+  // Wallet
+  async function connectWallet() {
+    if ("solana" in window) {
+      const provider = window.solana;
+      if (provider.isPhantom) {
+        try {
+          const response = await provider.connect();
+          connectBtn.innerText = "Connected";
+          connectBtn.disabled = true;
+        } catch {
+          alert("Bağlantı iptal edildi.");
+        }
+      } else {
+        alert("Phantom Wallet yüklü değil.");
+      }
+    } else {
+      alert("Solana tarayıcı desteği yok.");
+    }
+  }
+  connectBtn.addEventListener("click", connectWallet);
+
+  // Supabase
+  const supabaseUrl = 'https://ugzbsmmaxxklojwlijrt.supabase.co';
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR...'; // kısaltıldı
+  const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+  // Top Tokenları Yükle
+  async function loadTopTokens() {
+    const { data } = await supabase
+      .from('floop_counts')
+      .select('*')
+      .order('count', { ascending: false })
+      .limit(5);
+
+    const list = document.getElementById("topFloopList");
+    list.innerHTML = data?.length
+      ? data.map(t => `<li><a href="token.html?mint=${t.mint}&symbol=FLOOP">${t.mint} — ${t.count} floops</a></li>`).join('')
+      : "<li>No tokens yet.</li>";
+  }
+  loadTopTokens();
+
+  // Token Formu Gönderimi
+  const tokenForm = document.getElementById("tokenForm");
+  const formStatus = document.getElementById("formStatus");
+
+  tokenForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    formStatus.innerText = "Creating token...";
+    formStatus.style.color = "blue";
+
+    try {
+      formStatus.innerText = "Token created successfully! (mock)";
+      formStatus.style.color = "lime";
+    } catch (err) {
+      console.error(err);
+      formStatus.innerText = "Token creation failed.";
+      formStatus.style.color = "red";
+    }
+  });
+</script>
 </body>
 </html>
