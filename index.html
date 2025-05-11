@@ -52,7 +52,6 @@
     <img src="images/floop-mascot.png" alt="Mascot" class="chaos-mascot" />
   </div>
 </section>
-
 <!-- HERO -->
 <main class="hero-section">
   <div class="hero-content">
@@ -69,6 +68,7 @@
   <button class="filter-btn">Top Gainers</button>
   <button class="filter-btn">Oldest</button>
 </section>
+
 <!-- TOKEN FORM -->
 <section id="tokenFormSection" class="form-wrapper hidden">
   <h3>Create Your Token</h3>
@@ -84,7 +84,6 @@
   </form>
   <div id="formStatus" class="wallet-status"></div>
 </section>
-
 <!-- TOP FLOOPED TOKENS -->
 <section id="topTokens">
   <h3>Top Flooped Tokens</h3>
@@ -119,6 +118,7 @@
     <span>airdrop</span>
   </a>
 </nav>
+
 <!-- JS LIBRARIES -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
@@ -128,19 +128,19 @@
 <div id="walletModal" class="wallet-modal hidden">
   <div class="wallet-modal-content">
     <h3>Select a Wallet</h3>
-    <button class="wallet-option" onclick="connectWithWallet('phantom')">
+    <button class="wallet-option">
       <img src="images/icons/phantom.svg" alt="Phantom" class="wallet-icon" />
       Phantom
     </button>
-    <button class="wallet-option" onclick="connectWithWallet('solflare')">
+    <button class="wallet-option" disabled>
       <img src="images/icons/solflare.svg" alt="Solflare" class="wallet-icon" />
       Solflare
     </button>
-    <button class="wallet-option" onclick="connectWithWallet('backpack')">
+    <button class="wallet-option" disabled>
       <img src="images/icons/backpack.svg" alt="Backpack" class="wallet-icon" />
       Backpack
     </button>
-    <button class="wallet-cancel" onclick="closeWalletModal()">Cancel</button>
+    <button class="wallet-cancel" onclick="document.getElementById('walletModal').classList.add('hidden')">Cancel</button>
   </div>
 </div>
 <!-- STYLE BLOCK -->
@@ -228,37 +228,6 @@
   }
 </style>
 <script>
-  function openWalletModal() {
-    document.getElementById("walletModal").classList.remove("hidden");
-  }
-  function closeWalletModal() {
-    document.getElementById("walletModal").classList.add("hidden");
-  }
-
-  async function connectWithWallet(wallet) {
-    closeWalletModal();
-    const connectBtn = document.getElementById("connectWallet");
-
-    if (wallet === "phantom") {
-      if (window.solana && window.solana.isPhantom) {
-        try {
-          const res = await window.solana.connect();
-          const pubkey = res.publicKey.toString();
-          connectBtn.innerText = pubkey.slice(0, 4) + "..." + pubkey.slice(-4);
-          connectBtn.disabled = true;
-        } catch (err) {
-          alert("Phantom connection failed or was canceled.");
-        }
-      } else {
-        window.open("https://phantom.app/", "_blank");
-      }
-    } else {
-      alert(wallet + " support coming soon.");
-    }
-  }
-
-  document.getElementById("connectWallet").addEventListener("click", openWalletModal);
-
   function toggleForm() {
     const chaos = document.getElementById("chaosAnimation");
     const form = document.getElementById("tokenFormSection");
@@ -283,6 +252,33 @@
       preview.style.display = "block";
     } else {
       preview.style.display = "none";
+    }
+  });
+</script>
+<script>
+  async function connectWithWallet() {
+    const connectBtn = document.getElementById("connectWallet");
+
+    if (window.solana && window.solana.isPhantom) {
+      try {
+        const res = await window.solana.connect();
+        const pubkey = res.publicKey.toString();
+        connectBtn.innerText = pubkey.slice(0, 4) + "..." + pubkey.slice(-4);
+        connectBtn.disabled = true;
+        alert("Wallet connected: " + pubkey);
+      } catch (err) {
+        alert("Connection cancelled.");
+      }
+    } else {
+      const currentURL = window.location.href;
+      window.location.href = `https://phantom.app/ul/browse/${encodeURIComponent(currentURL)}`;
+    }
+  }
+
+  window.addEventListener("DOMContentLoaded", () => {
+    const btn = document.getElementById("connectWallet");
+    if (btn) {
+      btn.addEventListener("click", connectWithWallet);
     }
   });
 </script>
