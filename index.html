@@ -118,11 +118,6 @@
     <span>airdrop</span>
   </a>
 </nav>
-
-<!-- JS LIBRARIES -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@solana/spl-token@latest/lib/index.iife.min.js"></script>
 <!-- WALLET MODAL -->
 <div id="walletModal" class="wallet-modal hidden">
   <div class="wallet-modal-content">
@@ -256,50 +251,13 @@
   });
 </script>
 <script>
-  async function connectWithWallet() {
+  document.addEventListener("DOMContentLoaded", () => {
     const connectBtn = document.getElementById("connectWallet");
-
-    // Eğer Phantom tarayıcıda yoksa ve mobildeysek, uygulamaya yönlendir:
-    if (!window.solana || !window.solana.isPhantom) {
-      if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
+    if (connectBtn) {
+      connectBtn.addEventListener("click", () => {
+        // Direkt Phantom uygulamasında aç
         window.location.href = "phantom://ul/browse/https://floopfun25.github.io";
-      } else {
-        alert("Phantom wallet not found. Please install the Phantom extension.");
-      }
-      return;
-    }
-
-    try {
-      if (window.solana.isConnected) {
-        const pubkey = window.solana.publicKey.toString();
-        connectBtn.innerText = pubkey.slice(0, 4) + "..." + pubkey.slice(-4);
-        connectBtn.disabled = true;
-        return;
-      }
-
-      const res = await window.solana.connect();
-      const pubkey = res.publicKey.toString();
-      connectBtn.innerText = pubkey.slice(0, 4) + "..." + pubkey.slice(-4);
-      connectBtn.disabled = true;
-      alert("Wallet connected: " + pubkey);
-    } catch (err) {
-      console.warn("Phantom connection failed.");
-    }
-  }
-
-  window.addEventListener("DOMContentLoaded", () => {
-    const btn = document.getElementById("connectWallet");
-    if (btn) {
-      btn.addEventListener("click", connectWithWallet);
-    }
-
-    if (window.solana?.isConnected) {
-      const pubkey = window.solana.publicKey.toString();
-      const btn = document.getElementById("connectWallet");
-      if (btn) {
-        btn.innerText = pubkey.slice(0, 4) + "..." + pubkey.slice(-4);
-        btn.disabled = true;
-      }
+      });
     }
   });
 </script>
