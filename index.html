@@ -123,12 +123,11 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/spl-token@latest/lib/index.iife.min.js"></script>
-
 <!-- WALLET MODAL -->
 <div id="walletModal" class="wallet-modal hidden">
   <div class="wallet-modal-content">
     <h3>Select a Wallet</h3>
-    <button class="wallet-option">
+    <button class="wallet-option" disabled>
       <img src="images/icons/phantom.svg" alt="Phantom" class="wallet-icon" />
       Phantom
     </button>
@@ -143,6 +142,7 @@
     <button class="wallet-cancel" onclick="document.getElementById('walletModal').classList.add('hidden')">Cancel</button>
   </div>
 </div>
+
 <!-- STYLE BLOCK -->
 <style>
   .wallet-modal {
@@ -259,19 +259,31 @@
   async function connectWithWallet() {
     const connectBtn = document.getElementById("connectWallet");
 
-    if (window.solana && window.solana.isPhantom) {
-      try {
-        const res = await window.solana.connect();
-        const pubkey = res.publicKey.toString();
+    // Mobilde Phantom tarayıcı desteği yoksa yönlendir:
+    if (!window.solana || !window.solana.isPhantom) {
+      if (/Mobi|Android/i.test(navigator.userAgent)) {
+        window.location.href = "https://phantom.app/ul/browse/" + encodeURIComponent(window.location.href);
+      } else {
+        alert("Phantom wallet not found. Please install the Phantom extension.");
+      }
+      return;
+    }
+
+    try {
+      if (window.solana.isConnected) {
+        const pubkey = window.solana.publicKey.toString();
         connectBtn.innerText = pubkey.slice(0, 4) + "..." + pubkey.slice(-4);
         connectBtn.disabled = true;
-        alert("Wallet connected: " + pubkey);
-      } catch (err) {
-        alert("Connection cancelled.");
+        return;
       }
-    } else {
-      const currentURL = window.location.href;
-      window.location.href = `https://phantom.app/ul/browse/${encodeURIComponent(currentURL)}`;
+
+      const res = await window.solana.connect();
+      const pubkey = res.publicKey.toString();
+      connectBtn.innerText = pubkey.slice(0, 4) + "..." + pubkey.slice(-4);
+      connectBtn.disabled = true;
+      alert("Wallet connected: " + pubkey);
+    } catch (err) {
+      console.warn("Phantom connection failed.");
     }
   }
 
@@ -279,6 +291,15 @@
     const btn = document.getElementById("connectWallet");
     if (btn) {
       btn.addEventListener("click", connectWithWallet);
+    }
+
+    if (window.solana?.isConnected) {
+      const pubkey = window.solana.publicKey.toString();
+      const btn = document.getElementById("connectWallet");
+      if (btn) {
+        btn.innerText = pubkey.slice(0, 4) + "..." + pubkey.slice(-4);
+        btn.disabled = true;
+      }
     }
   });
 </script>
