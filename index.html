@@ -259,10 +259,10 @@
   async function connectWithWallet() {
     const connectBtn = document.getElementById("connectWallet");
 
-    // Mobilde Phantom tarayıcı desteği yoksa yönlendir:
+    // Eğer Phantom tarayıcıda yoksa ve mobildeysek, uygulamaya yönlendir:
     if (!window.solana || !window.solana.isPhantom) {
-      if (/Mobi|Android/i.test(navigator.userAgent)) {
-        window.location.href = "https://phantom.app/ul/browse/" + encodeURIComponent(window.location.href);
+      if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
+        window.location.href = "phantom://ul/browse/https://floopfun25.github.io";
       } else {
         alert("Phantom wallet not found. Please install the Phantom extension.");
       }
