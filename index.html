@@ -118,6 +118,11 @@
     <span>airdrop</span>
   </a>
 </nav>
+
+<!-- JS LIBRARIES -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@solana/spl-token@latest/lib/index.iife.min.js"></script>
 <!-- WALLET MODAL -->
 <div id="walletModal" class="wallet-modal hidden">
   <div class="wallet-modal-content">
@@ -255,8 +260,8 @@
     const connectBtn = document.getElementById("connectWallet");
     if (connectBtn) {
       connectBtn.addEventListener("click", () => {
-        // Direkt Phantom uygulamasında aç
-        window.location.href = "phantom://ul/browse/https://floopfun25.github.io";
+        // Boop.fun tarzı yönlendirme (mavi ekran garantili)
+        window.location.href = "https://phantom.app/ul/browse/https://floopfun25.github.io";
       });
     }
   });
