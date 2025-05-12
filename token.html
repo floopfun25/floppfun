@@ -56,8 +56,6 @@
   <div id="floopCount">Flooped: ...</div>
   <button id="floopBtn" class="connect-btn">Floop This Token (0.01 SOL)</button>
   <p id="floopResult" class="wallet-status"></p>
-<!-- floppfun/token.html — PART 2/3 -->
-
   <!-- PAYLAŞIM BUTONLARI -->
   <div id="shareBox" class="token-box">
     <p style="font-weight: bold;">Share your token:</p>
@@ -82,9 +80,13 @@
   <a href="leaderboard.html" class="nav-link"><img src="images/icons/leaderboard.png" alt="" /><span>leaderb.</span></a>
   <a href="airdrop.html" class="nav-link active"><img src="images/icons/airdrop.png" alt="" /><span>airdrop</span></a>
 </nav>
-<!-- floppfun/token.html — PART 3/3 -->
+
+<!-- KÜTÜPHANELER -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
+
+<!-- Phantom Yönlendirme Linki (mobil uyumlu) -->
+<a href="https://phantom.app/ul/browse/https://floopfun25.github.io/floppfun/token.html?connect=phantom" id="phantomLink" style="display:none;">Phantom</a>
 <script>
   const url = new URLSearchParams(window.location.search);
   const mint = url.get('mint');
@@ -116,7 +118,6 @@
       .select('count')
       .eq('mint', mint)
       .single();
-
     floopCountEl.innerText = `Flooped: ${data?.count ?? 0}`;
   }
 
@@ -127,11 +128,9 @@
       alert("Please install Phantom Wallet.");
       return;
     }
-
     try {
       const connection = new solanaWeb3.Connection(
-        solanaWeb3.clusterApiUrl("mainnet-beta"),
-        "confirmed"
+        solanaWeb3.clusterApiUrl("mainnet-beta"), "confirmed"
       );
       const response = await window.solana.connect();
       const user = response.publicKey;
@@ -143,7 +142,6 @@
           lamports: solanaWeb3.LAMPORTS_PER_SOL * 0.01
         })
       );
-
       transaction.feePayer = user;
       transaction.recentBlockhash = (await connection.getRecentBlockhash()).blockhash;
 
@@ -154,19 +152,11 @@
       floopResult.innerText = "Thanks! Token successfully Flooped.";
       floopResult.style.color = "lime";
 
-      const { data } = await supabase
-        .from('floop_counts')
-        .select('count')
-        .eq('mint', mint)
-        .single();
-
+      const { data } = await supabase.from('floop_counts').select('count').eq('mint', mint).single();
       if (data) {
-        await supabase.from('floop_counts')
-          .update({ count: data.count + 1 })
-          .eq('mint', mint);
+        await supabase.from('floop_counts').update({ count: data.count + 1 }).eq('mint', mint);
       } else {
-        await supabase.from('floop_counts')
-          .insert({ mint: mint, count: 1 });
+        await supabase.from('floop_counts').insert({ mint: mint, count: 1 });
       }
 
       loadFloopCount();
@@ -200,26 +190,66 @@
     });
   }
 
-  // Arama toggle
-  document.getElementById("searchBtn")?.addEventListener("click", () => {
-    const box = document.getElementById("searchContainer");
-    box.classList.toggle("hidden");
-    if (!box.classList.contains("hidden")) {
-      document.getElementById("searchInput").focus();
+  // Phantom bağlanma sistemi (mobil ve masaüstü uyumlu)
+  async function connectPhantomWallet() {
+    try {
+      const provider = window.solana;
+      if (provider && provider.isPhantom) {
+        const resp = await provider.connect();
+        const walletAddress = resp.publicKey.toString();
+        document.getElementById("connectWallet").textContent =
+          walletAddress.slice(0, 4) + "..." + walletAddress.slice(-4);
+      } else {
+        document.getElementById("phantomLink").click();
+      }
+    } catch (err) {
+      console.error("Phantom connection failed", err);
     }
-  });
+  }
 
-  // Menü toggle
-  document.getElementById("menuBtn")?.addEventListener("click", () => {
-    document.getElementById("mobileMenu")?.classList.toggle("visible");
-  });
+  document.addEventListener("DOMContentLoaded", () => {
+    const connectBtn = document.getElementById("connectWallet");
 
-  // Ses butonu toggle
-  const muteToggle = document.getElementById("muteToggle");
-  let isMuted = false;
-  muteToggle?.addEventListener("click", () => {
-    isMuted = !isMuted;
-    muteToggle.innerText = isMuted ? "🔇" : "🔊";
+    connectBtn?.addEventListener("click", () => {
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      if (isMobile) {
+        document.getElementById("phantomLink").click();
+      } else {
+        connectPhantomWallet();
+      }
+    });
+
+    if (window.solana && window.solana.isPhantom) {
+      window.solana.connect({ onlyIfTrusted: true }).then((resp) => {
+        const walletAddress = resp.publicKey.toString();
+        document.getElementById("connectWallet").textContent =
+          walletAddress.slice(0, 4) + "..." + walletAddress.slice(-4);
+      }).catch(() => {});
+    }
+
+    if (window.location.search.includes("connect=phantom")) {
+      connectPhantomWallet();
+    }
+
+    // Arama & Menü & Ses kontrolleri
+    document.getElementById("searchBtn")?.addEventListener("click", () => {
+      const box = document.getElementById("searchContainer");
+      box.classList.toggle("hidden");
+      if (!box.classList.contains("hidden")) {
+        document.getElementById("searchInput").focus();
+      }
+    });
+
+    document.getElementById("menuBtn")?.addEventListener("click", () => {
+      document.getElementById("mobileMenu")?.classList.toggle("visible");
+    });
+
+    const muteToggle = document.getElementById("muteToggle");
+    let isMuted = false;
+    muteToggle?.addEventListener("click", () => {
+      isMuted = !isMuted;
+      muteToggle.innerText = isMuted ? "🔇" : "🔊";
+    });
   });
 </script>
 </body>
