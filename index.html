@@ -52,6 +52,7 @@
     <img src="images/floop-mascot.png" alt="Mascot" class="chaos-mascot" />
   </div>
 </section>
+
 <!-- HERO -->
 <main class="hero-section">
   <div class="hero-content">
@@ -59,7 +60,6 @@
     <p class="hero-subtitle">Just pure meme magic.</p>
   </div>
 </main>
-
 <!-- FILTER BAR -->
 <section class="filter-bar">
   <button class="filter-btn active">Newly Launched</button>
@@ -84,6 +84,7 @@
   </form>
   <div id="formStatus" class="wallet-status"></div>
 </section>
+
 <!-- TOP FLOOPED TOKENS -->
 <section id="topTokens">
   <h3>Top Flooped Tokens</h3>
@@ -255,14 +256,40 @@
     }
   });
 </script>
+
 <script>
+  async function connectPhantomWallet() {
+    try {
+      const provider = window.solana;
+      if (provider && provider.isPhantom) {
+        const resp = await provider.connect();
+        const walletAddress = resp.publicKey.toString();
+        console.log("Wallet Connected:", walletAddress);
+        document.getElementById("connectWallet").textContent =
+          walletAddress.slice(0, 4) + "..." + walletAddress.slice(-4);
+      } else {
+        // Phantom yüklü değilse yönlendir
+        window.location.href = "https://phantom.app/ul/browse/https://floopfun25.github.io/floppfun/";
+      }
+    } catch (err) {
+      console.error("Wallet connection failed:", err);
+    }
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
     const connectBtn = document.getElementById("connectWallet");
     if (connectBtn) {
-      connectBtn.addEventListener("click", () => {
-        // Boop.fun tarzı yönlendirme (mavi ekran garantili)
-        window.location.href = "https://phantom.app/ul/browse/https://floopfun25.github.io/floppfun/";
+      connectBtn.addEventListener("click", connectPhantomWallet);
+    }
 
+    // Otomatik yeniden bağlantı
+    if (window.solana && window.solana.isPhantom) {
+      window.solana.connect({ onlyIfTrusted: true }).then((resp) => {
+        const walletAddress = resp.publicKey.toString();
+        document.getElementById("connectWallet").textContent =
+          walletAddress.slice(0, 4) + "..." + walletAddress.slice(-4);
+      }).catch(() => {
+        // kullanıcı bağlamamışsa sessiz geç
       });
     }
   });
