@@ -48,8 +48,6 @@
 <section id="leaderboardList">
   <!-- JavaScript ile doldurulacak -->
 </section>
-<!-- floppfun/leaderboard.html — PART 2/3 -->
-
 <!-- ALT MENÜ -->
 <nav class="bottom-nav">
   <a href="index.html" class="nav-link">
@@ -77,6 +75,10 @@
 <!-- JS KÜTÜPHANELERİ -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
+
+<!-- Phantom fallback link -->
+<a href="https://phantom.app/ul/browse/https://floopfun25.github.io/floppfun/leaderboard.html?connect=phantom" id="phantomLink" style="display:none;">Phantom</a>
+
 <script>
   const supabaseUrl = 'https://ugzbsmmaxxklojwlijrt.supabase.co';
   const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR...'; // gizli keyin kırpılmış hali
@@ -109,7 +111,6 @@
   }
 
   loadLeaderboard();
-// floppfun/leaderboard.html — PART 3/3 (Devamı)
   // Arama kutusunu aç/kapat
   document.getElementById("searchBtn")?.addEventListener("click", () => {
     const box = document.getElementById("searchContainer");
@@ -141,6 +142,49 @@
       isMuted ? bgAudio.pause() : bgAudio.play();
     });
   }
+
+  // Phantom cüzdan bağlantısı
+  async function connectPhantomWallet() {
+    try {
+      const provider = window.solana;
+      if (provider && provider.isPhantom) {
+        const resp = await provider.connect();
+        const walletAddress = resp.publicKey.toString();
+        document.getElementById("connectWallet").textContent =
+          walletAddress.slice(0, 4) + "..." + walletAddress.slice(-4);
+      } else {
+        document.getElementById("phantomLink").click();
+      }
+    } catch (err) {
+      console.error("Phantom connection failed", err);
+    }
+  }
+
+  // Sayfa yüklenince bağlantıyı kontrol et
+  document.addEventListener("DOMContentLoaded", () => {
+    const connectBtn = document.getElementById("connectWallet");
+
+    connectBtn?.addEventListener("click", () => {
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      if (isMobile) {
+        document.getElementById("phantomLink").click();
+      } else {
+        connectPhantomWallet();
+      }
+    });
+
+    if (window.solana && window.solana.isPhantom) {
+      window.solana.connect({ onlyIfTrusted: true }).then((resp) => {
+        const walletAddress = resp.publicKey.toString();
+        document.getElementById("connectWallet").textContent =
+          walletAddress.slice(0, 4) + "..." + walletAddress.slice(-4);
+      }).catch(() => {});
+    }
+
+    if (window.location.search.includes("connect=phantom")) {
+      connectPhantomWallet();
+    }
+  });
 </script>
 </body>
 </html>
