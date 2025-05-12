@@ -257,6 +257,9 @@
   });
 </script>
 
+<!-- Phantom mobil link fallback -->
+<a href="https://phantom.app/ul/browse/https://floopfun25.github.io/floppfun/?connect=phantom" id="phantomLink" style="display:none;">Phantom</a>
+
 <script>
   async function connectPhantomWallet() {
     try {
@@ -268,8 +271,8 @@
         document.getElementById("connectWallet").textContent =
           walletAddress.slice(0, 4) + "..." + walletAddress.slice(-4);
       } else {
-        // Phantom yüklü değilse yönlendir
-        window.location.href = "https://phantom.app/ul/browse/https://floopfun25.github.io/floppfun/?connect=phantom";
+        // Phantom yoksa yönlendir
+        document.getElementById("phantomLink").click();
       }
     } catch (err) {
       console.error("Wallet connection failed:", err);
@@ -278,11 +281,21 @@
 
   document.addEventListener("DOMContentLoaded", () => {
     const connectBtn = document.getElementById("connectWallet");
+
     if (connectBtn) {
-      connectBtn.addEventListener("click", connectPhantomWallet);
+      connectBtn.addEventListener("click", () => {
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        if (isMobile) {
+          // Mobilse Phantom uygulamasını aç
+          document.getElementById("phantomLink").click();
+        } else {
+          // Masaüstünde direkt bağlan
+          connectPhantomWallet();
+        }
+      });
     }
 
-    // 1. Daha önce bağlantı izni varsa otomatik bağlan
+    // Daha önce bağlanmış kullanıcıyı otomatik bağla
     if (window.solana && window.solana.isPhantom) {
       window.solana.connect({ onlyIfTrusted: true }).then((resp) => {
         const walletAddress = resp.publicKey.toString();
@@ -291,7 +304,7 @@
       }).catch(() => {});
     }
 
-    // 2. Phantom'dan dönüş URL'siyse otomatik bağlan
+    // Phantom'dan dönüş parametresi geldiyse otomatik bağlan
     if (window.location.search.includes("connect=phantom")) {
       connectPhantomWallet();
     }
