@@ -78,6 +78,10 @@ button {
   font-weight: 600;
   font-size: 0.9rem;
   transition: box-shadow 0.2s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 120px;
 }
 .connect-btn:hover {
   box-shadow: 0 0 10px #00ffeeaa;
@@ -88,6 +92,7 @@ button {
   color: #00ffee;
   margin: 0 6px;
 }
+
 /* ARAMA KUTUSU */
 .search-container {
   padding: 16px;
@@ -107,7 +112,6 @@ button {
   font-size: 0.9rem;
   box-shadow: 0 0 10px #00ffee33 inset;
 }
-
 /* START YOUR CULT BOX */
 .start-your-cult-box {
   background: #1a1a2f;
@@ -169,6 +173,7 @@ button {
   background: #00ffee;
   color: #000;
 }
+
 /* TOKEN FORM */
 .form-wrapper {
   background: #111827;
@@ -218,7 +223,7 @@ button {
   display: none;
 }
 
-/* TOKEN LİSTESİ */
+/* TOKEN LIST */
 .token-list {
   list-style: none;
   padding: 0;
@@ -243,6 +248,70 @@ button {
   font-weight: bold;
   font-size: 0.95rem;
 }
+
+/* TOKEN KART (LEADERBOARD) */
+.token-card {
+  background: #1a1a2f;
+  color: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 12px auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 500px;
+  box-shadow: 0 0 10px #00ffee22;
+}
+.token-card img {
+  width: 40px;
+  height: 40px;
+}
+.token-info h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: #00ffee;
+}
+.token-info p {
+  margin: 2px 0;
+  font-size: 0.85rem;
+}
+
+/* DEX FRAME (TOKEN.HTML) */
+.dex-frame {
+  border-radius: 12px;
+  overflow: hidden;
+  background: #0a0a23;
+}
+
+/* MOBILE MENU */
+.mobile-menu {
+  position: absolute;
+  top: 60px;
+  right: 14px;
+  background: #111;
+  padding: 16px;
+  border-radius: 14px;
+  box-shadow: 0 0 20px #00ffee33;
+  display: none;
+  z-index: 9999;
+}
+.mobile-menu.visible {
+  display: block;
+}
+.mobile-menu ul {
+  list-style: none;
+  padding: 0;
+}
+.mobile-menu li {
+  padding: 8px 0;
+  font-size: 0.9rem;
+  color: #00ffee;
+  border-bottom: 1px solid #00ffee22;
+}
+.mobile-menu li span {
+  margin-right: 8px;
+}
+
 /* FOOTER */
 .footer {
   margin-top: 40px;
