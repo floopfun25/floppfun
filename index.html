@@ -269,7 +269,7 @@
           walletAddress.slice(0, 4) + "..." + walletAddress.slice(-4);
       } else {
         // Phantom yüklü değilse yönlendir
-        window.location.href = "https://phantom.app/ul/browse/https://floopfun25.github.io/floppfun/";
+        window.location.href = "https://phantom.app/ul/browse/https://floopfun25.github.io/floppfun/?connect=phantom";
       }
     } catch (err) {
       console.error("Wallet connection failed:", err);
@@ -282,15 +282,18 @@
       connectBtn.addEventListener("click", connectPhantomWallet);
     }
 
-    // Otomatik yeniden bağlantı
+    // 1. Daha önce bağlantı izni varsa otomatik bağlan
     if (window.solana && window.solana.isPhantom) {
       window.solana.connect({ onlyIfTrusted: true }).then((resp) => {
         const walletAddress = resp.publicKey.toString();
         document.getElementById("connectWallet").textContent =
           walletAddress.slice(0, 4) + "..." + walletAddress.slice(-4);
-      }).catch(() => {
-        // kullanıcı bağlamamışsa sessiz geç
-      });
+      }).catch(() => {});
+    }
+
+    // 2. Phantom'dan dönüş URL'siyse otomatik bağlan
+    if (window.location.search.includes("connect=phantom")) {
+      connectPhantomWallet();
     }
   });
 </script>
