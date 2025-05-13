@@ -67,8 +67,11 @@ button {
   background: transparent;
 }
 .boop-logo {
-  width: 30px;
-  height: 30px;
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  border-radius: 50%;
+  box-shadow: none;
 }
 .connect-btn {
   background: #00ffee;
@@ -173,7 +176,6 @@ button {
   background: #00ffee;
   color: #000;
 }
-
 /* TOKEN FORM */
 .form-wrapper {
   background: #111827;
