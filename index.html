@@ -14,10 +14,10 @@
 </head>
 <body>
 
-<!-- ÜST MASKOT + SES -->
+<!-- ÜST MASKOT + FLOOP LOGO -->
 <div class="floating-top-left">
   <img src="images/floop-mascot.png" alt="Mascot" class="floating-mascot" />
-  <button id="muteToggle" class="mute-button">🔊</button>
+  <span class="floop-label">floop</span>
 </div>
 
 <!-- HEADER -->
@@ -144,7 +144,7 @@
   </div>
 </div>
 
-<!-- STYLE BLOCK -->
+<!-- STİL BLOĞU -->
 <style>
   .floating-top-left {
     position: fixed;
@@ -153,14 +153,21 @@
     z-index: 999;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
   }
 
   .floating-mascot {
-    width: 100px;
+    width: 90px;
     height: auto;
-    border-radius: 12px;
-    box-shadow: 0 0 12px rgba(0, 255, 255, 0.3);
+    border-radius: 50%;
+    box-shadow: 0 0 20px #00eaff77;
+  }
+
+  .floop-label {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #00ffee;
+    letter-spacing: 1px;
   }
 
   .wallet-modal {
@@ -257,7 +264,7 @@
   }
 </style>
 
-<!-- SCRIPT BLOCK -->
+<!-- FORM VE CÜZDAN SCRIPTLERİ -->
 <script>
   function toggleForm() {
     const chaos = document.getElementById("chaosAnimation");
