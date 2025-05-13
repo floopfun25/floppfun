@@ -14,13 +14,7 @@
 </head>
 <body>
 
-<!-- ÜST MASKOT + FLOOP LOGO -->
-<div class="floating-top-left">
-  <img src="images/floop-mascot.png" alt="Mascot" class="floating-mascot" />
-  <span class="floop-label">floop</span>
-</div>
-
-<!-- HEADER -->
+<!-- HEADER (tek maskotlu düzen) -->
 <header class="boop-header">
   <div class="boop-left">
     <img src="images/floop-mascot.png" alt="Floop" class="boop-logo" />
@@ -69,6 +63,7 @@
   <button class="filter-btn">Top Gainers</button>
   <button class="filter-btn">Oldest</button>
 </section>
+
 <!-- TOKEN FORM -->
 <section id="tokenFormSection" class="form-wrapper hidden">
   <h3>Create Your Token</h3>
@@ -120,10 +115,11 @@
   </a>
 </nav>
 
-<!-- JS LIBRARIES -->
+<!-- GEREKLİ SCRIPTLER (Aynen korundu) -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/spl-token@latest/lib/index.iife.min.js"></script>
+
 <!-- WALLET MODAL -->
 <div id="walletModal" class="wallet-modal hidden">
   <div class="wallet-modal-content">
@@ -143,126 +139,6 @@
     <button class="wallet-cancel" onclick="document.getElementById('walletModal').classList.add('hidden')">Cancel</button>
   </div>
 </div>
-
-<!-- STİL BLOĞU -->
-<style>
-  .floating-top-left {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    z-index: 999;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .floating-mascot {
-    width: 90px;
-    height: auto;
-    border-radius: 50%;
-    box-shadow: 0 0 20px #00eaff77;
-  }
-
-  .floop-label {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #00ffee;
-    letter-spacing: 1px;
-  }
-
-  .wallet-modal {
-    position: absolute;
-    top: 70px;
-    right: 20px;
-    background: #111;
-    padding: 20px;
-    border-radius: 16px;
-    box-shadow: 0 0 20px #00ffee55;
-    z-index: 1000;
-  }
-
-  .wallet-modal-content {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .wallet-option {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: #00ffee;
-    color: #000;
-    margin: 6px 0;
-    padding: 8px 16px;
-    font-weight: bold;
-    border: none;
-    border-radius: 999px;
-    cursor: pointer;
-    transition: background 0.2s ease;
-  }
-
-  .wallet-option:hover {
-    background: #00ddcc;
-  }
-
-  .wallet-icon {
-    width: 20px;
-    height: 20px;
-  }
-
-  .wallet-cancel {
-    background: none;
-    color: #aaa;
-    border: none;
-    margin-top: 10px;
-    cursor: pointer;
-    font-size: 0.9rem;
-  }
-
-  .chaos-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.85);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 999;
-    animation: fadeIn 0.5s ease;
-  }
-
-  .chaos-content {
-    text-align: center;
-  }
-
-  .chaos-bounce {
-    width: 80px;
-    animation: bounce 1s infinite alternate;
-  }
-
-  .chaos-fire {
-    position: absolute;
-    bottom: -20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100px;
-  }
-
-  .chaos-mascot {
-    width: 60px;
-    margin-top: 10px;
-  }
-
-  @keyframes bounce {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(-20px); }
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-</style>
 
 <!-- FORM VE CÜZDAN SCRIPTLERİ -->
 <script>
