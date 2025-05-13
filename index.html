@@ -60,6 +60,7 @@
     <p class="hero-subtitle">Just pure meme magic.</p>
   </div>
 </main>
+
 <!-- FILTER BAR -->
 <section class="filter-bar">
   <button class="filter-btn active">Newly Launched</button>
@@ -68,7 +69,6 @@
   <button class="filter-btn">Top Gainers</button>
   <button class="filter-btn">Oldest</button>
 </section>
-
 <!-- TOKEN FORM -->
 <section id="tokenFormSection" class="form-wrapper hidden">
   <h3>Create Your Token</h3>
@@ -146,6 +146,23 @@
 
 <!-- STYLE BLOCK -->
 <style>
+  .floating-top-left {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .floating-mascot {
+    width: 100px;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(0, 255, 255, 0.3);
+  }
+
   .wallet-modal {
     position: absolute;
     top: 70px;
@@ -156,11 +173,13 @@
     box-shadow: 0 0 20px #00ffee55;
     z-index: 1000;
   }
+
   .wallet-modal-content {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
   }
+
   .wallet-option {
     display: flex;
     align-items: center;
@@ -175,13 +194,16 @@
     cursor: pointer;
     transition: background 0.2s ease;
   }
+
   .wallet-option:hover {
     background: #00ddcc;
   }
+
   .wallet-icon {
     width: 20px;
     height: 20px;
   }
+
   .wallet-cancel {
     background: none;
     color: #aaa;
@@ -201,13 +223,16 @@
     z-index: 999;
     animation: fadeIn 0.5s ease;
   }
+
   .chaos-content {
     text-align: center;
   }
+
   .chaos-bounce {
     width: 80px;
     animation: bounce 1s infinite alternate;
   }
+
   .chaos-fire {
     position: absolute;
     bottom: -20px;
@@ -215,19 +240,24 @@
     transform: translateX(-50%);
     width: 100px;
   }
+
   .chaos-mascot {
     width: 60px;
     margin-top: 10px;
   }
+
   @keyframes bounce {
     0% { transform: translateY(0); }
     100% { transform: translateY(-20px); }
   }
+
   @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
   }
 </style>
+
+<!-- SCRIPT BLOCK -->
 <script>
   function toggleForm() {
     const chaos = document.getElementById("chaosAnimation");
@@ -257,7 +287,7 @@
   });
 </script>
 
-<!-- Phantom mobil link fallback -->
+<!-- Phantom mobil fallback -->
 <a href="https://phantom.app/ul/browse/https://floopfun25.github.io/floppfun/?connect=phantom" id="phantomLink" style="display:none;">Phantom</a>
 
 <script>
@@ -267,11 +297,9 @@
       if (provider && provider.isPhantom) {
         const resp = await provider.connect();
         const walletAddress = resp.publicKey.toString();
-        console.log("Wallet Connected:", walletAddress);
         document.getElementById("connectWallet").textContent =
           walletAddress.slice(0, 4) + "..." + walletAddress.slice(-4);
       } else {
-        // Phantom yoksa yönlendir
         document.getElementById("phantomLink").click();
       }
     } catch (err) {
@@ -281,21 +309,17 @@
 
   document.addEventListener("DOMContentLoaded", () => {
     const connectBtn = document.getElementById("connectWallet");
-
     if (connectBtn) {
       connectBtn.addEventListener("click", () => {
         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         if (isMobile) {
-          // Mobilse Phantom uygulamasını aç
           document.getElementById("phantomLink").click();
         } else {
-          // Masaüstünde direkt bağlan
           connectPhantomWallet();
         }
       });
     }
 
-    // Daha önce bağlanmış kullanıcıyı otomatik bağla
     if (window.solana && window.solana.isPhantom) {
       window.solana.connect({ onlyIfTrusted: true }).then((resp) => {
         const walletAddress = resp.publicKey.toString();
@@ -304,7 +328,6 @@
       }).catch(() => {});
     }
 
-    // Phantom'dan dönüş parametresi geldiyse otomatik bağlan
     if (window.location.search.includes("connect=phantom")) {
       connectPhantomWallet();
     }
