@@ -16,7 +16,13 @@
 <canvas id="particle-canvas"></canvas>
 <div class="background-grid"></div>
 
-<!-- HEADER (tek maskotlu düzen) -->
+<!-- ÜST MASKOT + SES -->
+<div class="floating-top-left">
+  <img src="images/floop-mascot.png" alt="Floop" class="floating-mascot" />
+  <button id="muteToggle" class="mute-button">🔊</button>
+</div>
+
+<!-- HEADER -->
 <header class="boop-header">
   <div class="boop-left">
     <img src="images/floop-mascot.png" alt="Floop" class="boop-logo" />
@@ -29,6 +35,15 @@
     <button class="icon-btn" id="menuBtn">☰</button>
   </div>
 </header>
+
+<!-- MOBİL MENÜ -->
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><a href="https://x.com/floopfun" target="_blank"><span>𝕏</span> Twitter</a></li>
+    <li><a href="https://t.me/floopfun" target="_blank"><span>✈️</span> Telegram</a></li>
+    <li><a href="https://dexscreener.com/solana" target="_blank"><span>📊</span> Floop Chart</a></li>
+  </ul>
+</div>
 
 <!-- SEARCH -->
 <div id="searchContainer" class="search-container hidden">
@@ -56,7 +71,6 @@
     <p class="hero-subtitle">Just pure meme magic.</p>
   </div>
 </main>
-
 <!-- FILTER BAR -->
 <section class="filter-bar">
   <button class="filter-btn active">Newly Launched</button>
@@ -82,17 +96,18 @@
   <div id="formStatus" class="wallet-status"></div>
 </section>
 
-<!-- TOP FLOOPED TOKENS -->
+<!-- TOP TOKENS -->
 <section id="topTokens">
   <h3>Top Flooped Tokens</h3>
   <ul id="topFloopList" class="token-list"></ul>
 </section>
+
 <!-- FOOTER -->
 <footer class="footer">
   <p>&copy; 2025 Floop.fun. All rights reserved.</p>
 </footer>
 
-<!-- BOTTOM NAV -->
+<!-- ALT MENÜ -->
 <nav class="bottom-nav">
   <a href="index.html" class="nav-link active">
     <img src="images/icons/cult.png" alt="cults" />
@@ -116,108 +131,13 @@
   </a>
 </nav>
 
-<!-- WALLET MODAL -->
-<div id="walletModal" class="wallet-modal hidden">
-  <div class="wallet-modal-content">
-    <h3>Select a Wallet</h3>
-    <button class="wallet-option" disabled>
-      <img src="images/icons/phantom.svg" alt="Phantom" class="wallet-icon" />
-      Phantom
-    </button>
-    <button class="wallet-option" disabled>
-      <img src="images/icons/solflare.svg" alt="Solflare" class="wallet-icon" />
-      Solflare
-    </button>
-    <button class="wallet-option" disabled>
-      <img src="images/icons/backpack.svg" alt="Backpack" class="wallet-icon" />
-      Backpack
-    </button>
-    <button class="wallet-cancel" onclick="document.getElementById('walletModal').classList.add('hidden')">Cancel</button>
-  </div>
-</div>
+<!-- PHANTOM REDIRECT (mobil için) -->
+<a href="https://phantom.app/ul/browse/https://floopfun25.github.io/floppfun/?connect=phantom" id="phantomLink" style="display:none;">Phantom</a>
 
-<!-- GEREKLİ SCRIPTLER -->
+<!-- SCRIPTLER -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/spl-token@latest/lib/index.iife.min.js"></script>
-
-<!-- FORM VE CÜZDAN SCRIPTLERİ -->
-<script>
-  function toggleForm() {
-    const chaos = document.getElementById("chaosAnimation");
-    const form = document.getElementById("tokenFormSection");
-
-    if (chaos.classList.contains("hidden")) {
-      chaos.classList.remove("hidden");
-      setTimeout(() => {
-        chaos.classList.add("hidden");
-        form.classList.remove("hidden");
-      }, 1500);
-    } else {
-      form.classList.add("hidden");
-      chaos.classList.add("hidden");
-    }
-  }
-
-  document.getElementById("tokenImage").addEventListener("input", function () {
-    const preview = document.getElementById("imagePreview");
-    const url = this.value.trim();
-    if (url) {
-      preview.src = url;
-      preview.style.display = "block";
-    } else {
-      preview.style.display = "none";
-    }
-  });
-</script>
-
-<!-- Phantom mobil fallback -->
-<a href="https://phantom.app/ul/browse/https://floopfun25.github.io/floppfun/?connect=phantom" id="phantomLink" style="display:none;">Phantom</a>
-
-<script>
-  async function connectPhantomWallet() {
-    try {
-      const provider = window.solana;
-      if (provider && provider.isPhantom) {
-        const resp = await provider.connect();
-        const walletAddress = resp.publicKey.toString();
-        document.getElementById("connectWallet").textContent =
-          walletAddress.slice(0, 4) + "..." + walletAddress.slice(-4);
-      } else {
-        document.getElementById("phantomLink").click();
-      }
-    } catch (err) {
-      console.error("Wallet connection failed:", err);
-    }
-  }
-
-  document.addEventListener("DOMContentLoaded", () => {
-    const connectBtn = document.getElementById("connectWallet");
-    if (connectBtn) {
-      connectBtn.addEventListener("click", () => {
-        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-        if (isMobile) {
-          document.getElementById("phantomLink").click();
-        } else {
-          connectPhantomWallet();
-        }
-      });
-    }
-
-    if (window.solana && window.solana.isPhantom) {
-      window.solana.connect({ onlyIfTrusted: true }).then((resp) => {
-        const walletAddress = resp.publicKey.toString();
-        document.getElementById("connectWallet").textContent =
-          walletAddress.slice(0, 4) + "..." + walletAddress.slice(-4);
-      }).catch(() => {});
-    }
-
-    if (window.location.search.includes("connect=phantom")) {
-      connectPhantomWallet();
-    }
-  });
-</script>
-
 <script src="script.js"></script>
 </body>
 </html>
