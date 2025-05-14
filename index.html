@@ -14,6 +14,9 @@
 </head>
 <body>
 
+<!-- ARKA PLAN GRID -->
+<div class="background-grid"></div>
+
 <!-- HEADER (tek maskotlu düzen) -->
 <header class="boop-header">
   <div class="boop-left">
@@ -46,7 +49,6 @@
     <img src="images/floop-mascot.png" alt="Mascot" class="chaos-mascot" />
   </div>
 </section>
-
 <!-- HERO -->
 <main class="hero-section">
   <div class="hero-content">
@@ -85,7 +87,6 @@
   <h3>Top Flooped Tokens</h3>
   <ul id="topFloopList" class="token-list"></ul>
 </section>
-
 <!-- FOOTER -->
 <footer class="footer">
   <p>&copy; 2025 Floop.fun. All rights reserved.</p>
@@ -115,11 +116,6 @@
   </a>
 </nav>
 
-<!-- GEREKLİ SCRIPTLER -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@solana/spl-token@latest/lib/index.iife.min.js"></script>
-
 <!-- WALLET MODAL -->
 <div id="walletModal" class="wallet-modal hidden">
   <div class="wallet-modal-content">
@@ -139,6 +135,12 @@
     <button class="wallet-cancel" onclick="document.getElementById('walletModal').classList.add('hidden')">Cancel</button>
   </div>
 </div>
+
+<!-- GEREKLİ SCRIPTLER -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@solana/spl-token@latest/lib/index.iife.min.js"></script>
+
 <!-- FORM VE CÜZDAN SCRIPTLERİ -->
 <script>
   function toggleForm() {
