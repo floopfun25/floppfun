@@ -107,3 +107,54 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+// === NEON PARTICLE RAIN ===
+const canvas = document.getElementById("particle-canvas");
+if (canvas) {
+  const ctx = canvas.getContext("2d");
+  let particles = [];
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  window.addEventListener("resize", resizeCanvas);
+  resizeCanvas();
+
+  function createParticles(count) {
+    particles = [];
+    for (let i = 0; i < count; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 1.5 + 0.5,
+        speedY: Math.random() * 0.5 + 0.2,
+        alpha: Math.random() * 0.5 + 0.3
+      });
+    }
+  }
+  createParticles(120);
+
+  function animateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(0, 255, 238, ${p.alpha})`;
+      ctx.fill();
+      p.y += p.speedY;
+      if (p.y > canvas.height) {
+        p.y = 0;
+        p.x = Math.random() * canvas.width;
+      }
+    });
+    requestAnimationFrame(animateParticles);
+  }
+  animateParticles();
+}
+
+// === INTRO GLITCH AUTO REMOVE ===
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    document.body.classList.remove("intro-glitch");
+  }, 700);
+});
