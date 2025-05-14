@@ -12,6 +12,9 @@ body {
   text-align: center;
   line-height: 1.6;
   padding-bottom: 90px;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
 }
 
 a {
@@ -65,13 +68,18 @@ button {
   align-items: center;
   padding: 14px 20px;
   background: transparent;
+  margin-top: 40px;
 }
 .boop-logo {
   width: 42px;
   height: 42px;
   object-fit: contain;
   border-radius: 50%;
-  box-shadow: none;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+.boop-logo:hover {
+  transform: scale(1.1) rotate(-2deg);
+  filter: drop-shadow(0 0 6px #00ffee) brightness(1.2);
 }
 .connect-btn {
   background: #00ffee;
@@ -137,6 +145,7 @@ button {
 /* HERO */
 .hero-section {
   padding: 40px 20px 20px;
+  margin-top: 60px;
 }
 .hero-title {
   font-size: 1.8rem;
@@ -177,7 +186,6 @@ button {
   background: #00ffee;
   color: #000;
 }
-
 /* TOKEN FORM */
 .form-wrapper {
   background: #111827;
@@ -227,6 +235,49 @@ button {
   display: none;
 }
 
+/* TOKEN KART + SHIMMER GLOW */
+.token-card {
+  background: #1a1a2f;
+  color: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 12px auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 500px;
+  box-shadow: 0 0 10px #00ffee22;
+  position: relative;
+  overflow: hidden;
+}
+.token-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(0, 255, 238, 0.4), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.5s ease;
+}
+.token-card:hover::before {
+  left: 125%;
+}
+.token-card img {
+  width: 40px;
+  height: 40px;
+}
+.token-info h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: #00ffee;
+}
+.token-info p {
+  margin: 2px 0;
+  font-size: 0.85rem;
+}
+
 /* TOKEN LİSTESİ */
 .token-list {
   list-style: none;
@@ -251,33 +302,6 @@ button {
   text-decoration: none;
   font-weight: bold;
   font-size: 0.95rem;
-}
-
-/* TOKEN KART */
-.token-card {
-  background: #1a1a2f;
-  color: #fff;
-  border-radius: 12px;
-  padding: 16px;
-  margin: 12px auto;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  max-width: 500px;
-  box-shadow: 0 0 10px #00ffee22;
-}
-.token-card img {
-  width: 40px;
-  height: 40px;
-}
-.token-info h3 {
-  margin: 0;
-  font-size: 1rem;
-  color: #00ffee;
-}
-.token-info p {
-  margin: 2px 0;
-  font-size: 0.85rem;
 }
 
 /* DEX */
@@ -386,7 +410,7 @@ button {
   }
 }
 
-/* === ANİMASYONLU GLOW & GRID === */
+/* GLOW & PARTICLE BACKGROUND */
 body::before {
   content: "";
   position: fixed;
@@ -400,11 +424,20 @@ body::before {
   z-index: -1;
   pointer-events: none;
 }
-
 @keyframes flowGlow {
   0% { transform: rotate(0deg) scale(1); }
   50% { transform: rotate(180deg) scale(1.2); }
   100% { transform: rotate(360deg) scale(1); }
+}
+
+#particle-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -3;
+  pointer-events: none;
 }
 
 .background-grid {
@@ -422,8 +455,3 @@ body::before {
 
 .hidden { display: none !important; }
 .visible { display: block !important; }
-/* === TOKEN SHIMMER GLOW === */
-.token-card {
-  position: relative;
-  overflow: hidden;
-}
