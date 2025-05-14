@@ -422,3 +422,8 @@ body::before {
 
 .hidden { display: none !important; }
 .visible { display: block !important; }
+/* === TOKEN SHIMMER GLOW === */
+.token-card {
+  position: relative;
+  overflow: hidden;
+}
