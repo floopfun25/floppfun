@@ -34,7 +34,8 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl("devnet"), "confirmed");
+      // MAINNET bağlantısı (devnet yerine)
+      const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl("mainnet-beta"), "confirmed");
       const resp = await provider.connect();
       const userPublicKey = resp.publicKey;
 
@@ -55,13 +56,11 @@ document.addEventListener("DOMContentLoaded", () => {
         splToken.createAssociatedTokenAccountInstruction(userPublicKey, tokenAccount, userPublicKey, mint),
         splToken.createMintToInstruction(mint, tokenAccount, userPublicKey, tokenSupply * Math.pow(10, 9))
       );
+
       transaction.feePayer = userPublicKey;
       transaction.recentBlockhash = (await connection.getRecentBlockhash()).blockhash;
-
-      // Mint hesabını manuel imzalıyoruz
       transaction.partialSign(mintKeypair);
 
-      // Phantom'dan kullanıcıdan imza alıyoruz
       const signedTx = await provider.signTransaction(transaction);
       const signature = await connection.sendRawTransaction(signedTx.serialize());
       await connection.confirmTransaction(signature, "confirmed");
@@ -78,7 +77,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Arama, menü ve ses sistemleri
   const searchBtn = document.getElementById("searchBtn");
   const searchContainer = document.getElementById("searchContainer");
   const searchInput = document.getElementById("searchInput");
@@ -124,7 +122,6 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 });
 
-// Canvas arka plan efekti
 const canvas = document.getElementById("particle-canvas");
 if (canvas) {
   const ctx = canvas.getContext("2d");
