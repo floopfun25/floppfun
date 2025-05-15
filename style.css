@@ -109,7 +109,17 @@ button {
   max-width: 90%;
   border-radius: 12px;
 }
-/* ARAMA KUTUSU */
+
+/* SETTINGS ICON (FİLTRE BAR SOL) */
+.settings-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+  filter: drop-shadow(0 0 3px #00ffee88);
+  vertical-align: middle;
+}
+
+/* SEARCH */
 .search-container {
   padding: 16px;
   text-align: center;
@@ -129,7 +139,7 @@ button {
   box-shadow: 0 0 10px #00ffee33 inset;
 }
 
-/* START CHAOS */
+/* CHAOS BUTTON */
 .start-your-cult-box {
   background: #1a1a2f;
   color: #00ffee;
@@ -146,7 +156,6 @@ button {
   background: #00ffee11;
   transform: scale(1.05);
 }
-
 /* GLITCH */
 .glitch {
   animation: glitchAnim 0.3s linear infinite;
@@ -187,6 +196,7 @@ button {
 .filter-bar {
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 8px;
   flex-wrap: wrap;
   padding: 14px;
@@ -213,6 +223,76 @@ button {
   color: #000;
 }
 
-/* FORM, MENU, NAV vs. (Aynen korunmuş olarak kalır) */
-/* Geri kalan stiller senin orijinal dosyanla birebir bırakıldı, bu bölümleri yukarıdaki gibi aynı şekilde kullanmaya devam edebilirsin. */
+/* TOKEN LIST */
+.token-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  padding: 20px 10px;
+}
+.token-card {
+  background: #111827;
+  border: 1px solid #00ffee33;
+  padding: 16px;
+  border-radius: 16px;
+  width: 240px;
+  color: #fff;
+  text-align: left;
+  box-shadow: 0 0 12px #00ffee22;
+  transition: transform 0.2s ease;
+}
+.token-card:hover {
+  transform: scale(1.03);
+}
+.token-card img {
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+.token-card h4 {
+  font-size: 1rem;
+  color: #00ffee;
+  margin: 4px 0;
+}
+.token-card p {
+  font-size: 0.85rem;
+  color: #ccc;
+}
 
+/* BOTTOM NAV */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #0a0a23;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 8px 0;
+  border-top: 1px solid #00ffee22;
+  z-index: 999;
+}
+.nav-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.75rem;
+  color: #00ffee;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+.nav-link:hover {
+  transform: scale(1.05);
+}
+.nav-link img {
+  width: 20px;
+  height: 20px;
+  margin-bottom: 4px;
+  filter: drop-shadow(0 0 4px #00ffee88);
+}
+.nav-link.active span {
+  color: #fff;
+  font-weight: bold;
+}
