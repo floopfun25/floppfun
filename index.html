@@ -1,4 +1,4 @@
-<!-- floppfun/index.html — PATCHED PART 1/2 -->
+<!-- floppfun/index.html — UPGRADED PART 1/2 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +15,6 @@
 </head>
 <body class="intro-glitch">
 <canvas id="particle-canvas"></canvas>
-<div class="background-grid"></div>
 
 <!-- HEADER -->
 <header class="boop-header">
@@ -24,17 +23,12 @@
   </div>
   <div class="boop-center">
     <button id="connectWallet" class="connect-btn">Connect</button>
-    <button class="icon-btn" id="searchBtn">🔍</button>
+    <input type="text" id="searchInput" placeholder="Search tokens..." class="real-search" />
   </div>
   <div class="boop-right">
     <button class="icon-btn" id="menuBtn">☰</button>
   </div>
 </header>
-
-<!-- RELEASE CHAOS BUTTON (NEW STYLE) -->
-<div class="chaos-trigger-container">
-  <button class="chaos-trigger-btn" onclick="toggleForm()">Release The Chaos</button>
-</div>
 
 <!-- MOBILE MENU -->
 <div id="mobileMenu" class="mobile-menu hidden">
@@ -45,28 +39,13 @@
   </ul>
 </div>
 
-<!-- SEARCH -->
-<div id="searchContainer" class="search-container hidden">
-  <input id="searchInput" type="text" placeholder="Search tokens..." />
+<!-- START KAOS BUTTON (GÜNCELLENMİŞ) -->
+<div class="start-kaos-wrapper">
+  <div class="start-kaos-box glitch" onclick="toggleForm()">
+    <img src="images/solana.svg" class="start-kaos-icon" alt="solana" />
+    <span>BİR KAOS OLUŞTUR</span>
+  </div>
 </div>
-
-<!-- INFO STRIP -->
-<div class="info-strip">
-  <p>The Supreme Meme Stream — Just Chaos.</p>
-</div>
-<!-- FILTER BAR -->
-<section class="filter-bar">
-  <img src="images/icons/settings.svg" class="settings-icon" alt="Settings" />
-  <button class="filter-btn active">Newly Launched</button>
-  <button class="filter-btn">About to Graduate</button>
-  <button class="filter-btn">Highest Market Cap</button>
-  <button class="filter-btn">Top Gainers</button>
-  <button class="filter-btn">Oldest</button>
-</section>
-<!-- TOKEN LIST -->
-<section id="tokenList" class="token-list">
-  <!-- Token cards will appear here -->
-</section>
 
 <!-- CHAOS ANIMATION -->
 <section id="chaosAnimation" class="chaos-overlay hidden" style="display:none;">
@@ -77,14 +56,25 @@
   </div>
 </section>
 
-<!-- HERO -->
-<main class="hero-section">
-  <div class="hero-content">
-    <h2 class="hero-title">Launch Your Meme Token</h2>
-    <p class="hero-subtitle">Just pure meme magic.</p>
-  </div>
-</main>
+<!-- INFO STRIP -->
+<div class="info-strip">
+  <p>The Supreme Meme Stream — Just Chaos.</p>
+</div>
 
+<!-- FILTER BAR -->
+<section class="filter-bar">
+  <img src="images/icons/settings.svg" class="settings-icon" alt="Settings" />
+  <button class="filter-btn active">Newly Launched</button>
+  <button class="filter-btn">About to Graduate</button>
+  <button class="filter-btn">Highest Market Cap</button>
+  <button class="filter-btn">Top Gainers</button>
+  <button class="filter-btn">Oldest</button>
+</section>
+
+<!-- TOKEN LIST -->
+<section id="tokenList" class="token-list">
+  <!-- Token kartları burada JS ile eklenecek -->
+</section>
 <!-- TOKEN FORM -->
 <section id="tokenFormSection" class="form-wrapper hidden" style="display:none;">
   <h3>Create Your Token</h3>
@@ -93,13 +83,21 @@
     <input type="text" id="tokenSymbol" placeholder="Symbol (e.g. FLOP)" maxlength="5" required />
     <input type="number" id="tokenSupply" placeholder="Total Supply" required min="1" />
     <input type="url" id="tokenImage" placeholder="Image URL (optional)" />
-    <img id="imagePreview" alt="Preview" />
+    <img id="imagePreview" alt="Preview" style="display:none; width:100px; margin: 10px auto;" />
     <textarea id="tokenDescription" placeholder="Describe your token (optional)"></textarea>
     <input type="url" id="socialLink" placeholder="Social Media Link (optional)" />
     <button type="submit" id="createBtn">Create Token</button>
   </form>
   <div id="formStatus" class="wallet-status"></div>
 </section>
+
+<!-- HERO SECTION -->
+<main class="hero-section">
+  <div class="hero-content">
+    <h2 class="hero-title">Launch Your Meme Token</h2>
+    <p class="hero-subtitle">Just pure meme magic.</p>
+  </div>
+</main>
 
 <!-- FOOTER -->
 <footer class="footer">
@@ -130,32 +128,21 @@
   </a>
 </nav>
 
-<!-- WALLET MODAL -->
-<div id="walletModal" class="wallet-modal hidden">
-  <div class="wallet-modal-content">
+<!-- WALLET SELECTOR (ALT SLIDE STYLE) -->
+<div id="walletSlideUp" class="wallet-slide hidden">
+  <div class="wallet-slide-content">
     <h3>Select a Wallet</h3>
-    <button class="wallet-option">
-      <img src="images/icons/phantom.svg" alt="Phantom" class="wallet-icon" />
-      Phantom
-    </button>
-    <button class="wallet-option">
-      <img src="images/icons/solflare.svg" alt="Solflare" class="wallet-icon" />
-      Solflare
-    </button>
-    <button class="wallet-option">
-      <img src="images/icons/backpack.svg" alt="Backpack" class="wallet-icon" />
-      Backpack
-    </button>
-    <button class="wallet-cancel" onclick="document.getElementById('walletModal').classList.add('hidden')">Cancel</button>
+    <button class="wallet-option"><img src="images/icons/phantom.svg" class="wallet-icon" /> Phantom</button>
+    <button class="wallet-option"><img src="images/icons/solflare.svg" class="wallet-icon" /> Solflare</button>
+    <button class="wallet-option"><img src="images/icons/backpack.svg" class="wallet-icon" /> Backpack</button>
+    <button class="wallet-cancel" onclick="document.getElementById('walletSlideUp').classList.add('hidden')">Cancel</button>
   </div>
 </div>
 
-<!-- JS KİTAPLARI -->
+<!-- JS -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/spl-token@latest/lib/index.iife.min.js"></script>
-
-<!-- ANA KONTROLLER -->
 <script src="script.js"></script>
 <script>
   document.getElementById("tokenImage").addEventListener("input", function () {
@@ -167,4 +154,3 @@
 </script>
 </body>
 </html>
- 
