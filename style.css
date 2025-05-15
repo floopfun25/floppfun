@@ -103,7 +103,8 @@ button {
   color: #00ffee;
   margin: 0 6px;
 }
- /* ARAMA KUTUSU */
+
+/* ARAMA KUTUSU */
 .search-container {
   padding: 16px;
   text-align: center;
@@ -123,7 +124,7 @@ button {
   box-shadow: 0 0 10px #00ffee33 inset;
 }
 
-/* START YOUR CULT BOX */
+/* START CHAOS */
 .start-your-cult-box {
   background: #1a1a2f;
   color: #00ffee;
@@ -141,6 +142,16 @@ button {
   transform: scale(1.05);
 }
 
+/* GLITCH */
+.glitch {
+  animation: glitchAnim 0.3s linear infinite;
+}
+@keyframes glitchAnim {
+  0% { text-shadow: 1px 1px #00ffee, -1px -1px #ff00ff; }
+  50% { text-shadow: -1px 1px #ff00ff, 1px -1px #00ffee; }
+  100% { text-shadow: 1px 1px #00ffee, -1px -1px #ff00ff; }
+}
+
 /* HERO */
 .hero-section {
   padding: 40px 20px 20px;
@@ -154,6 +165,17 @@ button {
 .hero-subtitle {
   font-size: 1rem;
   color: #aaa;
+}
+
+/* CHAOS ANIMATION */
+.chaos-mascot.small {
+  width: 80px;
+  height: 80px;
+  animation: bounce 1s ease-in-out infinite;
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 
 /* FILTER BAR */
@@ -186,7 +208,7 @@ button {
   color: #000;
 }
 
-/* TOKEN FORM */
+/* FORM */
 .form-wrapper {
   background: #111827;
   border: 1px solid #00ffee22;
@@ -233,4 +255,70 @@ button {
   border: 1px solid #00ffee55;
   margin: 10px auto;
   display: none;
+}
+
+/* MOBILE MENU */
+.mobile-menu {
+  position: absolute;
+  top: 60px;
+  right: 20px;
+  background: #111;
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: 0 0 12px #00ffee55;
+  z-index: 999;
+  width: 180px;
+}
+.mobile-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.mobile-menu li {
+  margin: 8px 0;
+}
+.mobile-menu a {
+  display: flex;
+  align-items: center;
+  color: #00ffee;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+.menu-icon {
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+}
+
+/* BOTTOM NAV */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #0a0a23;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 8px 0;
+  border-top: 1px solid #00ffee22;
+  z-index: 999;
+}
+.nav-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.75rem;
+  color: #00ffee;
+  text-decoration: none;
+}
+.nav-link img {
+  width: 20px;
+  height: 20px;
+  margin-bottom: 4px;
+  filter: drop-shadow(0 0 4px #00ffee88);
+}
+.nav-link.active span {
+  color: #fff;
+  font-weight: bold;
 }
