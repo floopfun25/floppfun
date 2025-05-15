@@ -1,4 +1,4 @@
-<!-- floppfun/index.html — UPGRADED PART 1/2 -->
+<!-- floppfun/index.html — PARÇA 1/4 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,14 +39,16 @@
   </ul>
 </div>
 
-<!-- START KAOS BUTTON (GÜNCELLENMİŞ) -->
-<div class="start-kaos-wrapper">
+<!-- START CHAOS SECTION -->
+<section class="start-kaos-wrapper">
   <div class="start-kaos-box glitch" onclick="toggleForm()">
     <img src="images/solana.svg" class="start-kaos-icon" alt="solana" />
-    <span>BİR KAOS OLUŞTUR</span>
+    <span>Bir Kaos Oluştur</span>
   </div>
-</div>
+</section>
 
+<!-- DEVAMI PARÇA 2/4'TE -->
+<!-- floppfun/index.html — PARÇA 2/4 -->
 <!-- CHAOS ANIMATION -->
 <section id="chaosAnimation" class="chaos-overlay hidden" style="display:none;">
   <div class="chaos-content">
@@ -73,8 +75,9 @@
 
 <!-- TOKEN LIST -->
 <section id="tokenList" class="token-list">
-  <!-- Token kartları burada JS ile eklenecek -->
+  <!-- Token kartları burada JavaScript ile eklenecek -->
 </section>
+
 <!-- TOKEN FORM -->
 <section id="tokenFormSection" class="form-wrapper hidden" style="display:none;">
   <h3>Create Your Token</h3>
@@ -91,6 +94,8 @@
   <div id="formStatus" class="wallet-status"></div>
 </section>
 
+<!-- DEVAMI PARÇA 3/4'TE -->
+<!-- floppfun/index.html — PARÇA 3/4 -->
 <!-- HERO SECTION -->
 <main class="hero-section">
   <div class="hero-content">
@@ -104,7 +109,7 @@
   <p>&copy; 2025 Floop.fun. All rights reserved. <span class="footer-note">Made with chaos.</span></p>
 </footer>
 
-<!-- BOTTOM NAV -->
+<!-- BOTTOM NAVIGATION -->
 <nav class="bottom-nav">
   <a href="index.html" class="nav-link active">
     <img src="images/icons/chaos.png" alt="chaos" />
@@ -128,28 +133,50 @@
   </a>
 </nav>
 
-<!-- WALLET SELECTOR (ALT SLIDE STYLE) -->
-<div id="walletSlideUp" class="wallet-slide hidden">
-  <div class="wallet-slide-content">
+<!-- WALLET MODAL (BOOP TARZI ORTALANMIŞ) -->
+<div id="walletModal" class="wallet-modal hidden">
+  <div class="wallet-modal-content">
     <h3>Select a Wallet</h3>
     <button class="wallet-option"><img src="images/icons/phantom.svg" class="wallet-icon" /> Phantom</button>
     <button class="wallet-option"><img src="images/icons/solflare.svg" class="wallet-icon" /> Solflare</button>
     <button class="wallet-option"><img src="images/icons/backpack.svg" class="wallet-icon" /> Backpack</button>
-    <button class="wallet-cancel" onclick="document.getElementById('walletSlideUp').classList.add('hidden')">Cancel</button>
+    <button class="wallet-option"><img src="images/icons/x.svg" class="wallet-icon" /> Continue with X</button>
+    <button class="wallet-cancel" onclick="document.getElementById('walletModal').classList.add('hidden')">Cancel</button>
   </div>
 </div>
 
-<!-- JS -->
+<!-- DEVAMI PARÇA 4/4'TE -->
+<!-- floppfun/index.html — PARÇA 4/4 -->
+<!-- JS KÜTÜPHANELERİ -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/spl-token@latest/lib/index.iife.min.js"></script>
 <script src="script.js"></script>
+
+<!-- Image Preview -->
 <script>
   document.getElementById("tokenImage").addEventListener("input", function () {
     const preview = document.getElementById("imagePreview");
     const url = this.value.trim();
     preview.style.display = url ? "block" : "none";
     preview.src = url;
+  });
+</script>
+
+<!-- Wallet Modal Açma -->
+<script>
+  document.getElementById("connectWallet")?.addEventListener("click", () => {
+    const modal = document.getElementById("walletModal");
+    modal?.classList.remove("hidden");
+  });
+</script>
+
+<!-- Giriş Glitch Efekti Kaldır -->
+<script>
+  window.addEventListener("load", () => {
+    setTimeout(() => {
+      document.body.classList.remove("intro-glitch");
+    }, 700);
   });
 </script>
 </body>
