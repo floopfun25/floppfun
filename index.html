@@ -16,13 +16,7 @@
 <canvas id="particle-canvas"></canvas>
 <div class="background-grid"></div>
 
-<!-- ÜST MASKOT + SES -->
-<div class="floating-top-left">
-  <img src="images/floop-mascot.png" alt="Floop" class="floating-mascot" />
-  <button id="muteToggle" class="mute-button">🔊</button>
-</div>
-
-<!-- HEADER -->
+<!-- HEADER (tek maskotlu düzen) -->
 <header class="boop-header">
   <div class="boop-left">
     <img src="images/floop-mascot.png" alt="Floop" class="boop-logo" />
@@ -35,15 +29,6 @@
     <button class="icon-btn" id="menuBtn">☰</button>
   </div>
 </header>
-
-<!-- MOBİL MENÜ -->
-<div class="mobile-menu" id="mobileMenu">
-  <ul>
-    <li><a href="https://x.com/floopfun" target="_blank"><span>𝕏</span> Twitter</a></li>
-    <li><a href="https://t.me/floopfun" target="_blank"><span>✈️</span> Telegram</a></li>
-    <li><a href="https://dexscreener.com/solana" target="_blank"><span>📊</span> Floop Chart</a></li>
-  </ul>
-</div>
 
 <!-- SEARCH -->
 <div id="searchContainer" class="search-container hidden">
@@ -63,7 +48,6 @@
     <img src="images/floop-mascot.png" alt="Mascot" class="chaos-mascot" />
   </div>
 </section>
-
 <!-- HERO -->
 <main class="hero-section">
   <div class="hero-content">
@@ -71,6 +55,7 @@
     <p class="hero-subtitle">Just pure meme magic.</p>
   </div>
 </main>
+
 <!-- FILTER BAR -->
 <section class="filter-bar">
   <button class="filter-btn active">Newly Launched</button>
@@ -96,7 +81,7 @@
   <div id="formStatus" class="wallet-status"></div>
 </section>
 
-<!-- TOP TOKENS -->
+<!-- TOP FLOOPED TOKENS -->
 <section id="topTokens">
   <h3>Top Flooped Tokens</h3>
   <ul id="topFloopList" class="token-list"></ul>
@@ -107,7 +92,7 @@
   <p>&copy; 2025 Floop.fun. All rights reserved.</p>
 </footer>
 
-<!-- ALT MENÜ -->
+<!-- BOTTOM NAV -->
 <nav class="bottom-nav">
   <a href="index.html" class="nav-link active">
     <img src="images/icons/cult.png" alt="cults" />
@@ -131,13 +116,64 @@
   </a>
 </nav>
 
-<!-- PHANTOM REDIRECT (mobil için) -->
-<a href="https://phantom.app/ul/browse/https://floopfun25.github.io/floppfun/?connect=phantom" id="phantomLink" style="display:none;">Phantom</a>
-
-<!-- SCRIPTLER -->
+<!-- WALLET MODAL -->
+<div id="walletModal" class="wallet-modal hidden">
+  <div class="wallet-modal-content">
+    <h3>Select a Wallet</h3>
+    <button class="wallet-option" disabled>
+      <img src="images/icons/phantom.svg" alt="Phantom" class="wallet-icon" />
+      Phantom
+    </button>
+    <button class="wallet-option" disabled>
+      <img src="images/icons/solflare.svg" alt="Solflare" class="wallet-icon" />
+      Solflare
+    </button>
+    <button class="wallet-option" disabled>
+      <img src="images/icons/backpack.svg" alt="Backpack" class="wallet-icon" />
+      Backpack
+    </button>
+    <button class="wallet-cancel" onclick="document.getElementById('walletModal').classList.add('hidden')">Cancel</button>
+  </div>
+</div>
+<!-- GEREKLİ SCRIPTLER -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/spl-token@latest/lib/index.iife.min.js"></script>
+
+<!-- FORM VE CÜZDAN SCRIPTLERİ -->
+<script>
+  function toggleForm() {
+    const chaos = document.getElementById("chaosAnimation");
+    const form = document.getElementById("tokenFormSection");
+
+    if (chaos.classList.contains("hidden")) {
+      chaos.classList.remove("hidden");
+      setTimeout(() => {
+        chaos.classList.add("hidden");
+        form.classList.remove("hidden");
+      }, 1500);
+    } else {
+      form.classList.add("hidden");
+      chaos.classList.add("hidden");
+    }
+  }
+
+  document.getElementById("tokenImage").addEventListener("input", function () {
+    const preview = document.getElementById("imagePreview");
+    const url = this.value.trim();
+    if (url) {
+      preview.src = url;
+      preview.style.display = "block";
+    } else {
+      preview.style.display = "none";
+    }
+  });
+</script>
+
+<!-- Phantom mobil fallback -->
+<a href="https://phantom.app/ul/browse/https://floopfun25.github.io/floppfun/?connect=phantom" id="phantomLink" style="display:none;">Phantom</a>
+
+<!-- Ana JS dosyası -->
 <script src="script.js"></script>
 </body>
 </html>
