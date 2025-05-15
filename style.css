@@ -313,3 +313,27 @@ button {
   color: #fff;
   font-weight: bold;
 }
+/* === RELEASE THE CHAOS BUTTON (BOOP STYLE) === */
+.chaos-trigger-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 14px;
+  z-index: 10;
+}
+
+.chaos-trigger-btn {
+  background: #00ffee;
+  color: #000;
+  font-weight: 700;
+  padding: 12px 32px;
+  border: none;
+  border-radius: 999px;
+  font-size: 1rem;
+  box-shadow: 0 0 12px #00ffee88;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.chaos-trigger-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 16px #00ffeecc;
+}
