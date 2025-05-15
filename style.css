@@ -87,6 +87,58 @@ button {
   margin: 0 6px;
 }
 
+/* === START KAOS BUTONU GLOW + ICON === */
+.start-kaos-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 18px;
+  position: relative;
+  z-index: 10;
+}
+
+.start-kaos-box {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: #00ffee;
+  color: #000;
+  font-weight: 700;
+  padding: 14px 32px;
+  border-radius: 999px;
+  font-size: 1.1rem;
+  box-shadow: 0 0 16px #00ffee88;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.start-kaos-box:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #00ffeecc;
+}
+.start-kaos-box::before {
+  content: '';
+  position: absolute;
+  inset: -12px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(0,255,238,0.3), transparent 70%);
+  animation: glow-pulse 2s infinite ease-in-out;
+  z-index: -1;
+}
+@keyframes glow-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+.start-kaos-icon {
+  width: 24px;
+  height: 24px;
+}
+
 /* === SEARCH === */
 .search-container {
   padding: 16px;
@@ -107,46 +159,6 @@ button {
   box-shadow: 0 0 10px #00ffee33 inset;
 }
 
-/* === CHAOS BUTTON === */
-.start-your-cult-box {
-  background: #1a1a2f;
-  color: #00ffee;
-  font-weight: bold;
-  border: 2px dashed #00ffee88;
-  padding: 14px 28px;
-  border-radius: 16px;
-  display: inline-block;
-  margin: 16px auto 10px;
-  cursor: pointer;
-  transition: background 0.2s ease, transform 0.2s ease;
-}
-.start-your-cult-box:hover {
-  background: #00ffee11;
-  transform: scale(1.05);
-}
-.glitch {
-  animation: glitchAnim 0.3s linear infinite;
-}
-@keyframes glitchAnim {
-  0% { text-shadow: 1px 1px #00ffee, -1px -1px #ff00ff; }
-  50% { text-shadow: -1px 1px #ff00ff, 1px -1px #00ffee; }
-  100% { text-shadow: 1px 1px #00ffee, -1px -1px #ff00ff; }
-}
-
-/* === HERO === */
-.hero-section {
-  padding: 40px 20px 20px;
-  margin-top: 30px;
-}
-.hero-title {
-  font-size: 1.8rem;
-  margin-bottom: 10px;
-  color: #00ffee;
-}
-.hero-subtitle {
-  font-size: 1rem;
-  color: #aaa;
-}
 /* === HAMBURGER MENÜ === */
 .mobile-menu {
   position: absolute;
@@ -161,9 +173,14 @@ button {
   flex-direction: column;
   gap: 10px;
   box-shadow: 0 0 12px #00ffee22;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
 }
 .mobile-menu.visible {
   display: flex;
+  opacity: 1;
+  transform: translateY(0);
 }
 .mobile-menu ul {
   list-style: none;
@@ -189,7 +206,6 @@ button {
   height: 18px;
   filter: drop-shadow(0 0 2px #00ffee99);
 }
-
 /* === FORM BÖLÜMÜ === */
 .form-wrapper {
   background: #111827;
@@ -227,17 +243,6 @@ button {
 .wallet-status {
   margin-top: 10px;
   font-size: 0.85rem;
-}
-
-/* === CHAOS ANIMASYON === */
-.chaos-mascot.small {
-  width: 80px;
-  height: 80px;
-  animation: bounce 1s ease-in-out infinite;
-}
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
 }
 
 /* === TOKEN KARTLARI === */
@@ -313,27 +318,36 @@ button {
   color: #fff;
   font-weight: bold;
 }
-/* === RELEASE THE CHAOS BUTTON (BOOP STYLE) === */
-.chaos-trigger-container {
-  display: flex;
-  justify-content: center;
-  margin-top: 14px;
-  z-index: 10;
+
+/* === CHAOS MASCOT ANIM === */
+.chaos-mascot.small {
+  width: 80px;
+  height: 80px;
+  animation: bounce 1s ease-in-out infinite;
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 
-.chaos-trigger-btn {
-  background: #00ffee;
-  color: #000;
-  font-weight: 700;
-  padding: 12px 32px;
-  border: none;
-  border-radius: 999px;
+/* === HERO === */
+.hero-section {
+  padding: 40px 20px 20px;
+  margin-top: 30px;
+}
+.hero-title {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  color: #00ffee;
+}
+.hero-subtitle {
   font-size: 1rem;
-  box-shadow: 0 0 12px #00ffee88;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  color: #aaa;
 }
 
-.chaos-trigger-btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 16px #00ffeecc;
+/* === INFO STRIP === */
+.info-strip {
+  margin: 16px 0;
+  color: #00ffeeaa;
+  font-size: 0.9rem;
 }
