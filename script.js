@@ -34,7 +34,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // MAINNET bağlantısı (devnet yerine)
       const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl("mainnet-beta"), "confirmed");
       const resp = await provider.connect();
       const userPublicKey = resp.publicKey;
