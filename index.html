@@ -51,16 +51,22 @@
 
 <!-- INFO STRIP -->
 <div class="info-strip">
-  <p>The Supreme Meme Stream — No Presale. No Dev Wallet. Just Chaos.</p>
+  <p>The Supreme Meme Stream — Just Chaos.</p>
 </div>
 
 <!-- FILTER BAR -->
 <section class="filter-bar">
+  <img src="images/icons/settings.svg" class="settings-icon" alt="Settings" />
   <button class="filter-btn active">Newly Launched</button>
   <button class="filter-btn">About to Graduate</button>
   <button class="filter-btn">Highest Market Cap</button>
   <button class="filter-btn">Top Gainers</button>
   <button class="filter-btn">Oldest</button>
+</section>
+
+<!-- TOKEN LIST -->
+<section id="tokenList" class="token-list">
+  <!-- Token cards will be inserted dynamically here -->
 </section>
 
 <!-- CHAOS ANIMATION -->
@@ -127,26 +133,6 @@
     <span>airdrop</span>
   </a>
 </nav>
-
-<!-- WALLET MODAL -->
-<div id="walletModal" class="wallet-modal hidden">
-  <div class="wallet-modal-content">
-    <h3>Select a Wallet</h3>
-    <button class="wallet-option">
-      <img src="images/icons/phantom.svg" alt="Phantom" class="wallet-icon" />
-      Phantom
-    </button>
-    <button class="wallet-option">
-      <img src="images/icons/solflare.svg" alt="Solflare" class="wallet-icon" />
-      Solflare
-    </button>
-    <button class="wallet-option">
-      <img src="images/icons/backpack.svg" alt="Backpack" class="wallet-icon" />
-      Backpack
-    </button>
-    <button class="wallet-cancel" onclick="document.getElementById('walletModal').classList.add('hidden')">Cancel</button>
-  </div>
-</div>
 
 <!-- JS KİTAPLARI -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
