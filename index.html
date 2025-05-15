@@ -1,4 +1,4 @@
-<!-- floppfun/index.html — PART 1/3 -->
+<!-- floppfun/index.html — PATCHED PART 1/2 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,6 +31,11 @@
   </div>
 </header>
 
+<!-- RELEASE CHAOS BUTTON (NEW STYLE) -->
+<div class="chaos-trigger-container">
+  <button class="chaos-trigger-btn" onclick="toggleForm()">Release The Chaos</button>
+</div>
+
 <!-- MOBILE MENU -->
 <div id="mobileMenu" class="mobile-menu hidden">
   <ul>
@@ -43,11 +48,6 @@
 <!-- SEARCH -->
 <div id="searchContainer" class="search-container hidden">
   <input id="searchInput" type="text" placeholder="Search tokens..." />
-</div>
-
-<!-- CHAOS LAUNCH BOX -->
-<div class="start-your-cult-box" onclick="toggleForm()" style="margin-top: 20px;">
-  <span id="chaosText">Release The Chaos</span>
 </div>
 
 <!-- INFO STRIP -->
@@ -63,7 +63,6 @@
   <button class="filter-btn">Top Gainers</button>
   <button class="filter-btn">Oldest</button>
 </section>
-
 <!-- TOKEN LIST -->
 <section id="tokenList" class="token-list">
   <!-- Token cards will appear here -->
@@ -101,6 +100,7 @@
   </form>
   <div id="formStatus" class="wallet-status"></div>
 </section>
+
 <!-- FOOTER -->
 <footer class="footer">
   <p>&copy; 2025 Floop.fun. All rights reserved. <span class="footer-note">Made with chaos.</span></p>
@@ -167,3 +167,4 @@
 </script>
 </body>
 </html>
+ 
