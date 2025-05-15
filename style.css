@@ -1,4 +1,4 @@
-/* RESET & GENEL STİL */
+/* === RESET & GENEL STİL === */
 * {
   margin: 0;
   padding: 0;
@@ -13,7 +13,6 @@ body {
   line-height: 1.6;
   padding-bottom: 90px;
   min-height: 100vh;
-  position: relative;
   overflow-x: hidden;
   padding-top: 80px;
 }
@@ -29,15 +28,7 @@ button {
   cursor: pointer;
 }
 
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-thumb {
-  background-color: #00ffee99;
-  border-radius: 10px;
-}
-
-/* HEADER */
+/* === HEADER === */
 .boop-header {
   display: flex;
   justify-content: space-between;
@@ -81,10 +72,10 @@ button {
   font-weight: 600;
   font-size: 0.9rem;
   transition: box-shadow 0.2s ease;
+  max-width: 120px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 120px;
 }
 .connect-btn:hover {
   box-shadow: 0 0 10px #00ffeeaa;
@@ -96,30 +87,7 @@ button {
   margin: 0 6px;
 }
 
-/* INFO STRIP */
-.info-strip {
-  background: #111;
-  padding: 8px 14px;
-  font-size: 0.85rem;
-  color: #00ffeecc;
-  text-align: center;
-  margin: 10px auto 0;
-  border-top: 1px solid #00ffee22;
-  border-bottom: 1px solid #00ffee22;
-  max-width: 90%;
-  border-radius: 12px;
-}
-
-/* SETTINGS ICON (FİLTRE BAR SOL) */
-.settings-icon {
-  width: 20px;
-  height: 20px;
-  margin-right: 8px;
-  filter: drop-shadow(0 0 3px #00ffee88);
-  vertical-align: middle;
-}
-
-/* SEARCH */
+/* === SEARCH === */
 .search-container {
   padding: 16px;
   text-align: center;
@@ -139,7 +107,7 @@ button {
   box-shadow: 0 0 10px #00ffee33 inset;
 }
 
-/* CHAOS BUTTON */
+/* === CHAOS BUTTON === */
 .start-your-cult-box {
   background: #1a1a2f;
   color: #00ffee;
@@ -156,7 +124,6 @@ button {
   background: #00ffee11;
   transform: scale(1.05);
 }
-/* GLITCH */
 .glitch {
   animation: glitchAnim 0.3s linear infinite;
 }
@@ -166,7 +133,7 @@ button {
   100% { text-shadow: 1px 1px #00ffee, -1px -1px #ff00ff; }
 }
 
-/* HERO */
+/* === HERO === */
 .hero-section {
   padding: 40px 20px 20px;
   margin-top: 30px;
@@ -180,8 +147,89 @@ button {
   font-size: 1rem;
   color: #aaa;
 }
+/* === HAMBURGER MENÜ === */
+.mobile-menu {
+  position: absolute;
+  top: 60px;
+  right: 10px;
+  background: rgba(10, 10, 20, 0.95);
+  border: 1px solid #00ffee44;
+  border-radius: 12px;
+  padding: 10px 14px;
+  z-index: 1000;
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 0 12px #00ffee22;
+}
+.mobile-menu.visible {
+  display: flex;
+}
+.mobile-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.mobile-menu li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #00ffee;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+.mobile-menu li:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+.menu-icon {
+  width: 18px;
+  height: 18px;
+  filter: drop-shadow(0 0 2px #00ffee99);
+}
 
-/* CHAOS ANIMATION */
+/* === FORM BÖLÜMÜ === */
+.form-wrapper {
+  background: #111827;
+  border: 1px solid #00ffee33;
+  max-width: 720px;
+  margin: 30px auto;
+  padding: 20px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: 0 0 12px #00ffee33;
+}
+.form-wrapper input,
+.form-wrapper textarea {
+  width: 100%;
+  padding: 10px 14px;
+  background: #1a1a2f;
+  border: 1px solid #00ffee33;
+  border-radius: 12px;
+  color: #fff;
+  font-size: 0.9rem;
+}
+.form-wrapper button {
+  background: #00ffee;
+  color: #000;
+  padding: 10px;
+  border-radius: 999px;
+  font-weight: bold;
+  transition: background 0.2s ease;
+}
+.form-wrapper button:hover {
+  background: #00ffeecc;
+}
+.wallet-status {
+  margin-top: 10px;
+  font-size: 0.85rem;
+}
+
+/* === CHAOS ANIMASYON === */
 .chaos-mascot.small {
   width: 80px;
   height: 80px;
@@ -192,38 +240,7 @@ button {
   50% { transform: translateY(-10px); }
 }
 
-/* FILTER BAR */
-.filter-bar {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-  padding: 14px;
-  background: #0b0b1d;
-  border-radius: 16px;
-  max-width: 90%;
-  margin: 20px auto;
-}
-.filter-btn {
-  background: transparent;
-  color: #00ffee;
-  padding: 6px 14px;
-  font-size: 0.8rem;
-  border: 1px solid #00ffee88;
-  border-radius: 999px;
-  transition: background 0.2s ease, transform 0.2s ease;
-}
-.filter-btn:hover {
-  background: #00ffee22;
-  transform: scale(1.04);
-}
-.filter-btn.active {
-  background: #00ffee;
-  color: #000;
-}
-
-/* TOKEN LIST */
+/* === TOKEN KARTLARI === */
 .token-list {
   display: flex;
   flex-wrap: wrap;
@@ -260,7 +277,7 @@ button {
   color: #ccc;
 }
 
-/* BOTTOM NAV */
+/* === ALT MENÜ === */
 .bottom-nav {
   position: fixed;
   bottom: 0;
