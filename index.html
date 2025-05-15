@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="images/icons/floop-favicon.ico" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
-  <meta name="description" content="Launch your meme token on Solana. Just chaos. No presale. No dev wallet." />
+  <meta name="description" content="Launch your meme token on Solana. Just chaos." />
   <meta property="og:title" content="Floop.fun - Launch Meme Tokens Instantly" />
   <meta property="og:image" content="images/preview.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -45,7 +45,7 @@
 </div>
 
 <!-- CHAOS LAUNCH BOX -->
-<div class="start-your-cult-box" onclick="triggerChaos()">
+<div class="start-your-cult-box" onclick="triggerChaos()" style="margin-top: 20px;">
   <span id="chaosText">Release The Chaos</span>
 </div>
 
@@ -66,7 +66,7 @@
 
 <!-- TOKEN LIST -->
 <section id="tokenList" class="token-list">
-  <!-- Token cards will be inserted dynamically here -->
+  <!-- Token cards will appear here -->
 </section>
 
 <!-- CHAOS ANIMATION -->
@@ -104,10 +104,6 @@
 <!-- FOOTER -->
 <footer class="footer">
   <p>&copy; 2025 Floop.fun. All rights reserved. <span class="footer-note">Made with chaos.</span></p>
-  <div class="footer-links">
-    <a href="https://x.com/floopfun" target="_blank"><img src="images/icons/x.svg" alt="X" /></a>
-    <a href="https://t.me/floopfun" target="_blank"><img src="images/icons/telegram.svg" alt="Telegram" /></a>
-  </div>
 </footer>
 
 <!-- BOTTOM NAV -->
@@ -133,6 +129,26 @@
     <span>airdrop</span>
   </a>
 </nav>
+
+<!-- WALLET MODAL -->
+<div id="walletModal" class="wallet-modal hidden">
+  <div class="wallet-modal-content">
+    <h3>Select a Wallet</h3>
+    <button class="wallet-option">
+      <img src="images/icons/phantom.svg" alt="Phantom" class="wallet-icon" />
+      Phantom
+    </button>
+    <button class="wallet-option">
+      <img src="images/icons/solflare.svg" alt="Solflare" class="wallet-icon" />
+      Solflare
+    </button>
+    <button class="wallet-option">
+      <img src="images/icons/backpack.svg" alt="Backpack" class="wallet-icon" />
+      Backpack
+    </button>
+    <button class="wallet-cancel" onclick="document.getElementById('walletModal').classList.add('hidden')">Cancel</button>
+  </div>
+</div>
 
 <!-- JS KİTAPLARI -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
