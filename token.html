@@ -1,4 +1,4 @@
-<!-- floppfun/token.html — PART 1/3 -->
+<!-- floppfun/token.html — PART 1/2 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,7 +23,7 @@
     <img src="images/floop-mascot.png" alt="Floop" class="boop-logo" />
   </div>
   <div class="boop-center">
-    <button id="connectWallet" class="connect-btn">connect</button>
+    <button id="connectWallet" class="connect-btn">Connect</button>
     <button class="icon-btn" id="searchBtn">🔍</button>
   </div>
   <div class="boop-right">
@@ -37,13 +37,11 @@
 </div>
 
 <!-- MOBİL MENÜ -->
-<div class="mobile-menu" id="mobileMenu">
+<div class="mobile-menu hidden" id="mobileMenu">
   <ul>
-    <li><span>✨</span> Start a Chaos!</li>
-    <li><span>📄</span> What is Floop?</li>
-    <li><span>🔎</span> Solscan</li>
-    <li><span>✈️</span> Join Telegram</li>
-    <li><span>𝕏</span> Follow on X</li>
+    <li><a href="https://x.com/floopfun" target="_blank"><img src="images/icons/x.svg" class="menu-icon" /> X</a></li>
+    <li><a href="https://t.me/floopfun" target="_blank"><img src="images/icons/telegram.svg" class="menu-icon" /> Telegram</a></li>
+    <li><a href="#" target="_blank"><img src="images/icons/chart.svg" class="menu-icon" /> Floop Chart</a></li>
   </ul>
 </div>
 
@@ -87,170 +85,8 @@
 
 <!-- Phantom Yönlendirme Linki (mobil uyumlu) -->
 <a href="https://phantom.app/ul/browse/https://floopfun25.github.io/floppfun/token.html?connect=phantom" id="phantomLink" style="display:none;">Phantom</a>
-<script>
-  const url = new URLSearchParams(window.location.search);
-  const mint = url.get('mint');
-  const symbol = url.get('symbol');
-  const image = url.get('image');
 
-  document.getElementById("mintAddress").innerText = "Mint: " + mint;
-  document.getElementById("symbol").innerText = "Symbol: " + symbol;
-
-  if (image) {
-    const img = document.getElementById("tokenImage");
-    img.src = decodeURIComponent(image);
-    img.style.display = "block";
-  }
-
-  document.getElementById("dexFrame").src = `https://jup.ag/swap/SOL-${mint}`;
-
-  const supabaseUrl = 'https://ugzbsmmaxxklojwlijrt.supabase.co';
-  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR...'; // gizli key
-  const supabase = supabase.createClient(supabaseUrl, supabaseKey);
-
-  const floopBtn = document.getElementById("floopBtn");
-  const floopResult = document.getElementById("floopResult");
-  const floopCountEl = document.getElementById("floopCount");
-
-  async function loadFloopCount() {
-    const { data } = await supabase
-      .from('floop_counts')
-      .select('count')
-      .eq('mint', mint)
-      .single();
-    floopCountEl.innerText = `Flooped: ${data?.count ?? 0}`;
-  }
-
-  loadFloopCount();
-
-  floopBtn.addEventListener("click", async () => {
-    if (!window.solana || !window.solana.isPhantom) {
-      alert("Please install Phantom Wallet.");
-      return;
-    }
-    try {
-      const connection = new solanaWeb3.Connection(
-        solanaWeb3.clusterApiUrl("mainnet-beta"), "confirmed"
-      );
-      const response = await window.solana.connect();
-      const user = response.publicKey;
-
-      const transaction = new solanaWeb3.Transaction().add(
-        solanaWeb3.SystemProgram.transfer({
-          fromPubkey: user,
-          toPubkey: new solanaWeb3.PublicKey("BiDrwH1vdp8KtKMsmtKV2aSfwzjbrFe8KbxUGg1DKfi"),
-          lamports: solanaWeb3.LAMPORTS_PER_SOL * 0.01
-        })
-      );
-      transaction.feePayer = user;
-      transaction.recentBlockhash = (await connection.getRecentBlockhash()).blockhash;
-
-      const signed = await window.solana.signTransaction(transaction);
-      const signature = await connection.sendRawTransaction(signed.serialize());
-      await connection.confirmTransaction(signature);
-
-      floopResult.innerText = "Thanks! Token successfully Flooped.";
-      floopResult.style.color = "lime";
-
-      const { data } = await supabase.from('floop_counts').select('count').eq('mint', mint).single();
-      if (data) {
-        await supabase.from('floop_counts').update({ count: data.count + 1 }).eq('mint', mint);
-      } else {
-        await supabase.from('floop_counts').insert({ mint: mint, count: 1 });
-      }
-
-      loadFloopCount();
-    } catch (err) {
-      console.error(err);
-      floopResult.innerText = "Transaction failed or cancelled.";
-      floopResult.style.color = "red";
-    }
-  });
-
-  function shareOnTwitter() {
-    const pageUrl = window.location.href;
-    const text = `Check out my meme token ${symbol} on Solana!`;
-    const tweet = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(pageUrl)}`;
-    window.open(tweet, '_blank');
-  }
-
-  function shareOnTelegram() {
-    const pageUrl = window.location.href;
-    const msg = `Check out my meme token ${symbol} on Solana: ${pageUrl}`;
-    const tg = `https://t.me/share/url?url=${encodeURIComponent(pageUrl)}&text=${encodeURIComponent(msg)}`;
-    window.open(tg, '_blank');
-  }
-
-  function copyMint() {
-    navigator.clipboard.writeText(mint).then(() => {
-      document.getElementById("copyResult").innerText = "Mint address copied!";
-      setTimeout(() => {
-        document.getElementById("copyResult").innerText = "";
-      }, 2000);
-    });
-  }
-
-  // Phantom bağlanma sistemi (mobil ve masaüstü uyumlu)
-  async function connectPhantomWallet() {
-    try {
-      const provider = window.solana;
-      if (provider && provider.isPhantom) {
-        const resp = await provider.connect();
-        const walletAddress = resp.publicKey.toString();
-        document.getElementById("connectWallet").textContent =
-          walletAddress.slice(0, 4) + "..." + walletAddress.slice(-4);
-      } else {
-        document.getElementById("phantomLink").click();
-      }
-    } catch (err) {
-      console.error("Phantom connection failed", err);
-    }
-  }
-
-  document.addEventListener("DOMContentLoaded", () => {
-    const connectBtn = document.getElementById("connectWallet");
-
-    connectBtn?.addEventListener("click", () => {
-      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-      if (isMobile) {
-        document.getElementById("phantomLink").click();
-      } else {
-        connectPhantomWallet();
-      }
-    });
-
-    if (window.solana && window.solana.isPhantom) {
-      window.solana.connect({ onlyIfTrusted: true }).then((resp) => {
-        const walletAddress = resp.publicKey.toString();
-        document.getElementById("connectWallet").textContent =
-          walletAddress.slice(0, 4) + "..." + walletAddress.slice(-4);
-      }).catch(() => {});
-    }
-
-    if (window.location.search.includes("connect=phantom")) {
-      connectPhantomWallet();
-    }
-
-    // Arama & Menü & Ses kontrolleri
-    document.getElementById("searchBtn")?.addEventListener("click", () => {
-      const box = document.getElementById("searchContainer");
-      box.classList.toggle("hidden");
-      if (!box.classList.contains("hidden")) {
-        document.getElementById("searchInput").focus();
-      }
-    });
-
-    document.getElementById("menuBtn")?.addEventListener("click", () => {
-      document.getElementById("mobileMenu")?.classList.toggle("visible");
-    });
-
-    const muteToggle = document.getElementById("muteToggle");
-    let isMuted = false;
-    muteToggle?.addEventListener("click", () => {
-      isMuted = !isMuted;
-      muteToggle.innerText = isMuted ? "🔇" : "🔊";
-    });
-  });
-</script>
+<!-- ANA KONTROLLER -->
+<script src="script.js"></script>
 </body>
 </html>
