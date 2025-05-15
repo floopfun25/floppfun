@@ -15,6 +15,7 @@ body {
   min-height: 100vh;
   position: relative;
   overflow-x: hidden;
+  padding-top: 80px; /* header yüksekliği kadar yer bırak */
 }
 
 a {
@@ -66,9 +67,15 @@ button {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 14px 20px;
+  padding: 12px 20px;
   background: transparent;
-  margin-top: 40px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  margin-top: 0 !important;
+  margin-bottom: 20px;
 }
 .boop-logo {
   width: 42px;
@@ -260,8 +267,8 @@ button {
 /* MOBILE MENU */
 .mobile-menu {
   position: absolute;
-  top: 60px;
-  right: 20px;
+  top: 58px;
+  right: 12px;
   background: #111;
   padding: 12px;
   border-radius: 12px;
