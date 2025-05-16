@@ -28,6 +28,53 @@ button {
   cursor: pointer;
 }
 
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #00ffee99;
+  border-radius: 10px;
+}
+
+/* === ÜST MASKOT + SES BUTONU === */
+.floating-top-left {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.floating-mascot {
+  width: 50px;
+  height: 50px;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.mute-button {
+  background: none;
+  font-size: 20px;
+  color: #00ffee;
+  transition: transform 0.2s ease;
+}
+
+.mute-button:hover {
+  transform: scale(1.2);
+}
+
 /* === HEADER === */
 .boop-header {
   display: flex;
@@ -41,245 +88,168 @@ button {
   width: 100%;
   z-index: 1000;
 }
-.boop-left,
-.boop-center,
-.boop-right {
+
+.boop-left img {
+  width: 40px;
+}
+
+.boop-center {
   display: flex;
   align-items: center;
   gap: 10px;
 }
-.boop-center {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
-.boop-logo {
-  width: 42px;
-  height: 42px;
-  object-fit: contain;
-  border-radius: 50%;
-  transition: transform 0.3s ease, filter 0.3s ease;
-}
-.boop-logo:hover {
-  transform: scale(1.1) rotate(-2deg);
-  filter: drop-shadow(0 0 6px #00ffee) brightness(1.2);
-}
+
 .connect-btn {
-  background: #00ffee;
+  padding: 8px 16px;
+  background-color: #00ffee;
   color: #000;
-  padding: 6px 18px;
-  border-radius: 999px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  transition: box-shadow 0.2s ease;
-  max-width: 120px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-weight: bold;
+  border-radius: 30px;
+  transition: background-color 0.3s;
 }
+
 .connect-btn:hover {
-  box-shadow: 0 0 10px #00ffeeaa;
+  background-color: #00ccdd;
 }
+
 .icon-btn {
+  font-size: 20px;
   background: none;
-  font-size: 18px;
   color: #00ffee;
-  margin: 0 6px;
 }
 
-/* === START KAOS BUTONU GLOW + ICON === */
-.start-kaos-wrapper {
-  display: flex;
-  justify-content: center;
-  margin-top: 18px;
-  position: relative;
-  z-index: 10;
+.boop-right .icon-btn {
+  font-size: 24px;
 }
 
-.start-kaos-box {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  background: #00ffee;
-  color: #000;
-  font-weight: 700;
-  padding: 14px 32px;
-  border-radius: 999px;
-  font-size: 1.1rem;
-  box-shadow: 0 0 16px #00ffee88;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-.start-kaos-box:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 20px #00ffeecc;
-}
-.start-kaos-box::before {
-  content: '';
-  position: absolute;
-  inset: -12px;
-  border-radius: 999px;
-  background: radial-gradient(circle, rgba(0,255,238,0.3), transparent 70%);
-  animation: glow-pulse 2s infinite ease-in-out;
-  z-index: -1;
-}
-@keyframes glow-pulse {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 0.4;
-  }
-  50% {
-    transform: scale(1.1);
-    opacity: 0.8;
-  }
-}
-.start-kaos-icon {
-  width: 24px;
-  height: 24px;
-}
-
-/* === SEARCH === */
+/* === SEARCH BOX === */
 .search-container {
-  padding: 16px;
-  text-align: center;
+  margin-top: 70px;
+  display: none;
 }
+
+.search-container input {
+  padding: 10px;
+  border: none;
+  border-radius: 30px;
+  outline: none;
+  width: 80%;
+  max-width: 400px;
+  font-size: 16px;
+}
+
 .search-container.hidden {
   display: none;
 }
-#searchInput {
-  padding: 10px 18px;
-  width: 80%;
-  max-width: 400px;
-  border-radius: 999px;
-  border: none;
-  background: #1a1a2f;
-  color: #fff;
-  font-size: 0.9rem;
-  box-shadow: 0 0 10px #00ffee33 inset;
+
+.search-container.visible {
+  display: block;
+}
+/* === HERO BAŞLIK === */
+.hero-section {
+  padding: 60px 20px 20px;
 }
 
-/* === HAMBURGER MENÜ === */
-.mobile-menu {
-  position: absolute;
-  top: 60px;
-  right: 10px;
-  background: rgba(10, 10, 20, 0.95);
-  border: 1px solid #00ffee44;
-  border-radius: 12px;
-  padding: 10px 14px;
-  z-index: 1000;
-  display: none;
-  flex-direction: column;
-  gap: 10px;
-  box-shadow: 0 0 12px #00ffee22;
-  opacity: 0;
-  transform: translateY(-10px);
-  transition: all 0.3s ease;
-}
-.mobile-menu.visible {
-  display: flex;
-  opacity: 1;
-  transform: translateY(0);
-}
-.mobile-menu ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.mobile-menu li {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: #00ffee;
-  font-size: 0.9rem;
-  cursor: pointer;
-  padding: 6px 8px;
-  border-radius: 8px;
-  transition: background 0.2s ease;
-}
-.mobile-menu li:hover {
-  background: rgba(255, 255, 255, 0.05);
-}
-.menu-icon {
-  width: 18px;
-  height: 18px;
-  filter: drop-shadow(0 0 2px #00ffee99);
-}
-/* === FORM BÖLÜMÜ === */
-.form-wrapper {
-  background: #111827;
-  border: 1px solid #00ffee33;
-  max-width: 720px;
-  margin: 30px auto;
-  padding: 20px;
-  border-radius: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  box-shadow: 0 0 12px #00ffee33;
-}
-.form-wrapper input,
-.form-wrapper textarea {
-  width: 100%;
-  padding: 10px 14px;
-  background: #1a1a2f;
-  border: 1px solid #00ffee33;
-  border-radius: 12px;
-  color: #fff;
-  font-size: 0.9rem;
-}
-.form-wrapper button {
-  background: #00ffee;
-  color: #000;
-  padding: 10px;
-  border-radius: 999px;
+.hero-title {
+  font-size: 2rem;
   font-weight: bold;
-  transition: background 0.2s ease;
 }
-.form-wrapper button:hover {
-  background: #00ffeecc;
-}
-.wallet-status {
-  margin-top: 10px;
-  font-size: 0.85rem;
+
+.hero-subtitle {
+  font-size: 1rem;
+  color: #aaa;
 }
 
 /* === TOKEN KARTLARI === */
-.token-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 16px;
-  padding: 20px 10px;
-}
 .token-card {
-  background: #111827;
-  border: 1px solid #00ffee33;
+  background-color: #111;
+  border-radius: 20px;
   padding: 16px;
-  border-radius: 16px;
-  width: 240px;
-  color: #fff;
-  text-align: left;
-  box-shadow: 0 0 12px #00ffee22;
+  margin: 12px auto;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 0 8px #00ffee55;
+  display: flex;
+  align-items: center;
+  gap: 12px;
   transition: transform 0.2s ease;
 }
+
 .token-card:hover {
-  transform: scale(1.03);
+  transform: scale(1.02);
 }
+
 .token-card img {
+  width: 40px;
+  height: 40px;
+}
+
+.token-info h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #fff;
+}
+
+.token-info p {
+  margin: 2px 0;
+  font-size: 14px;
+  color: #aaa;
+}
+
+/* === KAOS BUTONU (CREATE THE CHAOS) === */
+.start-box {
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 25px;
+  background: radial-gradient(circle, #220033, #000);
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 0 15px #ff00ff77;
+  animation: pulseGlow 3s infinite;
+  cursor: pointer;
+}
+
+.start-box:hover {
+  box-shadow: 0 0 20px #ff00ff;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 15px #ff00ff77; }
+  50% { box-shadow: 0 0 30px #ff00ffcc; }
+}
+
+/* === TOKEN OLUŞTURMA FORMU === */
+#tokenForm {
+  display: none;
+  margin-top: 20px;
+  background: linear-gradient(135deg, #111, #222);
+  padding: 24px;
+  border-radius: 20px;
+  box-shadow: 0 0 10px #00ffee77;
+  width: 90%;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+}
+
+#tokenForm input,
+#tokenForm textarea {
   width: 100%;
-  border-radius: 12px;
-  margin-bottom: 10px;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 10px;
+  border: none;
 }
-.token-card h4 {
-  font-size: 1rem;
-  color: #00ffee;
-  margin: 4px 0;
-}
-.token-card p {
-  font-size: 0.85rem;
-  color: #ccc;
+
+#tokenForm button {
+  background: #00ffee;
+  color: #000;
+  font-weight: bold;
+  padding: 12px;
+  border-radius: 30px;
+  width: 100%;
+  cursor: pointer;
 }
 
 /* === ALT MENÜ === */
@@ -287,132 +257,53 @@ button {
   position: fixed;
   bottom: 0;
   left: 0;
+  background: #000;
   width: 100%;
-  background: #0a0a23;
   display: flex;
   justify-content: space-around;
-  align-items: center;
-  padding: 8px 0;
-  border-top: 1px solid #00ffee22;
-  z-index: 999;
+  padding: 10px 0;
+  border-top: 1px solid #222;
+  z-index: 1000;
 }
+
 .nav-link {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 0.75rem;
-  color: #00ffee;
-  text-decoration: none;
-  transition: transform 0.2s ease;
+  text-align: center;
+  font-size: 12px;
+  color: #fff;
 }
-.nav-link:hover {
-  transform: scale(1.05);
-}
+
 .nav-link img {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   margin-bottom: 4px;
-  filter: drop-shadow(0 0 4px #00ffee88);
-}
-.nav-link.active span {
-  color: #fff;
-  font-weight: bold;
 }
 
-/* === CHAOS MASCOT ANIM === */
-.chaos-mascot.small {
-  width: 80px;
-  height: 80px;
-  animation: bounce 1s ease-in-out infinite;
-}
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-/* === HERO === */
-.hero-section {
-  padding: 40px 20px 20px;
-  margin-top: 30px;
-}
-.hero-title {
-  font-size: 1.8rem;
-  margin-bottom: 10px;
-  color: #00ffee;
-}
-.hero-subtitle {
-  font-size: 1rem;
-  color: #aaa;
-}
-
-/* === INFO STRIP === */
-.info-strip {
-  margin: 16px 0;
-  color: #00ffeeaa;
-  font-size: 0.9rem;
-}
-/* === YENİ TOKEN OLUŞTUR FORMU === */
-.token-form-container {
-  max-width: 880px;
-  margin: 40px auto;
-  padding: 20px;
-  background: #111827;
-  border-radius: 20px;
-  border: 1px solid #00ffee33;
-  box-shadow: 0 0 14px #00ffee33;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 30px;
-}
-
-.form-image-upload {
-  flex: 1 1 200px;
-  background: #1a1a2f;
-  border: 2px dashed #00ffee66;
-  border-radius: 14px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+/* === WALLET MODAL === */
+#walletModal {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #111;
   padding: 30px;
-  color: #00ffeeaa;
-  font-size: 0.9rem;
-  cursor: pointer;
+  border-radius: 20px;
+  box-shadow: 0 0 20px #00ffee88;
+  z-index: 9999;
+  width: 80%;
+  max-width: 400px;
 }
 
-.form-fields {
-  flex: 2 1 300px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.form-fields input,
-.form-fields textarea,
-.form-fields select {
-  background: #1a1a2f;
-  border: 1px solid #00ffee44;
-  border-radius: 10px;
+.wallet-option {
+  background: #222;
+  padding: 14px;
+  margin: 10px 0;
+  border-radius: 15px;
   color: #fff;
-  padding: 10px 14px;
-  font-size: 0.9rem;
-}
-
-.form-fields button {
-  background: #00ffee;
-  color: #000;
-  padding: 12px;
-  border-radius: 999px;
-  font-weight: bold;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: background 0.3s;
 }
 
-.form-fields button:hover {
-  background: #00ffeedd;
-}
-
-@media (max-width: 768px) {
-  .token-form-container {
-    flex-direction: column;
-  }
+.wallet-option:hover {
+  background: #333;
 }
