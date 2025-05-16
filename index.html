@@ -1,4 +1,3 @@
-<!-- floppfun/index.html — PART 1/3 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,7 +15,7 @@
 <body class="intro-glitch">
 <canvas id="particle-canvas"></canvas>
 
-<!-- ÜST BÖLÜM -->
+<!-- HEADER -->
 <header class="boop-header">
   <div class="boop-left">
     <img src="images/floop-mascot.png" class="boop-logo" alt="Floop Mascot" />
@@ -30,12 +29,12 @@
   </div>
 </header>
 
-<!-- ARAMA GİRİŞİ -->
+<!-- SEARCH INPUT -->
 <div id="searchContainer" class="search-container hidden">
   <input id="searchInput" type="text" placeholder="Search tokens..." />
 </div>
 
-<!-- MOBİL MENÜ -->
+<!-- MOBILE MENU -->
 <div class="mobile-menu hidden" id="mobileMenu">
   <ul>
     <li><a href="https://x.com/floopfun" target="_blank"><img src="images/icons/x.svg" class="menu-icon" /> X</a></li>
@@ -44,33 +43,34 @@
   </ul>
 </div>
 
-<!-- BİR KAOS OLUŞTUR - BAŞLATMA -->
+<!-- START CHAOS BOX -->
 <section class="start-section">
   <div class="start-box" onclick="toggleForm()">
     <h2>🔥 Bir Kaos Oluştur</h2>
     <p>Click to begin your cult journey</p>
   </div>
 </section>
-
 <!-- KAOS ANİMASYONU -->
 <div id="chaosAnimation" class="chaos-animation hidden">
-  <img src="images/floop-mascot.png" class="mascot-spin" alt="Kaos Başlıyor" />
+  <img src="images/chaos/fire.gif" alt="Fire Effect" />
+  <img src="images/chaos/solana-bounce.gif" alt="Solana Logo" />
+  <img src="images/floop-mascot.png" class="chaos-mascot" alt="Mascot" />
   <p class="glitch-text">KAOS YÜKLENİYOR...</p>
 </div>
 
-<!-- TOKEN OLUŞTURMA FORMU -->
+<!-- TOKEN CREATION FORM -->
 <section id="tokenFormSection" class="form-section hidden">
   <form id="tokenForm" class="token-form">
     <div class="form-left">
       <label for="tokenImage">Upload Image</label>
       <input type="file" id="tokenImage" accept="image/*" />
-      <img id="previewImage" class="preview" src="" alt="Preview" />
+      <img id="previewImage" class="preview" src="" alt="Preview" style="display:none;" />
     </div>
     <div class="form-right">
       <input type="text" id="tokenName" placeholder="Token Name" required />
       <input type="text" id="tokenSymbol" placeholder="Ticker Symbol" maxlength="6" required />
       <textarea id="tokenLore" placeholder="Cult Lore (Optional)"></textarea>
-      <label for="preBuyToggle">
+      <label for="preBuyToggle" class="checkbox-label">
         <input type="checkbox" id="preBuyToggle" />
         Enable Pre-Buy Option
       </label>
@@ -85,6 +85,7 @@
     </div>
   </form>
 </section>
+
 <!-- FİLTRE ÇUBUĞU -->
 <div class="filter-bar">
   <button class="filter-btn"><img src="images/icons/settings.svg" class="icon" /> Ayarlar</button>
@@ -92,8 +93,7 @@
   <button class="filter-btn">Hakkında</button>
   <button class="filter-btn">Topluluklar</button>
 </div>
-
-<!-- TOKENLER LİSTESİ -->
+<!-- TOKEN LISTESİ -->
 <section class="token-list">
   <div class="token-card">
     <img src="images/tokens/sample1.png" alt="Token 1" class="token-img" />
@@ -107,7 +107,7 @@
     <p class="token-symbol">$LOLZ</p>
     <button class="connect-btn small">Floopla</button>
   </div>
-  <!-- Daha fazla token kartı buraya dinamik olarak yüklenecek -->
+  <!-- Daha fazla token kartı dinamik olarak yüklenecek -->
 </section>
 
 <!-- ALT SABİT MENÜ -->
@@ -122,48 +122,10 @@
 <!-- SES BUTONU -->
 <button id="muteToggle" class="mute-button">🔊</button>
 
-<!-- CÜZDAN YÖNLENDİRME GİZLİ -->
+<!-- CÜZDAN YÖNLENDİRME -->
 <a href="https://phantom.app/ul/browse/https://floopfun25.github.io/floppfun/?connect=phantom" id="phantomLink" style="display:none;">Phantom</a>
-<!-- PARTİKÜL ANİMASYONU -->
-<canvas id="particle-canvas"></canvas>
 
-<!-- KAOS ANİMASYONU VE FORM -->
-<div id="chaosAnimation" class="chaos-sequence hidden">
-  <img src="images/chaos/fire.gif" alt="Fire Effect" />
-  <img src="images/chaos/solana-bounce.gif" alt="Solana Logo" />
-  <img src="images/floop-mascot.png" class="chaos-mascot" />
-</div>
-
-<!-- TOKEN OLUŞTURMA FORMU -->
-<section id="tokenFormSection" class="hidden">
-  <form id="tokenForm" class="token-form">
-    <div class="form-left">
-      <label for="tokenImage">Upload Image</label>
-      <input type="file" id="tokenImageInput" accept="image/*" />
-      <img id="tokenImagePreview" src="#" alt="Preview" style="display:none;" />
-    </div>
-    <div class="form-right">
-      <label>Token Name</label>
-      <input type="text" id="tokenName" required />
-      <label>Symbol</label>
-      <input type="text" id="tokenSymbol" required />
-      <label>Lore</label>
-      <textarea id="tokenLore"></textarea>
-      <label>Pre-Buy?</label>
-      <input type="checkbox" id="preBuy" />
-      <label>Socials</label>
-      <select>
-        <option value="">Select</option>
-        <option value="telegram">Telegram</option>
-        <option value="x">X (Twitter)</option>
-      </select>
-      <button type="submit" class="connect-btn">Create Token</button>
-      <p id="formStatus" class="wallet-status"></p>
-    </div>
-  </form>
-</section>
-
-<!-- SCRIPTLER -->
+<!-- SCRIPT DOSYALARI -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
 <script src="script.js"></script>
