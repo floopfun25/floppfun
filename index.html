@@ -1,4 +1,3 @@
-<!-- floppfun/index.html — PART 1/4 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,15 +7,11 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="images/icons/floop-favicon.ico" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
-  <meta name="description" content="Launch your meme token on Solana. Just chaos." />
-  <meta property="og:title" content="Floop.fun - Launch Meme Tokens Instantly" />
-  <meta property="og:image" content="images/preview.jpg" />
-  <meta name="twitter:card" content="summary_large_image" />
 </head>
 <body class="intro-glitch">
 <canvas id="particle-canvas"></canvas>
 
-<!-- === HEADER === -->
+<!-- HEADER -->
 <header class="boop-header">
   <div class="boop-left">
     <img src="images/floop-mascot.png" alt="Floop Mascot" class="boop-logo" />
@@ -30,12 +25,7 @@
   </div>
 </header>
 
-<!-- === SEARCH FIELD === -->
-<div id="searchContainer" class="search-container hidden">
-  <input id="searchInput" type="text" placeholder="Search tokens..." />
-</div>
-
-<!-- === MOBILE MENU === -->
+<!-- MOBILE MENU -->
 <div class="mobile-menu hidden" id="mobileMenu">
   <ul>
     <li><a href="https://x.com/floopfun" target="_blank"><img src="images/icons/x.svg" class="menu-icon" /> X</a></li>
@@ -44,7 +34,7 @@
   </ul>
 </div>
 
-<!-- === CREATE THE CHAOS BUTTON === -->
+<!-- CREATE THE CHAOS BUTTON -->
 <div class="start-kaos-wrapper">
   <div class="start-kaos-box" onclick="toggleForm()">
     <img src="images/icons/cult.png" alt="Chaos" class="start-kaos-icon" />
@@ -52,15 +42,7 @@
   </div>
 </div>
 
-<!-- === CHAOS MASCOT ANIMATION === -->
-<div id="chaosMascot" class="hidden chaos-mascot-center">
-  <img src="images/floop-mascot.png" alt="Chaos Mascot" class="chaos-mascot small" />
-</div>
-
-<!-- === TOKEN FORM ALANI (Boş, PART 2'de dolacak) === -->
-<section id="tokenFormSection" class="hidden" style="margin-top: 20px;">
-</section>
-<!-- === TOKEN FORM (Boop Style) === -->
+<!-- TOKEN FORM -->
 <section id="tokenFormSection" class="token-form-container hidden">
   <div class="form-image-upload" id="imageUploadBox">
     Click or Drop Image Here
@@ -89,23 +71,7 @@
   </div>
 </section>
 
-<!-- === FILTER BAR === -->
-<div class="filter-bar">
-  <button class="filter-btn">
-    <img src="images/icons/settings.svg" class="icon" /> Settings
-  </button>
-  <button class="filter-btn">Newly Launched</button>
-  <button class="filter-btn">About to Graduate</button>
-  <button class="filter-btn">Highest MCAP</button>
-  <button class="filter-btn">Top Gainers</button>
-  <button class="filter-btn">Oldest</button>
-</div>
-
-<!-- === TOKEN KART LİSTESİ (JS ile doldurulacak) === -->
-<section class="token-list" id="tokenList">
-  <!-- Örnek kartlar JS ile eklenecek -->
-</section>
-<!-- === WALLET SEÇİM MODALI === -->
+<!-- WALLET MODAL -->
 <div class="wallet-modal hidden" id="walletModal">
   <div class="wallet-box">
     <h3>Choose a wallet</h3>
@@ -115,10 +81,10 @@
   </div>
 </div>
 
-<!-- === GİZLİ CÜZDAN LİNKİ (mobil fallback) === -->
+<!-- PHANTOM LINK (mobil fallback) -->
 <a href="https://phantom.app/ul/browse/https://floopfun25.github.io/floppfun/?connect=phantom" id="phantomLink" style="display:none;">Phantom</a>
 
-<!-- === SABİT ALT MENÜ === -->
+<!-- BOTTOM NAV -->
 <nav class="bottom-nav">
   <a href="index.html" class="nav-link active">
     <img src="images/icons/cult.png" /><span>cults</span>
@@ -137,15 +103,16 @@
   </a>
 </nav>
 
-<!-- === SES BUTONU === -->
+<!-- SES BUTONU -->
 <button id="muteToggle" class="mute-button">🔊</button>
-<!-- === SCRIPT DOSYALARI === -->
+
+<!-- SCRIPTS -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
 <script src="script.js"></script>
 
-<!-- === GİRİŞ GLITCH EFEKTİ TEMİZLEME === -->
 <script>
+  // Sayfa yüklenince glitch kalksın
   window.addEventListener("load", () => {
     setTimeout(() => {
       document.body.classList.remove("intro-glitch");
