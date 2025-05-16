@@ -1,189 +1,127 @@
-<!-- floppfun/leaderboard.html — PART 1/3 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Leaderboard - Floop.fun</title>
+  <title>Floop.fun - Top Cults</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="images/icons/floop-favicon.ico" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
-</head>
-<body>
 
-<!-- ÜST MASKOT + SES -->
-<div class="floating-top-left">
-  <img src="images/floop-mascot.png" alt="Mascot" class="floating-mascot" />
-  <button id="muteToggle" class="mute-button">🔊</button>
-</div>
+  <!-- SEO -->
+  <meta name="description" content="See the most flooped meme tokens on Solana. Just chaos." />
+  <meta property="og:title" content="Floop.fun - Top Meme Tokens" />
+  <meta property="og:image" content="images/preview.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+</head>
+<body class="intro-glitch">
+<canvas id="particle-canvas"></canvas>
 
 <!-- HEADER -->
 <header class="boop-header">
   <div class="boop-left">
-    <img src="images/floop-mascot.png" alt="Floop" class="boop-logo" />
+    <img src="images/floop-mascot.png" alt="Floop Mascot" class="boop-logo" />
   </div>
   <div class="boop-center">
-    <button id="connectWallet" class="connect-btn">connect</button>
-    <button class="icon-btn" id="searchBtn">🔍</button>
+    <button id="connectWallet" class="connect-btn">Connect</button>
+    <button id="searchBtn" class="icon-btn">🔍</button>
   </div>
   <div class="boop-right">
     <button class="icon-btn" id="menuBtn">☰</button>
   </div>
 </header>
 
-<!-- ARAMA GİRİŞİ -->
-<div id="searchContainer" class="search-container hidden">
-  <input id="searchInput" type="text" placeholder="Search tokens..." />
+<!-- MOBILE MENU -->
+<div class="mobile-menu hidden" id="mobileMenu">
+  <ul>
+    <li><a href="https://x.com/floopfun" target="_blank"><img src="images/icons/x.svg" class="menu-icon" /> X</a></li>
+    <li><a href="https://t.me/floopfun" target="_blank"><img src="images/icons/telegram.svg" class="menu-icon" /> Telegram</a></li>
+    <li><a href="#" target="_blank"><img src="images/icons/chart.svg" class="menu-icon" /> Floop Chart</a></li>
+  </ul>
+</div>
+<!-- PAGE TITLE -->
+<section class="page-title">
+  <h1>Top Cults</h1>
+  <p>The most flooped meme tokens on Solana.</p>
+</section>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <img src="images/icons/settings.svg" class="filter-icon" />
+  <div class="filters">
+    <button class="filter-btn active">New</button>
+    <button class="filter-btn">Top Gainers</button>
+    <button class="filter-btn">Most Flooped</button>
+    <button class="filter-btn">Pre-buy Enabled</button>
+  </div>
 </div>
 
-<!-- HERO BAŞLIK -->
-<main class="hero-section">
-  <div class="hero-content">
-    <h2 class="hero-title">Top Flooped Tokens</h2>
-    <p class="hero-subtitle">See what the cult is flooping!</p>
+<!-- TOKEN GRID LIST -->
+<section class="token-list" id="leaderboardTokens">
+  <!-- Token cards will be injected here dynamically or manually -->
+  <div class="token-card">
+    <img src="images/sample-token.png" alt="Token" />
+    <h3>$FLOOPCAT</h3>
+    <p class="meta">by 7x2d...Lop • 1h ago</p>
+    <p class="meta">MCAP: $120K • Floops: 927</p>
   </div>
-</main>
 
-<!-- TOKEN KART LİSTESİ -->
-<section id="leaderboardList">
-  <!-- JavaScript ile doldurulacak -->
+  <div class="token-card">
+    <img src="images/sample-token2.png" alt="Token" />
+    <h3>$MEMEFROG</h3>
+    <p class="meta">by Gk8t...Qds • 3h ago</p>
+    <p class="meta">MCAP: $320K • Floops: 1423</p>
+  </div>
+
+  <div class="token-card">
+    <img src="images/sample-token3.png" alt="Token" />
+    <h3>$GRANDMA</h3>
+    <p class="meta">by 1op9...XYZ • 2d ago</p>
+    <p class="meta">MCAP: $540K • Floops: 2980</p>
+  </div>
 </section>
-<!-- ALT MENÜ -->
+<!-- BOTTOM NAVIGATION -->
 <nav class="bottom-nav">
   <a href="index.html" class="nav-link">
-    <img src="images/icons/cult.png" alt="cults" />
+    <img src="images/icons/cult.png" />
     <span>cults</span>
   </a>
   <a href="rewards.html" class="nav-link">
-    <img src="images/icons/rewards.png" alt="rewards" />
+    <img src="images/icons/rewards.png" />
     <span>rewards</span>
   </a>
   <a href="staking.html" class="nav-link">
-    <img src="images/icons/staking.png" alt="staking" />
+    <img src="images/icons/staking.png" />
     <span>staking</span>
   </a>
   <a href="leaderboard.html" class="nav-link active">
-    <img src="images/icons/leaderboard.png" alt="leaderboard" />
+    <img src="images/icons/leaderboard.png" />
     <span>leaderb.</span>
   </a>
   <a href="airdrop.html" class="nav-link">
-    <img src="images/icons/airdrop.png" alt="airdrop" />
+    <img src="images/icons/airdrop.png" />
     <span>airdrop</span>
   </a>
 </nav>
 
-<!-- JS KÜTÜPHANELERİ -->
+<!-- SES BUTONU -->
+<button id="muteToggle" class="mute-button">🔊</button>
+
+<!-- MASKOT POPUP ALANI -->
+<div id="mascotChaos" class="hidden">
+  <img src="images/floop-mascot.png" alt="Floop Mascot" class="mascot-popup" />
+</div>
+<!-- SCRIPTS -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
-
-<!-- Phantom fallback link -->
-<a href="https://phantom.app/ul/browse/https://floopfun25.github.io/floppfun/leaderboard.html?connect=phantom" id="phantomLink" style="display:none;">Phantom</a>
+<script src="script.js"></script>
 
 <script>
-  const supabaseUrl = 'https://ugzbsmmaxxklojwlijrt.supabase.co';
-  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR...'; // gizli keyin kırpılmış hali
-  const supabase = supabase.createClient(supabaseUrl, supabaseKey);
-
-  async function loadLeaderboard() {
-    const { data } = await supabase
-      .from('floop_counts')
-      .select('*')
-      .order('count', { ascending: false })
-      .limit(20);
-
-    const list = document.getElementById("leaderboardList");
-
-    if (!data || data.length === 0) {
-      list.innerHTML = "<p style='color:#aaa;'>No tokens yet. Be the first to floop!</p>";
-      return;
-    }
-
-    list.innerHTML = data.map(token => `
-      <div class="token-card">
-        <img src="images/icons/cult.png" alt="${token.symbol}" />
-        <div class="token-info">
-          <h3>${token.symbol || "FLOOP"}</h3>
-          <p>${token.mint}</p>
-          <p>Flooped: ${token.count}</p>
-        </div>
-      </div>
-    `).join('');
-  }
-
-  loadLeaderboard();
-  // Arama kutusunu aç/kapat
-  document.getElementById("searchBtn")?.addEventListener("click", () => {
-    const box = document.getElementById("searchContainer");
-    box.classList.toggle("hidden");
-    if (!box.classList.contains("hidden")) {
-      document.getElementById("searchInput").focus();
-    }
-  });
-
-  // Menü toggle
-  document.getElementById("menuBtn")?.addEventListener("click", () => {
-    const menu = document.getElementById("mobileMenu");
-    menu?.classList.toggle("visible");
-  });
-
-  // Ses butonu toggle
-  const muteToggle = document.getElementById("muteToggle");
-  if (muteToggle) {
-    const bgAudio = document.createElement("audio");
-    bgAudio.src = "sounds/loop.mp3";
-    bgAudio.loop = true;
-    bgAudio.volume = 0.4;
-    document.body.appendChild(bgAudio);
-
-    let isMuted = false;
-    muteToggle.addEventListener("click", () => {
-      isMuted = !isMuted;
-      muteToggle.innerText = isMuted ? "🔇" : "🔊";
-      isMuted ? bgAudio.pause() : bgAudio.play();
-    });
-  }
-
-  // Phantom cüzdan bağlantısı
-  async function connectPhantomWallet() {
-    try {
-      const provider = window.solana;
-      if (provider && provider.isPhantom) {
-        const resp = await provider.connect();
-        const walletAddress = resp.publicKey.toString();
-        document.getElementById("connectWallet").textContent =
-          walletAddress.slice(0, 4) + "..." + walletAddress.slice(-4);
-      } else {
-        document.getElementById("phantomLink").click();
-      }
-    } catch (err) {
-      console.error("Phantom connection failed", err);
-    }
-  }
-
-  // Sayfa yüklenince bağlantıyı kontrol et
-  document.addEventListener("DOMContentLoaded", () => {
-    const connectBtn = document.getElementById("connectWallet");
-
-    connectBtn?.addEventListener("click", () => {
-      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-      if (isMobile) {
-        document.getElementById("phantomLink").click();
-      } else {
-        connectPhantomWallet();
-      }
-    });
-
-    if (window.solana && window.solana.isPhantom) {
-      window.solana.connect({ onlyIfTrusted: true }).then((resp) => {
-        const walletAddress = resp.publicKey.toString();
-        document.getElementById("connectWallet").textContent =
-          walletAddress.slice(0, 4) + "..." + walletAddress.slice(-4);
-      }).catch(() => {});
-    }
-
-    if (window.location.search.includes("connect=phantom")) {
-      connectPhantomWallet();
-    }
+  // Glitch efekti sayfa açıldığında kalksın
+  window.addEventListener("load", () => {
+    setTimeout(() => {
+      document.body.classList.remove("intro-glitch");
+    }, 700);
   });
 </script>
 </body>
