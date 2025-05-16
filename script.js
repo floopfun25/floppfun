@@ -22,6 +22,28 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
     formStatus.innerText = "Minting your token...";
     formStatus.style.color = "aqua";
+<script>
+  function triggerChaos() {
+    const chaos = document.getElementById("chaosAnimation");
+    const form = document.getElementById("tokenFormSection");
+
+    chaos.classList.remove("hidden");
+    chaos.style.display = "flex"; // göster
+    form.classList.add("hidden");
+    form.style.display = "none";
+
+    setTimeout(() => {
+      chaos.style.display = "none";
+      form.classList.remove("hidden");
+      form.style.display = "block";
+    }, 2000); // 2 saniye sonra form açılır
+  }
+
+  // Eski toggleForm fonksiyonu varsa boş geçilsin
+  function toggleForm() {
+    triggerChaos();
+  }
+</script>
 
     try {
       const tokenName = document.getElementById("tokenName").value;
