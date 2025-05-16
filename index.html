@@ -15,10 +15,10 @@
 <body class="intro-glitch">
 <canvas id="particle-canvas"></canvas>
 
-<!-- HEADER -->
+<!-- === HEADER === -->
 <header class="boop-header">
   <div class="boop-left">
-    <img src="images/floop-mascot.png" class="boop-logo" alt="Floop Mascot" />
+    <img src="images/floop-mascot.png" alt="Floop Mascot" class="boop-logo" />
   </div>
   <div class="boop-center">
     <button id="connectWallet" class="connect-btn">Connect</button>
@@ -29,12 +29,12 @@
   </div>
 </header>
 
-<!-- SEARCH INPUT -->
+<!-- === SEARCH FIELD === -->
 <div id="searchContainer" class="search-container hidden">
   <input id="searchInput" type="text" placeholder="Search tokens..." />
 </div>
 
-<!-- MOBILE MENU -->
+<!-- === MOBILE MENU === -->
 <div class="mobile-menu hidden" id="mobileMenu">
   <ul>
     <li><a href="https://x.com/floopfun" target="_blank"><img src="images/icons/x.svg" class="menu-icon" /> X</a></li>
@@ -42,95 +42,129 @@
     <li><a href="#" target="_blank"><img src="images/icons/chart.svg" class="menu-icon" /> Floop Chart</a></li>
   </ul>
 </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Floop.fun - Meme Token Creator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="images/icons/floop-favicon.ico" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+  <meta name="description" content="Launch your meme token on Solana. Just chaos." />
+  <meta property="og:title" content="Floop.fun - Launch Meme Tokens Instantly" />
+  <meta property="og:image" content="images/preview.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+</head>
+<body class="intro-glitch">
+<canvas id="particle-canvas"></canvas>
 
-<!-- START CHAOS BOX -->
-<section class="start-section">
-  <div class="start-box" onclick="toggleForm()">
-    <h2>🔥 Bir Kaos Oluştur</h2>
-    <p>Click to begin your cult journey</p>
+<!-- === HEADER === -->
+<header class="boop-header">
+  <div class="boop-left">
+    <img src="images/floop-mascot.png" alt="Floop Mascot" class="boop-logo" />
   </div>
-</section>
-<!-- KAOS ANİMASYONU -->
-<div id="chaosAnimation" class="chaos-animation hidden">
-  <img src="images/chaos/fire.gif" alt="Fire Effect" />
-  <img src="images/chaos/solana-bounce.gif" alt="Solana Logo" />
-  <img src="images/floop-mascot.png" class="chaos-mascot" alt="Mascot" />
-  <p class="glitch-text">KAOS YÜKLENİYOR...</p>
+  <div class="boop-center">
+    <button id="connectWallet" class="connect-btn">Connect</button>
+    <button id="searchBtn" class="icon-btn">🔍</button>
+  </div>
+  <div class="boop-right">
+    <button class="icon-btn" id="menuBtn">☰</button>
+  </div>
+</header>
+
+<!-- === SEARCH FIELD === -->
+<div id="searchContainer" class="search-container hidden">
+  <input id="searchInput" type="text" placeholder="Search tokens..." />
 </div>
 
-<!-- TOKEN CREATION FORM -->
-<section id="tokenFormSection" class="form-section hidden">
-  <form id="tokenForm" class="token-form">
-    <div class="form-left">
-      <label for="tokenImage">Upload Image</label>
-      <input type="file" id="tokenImage" accept="image/*" />
-      <img id="previewImage" class="preview" src="" alt="Preview" style="display:none;" />
-    </div>
-    <div class="form-right">
-      <input type="text" id="tokenName" placeholder="Token Name" required />
-      <input type="text" id="tokenSymbol" placeholder="Ticker Symbol" maxlength="6" required />
-      <textarea id="tokenLore" placeholder="Cult Lore (Optional)"></textarea>
-      <label for="preBuyToggle" class="checkbox-label">
-        <input type="checkbox" id="preBuyToggle" />
-        Enable Pre-Buy Option
-      </label>
-      <select id="socialSelect">
-        <option value="">Add Social</option>
-        <option value="twitter">Twitter</option>
-        <option value="telegram">Telegram</option>
-        <option value="discord">Discord</option>
-      </select>
-      <button type="submit" class="connect-btn alt">Create Token</button>
-      <p id="formStatus" class="wallet-status"></p>
-    </div>
-  </form>
-</section>
-
-<!-- FİLTRE ÇUBUĞU -->
+<!-- === MOBILE MENU === -->
+<div class="mobile-menu hidden" id="mobileMenu">
+  <ul>
+    <li><a href="https://x.com/floopfun" target="_blank"><img src="images/icons/x.svg" class="menu-icon" /> X</a></li>
+    <li><a href="https://t.me/floopfun" target="_blank"><img src="images/icons/telegram.svg" class="menu-icon" /> Telegram</a></li>
+    <li><a href="#" target="_blank"><img src="images/icons/chart.svg" class="menu-icon" /> Floop Chart</a></li>
+  </ul>
+</div>
+<!-- === FİLTRE ÇUBUĞU === -->
 <div class="filter-bar">
-  <button class="filter-btn"><img src="images/icons/settings.svg" class="icon" /> Ayarlar</button>
-  <button class="filter-btn">Yeni Başlatıldı</button>
-  <button class="filter-btn">Hakkında</button>
-  <button class="filter-btn">Topluluklar</button>
+  <button class="filter-btn">
+    <img src="images/icons/settings.svg" class="icon" /> Ayarlar
+  </button>
+  <button class="filter-btn">Newly Launched</button>
+  <button class="filter-btn">About to Graduate</button>
+  <button class="filter-btn">Highest MCAP</button>
 </div>
-<!-- TOKEN LISTESİ -->
+
+<!-- === TOKEN LİSTESİ === -->
 <section class="token-list">
   <div class="token-card">
     <img src="images/tokens/sample1.png" alt="Token 1" class="token-img" />
-    <h3>TokenName</h3>
+    <h4 class="token-title">TokenName</h4>
     <p class="token-symbol">$SYMB</p>
+    <p class="token-desc">by @user123</p>
+    <div class="token-meta">
+      <span>MCAP: $21K</span>
+      <span>+12%</span>
+    </div>
     <button class="connect-btn small">Floopla</button>
   </div>
+
   <div class="token-card">
     <img src="images/tokens/sample2.png" alt="Token 2" class="token-img" />
-    <h3>AnotherToken</h3>
+    <h4 class="token-title">AnotherToken</h4>
     <p class="token-symbol">$LOLZ</p>
+    <p class="token-desc">by @anon</p>
+    <div class="token-meta">
+      <span>MCAP: $9K</span>
+      <span>-3%</span>
+    </div>
     <button class="connect-btn small">Floopla</button>
   </div>
-  <!-- Daha fazla token kartı dinamik olarak yüklenecek -->
-</section>
 
-<!-- ALT SABİT MENÜ -->
+  <!-- Dinamik token kartları JS ile buraya eklenecek -->
+</section>
+<!-- === ALT SABİT MENÜ === -->
 <nav class="bottom-nav">
-  <a href="index.html" class="nav-link active"><img src="images/icons/cult.png" /><span>cults</span></a>
-  <a href="rewards.html" class="nav-link"><img src="images/icons/rewards.png" /><span>rewards</span></a>
-  <a href="staking.html" class="nav-link"><img src="images/icons/staking.png" /><span>staking</span></a>
-  <a href="leaderboard.html" class="nav-link"><img src="images/icons/leaderboard.png" /><span>leaderb.</span></a>
-  <a href="airdrop.html" class="nav-link"><img src="images/icons/airdrop.png" /><span>airdrop</span></a>
+  <a href="index.html" class="nav-link active">
+    <img src="images/icons/cult.png" /><span>cults</span>
+  </a>
+  <a href="rewards.html" class="nav-link">
+    <img src="images/icons/rewards.png" /><span>rewards</span>
+  </a>
+  <a href="staking.html" class="nav-link">
+    <img src="images/icons/staking.png" /><span>staking</span>
+  </a>
+  <a href="leaderboard.html" class="nav-link">
+    <img src="images/icons/leaderboard.png" /><span>leaderb.</span>
+  </a>
+  <a href="airdrop.html" class="nav-link">
+    <img src="images/icons/airdrop.png" /><span>airdrop</span>
+  </a>
 </nav>
 
-<!-- SES BUTONU -->
+<!-- === SES BUTONU === -->
 <button id="muteToggle" class="mute-button">🔊</button>
 
-<!-- CÜZDAN YÖNLENDİRME -->
+<!-- === WALLET SELECT MODAL === -->
+<div class="wallet-modal hidden" id="walletModal">
+  <div class="wallet-box">
+    <h3>Choose a wallet</h3>
+    <button onclick="connectWallet('phantom')">Phantom</button>
+    <button onclick="connectWallet('solflare')">Solflare</button>
+    <button onclick="connectWallet('backpack')">Backpack</button>
+  </div>
+</div>
+
+<!-- === GİZLİ CÜZDAN LİNKİ (fallback) === -->
 <a href="https://phantom.app/ul/browse/https://floopfun25.github.io/floppfun/?connect=phantom" id="phantomLink" style="display:none;">Phantom</a>
 
-<!-- SCRIPT DOSYALARI -->
+<!-- === SCRIPT DOSYALARI === -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
 <script src="script.js"></script>
 
-<!-- GİRİŞ ANİMASYONU -->
+<!-- === GİRİŞ ANİMASYONU === -->
 <script>
   window.addEventListener("load", () => {
     setTimeout(() => {
