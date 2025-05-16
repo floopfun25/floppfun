@@ -1,3 +1,4 @@
+<!-- floppfun/index.html — PART 1/4 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,89 +43,82 @@
     <li><a href="#" target="_blank"><img src="images/icons/chart.svg" class="menu-icon" /> Floop Chart</a></li>
   </ul>
 </div>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Floop.fun - Meme Token Creator</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="images/icons/floop-favicon.ico" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
-  <meta name="description" content="Launch your meme token on Solana. Just chaos." />
-  <meta property="og:title" content="Floop.fun - Launch Meme Tokens Instantly" />
-  <meta property="og:image" content="images/preview.jpg" />
-  <meta name="twitter:card" content="summary_large_image" />
-</head>
-<body class="intro-glitch">
-<canvas id="particle-canvas"></canvas>
 
-<!-- === HEADER === -->
-<header class="boop-header">
-  <div class="boop-left">
-    <img src="images/floop-mascot.png" alt="Floop Mascot" class="boop-logo" />
+<!-- === CREATE THE CHAOS BUTTON === -->
+<div class="start-kaos-wrapper">
+  <div class="start-kaos-box" onclick="toggleForm()">
+    <img src="images/icons/cult.png" alt="Chaos" class="start-kaos-icon" />
+    Create the Chaos
   </div>
-  <div class="boop-center">
-    <button id="connectWallet" class="connect-btn">Connect</button>
-    <button id="searchBtn" class="icon-btn">🔍</button>
-  </div>
-  <div class="boop-right">
-    <button class="icon-btn" id="menuBtn">☰</button>
-  </div>
-</header>
-
-<!-- === SEARCH FIELD === -->
-<div id="searchContainer" class="search-container hidden">
-  <input id="searchInput" type="text" placeholder="Search tokens..." />
 </div>
 
-<!-- === MOBILE MENU === -->
-<div class="mobile-menu hidden" id="mobileMenu">
-  <ul>
-    <li><a href="https://x.com/floopfun" target="_blank"><img src="images/icons/x.svg" class="menu-icon" /> X</a></li>
-    <li><a href="https://t.me/floopfun" target="_blank"><img src="images/icons/telegram.svg" class="menu-icon" /> Telegram</a></li>
-    <li><a href="#" target="_blank"><img src="images/icons/chart.svg" class="menu-icon" /> Floop Chart</a></li>
-  </ul>
+<!-- === CHAOS MASCOT ANIMATION === -->
+<div id="chaosMascot" class="hidden chaos-mascot-center">
+  <img src="images/floop-mascot.png" alt="Chaos Mascot" class="chaos-mascot small" />
 </div>
-<!-- === FİLTRE ÇUBUĞU === -->
+
+<!-- === TOKEN FORM ALANI (Boş, PART 2'de dolacak) === -->
+<section id="tokenFormSection" class="hidden" style="margin-top: 20px;">
+</section>
+<!-- === TOKEN FORM (Boop Style) === -->
+<section id="tokenFormSection" class="token-form-container hidden">
+  <div class="form-image-upload" id="imageUploadBox">
+    Click or Drop Image Here
+    <input type="file" id="tokenImage" accept="image/*" hidden />
+  </div>
+
+  <div class="form-fields">
+    <input type="text" id="tokenName" placeholder="Token Name" required />
+    <input type="text" id="tokenSymbol" placeholder="Ticker Symbol (e.g. $FLOP)" required />
+    <textarea id="tokenLore" rows="3" placeholder="Cult Lore..."></textarea>
+
+    <select id="tokenSocials">
+      <option value="">Add Socials</option>
+      <option value="x">X (Twitter)</option>
+      <option value="telegram">Telegram</option>
+      <option value="website">Website</option>
+    </select>
+
+    <label style="display:flex; align-items:center; gap:10px; font-size:0.9rem;">
+      <input type="checkbox" id="preBuy" />
+      Enable Pre-Buy
+    </label>
+
+    <button type="submit" class="connect-btn" id="mintTokenBtn">Launch</button>
+    <p id="formStatus" class="wallet-status"></p>
+  </div>
+</section>
+
+<!-- === FILTER BAR === -->
 <div class="filter-bar">
   <button class="filter-btn">
-    <img src="images/icons/settings.svg" class="icon" /> Ayarlar
+    <img src="images/icons/settings.svg" class="icon" /> Settings
   </button>
   <button class="filter-btn">Newly Launched</button>
   <button class="filter-btn">About to Graduate</button>
   <button class="filter-btn">Highest MCAP</button>
+  <button class="filter-btn">Top Gainers</button>
+  <button class="filter-btn">Oldest</button>
 </div>
 
-<!-- === TOKEN LİSTESİ === -->
-<section class="token-list">
-  <div class="token-card">
-    <img src="images/tokens/sample1.png" alt="Token 1" class="token-img" />
-    <h4 class="token-title">TokenName</h4>
-    <p class="token-symbol">$SYMB</p>
-    <p class="token-desc">by @user123</p>
-    <div class="token-meta">
-      <span>MCAP: $21K</span>
-      <span>+12%</span>
-    </div>
-    <button class="connect-btn small">Floopla</button>
-  </div>
-
-  <div class="token-card">
-    <img src="images/tokens/sample2.png" alt="Token 2" class="token-img" />
-    <h4 class="token-title">AnotherToken</h4>
-    <p class="token-symbol">$LOLZ</p>
-    <p class="token-desc">by @anon</p>
-    <div class="token-meta">
-      <span>MCAP: $9K</span>
-      <span>-3%</span>
-    </div>
-    <button class="connect-btn small">Floopla</button>
-  </div>
-
-  <!-- Dinamik token kartları JS ile buraya eklenecek -->
+<!-- === TOKEN KART LİSTESİ (JS ile doldurulacak) === -->
+<section class="token-list" id="tokenList">
+  <!-- Örnek kartlar JS ile eklenecek -->
 </section>
-<!-- === ALT SABİT MENÜ === -->
+<!-- === WALLET SEÇİM MODALI === -->
+<div class="wallet-modal hidden" id="walletModal">
+  <div class="wallet-box">
+    <h3>Choose a wallet</h3>
+    <button onclick="connectWallet('phantom')">Phantom</button>
+    <button onclick="connectWallet('solflare')">Solflare</button>
+    <button onclick="connectWallet('backpack')">Backpack</button>
+  </div>
+</div>
+
+<!-- === GİZLİ CÜZDAN LİNKİ (mobil fallback) === -->
+<a href="https://phantom.app/ul/browse/https://floopfun25.github.io/floppfun/?connect=phantom" id="phantomLink" style="display:none;">Phantom</a>
+
+<!-- === SABİT ALT MENÜ === -->
 <nav class="bottom-nav">
   <a href="index.html" class="nav-link active">
     <img src="images/icons/cult.png" /><span>cults</span>
@@ -145,26 +139,12 @@
 
 <!-- === SES BUTONU === -->
 <button id="muteToggle" class="mute-button">🔊</button>
-
-<!-- === WALLET SELECT MODAL === -->
-<div class="wallet-modal hidden" id="walletModal">
-  <div class="wallet-box">
-    <h3>Choose a wallet</h3>
-    <button onclick="connectWallet('phantom')">Phantom</button>
-    <button onclick="connectWallet('solflare')">Solflare</button>
-    <button onclick="connectWallet('backpack')">Backpack</button>
-  </div>
-</div>
-
-<!-- === GİZLİ CÜZDAN LİNKİ (fallback) === -->
-<a href="https://phantom.app/ul/browse/https://floopfun25.github.io/floppfun/?connect=phantom" id="phantomLink" style="display:none;">Phantom</a>
-
 <!-- === SCRIPT DOSYALARI === -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
 <script src="script.js"></script>
 
-<!-- === GİRİŞ ANİMASYONU === -->
+<!-- === GİRİŞ GLITCH EFEKTİ TEMİZLEME === -->
 <script>
   window.addEventListener("load", () => {
     setTimeout(() => {
