@@ -29,6 +29,17 @@
   </div>
 </header>
 
+<!-- WALLET MODAL -->
+<div id="walletModal" class="wallet-modal hidden">
+  <div class="wallet-modal-content">
+    <h3>Select a Wallet</h3>
+    <button class="wallet-option"><img src="images/icons/phantom.svg" class="wallet-icon" /> Phantom</button>
+    <button class="wallet-option"><img src="images/icons/solflare.svg" class="wallet-icon" /> Solflare</button>
+    <button class="wallet-option"><img src="images/icons/backpack.svg" class="wallet-icon" /> Backpack</button>
+    <button class="wallet-cancel" onclick="document.getElementById('walletModal').classList.add('hidden')">Cancel</button>
+  </div>
+</div>
+
 <!-- MOBILE MENU -->
 <div id="mobileMenu" class="mobile-menu hidden">
   <ul>
@@ -38,13 +49,14 @@
   </ul>
 </div>
 
-<!-- START CULT BUTTON -->
+<!-- START YOUR CULT BUTTON -->
 <div class="start-kaos-wrapper">
   <div class="start-kaos-box glitch" onclick="toggleForm()">
     <img src="images/solana.svg" class="start-kaos-icon" alt="solana" />
     <span>START YOUR CULT</span>
   </div>
 </div>
+
 <!-- CHAOS ANIMATION -->
 <section id="chaosAnimation" class="chaos-overlay hidden" style="display:none;">
   <div class="chaos-content">
@@ -53,11 +65,59 @@
     <img src="images/floop-mascot.png" alt="Mascot" class="chaos-mascot small" />
   </div>
 </section>
+<!-- TOKEN FORM -->
+<section id="tokenFormSection" class="form-wrapper hidden" style="display:none;">
+  <h3 class="form-title">Let’s start your cult.</h3>
+  <div class="form-columns">
+    <!-- SOL: Görsel Yükleme -->
+    <div class="form-left">
+      <div class="image-upload-wrapper">
+        <label for="tokenImage">Image Upload *</label>
+        <input type="file" id="tokenImage" accept="image/*" />
+        <img id="imagePreview" src="" alt="Preview" class="image-preview" style="display:none;" />
+        <p class="upload-hint">Max size: 5MB — JPEG, PNG</p>
+      </div>
+    </div>
+
+    <!-- SAĞ: Inputlar -->
+    <div class="form-right">
+      <label for="tokenName">Token Name *</label>
+      <input type="text" id="tokenName" placeholder="My Token Name" maxlength="32" required />
+
+      <label for="tokenSymbol">Ticker Symbol *</label>
+      <input type="text" id="tokenSymbol" placeholder="TICKR" maxlength="10" required />
+
+      <label for="tokenDescription">Cult Lore *</label>
+      <textarea id="tokenDescription" placeholder="Write a little about your cult" maxlength="512"></textarea>
+
+      <div class="toggle-section">
+        <label class="toggle-label">Pre-Buy (optional)</label>
+        <label class="switch">
+          <input type="checkbox" id="preBuyToggle">
+          <span class="slider round"></span>
+        </label>
+      </div>
+
+      <div class="dropdown-wrapper">
+        <label for="socialLink">Socials (optional)</label>
+        <select id="socialLink" class="dropdown-select">
+          <option value="">Select</option>
+          <option value="https://x.com/">X (Twitter)</option>
+          <option value="https://t.me/">Telegram</option>
+        </select>
+      </div>
+
+      <button type="submit" id="createBtn">Create Token</button>
+      <div id="formStatus" class="wallet-status"></div>
+    </div>
+  </div>
+</section>
 
 <!-- INFO STRIP -->
 <div class="info-strip">
   <p>The Supreme Meme Stream — Just Chaos.</p>
 </div>
+
 <!-- FILTER BAR -->
 <section class="filter-bar">
   <img src="images/icons/settings.svg" class="settings-icon" alt="Settings" />
@@ -70,25 +130,8 @@
 
 <!-- TOKEN LIST -->
 <section id="tokenList" class="token-list">
-  <!-- Token cards will be dynamically injected here -->
+  <!-- Token cards will be injected here -->
 </section>
-
-<!-- TOKEN FORM -->
-<section id="tokenFormSection" class="form-wrapper hidden" style="display:none;">
-  <h3>Create Your Token</h3>
-  <form id="tokenForm">
-    <input type="text" id="tokenName" placeholder="Token Name" required />
-    <input type="text" id="tokenSymbol" placeholder="Symbol (e.g. FLOP)" maxlength="5" required />
-    <input type="number" id="tokenSupply" placeholder="Total Supply" required min="1" />
-    <input type="url" id="tokenImage" placeholder="Image URL (optional)" />
-    <img id="imagePreview" alt="Preview" style="display:none; width:100px; margin: 10px auto;" />
-    <textarea id="tokenDescription" placeholder="Describe your token (optional)"></textarea>
-    <input type="url" id="socialLink" placeholder="Social Media Link (optional)" />
-    <button type="submit" id="createBtn">Create Token</button>
-  </form>
-  <div id="formStatus" class="wallet-status"></div>
-</section>
-
 <!-- HERO SECTION -->
 <main class="hero-section">
   <div class="hero-content">
@@ -96,6 +139,7 @@
     <p class="hero-subtitle">Just pure meme magic.</p>
   </div>
 </main>
+
 <!-- FOOTER -->
 <footer class="footer">
   <p>&copy; 2025 Floop.fun. All rights reserved. <span class="footer-note">Made with chaos.</span></p>
@@ -133,11 +177,17 @@
 <!-- CUSTOM SCRIPT -->
 <script src="script.js"></script>
 <script>
-  document.getElementById("tokenImage").addEventListener("input", function () {
+  // Görsel önizleme
+  document.getElementById("tokenImage")?.addEventListener("change", function () {
     const preview = document.getElementById("imagePreview");
-    const url = this.value.trim();
-    preview.style.display = url ? "block" : "none";
-    preview.src = url;
+    const file = this.files[0];
+    if (file) {
+      preview.src = URL.createObjectURL(file);
+      preview.style.display = "block";
+    } else {
+      preview.src = "";
+      preview.style.display = "none";
+    }
   });
 </script>
 </body>
