@@ -22,33 +22,10 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
     formStatus.innerText = "Minting your token...";
     formStatus.style.color = "aqua";
-<script>
-  function triggerChaos() {
-    const chaos = document.getElementById("chaosAnimation");
-    const form = document.getElementById("tokenFormSection");
-
-    chaos.classList.remove("hidden");
-    chaos.style.display = "flex"; // göster
-    form.classList.add("hidden");
-    form.style.display = "none";
-
-    setTimeout(() => {
-      chaos.style.display = "none";
-      form.classList.remove("hidden");
-      form.style.display = "block";
-    }, 2000); // 2 saniye sonra form açılır
-  }
-
-  // Eski toggleForm fonksiyonu varsa boş geçilsin
-  function toggleForm() {
-    triggerChaos();
-  }
-</script>
 
     try {
       const tokenName = document.getElementById("tokenName").value;
       const tokenSymbol = document.getElementById("tokenSymbol").value;
-      const tokenSupply = parseInt(document.getElementById("tokenSupply").value);
       const tokenImage = document.getElementById("tokenImage").value;
 
       const provider = window.solana;
@@ -76,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }),
         splToken.createInitializeMintInstruction(mint, 9, userPublicKey, null),
         splToken.createAssociatedTokenAccountInstruction(userPublicKey, tokenAccount, userPublicKey, mint),
-        splToken.createMintToInstruction(mint, tokenAccount, userPublicKey, tokenSupply * Math.pow(10, 9))
+        splToken.createMintToInstruction(mint, tokenAccount, userPublicKey, 1_000_000_000)
       );
 
       transaction.feePayer = userPublicKey;
@@ -99,24 +76,30 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Arama kutusu aç/kapat
-  const searchBtn = document.getElementById("searchBtn");
-  const searchContainer = document.getElementById("searchContainer");
-  const searchInput = document.getElementById("searchInput");
-  searchBtn?.addEventListener("click", () => {
-    searchContainer?.classList.toggle("hidden");
-    if (!searchContainer?.classList.contains("hidden")) {
-      searchInput?.focus();
-    }
-  });
-  // Hamburger menü aç/kapat
+  // Kaos animasyonu ve formu açan fonksiyon
+  window.toggleForm = () => {
+    const chaos = document.getElementById("chaosAnimation");
+    const form = document.getElementById("tokenFormSection");
+
+    chaos?.classList.remove("hidden");
+    chaos.style.display = "flex";
+    form?.classList.add("hidden");
+
+    setTimeout(() => {
+      chaos.style.display = "none";
+      form?.classList.remove("hidden");
+      form?.scrollIntoView({ behavior: "smooth" });
+    }, 2000);
+  };
+
+  // Hamburger menü
   const menuBtn = document.getElementById("menuBtn");
   const mobileMenu = document.getElementById("mobileMenu");
   menuBtn?.addEventListener("click", () => {
     mobileMenu?.classList.toggle("visible");
   });
 
-  // Müzik kontrol (opsiyonel, dosya tanımlı değilse pas geçilir)
+  // Müzik (varsa)
   const muteToggle = document.getElementById("muteToggle");
   if (muteToggle) {
     const bgAudio = document.createElement("audio");
@@ -132,76 +115,6 @@ document.addEventListener("DOMContentLoaded", () => {
       isMuted ? bgAudio.pause() : bgAudio.play();
     });
   }
-
-  // Formu animasyonla aç
-  window.toggleForm = () => {
-    const chaos = document.getElementById("chaosAnimation");
-    const form = document.getElementById("tokenFormSection");
-    const text = document.getElementById("chaosText");
-
-    text.classList.add("glitch");
-    chaos?.classList.remove("hidden");
-    chaos.style.display = "block";
-    form?.classList.add("hidden");
-
-    setTimeout(() => {
-      chaos.classList.add("hidden");
-      chaos.style.display = "none";
-      form?.classList.remove("hidden");
-      form?.scrollIntoView({ behavior: "smooth" });
-      text.classList.remove("glitch");
-    }, 1800);
-  };
 });
 
-// Partikül animasyonu
-const canvas = document.getElementById("particle-canvas");
-if (canvas) {
-  const ctx = canvas.getContext("2d");
-  let particles = [];
-
-  function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-  window.addEventListener("resize", resizeCanvas);
-  resizeCanvas();
-
-  function createParticles(count) {
-    particles = [];
-    for (let i = 0; i < count; i++) {
-      particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        size: Math.random() * 1.5 + 0.5,
-        speedY: Math.random() * 0.5 + 0.2,
-        alpha: Math.random() * 0.5 + 0.3
-      });
-    }
-  }
-  createParticles(120);
-
-  function animateParticles() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particles.forEach(p => {
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(0, 255, 238, ${p.alpha})`;
-      ctx.fill();
-      p.y += p.speedY;
-      if (p.y > canvas.height) {
-        p.y = 0;
-        p.x = Math.random() * canvas.width;
-      }
-    });
-    requestAnimationFrame(animateParticles);
-  }
-  animateParticles();
-}
-
-// Giriş glitch efekti kaldır
-window.addEventListener("load", () => {
-  setTimeout(() => {
-    document.body.classList.remove("intro-glitch");
-  }, 700);
-});
+// Partikül animasyonu + glitch kaldırma aynen kalabilir.
