@@ -94,8 +94,8 @@ html, body {
 }
 .icon-btn:hover {
   transform: scale(1.2);
-
-/* === START KAOS BOX (GÜNCELLENDİ) === */
+}
+/* === START KAOS BOX === */
 .start-kaos-wrapper {
   margin-top: 100px;
   display: flex;
@@ -103,27 +103,24 @@ html, body {
   align-items: center;
   padding: 20px;
 }
-
 .start-kaos-box {
+  background: rgba(0, 255, 238, 0.1);
+  border: 2px solid #00ffee;
+  color: #00ffee;
+  padding: 16px 30px;
+  border-radius: 30px;
+  font-weight: bold;
+  font-size: 1.2rem;
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 10px;
-  font-size: 1.1rem;
-  padding: 14px 26px;
-  border: 2px solid #00ffee;
-  border-radius: 30px;
-  background: rgba(0, 255, 238, 0.1);
-  color: #00ffee;
-  font-weight: bold;
   cursor: pointer;
-  transition: 0.2s ease;
+  transition: all 0.3s ease;
 }
 .start-kaos-box:hover {
-  box-shadow: 0 0 10px #00ffeeaa;
+  box-shadow: 0 0 15px #00ffeeaa;
   transform: scale(1.03);
 }
-
 .start-kaos-icon {
   height: 24px;
 }
@@ -286,44 +283,28 @@ html, body {
 .form-fields .connect-btn:hover {
   box-shadow: 0 0 10px #00ffeeaa;
 }
-
-
-/* === TOKEN CARD LIST === */
-.token-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 20px;
-  padding: 0 20px 100px;
-  max-width: 1100px;
-  margin: 0 auto;
-}
-/* === FILTER BAR (Boop-style hizalı & responsive) === */
+/* === FILTER BAR === */
 .filter-bar {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px;
+  gap: 14px;
   margin: 30px auto 20px;
   padding: 10px;
+  flex-wrap: wrap;
 }
-
 .filter-icon {
   width: 24px;
   height: 24px;
   opacity: 0.7;
 }
-
 .filters {
   display: flex;
-  flex-wrap: wrap;
   gap: 10px;
-  align-items: center;
-  justify-content: center;
+  flex-wrap: wrap;
 }
-
 .filter-btn {
-  padding: 6px 16px;
+  padding: 6px 14px;
   border-radius: 20px;
   background: #1a1a2e;
   color: #fff;
@@ -337,6 +318,16 @@ html, body {
   background: #00ffee;
   color: #000;
   box-shadow: 0 0 10px #00ffee99;
+}
+
+/* === TOKEN CARD LIST === */
+.token-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  padding: 0 20px 100px;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
 /* === TOKEN CARD === */
