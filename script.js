@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Token oluşturma formu
+  // Token oluşturma formu gönderme
   const tokenForm = document.getElementById("tokenForm");
   const formStatus = document.getElementById("formStatus");
   tokenForm?.addEventListener("submit", async (e) => {
@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Kaos animasyonu ve formu açan fonksiyon
+  // START YOUR CULT animasyonu ve form geçişi
   window.toggleForm = () => {
     const chaos = document.getElementById("chaosAnimation");
     const form = document.getElementById("tokenFormSection");
@@ -86,20 +86,21 @@ document.addEventListener("DOMContentLoaded", () => {
     form?.classList.add("hidden");
 
     setTimeout(() => {
+      chaos.classList.add("hidden");
       chaos.style.display = "none";
       form?.classList.remove("hidden");
       form?.scrollIntoView({ behavior: "smooth" });
     }, 2000);
   };
 
-  // Hamburger menü
+  // Hamburger menü aç/kapat
   const menuBtn = document.getElementById("menuBtn");
   const mobileMenu = document.getElementById("mobileMenu");
   menuBtn?.addEventListener("click", () => {
     mobileMenu?.classList.toggle("visible");
   });
 
-  // Müzik (varsa)
+  // Müzik kontrol
   const muteToggle = document.getElementById("muteToggle");
   if (muteToggle) {
     const bgAudio = document.createElement("audio");
@@ -115,6 +116,67 @@ document.addEventListener("DOMContentLoaded", () => {
       isMuted ? bgAudio.pause() : bgAudio.play();
     });
   }
+
+  // Arama ikonu (eğer varsa)
+  const searchBtn = document.getElementById("searchBtn");
+  const searchContainer = document.getElementById("searchContainer");
+  const searchInput = document.getElementById("searchInput");
+  searchBtn?.addEventListener("click", () => {
+    searchContainer?.classList.toggle("hidden");
+    if (!searchContainer?.classList.contains("hidden")) {
+      searchInput?.focus();
+    }
+  });
 });
 
-// Partikül animasyonu + glitch kaldırma aynen kalabilir.
+// Partikül animasyonu
+const canvas = document.getElementById("particle-canvas");
+if (canvas) {
+  const ctx = canvas.getContext("2d");
+  let particles = [];
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  window.addEventListener("resize", resizeCanvas);
+  resizeCanvas();
+
+  function createParticles(count) {
+    particles = [];
+    for (let i = 0; i < count; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 1.5 + 0.5,
+        speedY: Math.random() * 0.5 + 0.2,
+        alpha: Math.random() * 0.5 + 0.3
+      });
+    }
+  }
+  createParticles(120);
+
+  function animateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(0, 255, 238, ${p.alpha})`;
+      ctx.fill();
+      p.y += p.speedY;
+      if (p.y > canvas.height) {
+        p.y = 0;
+        p.x = Math.random() * canvas.width;
+      }
+    });
+    requestAnimationFrame(animateParticles);
+  }
+  animateParticles();
+}
+
+// Giriş efekti kaldır
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    document.body.classList.remove("intro-glitch");
+  }, 700);
+});
