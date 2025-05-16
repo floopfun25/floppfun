@@ -1,42 +1,37 @@
-<!-- floppfun/token.html — PART 1/2 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Your Token</title>
+  <title>Floop Token</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="images/icons/floop-favicon.ico" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
-</head>
-<body>
 
-<!-- ÜST MASKOT + SES -->
-<div class="floating-top-left">
-  <img src="images/floop-mascot.png" alt="Mascot" class="floating-mascot" />
-  <button id="muteToggle" class="mute-button">🔊</button>
-</div>
+  <!-- SEO -->
+  <meta name="description" content="View details for your meme token on Floop.fun. Just chaos." />
+  <meta property="og:title" content="Floop Token Details" />
+  <meta property="og:image" content="images/preview.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+</head>
+<body class="intro-glitch">
+<canvas id="particle-canvas"></canvas>
 
 <!-- HEADER -->
 <header class="boop-header">
   <div class="boop-left">
-    <img src="images/floop-mascot.png" alt="Floop" class="boop-logo" />
+    <img src="images/floop-mascot.png" alt="Floop Mascot" class="boop-logo" />
   </div>
   <div class="boop-center">
     <button id="connectWallet" class="connect-btn">Connect</button>
-    <button class="icon-btn" id="searchBtn">🔍</button>
+    <button id="searchBtn" class="icon-btn">🔍</button>
   </div>
   <div class="boop-right">
     <button class="icon-btn" id="menuBtn">☰</button>
   </div>
 </header>
 
-<!-- ARAMA GİRİŞİ -->
-<div id="searchContainer" class="search-container hidden">
-  <input id="searchInput" type="text" placeholder="Search tokens..." />
-</div>
-
-<!-- MOBİL MENÜ -->
+<!-- MOBILE MENU -->
 <div class="mobile-menu hidden" id="mobileMenu">
   <ul>
     <li><a href="https://x.com/floopfun" target="_blank"><img src="images/icons/x.svg" class="menu-icon" /> X</a></li>
@@ -44,49 +39,103 @@
     <li><a href="#" target="_blank"><img src="images/icons/chart.svg" class="menu-icon" /> Floop Chart</a></li>
   </ul>
 </div>
+<!-- TOKEN DETAIL CARD -->
+<section class="token-detail">
+  <div class="token-card">
+    <img src="images/sample-token.png" alt="Token Logo" class="token-image" />
 
-<!-- TOKEN BİLGİLERİ -->
-<div class="token-box">
-  <h2>Token Created Successfully!</h2>
-  <p id="mintAddress"></p>
-  <p id="symbol"></p>
-  <img id="tokenImage" src="" alt="Token Image" style="display:none;" />
-  <div id="floopCount">Flooped: ...</div>
-  <button id="floopBtn" class="connect-btn">Floop This Token (0.01 SOL)</button>
-  <p id="floopResult" class="wallet-status"></p>
-  <!-- PAYLAŞIM BUTONLARI -->
-  <div id="shareBox" class="token-box">
-    <p style="font-weight: bold;">Share your token:</p>
-    <button onclick="shareOnTwitter()" class="connect-btn alt">Twitter</button>
-    <button onclick="shareOnTelegram()" class="connect-btn alt">Telegram</button>
-    <button onclick="copyMint()" class="connect-btn alt">Copy Mint</button>
-    <p id="copyResult" class="wallet-status"></p>
+    <h1 class="token-name">$BABYFLOOP</h1>
+    <h2 class="token-symbol">BabyFloop</h2>
+
+    <p class="token-lore">
+      An ancient cult born from chaos. BabyFloop is not just a token, it's a rebellion.
+    </p>
+
+    <div class="token-socials">
+      <a href="https://x.com/babyfloop" target="_blank"><img src="images/icons/x.svg" /></a>
+      <a href="https://t.me/babyfloop" target="_blank"><img src="images/icons/telegram.svg" /></a>
+      <a href="https://babyfloop.com" target="_blank"><img src="images/icons/link.svg" /></a>
+    </div>
+
+    <div class="token-actions">
+      <button class="connect-btn" id="floopBtn">Floopla</button>
+      <button class="icon-btn" id="shareBtn">📤</button>
+    </div>
+
+    <p class="token-meta">Created by: <span class="creator-address">9x8r...Dqk</span></p>
+    <p class="token-meta">Pre-buy: <strong>Enabled</strong></p>
   </div>
+</section>
+<!-- JUPITER DEX EMBED -->
+<section class="token-dex">
+  <iframe
+    src="https://jup.ag/swap/SOL-BABYFLOOP"
+    title="DEX"
+    class="dex-frame"
+    frameborder="0"
+    loading="lazy"
+    height="420"
+  ></iframe>
+</section>
 
-  <!-- JUPITER DEX -->
-  <div class="token-box">
-    <h3 style="color:#00ffee; margin-bottom: 10px;">Buy Your Token on Jupiter</h3>
-    <iframe id="dexFrame" class="dex-frame" style="width:100%; height:400px; border:none;"></iframe>
+<!-- TOKEN STATS -->
+<section class="token-stats">
+  <div class="stat-box">
+    <h3>Market Cap</h3>
+    <p>$420,000</p>
   </div>
-</div>
-
-<!-- ALT MENÜ -->
+  <div class="stat-box">
+    <h3>Floop Count</h3>
+    <p>1337</p>
+  </div>
+  <div class="stat-box">
+    <h3>Launched</h3>
+    <p>2 hours ago</p>
+  </div>
+</section>
+<!-- BOTTOM NAV -->
 <nav class="bottom-nav">
-  <a href="index.html" class="nav-link"><img src="images/icons/cult.png" alt="" /><span>cults</span></a>
-  <a href="rewards.html" class="nav-link"><img src="images/icons/rewards.png" alt="" /><span>rewards</span></a>
-  <a href="staking.html" class="nav-link"><img src="images/icons/staking.png" alt="" /><span>staking</span></a>
-  <a href="leaderboard.html" class="nav-link"><img src="images/icons/leaderboard.png" alt="" /><span>leaderb.</span></a>
-  <a href="airdrop.html" class="nav-link active"><img src="images/icons/airdrop.png" alt="" /><span>airdrop</span></a>
+  <a href="index.html" class="nav-link">
+    <img src="images/icons/cult.png" />
+    <span>cults</span>
+  </a>
+  <a href="rewards.html" class="nav-link">
+    <img src="images/icons/rewards.png" />
+    <span>rewards</span>
+  </a>
+  <a href="staking.html" class="nav-link">
+    <img src="images/icons/staking.png" />
+    <span>staking</span>
+  </a>
+  <a href="leaderboard.html" class="nav-link">
+    <img src="images/icons/leaderboard.png" />
+    <span>leaderb.</span>
+  </a>
+  <a href="airdrop.html" class="nav-link">
+    <img src="images/icons/airdrop.png" />
+    <span>airdrop</span>
+  </a>
 </nav>
 
-<!-- KÜTÜPHANELER -->
+<!-- MUTE BUTTON -->
+<button id="muteToggle" class="mute-button">🔊</button>
+
+<!-- MASKOT ANİMASYONU ALANI -->
+<div id="mascotChaos" class="hidden">
+  <img src="images/floop-mascot.png" alt="Floop Mascot" class="mascot-popup" />
+</div>
+<!-- SCRIPTS -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
-
-<!-- Phantom Yönlendirme Linki (mobil uyumlu) -->
-<a href="https://phantom.app/ul/browse/https://floopfun25.github.io/floppfun/token.html?connect=phantom" id="phantomLink" style="display:none;">Phantom</a>
-
-<!-- ANA KONTROLLER -->
 <script src="script.js"></script>
+
+<script>
+  // Sayfa yüklendiğinde glitch efekti kalksın
+  window.addEventListener("load", () => {
+    setTimeout(() => {
+      document.body.classList.remove("intro-glitch");
+    }, 700);
+  });
+</script>
 </body>
 </html>
