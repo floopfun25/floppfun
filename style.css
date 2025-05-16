@@ -351,3 +351,68 @@ button {
   color: #00ffeeaa;
   font-size: 0.9rem;
 }
+/* === YENİ TOKEN OLUŞTUR FORMU === */
+.token-form-container {
+  max-width: 880px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #111827;
+  border-radius: 20px;
+  border: 1px solid #00ffee33;
+  box-shadow: 0 0 14px #00ffee33;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.form-image-upload {
+  flex: 1 1 200px;
+  background: #1a1a2f;
+  border: 2px dashed #00ffee66;
+  border-radius: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  color: #00ffeeaa;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.form-fields {
+  flex: 2 1 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.form-fields input,
+.form-fields textarea,
+.form-fields select {
+  background: #1a1a2f;
+  border: 1px solid #00ffee44;
+  border-radius: 10px;
+  color: #fff;
+  padding: 10px 14px;
+  font-size: 0.9rem;
+}
+
+.form-fields button {
+  background: #00ffee;
+  color: #000;
+  padding: 12px;
+  border-radius: 999px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.form-fields button:hover {
+  background: #00ffeedd;
+}
+
+@media (max-width: 768px) {
+  .token-form-container {
+    flex-direction: column;
+  }
+}
