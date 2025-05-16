@@ -40,13 +40,58 @@
   </ul>
 </div>
 
-<!-- CHAOS BUTTON -->
+<!-- KAOS YARAT ALANI -->
 <div class="start-kaos-wrapper">
+  <div class="start-kaos-bg"></div> <!-- Özel arka plan görseli için boş div -->
   <div class="start-kaos-box" onclick="toggleForm()">
     <img src="images/icons/cult.png" alt="Chaos" class="start-kaos-icon" />
-    Create the Chaos
+    KAOS YARAT
   </div>
 </div>
+<!-- TREND KAOSLAR -->
+<section class="trending-chaos-section">
+  <h2 class="trending-title">Trend Kaoslar</h2>
+  <div class="trending-chaos-list">
+    <div class="chaos-item">
+      <img src="images/icons/chaos1.png" alt="Kaos 1" />
+      <div class="chaos-info">
+        <strong>YIKIM</strong>
+        <span>buy 0.041 SOL</span>
+      </div>
+    </div>
+    <div class="chaos-item">
+      <img src="images/icons/chaos2.png" alt="Kaos 2" />
+      <div class="chaos-info">
+        <strong>TUFAN</strong>
+        <span>buy 0.052 SOL</span>
+      </div>
+    </div>
+    <div class="chaos-item">
+      <img src="images/icons/chaos3.png" alt="Kaos 3" />
+      <div class="chaos-info">
+        <strong>AYİN</strong>
+        <span>buy 0.014 SOL</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FİLTRE BAR -->
+<div class="filter-bar">
+  <img src="images/icons/settings.svg" class="filter-icon" />
+  <div class="filters">
+    <button class="filter-btn active" data-filter="new">Newly Launched</button>
+    <button class="filter-btn" data-filter="graduate">About to Graduate</button>
+    <button class="filter-btn" data-filter="cap">Highest Market Cap</button>
+    <button class="filter-btn" data-filter="gainers">Top Gainers</button>
+    <button class="filter-btn" data-filter="oldest">Oldest</button>
+  </div>
+</div>
+
+<!-- TOKEN LIST -->
+<section class="token-list" id="tokenList">
+  <!-- Dynamically filled cards -->
+</section>
 <!-- TOKEN FORM -->
 <section id="tokenFormSection" class="token-form-container hidden">
   <div class="form-content">
@@ -82,20 +127,6 @@
   <input type="text" placeholder="Search cults..." id="searchInput" />
 </div>
 
-<!-- FILTER BAR -->
-<div class="filter-bar">
-  <img src="images/icons/settings.svg" class="filter-icon" />
-  <div class="filters">
-    <button class="filter-btn active">Newly Launched</button>
-    <button class="filter-btn">About</button>
-    <button class="filter-btn">Most Flooped</button>
-  </div>
-</div>
-
-<!-- TOKEN LIST -->
-<section class="token-list" id="tokenList">
-  <!-- Dynamically filled cards -->
-</section>
 <!-- WALLET MODAL -->
 <div class="wallet-modal hidden" id="walletModal">
   <div class="wallet-box">
@@ -108,7 +139,6 @@
 
 <!-- PHANTOM MOBILE FALLBACK -->
 <a href="https://phantom.app/ul/browse/https://floopfun25.github.io/floppfun/" id="phantomLink" style="display: none;">Phantom</a>
-
 <!-- FOOTER NAVIGATION -->
 <nav class="bottom-nav">
   <a href="index.html" class="nav-link active">
@@ -135,6 +165,15 @@
 
 <!-- MUTE BUTTON -->
 <button id="muteToggle" class="mute-button">🔊</button>
+
+<!-- HAMBURGER MENU -->
+<div class="mobile-menu hidden" id="mobileMenu">
+  <ul>
+    <li><a href="https://x.com/floopfun" target="_blank"><img src="images/icons/x.svg" class="menu-icon" /> Follow on X</a></li>
+    <li><a href="https://t.me/floopfun" target="_blank"><img src="images/icons/telegram.svg" class="menu-icon" /> Join Telegram</a></li>
+    <li><a href="#" target="_blank"><img src="images/icons/chart.svg" class="menu-icon" /> Floop Chart</a></li>
+  </ul>
+</div>
 <!-- JAVASCRIPT -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
@@ -170,14 +209,11 @@
       imageBox.innerHTML = `<img src="${URL.createObjectURL(file)}" alt="Preview" class="preview-img" />`;
     }
   });
-</script>
-<!-- KAOS FORM AÇ/KAPA -->
-<script>
+
+  // KAOS FORM AÇ/KAPA
   function toggleForm() {
     const form = document.getElementById("tokenFormSection");
     form.classList.toggle("hidden");
-
-    // Glitch efekti tetikleme
     const chaosBox = document.querySelector(".start-kaos-box");
     chaosBox.classList.add("chaos-glitch");
     setTimeout(() => {
@@ -185,7 +221,7 @@
     }, 400);
   }
 
-  // Cüzdan bağlantısı
+  // WALLET BAĞLANTISI
   function connectWallet(walletType) {
     const phantomLink = document.getElementById("phantomLink");
     if (walletType === "phantom") {
@@ -200,14 +236,31 @@
     } else {
       alert(walletType + " not yet integrated.");
     }
-
-    // Modalı kapat
     document.getElementById("walletModal").classList.add("hidden");
   }
 
-  // Connect butonuna tıklanırsa modal aç
   document.getElementById("connectWallet").addEventListener("click", () => {
     document.getElementById("walletModal").classList.remove("hidden");
+  });
+
+  // FİLTRELEME BUTONLARI
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  filterButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const filter = btn.dataset.filter;
+      const cards = document.querySelectorAll('.token-card');
+
+      cards.forEach(card => {
+        if (!filter || card.dataset.category === filter) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
   });
 </script>
 </body>
