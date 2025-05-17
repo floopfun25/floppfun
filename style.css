@@ -26,7 +26,7 @@ html, body {
   pointer-events: none;
 }
 
-/* === GLITCH EFEKTLİ BODY === */
+/* === GLITCH BODY === */
 .intro-glitch {
   animation: glitchFade 0.7s linear;
 }
@@ -40,27 +40,7 @@ html, body {
   }
 }
 
-/* === CREATE THE CHAOS GLITCH === */
-.chaos-glitch {
-  animation: chaosGlitchAnim 0.3s ease;
-}
-
-@keyframes chaosGlitchAnim {
-  0% {
-    filter: hue-rotate(0deg) brightness(1.2);
-    transform: scale(1.1);
-  }
-  50% {
-    filter: hue-rotate(60deg) brightness(1.4);
-    transform: scale(1.05) rotate(1deg);
-  }
-  100% {
-    filter: none;
-    transform: scale(1);
-  }
-}
-
-/* === MASKOT ANİMASYONU (İSTEĞE BAĞLI) === */
+/* === KAOS MASKOT ANİMASYONU === */
 #mascotChaos {
   position: fixed;
   top: 50%;
@@ -131,7 +111,7 @@ html, body {
   box-shadow: 0 0 10px #00ffeeaa;
 }
 
-/* Sağdaki Hamburger ve Arama */
+/* Sağdaki Hamburger */
 .icon-btn {
   background: none;
   border: none;
@@ -143,36 +123,6 @@ html, body {
 .icon-btn:hover {
   transform: scale(1.2);
 }
-/* === START KAOS BOX === */
-.start-kaos-wrapper {
-  margin-top: 100px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-}
-.start-kaos-box {
-  background: rgba(0, 255, 238, 0.1);
-  border: 2px solid #00ffee;
-  color: #00ffee;
-  padding: 16px 30px;
-  border-radius: 30px;
-  font-weight: bold;
-  font-size: 1.2rem;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-.start-kaos-box:hover {
-  box-shadow: 0 0 15px #00ffeeaa;
-  transform: scale(1.03);
-}
-.start-kaos-icon {
-  height: 24px;
-}
-
 /* === MOBILE MENU === */
 .mobile-menu {
   position: fixed;
@@ -228,113 +178,99 @@ html, body {
 .hidden {
   display: none !important;
 }
-
-/* === TOKEN FORM === */
-.token-form-container {
+/* === START CHAOS BUTTON BOX === */
+.start-kaos-wrapper {
+  margin-top: 120px;
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
-  gap: 40px;
-  margin: 30px auto;
-  padding: 20px;
-  max-width: 900px;
-  background: #111827;
-  border-radius: 20px;
-  box-shadow: 0 0 12px #00ffee44;
-}
-/* Sol taraf: Görsel yükleme */
-.form-image-upload {
-  width: 260px;
-  height: 260px;
-  background: #1f2937;
-  border: 2px dashed #00ffee66;
-  color: #aaa;
-  display: flex;
   align-items: center;
-  justify-content: center;
-  border-radius: 16px;
-  font-size: 14px;
-  text-align: center;
-  padding: 10px;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  padding: 20px;
 }
-.form-image-upload:hover {
-  background: #2a3344;
-}
-.preview-img {
-  max-width: 100%;
-  max-height: 100%;
-  border-radius: 14px;
-}
-
-/* Sağ taraf: inputlar */
-.form-fields {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  min-width: 250px;
-}
-.form-fields input,
-.form-fields textarea,
-.form-fields select {
-  background: #1f1f2e;
-  color: #fff;
-  border: 1px solid #333;
-  border-radius: 12px;
-  padding: 10px 14px;
-  font-size: 0.9rem;
-  width: 100%;
-  outline: none;
-}
-.form-fields textarea {
-  resize: none;
-}
-.form-fields select {
-  background: #1f1f2e;
-}
-
-/* Prebuy Checkbox */
-.prebuy-checkbox {
+.start-kaos-box {
+  background: rgba(0, 255, 238, 0.1);
+  border: 2px solid #00ffee;
+  color: #00ffee;
+  padding: 16px 30px;
+  border-radius: 30px;
+  font-weight: bold;
+  font-size: 1.2rem;
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.start-kaos-box:hover {
+  box-shadow: 0 0 15px #00ffeeaa;
+  transform: scale(1.03);
+}
+.start-kaos-icon {
+  height: 24px;
 }
 
-/* Launch Butonu */
-.form-fields .connect-btn {
-  background: #00ffee;
-  color: #000;
-  font-weight: bold;
-  border-radius: 24px;
-  padding: 10px 20px;
-  cursor: pointer;
-  transition: all 0.2s ease;
+/* === SVG ZEMİN (Boop-Style) === */
+.chaos-background {
+  width: 100%;
+  height: 320px;
+  background: url('images/floop-pattern.svg') repeat;
+  background-size: 120px;
+  opacity: 0.07;
+  z-index: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
-.form-fields .connect-btn:hover {
-  box-shadow: 0 0 10px #00ffeeaa;
+
+/* === MASKOT ANİMASYONU (SVG ÜSTÜNE) === */
+#mascotChaos {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  z-index: 9999;
+  transition: all 0.6s ease;
+}
+
+#mascotChaos.show {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+
+#mascotChaos.spin {
+  animation: spinChaos 1s ease-in-out forwards;
+}
+
+@keyframes spinChaos {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg) scale(1);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(720deg) scale(1);
+  }
 }
 /* === FILTER BAR === */
 .filter-bar {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 14px;
-  margin: 30px auto 20px;
-  padding: 10px;
-  flex-wrap: wrap;
+  margin: 30px auto 10px;
+  padding: 0 20px;
+  max-width: 1200px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
 }
 .filter-icon {
   width: 24px;
   height: 24px;
   opacity: 0.7;
+  flex-shrink: 0;
 }
 .filters {
   display: flex;
   gap: 10px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 .filter-btn {
   padding: 6px 14px;
@@ -343,6 +279,7 @@ html, body {
   color: #fff;
   border: 1px solid #00ffee44;
   font-size: 0.85rem;
+  white-space: nowrap;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -353,13 +290,22 @@ html, body {
   box-shadow: 0 0 10px #00ffee99;
 }
 
+/* === TREND TOKEN BAŞLIĞI === */
+.trending-header {
+  margin: 40px auto 10px;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #00ffee;
+  text-align: center;
+}
+
 /* === TOKEN CARD LIST === */
 .token-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 20px;
   padding: 0 20px 100px;
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -391,7 +337,6 @@ html, body {
   font-size: 0.8rem;
   opacity: 0.7;
 }
-
 /* === RESPONSIVE === */
 @media (max-width: 768px) {
   .boop-header {
@@ -405,6 +350,10 @@ html, body {
     flex-direction: column;
     align-items: center;
   }
+  .filter-bar {
+    justify-content: flex-start;
+    overflow-x: auto;
+  }
 }
 @media (max-width: 500px) {
   .token-form-container {
@@ -412,6 +361,7 @@ html, body {
     gap: 20px;
   }
 }
+
 /* === BOTTOM NAVIGATION === */
 .bottom-nav {
   position: fixed;
@@ -465,7 +415,6 @@ html, body {
 .mute-button:hover {
   transform: scale(1.1);
 }
-
 /* === SCROLLBAR === */
 ::-webkit-scrollbar {
   width: 6px;
@@ -477,6 +426,7 @@ html, body {
 ::-webkit-scrollbar-track {
   background: #0a0a23;
 }
+
 /* === FORM STATUS === */
 .wallet-status {
   font-size: 0.8rem;
