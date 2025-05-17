@@ -40,6 +40,54 @@ html, body {
   }
 }
 
+/* === CREATE THE CHAOS GLITCH === */
+.chaos-glitch {
+  animation: chaosGlitchAnim 0.3s ease;
+}
+
+@keyframes chaosGlitchAnim {
+  0% {
+    filter: hue-rotate(0deg) brightness(1.2);
+    transform: scale(1.1);
+  }
+  50% {
+    filter: hue-rotate(60deg) brightness(1.4);
+    transform: scale(1.05) rotate(1deg);
+  }
+  100% {
+    filter: none;
+    transform: scale(1);
+  }
+}
+
+/* === MASKOT ANİMASYONU (İSTEĞE BAĞLI) === */
+#mascotChaos {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  z-index: 9999;
+  transition: all 0.6s ease;
+}
+
+#mascotChaos.show {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+
+#mascotChaos.spin {
+  animation: spinChaos 1s ease-in-out forwards;
+}
+
+@keyframes spinChaos {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg) scale(1);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(720deg) scale(1);
+  }
+}
 /* === HEADER === */
 .boop-header {
   display: flex;
@@ -125,21 +173,6 @@ html, body {
   height: 24px;
 }
 
-/* === MASKOT ANİMASYONU === */
-#mascotChaos {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0);
-  opacity: 0;
-  z-index: 9999;
-  transition: all 0.6s ease;
-}
-#mascotChaos.show {
-  transform: translate(-50%, -50%) scale(1);
-  opacity: 1;
-}
-
 /* === MOBILE MENU === */
 .mobile-menu {
   position: fixed;
@@ -195,6 +228,7 @@ html, body {
 .hidden {
   display: none !important;
 }
+
 /* === TOKEN FORM === */
 .token-form-container {
   display: flex;
@@ -208,7 +242,6 @@ html, body {
   border-radius: 20px;
   box-shadow: 0 0 12px #00ffee44;
 }
-
 /* Sol taraf: Görsel yükleme */
 .form-image-upload {
   width: 260px;
@@ -373,6 +406,12 @@ html, body {
     align-items: center;
   }
 }
+@media (max-width: 500px) {
+  .token-form-container {
+    padding: 10px;
+    gap: 20px;
+  }
+}
 /* === BOTTOM NAVIGATION === */
 .bottom-nav {
   position: fixed;
@@ -438,7 +477,6 @@ html, body {
 ::-webkit-scrollbar-track {
   background: #0a0a23;
 }
-
 /* === FORM STATUS === */
 .wallet-status {
   font-size: 0.8rem;
