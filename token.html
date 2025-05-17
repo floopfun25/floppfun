@@ -2,16 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Create Chaos - Floop</title>
+  <title>$FLOOPCAT - Token Page</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="images/icons/floop-favicon.ico" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
-
-  <meta name="description" content="Start your chaos on Floop.fun. Create meme tokens instantly." />
-  <meta property="og:title" content="Floop - Create Chaos" />
-  <meta property="og:image" content="images/preview.jpg" />
-  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="description" content="View details of $FLOOPCAT on Floop.fun." />
 </head>
 <body class="intro-glitch">
 <canvas id="particle-canvas"></canvas>
@@ -19,7 +15,9 @@
 <!-- HEADER -->
 <header class="boop-header">
   <div class="boop-left">
-    <img src="images/floop-mascot.png" alt="Floop Mascot" class="boop-logo" />
+    <a href="index.html">
+      <img src="images/floop-mascot.png" alt="Floop Mascot" class="boop-logo" />
+    </a>
   </div>
   <div class="boop-center">
     <button id="connectWallet" class="connect-btn">Connect</button>
@@ -38,57 +36,41 @@
     <li><a href="#"><img src="images/icons/chart.svg" class="menu-icon" /> Chart</a></li>
   </ul>
 </div>
+<!-- TOKEN DETAY KUTUSU -->
+<section class="token-details-section">
+  <div class="token-detail-card">
+    <img src="images/sample-token.png" alt="$FLOOPCAT" class="token-detail-img" />
 
-<!-- MASKOT ANİMASYONU ALANI -->
-<div id="mascotChaos" class="hidden">
-  <img src="images/floop-mascot.png" alt="Floop Mascot" class="mascot-popup" />
-</div>
-<!-- FORM BAŞLANGICI -->
-<section class="token-form-container" id="tokenFormSection">
-  <div class="form-content">
-    <!-- Görsel Yükleme Alanı -->
-    <div class="form-image-upload" id="imageUploadBox">
-      Click or Drop Image Here
-      <input type="file" id="tokenImage" accept="image/*" hidden />
-    </div>
+    <div class="token-info">
+      <h1 class="token-name">$FLOOPCAT</h1>
+      <p class="token-symbol">by 7x2d...Lop</p>
+      <p class="token-meta">Marketcap: $120K • Floops: 927</p>
 
-    <!-- Form Inputları -->
-    <div class="form-fields">
-      <input type="text" id="tokenName" placeholder="Token Name" required />
-      <input type="text" id="tokenSymbol" placeholder="Ticker Symbol (e.g. $CHAOS)" required />
-      <textarea id="tokenLore" rows="3" placeholder="Kaos Lore..."></textarea>
-      <!-- Sosyal Linkler Dropdown -->
-      <select id="tokenSocials">
-        <option value="">Add Socials</option>
-        <option value="x">X (Twitter)</option>
-        <option value="telegram">Telegram</option>
-        <option value="website">Website</option>
-      </select>
-
-      <!-- Pre-buy checkbox -->
-      <label class="prebuy-checkbox">
-        <input type="checkbox" id="preBuy" />
-        Enable Pre-Buy
-      </label>
-
-      <!-- Pre-buy yüzdelik butonları -->
-      <div class="prebuy-options hidden" id="preBuyOptions">
-        <button type="button" data-percent="1">%1</button>
-        <button type="button" data-percent="5">%5</button>
-        <button type="button" data-percent="10">%10</button>
-        <button type="button" data-percent="50">%MAX</button>
+      <!-- Kaos Lore -->
+      <div class="token-lore">
+        <h3>Kaos Lore</h3>
+        <p>
+          $FLOOPCAT is a mischievous meme token born from chaos. It roams the Solana jungles, flipping charts and purring profits.
+        </p>
       </div>
 
-      <!-- Maliyet -->
-      <p class="cost">pre-buy cost: <span id="cost">0 SOL</span></p>
+      <!-- Sosyal Linkler -->
+      <div class="token-socials">
+        <a href="https://x.com/floopcat" target="_blank" class="connect-btn">X</a>
+        <a href="https://t.me/floopcat" target="_blank" class="connect-btn">Telegram</a>
+        <a href="https://floopcat.io" target="_blank" class="connect-btn">Website</a>
+      </div>
 
-      <!-- Launch Button -->
-      <button type="submit" class="connect-btn" id="mintTokenBtn">Launch</button>
-      <p id="formStatus" class="wallet-status"></p>
+      <!-- Token İşlem Butonları -->
+      <div class="token-actions">
+        <a href="#" class="connect-btn">Buy on Raydium</a>
+        <a href="#" class="connect-btn">Chart</a>
+        <a href="#" class="connect-btn">Pre-buy</a>
+      </div>
     </div>
   </div>
 </section>
-<!-- FOOTER NAV -->
+ <!-- FOOTER NAV -->
 <nav class="bottom-nav">
   <a href="index.html" class="nav-link">
     <img src="images/icons/cult.png" />
@@ -115,64 +97,25 @@
 <!-- MUTE BUTTON -->
 <button id="muteToggle" class="mute-button">🔊</button>
 
-<!-- EXTERNAL SCRIPTS -->
+<!-- MASKOT ANİMASYONU -->
+<div id="mascotChaos" class="hidden">
+  <img src="images/floop-mascot.png" alt="Floop Mascot" class="mascot-popup" />
+</div>
+
+<!-- SCRIPTLER -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
 <script src="script.js"></script>
-<!-- INLINE JS -->
+
+<!-- INLINE INIT -->
 <script>
-  // Sayfa yüklenince glitch efekti kaldırılsın
   window.addEventListener("load", () => {
     setTimeout(() => {
       document.body.classList.remove("intro-glitch");
     }, 700);
   });
-
-  // Görsel önizleme
-  const imageBox = document.getElementById("imageUploadBox");
-  const imageInput = document.getElementById("tokenImage");
-  imageBox?.addEventListener("click", () => imageInput.click());
-  imageInput?.addEventListener("change", () => {
-    const file = imageInput.files[0];
-    if (file) {
-      imageBox.innerHTML = `<img src="${URL.createObjectURL(file)}" alt="Preview" class="preview-img" />`;
-    }
-  });
-
-  // Pre-buy toggle
-  const preBuyCheckbox = document.getElementById("preBuy");
-  const preBuyOptions = document.getElementById("preBuyOptions");
-  preBuyCheckbox?.addEventListener("change", () => {
-    preBuyOptions.classList.toggle("hidden", !preBuyCheckbox.checked);
-  });
-
-  // Pre-buy yüzdelik hesap
-  const costDisplay = document.getElementById("cost");
-  document.querySelectorAll("#preBuyOptions button").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const percent = parseInt(btn.dataset.percent);
-      const cost = (percent * 0.02).toFixed(2);
-      costDisplay.textContent = `${cost} SOL`;
-    });
-  });
-
-  // Launch butonuna tıklanınca validasyon
-  document.getElementById("mintTokenBtn")?.addEventListener("click", (e) => {
-    e.preventDefault();
-    const name = document.getElementById("tokenName").value.trim();
-    const symbol = document.getElementById("tokenSymbol").value.trim();
-    const status = document.getElementById("formStatus");
-
-    if (!name || !symbol) {
-      status.textContent = "Token name and symbol are required!";
-      return;
-    }
-
-    // İleri işlemler (backend entegrasyonu) buraya
-    alert(`Token launched: ${name} (${symbol})`);
-    status.textContent = "Token successfully launched!";
-  });
 </script>
 
 </body>
 </html>
+ 
