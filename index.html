@@ -7,8 +7,6 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="images/icons/floop-favicon.ico" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
-
-  <!-- SEO -->
   <meta name="description" content="Launch your meme token on Solana. Just chaos.">
   <meta property="og:title" content="Floop.fun - Launch Meme Tokens Instantly">
   <meta property="og:image" content="images/preview.jpg">
@@ -17,7 +15,6 @@
 <body class="intro-glitch">
 <canvas id="particle-canvas"></canvas>
 
-<!-- HEADER -->
 <header class="boop-header">
   <div class="boop-left">
     <img src="images/floop-mascot.png" alt="Floop Mascot" class="boop-logo" />
@@ -31,7 +28,6 @@
   </div>
 </header>
 
-<!-- MOBILE MENU -->
 <div class="mobile-menu hidden" id="mobileMenu">
   <ul>
     <li><a href="https://x.com/floopfun" target="_blank"><img src="images/icons/x.svg" class="menu-icon" /> X</a></li>
@@ -40,14 +36,13 @@
   </ul>
 </div>
 
-<!-- CHAOS BUTTON -->
 <div class="start-kaos-wrapper">
   <div class="start-kaos-box" onclick="toggleForm()">
     <img src="images/icons/cult.png" alt="Chaos" class="start-kaos-icon" />
     Create the Chaos
   </div>
 </div>
-<!-- TOKEN FORM -->
+
 <section id="tokenFormSection" class="token-form-container hidden">
   <div class="form-content">
     <div class="form-image-upload" id="imageUploadBox">
@@ -57,7 +52,7 @@
     <div class="form-fields">
       <input type="text" id="tokenName" placeholder="Token Name" required />
       <input type="text" id="tokenSymbol" placeholder="Ticker Symbol (e.g. $FLOOP)" required />
-      <textarea id="tokenLore" rows="3" placeholder="Cult Lore..."></textarea>
+      <textarea id="tokenLore" rows="3" placeholder="Kaos Lore..."></textarea>
 
       <select id="tokenSocials">
         <option value="">Add Socials</option>
@@ -171,13 +166,13 @@
     }
   });
 </script>
+
 <!-- KAOS FORM AÇ/KAPA -->
 <script>
   function toggleForm() {
     const form = document.getElementById("tokenFormSection");
     form.classList.toggle("hidden");
 
-    // Glitch efekti tetikleme
     const chaosBox = document.querySelector(".start-kaos-box");
     chaosBox.classList.add("chaos-glitch");
     setTimeout(() => {
@@ -201,11 +196,10 @@
       alert(walletType + " not yet integrated.");
     }
 
-    // Modalı kapat
     document.getElementById("walletModal").classList.add("hidden");
   }
 
-  // Connect butonuna tıklanırsa modal aç
+  // Connect butonuna tıklanınca modal aç
   document.getElementById("connectWallet").addEventListener("click", () => {
     document.getElementById("walletModal").classList.remove("hidden");
   });
