@@ -39,7 +39,6 @@ html, body {
     filter: none;
   }
 }
-
 /* === KAOS MASKOT ANİMASYONU === */
 #mascotChaos {
   position: fixed;
@@ -49,6 +48,8 @@ html, body {
   opacity: 0;
   z-index: 9999;
   transition: all 0.6s ease;
+  width: 80px;
+  height: 80px;
 }
 
 #mascotChaos.show {
@@ -68,6 +69,7 @@ html, body {
     transform: translate(-50%, -50%) rotate(720deg) scale(1);
   }
 }
+
 /* === HEADER === */
 .boop-header {
   display: flex;
@@ -82,7 +84,6 @@ html, body {
   background: rgba(10, 10, 35, 0.85);
   backdrop-filter: blur(6px);
 }
-
 /* Sol Logo */
 .boop-left img.boop-logo {
   height: 40px;
@@ -220,20 +221,19 @@ html, body {
   top: 0;
   left: 0;
 }
-
 /* === MASKOT ANİMASYONU (SVG ÜSTÜNE) === */
 #mascotChaos {
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%) scale(0);
+  transform: translate(-50%, -50%) scale(0.6);
   opacity: 0;
   z-index: 9999;
   transition: all 0.6s ease;
 }
 
 #mascotChaos.show {
-  transform: translate(-50%, -50%) scale(1);
+  transform: translate(-50%, -50%) scale(0.6);
   opacity: 1;
 }
 
@@ -243,198 +243,73 @@ html, body {
 
 @keyframes spinChaos {
   from {
-    transform: translate(-50%, -50%) rotate(0deg) scale(1);
+    transform: translate(-50%, -50%) rotate(0deg) scale(0.6);
   }
   to {
-    transform: translate(-50%, -50%) rotate(720deg) scale(1);
+    transform: translate(-50%, -50%) rotate(720deg) scale(0.6);
   }
 }
-/* === FILTER BAR === */
-.filter-bar {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 14px;
-  margin: 30px auto 10px;
-  padding: 0 20px;
-  max-width: 1200px;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-}
-.filter-icon {
-  width: 24px;
-  height: 24px;
-  opacity: 0.7;
-  flex-shrink: 0;
-}
-.filters {
-  display: flex;
-  gap: 10px;
-  flex-wrap: nowrap;
-}
-.filter-btn {
-  padding: 6px 14px;
-  border-radius: 20px;
-  background: #1a1a2e;
-  color: #fff;
-  border: 1px solid #00ffee44;
-  font-size: 0.85rem;
-  white-space: nowrap;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-.filter-btn:hover,
-.filter-btn.active {
-  background: #00ffee;
-  color: #000;
-  box-shadow: 0 0 10px #00ffee99;
-}
 
-/* === TREND TOKEN BAŞLIĞI === */
-.trending-header {
-  margin: 40px auto 10px;
-  font-size: 1.6rem;
-  font-weight: 600;
-  color: #00ffee;
-  text-align: center;
-}
-
-/* === TOKEN CARD LIST === */
-.token-list {
+/* === TREND TOKEN BÖLÜMÜ === */
+.trending-tokens {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 20px;
-  padding: 0 20px 100px;
-  max-width: 1200px;
-  margin: 0 auto;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 14px;
+  max-width: 90%;
+  margin: 20px auto;
+  padding: 10px;
+  justify-items: center;
 }
-
-/* === TOKEN CARD === */
-.token-card {
+.trending-tokens img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid #00ffee88;
+  transition: transform 0.2s ease;
+}
+.trending-tokens img:hover {
+  transform: scale(1.1);
+}
+/* === TOKEN LİSTESİ (ALT KISIM) === */
+.token-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  max-width: 1200px;
+  margin: 30px auto 100px;
+  padding: 0 20px;
+}
+.token-item {
   background: #1a1a2e;
-  border-radius: 18px;
+  border-radius: 16px;
   padding: 16px;
   color: #fff;
-  box-shadow: 0 0 0 transparent;
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-.token-card:hover {
-  box-shadow: 0 0 14px #00ffee66;
-  transform: translateY(-3px);
+.token-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 14px #00ffee55;
 }
-.token-card img {
+.token-item img {
   width: 100%;
   border-radius: 14px;
 }
-.token-card h3 {
+.token-item h4 {
   font-size: 1rem;
-  margin: 0;
+  margin: 10px 0 4px;
 }
-.token-card .meta {
+.token-item .meta {
   font-size: 0.8rem;
   opacity: 0.7;
 }
-/* === RESPONSIVE === */
-@media (max-width: 768px) {
-  .boop-header {
-    flex-direction: row;
-    justify-content: space-between;
-  }
-  .boop-center {
-    flex-direction: row;
-  }
-  .token-form-container {
-    flex-direction: column;
-    align-items: center;
-  }
-  .filter-bar {
-    justify-content: flex-start;
-    overflow-x: auto;
-  }
-}
-@media (max-width: 500px) {
-  .token-form-container {
-    padding: 10px;
-    gap: 20px;
-  }
-}
 
-/* === BOTTOM NAVIGATION === */
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background: #0a0a23;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 10px 0;
-  border-top: 1px solid #222;
-  z-index: 1000;
-}
-.nav-link {
-  color: #ffffffcc;
-  text-decoration: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  font-size: 0.7rem;
-}
-.nav-link img {
-  width: 22px;
-  height: 22px;
-  filter: brightness(1.2);
-}
-.nav-link.active {
-  color: #00ffee;
-}
-.nav-link.active img {
-  filter: drop-shadow(0 0 4px #00ffeeaa);
-}
-
-/* === MUTE BUTTON === */
-.mute-button {
-  position: fixed;
-  bottom: 70px;
-  right: 20px;
-  background: #1a1a2e;
-  color: #00ffee;
-  border: none;
-  font-size: 20px;
-  border-radius: 50%;
-  padding: 10px;
-  cursor: pointer;
-  z-index: 1100;
-  box-shadow: 0 0 6px #00ffee44;
-  transition: transform 0.2s ease;
-}
-.mute-button:hover {
-  transform: scale(1.1);
-}
-/* === SCROLLBAR === */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-thumb {
-  background-color: #00ffee66;
-  border-radius: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #0a0a23;
-}
-
-/* === FORM STATUS === */
-.wallet-status {
-  font-size: 0.8rem;
-  color: #ff4444;
-  margin-top: 8px;
-}
-
-/* === GLOW UTILITY === */
-.glow {
-  box-shadow: 0 0 10px #00ffeeaa;
+/* === RESPONSİVE TREND KISMI === */
+@media (max-width: 600px) {
+  .trending-tokens {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .token-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
