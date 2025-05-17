@@ -1,19 +1,18 @@
-// === DOM YÜKLENDİĞİNDE BAŞLA ===
+// === DOM YÜKLENDİĞİNDE ===
 document.addEventListener("DOMContentLoaded", () => {
   const connectBtn = document.getElementById("connectWallet");
   const walletModal = document.getElementById("walletModal");
 
-  // === CONNECT butonuna tıklanınca wallet popup aç ===
   connectBtn?.addEventListener("click", () => {
-    walletModal.classList.remove("hidden");
+    walletModal?.classList.remove("hidden");
   });
 
-  // === Glitch animasyonu otomatik kapansın ===
   setTimeout(() => {
     document.body.classList.remove("intro-glitch");
   }, 700);
 });
-// === CÜZDAN SEÇİMİ ===
+
+// === CÜZDAN BAĞLANTISI ===
 function connectWallet(walletType) {
   const connectBtn = document.getElementById("connectWallet");
   const phantomLink = document.getElementById("phantomLink");
@@ -21,7 +20,6 @@ function connectWallet(walletType) {
 
   if (walletType === "phantom") {
     if (window.solana && window.solana.isPhantom) {
-      // Bağlantıyı başlat
       window.solana.connect()
         .then((resp) => {
           const pubKey = resp.publicKey.toString();
@@ -30,63 +28,57 @@ function connectWallet(walletType) {
         })
         .catch(() => alert("Phantom connection failed."));
     } else {
-      // Mobil yönlendirme
-      phantomLink.click();
+      phantomLink?.click();
     }
   } else {
     alert(`${walletType} integration coming soon.`);
   }
 
-  // Modalı kapat
-  walletModal.classList.add("hidden");
+  walletModal?.classList.add("hidden");
 }
+
 // === KAOS BAŞLAT ===
 function toggleForm() {
   const mascot = document.getElementById("mascotChaos");
   const form = document.getElementById("tokenFormSection");
 
-  // Maskotu göster (animasyonla)
-  mascot.classList.remove("hidden");
-  mascot.classList.add("show");
+  mascot?.classList.remove("hidden");
+  mascot?.classList.add("show", "spin");
 
-  // 2 saniye sonra formu göster, maskotu gizle
   setTimeout(() => {
-    mascot.classList.remove("show");
-    mascot.classList.add("hidden");
-    form.classList.remove("hidden");
+    mascot?.classList.remove("show", "spin");
+    mascot?.classList.add("hidden");
+    form?.classList.remove("hidden");
   }, 2000);
 }
+
 // === GÖRSEL ÖNİZLEME ===
 const imageBox = document.getElementById("imageUploadBox");
 const imageInput = document.getElementById("tokenImage");
 
-if (imageBox && imageInput) {
-  imageBox.addEventListener("click", () => imageInput.click());
+imageBox?.addEventListener("click", () => imageInput?.click());
+imageInput?.addEventListener("change", () => {
+  const file = imageInput.files[0];
+  if (file) {
+    imageBox.innerHTML = `<img src="${URL.createObjectURL(file)}" alt="Preview" class="preview-img" />`;
+  }
+});
 
-  imageInput.addEventListener("change", () => {
-    const file = imageInput.files[0];
-    if (file) {
-      imageBox.innerHTML = `<img src="${URL.createObjectURL(file)}" alt="Preview" class="preview-img" />`;
-    }
-  });
-}
-
-// === ARAMA KUTUSU AÇ/KAPA ===
+// === ARAMA ===
 const searchBtn = document.getElementById("searchBtn");
 const searchContainer = document.getElementById("searchContainer");
-
 searchBtn?.addEventListener("click", () => {
   searchContainer.classList.toggle("hidden");
 });
 
-// === MOBİL MENÜ AÇ/KAPA ===
+// === MOBİL MENÜ ===
 const menuBtn = document.getElementById("menuBtn");
 const mobileMenu = document.getElementById("mobileMenu");
-
 menuBtn?.addEventListener("click", () => {
   mobileMenu.classList.toggle("hidden");
 });
-// === FORM LAUNCH ===
+
+// === FORM TOKEN LAUNCH ===
 const launchBtn = document.getElementById("mintTokenBtn");
 const tokenName = document.getElementById("tokenName");
 const tokenSymbol = document.getElementById("tokenSymbol");
@@ -104,20 +96,17 @@ launchBtn?.addEventListener("click", (e) => {
     return;
   }
 
-  // Buraya backend entegrasyonu (Supabase, Solana mint, vs.) eklenebilir.
   alert(`Token launched: ${name} (${symbol})`);
   formStatus.innerText = "Token successfully launched!";
 });
 
-// === SES BUTONU (MUTE) ===
+// === SES BUTONU ===
 const muteBtn = document.getElementById("muteToggle");
 let isMuted = false;
-
 muteBtn?.addEventListener("click", () => {
   isMuted = !isMuted;
   muteBtn.innerText = isMuted ? "🔇" : "🔊";
-  const audioElements = document.querySelectorAll("audio");
-  audioElements.forEach(audio => {
+  document.querySelectorAll("audio").forEach(audio => {
     audio.muted = isMuted;
   });
 });
