@@ -1,48 +1,33 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
   <defs>
-    <!-- Arka plan gradyanı -->
     <radialGradient id="nightGradient" cx="50%" cy="50%" r="70%">
       <stop offset="0%" stop-color="#1a1a1a" />
       <stop offset="60%" stop-color="#333333" />
       <stop offset="100%" stop-color="#000000" />
     </radialGradient>
 
-    <!-- Soyut desen (enerji dalgaları) -->
     <pattern id="wavePattern" patternUnits="userSpaceOnUse" width="100" height="100">
       <path d="M0,50 Q50,10 100,50 Q50,90 0,50 Z" fill="none" stroke="#f0f0f0" stroke-width="2" opacity="0.1"/>
     </pattern>
   </defs>
 
-  <!-- Arka plan -->
   <rect width="100%" height="100%" fill="url(#nightGradient)" />
 
-  <!-- Soyut dalgalar -->
   <g transform="translate(300,300)">
     <circle r="200" fill="url(#wavePattern)" opacity="0.2"/>
     <circle r="170" fill="url(#wavePattern)" opacity="0.1"/>
   </g>
 
-  <!-- Işık halkaları -->
   <g transform="translate(300,300)">
     <circle r="250" fill="none" stroke="#ff6347" stroke-opacity="0.6" stroke-width="1"/>
     <circle r="220" fill="none" stroke="#ff6347" stroke-opacity="0.4" stroke-width="2"/>
-    <circle r="190" fill="none" stroke="#ff6347" stroke-opacity="0.2" stroke-width="3"/>
   </g>
 
-  <!-- Enerji izleri (soyut, kırmızı ışıklar) -->
-  <path d="M300,300 C380,350 400,250 500,300 C520,320 480,400 420,370 C350,340 300,300" 
-        fill="none" stroke="#ff6347" stroke-width="3" opacity="0.7" />
-  <path d="M300,300 C220,250 200,350 100,300 C80,280 120,200 180,230 C250,260 300,300"
-        fill="none" stroke="#ff6347" stroke-width="3" opacity="0.7" />
-
-  <!-- Soyut figür (Bordo renkli şekil) -->
   <g transform="translate(300, 200)">
     <circle r="30" fill="#800020" stroke="#550015" stroke-width="3"/>
     <circle r="40" fill="none" stroke="#550015" stroke-width="2"/>
     <circle r="50" fill="none" stroke="#800020" stroke-width="2"/>
   </g>
 
-  <!-- Soyut çizgiler ve fırça darbeleri -->
   <path d="M150,450 Q300,350 450,450" fill="none" stroke="#ff6347" stroke-width="2" opacity="0.3"/>
-  <path d="M50,500 Q250,420 550,500" fill="none" stroke="#ff6347" stroke-width="2" opacity="0.2"/>
 </svg>
