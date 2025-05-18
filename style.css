@@ -40,6 +40,19 @@ html, body {
   }
 }
 
+/* === GİRİŞ SLIDE-UP + FADE === */
+.slide-up-fade {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: slideFadeIn 0.8s ease-out forwards;
+}
+
+@keyframes slideFadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 /* === KAOS MASKOT ANİMASYONU === */
 #mascotChaos {
   position: fixed;
@@ -50,16 +63,13 @@ html, body {
   z-index: 9999;
   transition: all 0.6s ease;
 }
-
 #mascotChaos.show {
   transform: translate(-50%, -50%) scale(1);
   opacity: 1;
 }
-
 #mascotChaos.spin {
   animation: spinChaos 1s ease-in-out forwards;
 }
-
 @keyframes spinChaos {
   from {
     transform: translate(-50%, -50%) rotate(0deg) scale(1);
@@ -68,6 +78,7 @@ html, body {
     transform: translate(-50%, -50%) rotate(720deg) scale(1);
   }
 }
+
 /* === HEADER === */
 .boop-header {
   display: flex;
@@ -82,8 +93,6 @@ html, body {
   background: rgba(10, 10, 35, 0.85);
   backdrop-filter: blur(6px);
 }
-
-/* Sol Logo */
 .boop-left img.boop-logo {
   height: 40px;
   transition: transform 0.2s ease;
@@ -91,8 +100,6 @@ html, body {
 .boop-left img.boop-logo:hover {
   transform: scale(1.1);
 }
-
-/* Ortadaki Connect + Search */
 .boop-center {
   display: flex;
   align-items: center;
@@ -109,19 +116,6 @@ html, body {
 }
 .connect-btn:hover {
   box-shadow: 0 0 10px #00ffeeaa;
-}
-
-/* Sağdaki Hamburger */
-.icon-btn {
-  background: none;
-  border: none;
-  font-size: 20px;
-  color: #ffffffcc;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-.icon-btn:hover {
-  transform: scale(1.2);
 }
 /* === MOBILE MENU === */
 .mobile-menu {
@@ -174,20 +168,45 @@ html, body {
   font-size: 14px;
 }
 
-/* === HIDDEN CLASS === */
-.hidden {
-  display: none !important;
+/* === SVG BUTON ARKA PLAN VE GÖRÜNÜRLÜK === */
+.chaos-background {
+  width: 100%;
+  height: 320px;
+  background: url('images/floop-pattern.svg') repeat;
+  background-size: 120px;
+  opacity: 0.08;
+  z-index: 1;
+  position: relative;
+  animation: floatChaos 8s infinite ease-in-out;
 }
-/* === START CHAOS BUTTON BOX === */
+
+/* Parıltı efekti */
+.chaos-button-glow {
+  filter: drop-shadow(0 0 10px #00ffee) brightness(1.2);
+  transition: filter 0.3s ease;
+}
+.chaos-button-glow:hover {
+  filter: drop-shadow(0 0 20px #00ffeeaa) brightness(1.5);
+}
+
+/* Yumuşak kayan efekt */
+@keyframes floatChaos {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+/* === START CHAOS BUTTON KUTUSU + SVG === */
 .start-kaos-wrapper {
   margin-top: 120px;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 20px;
+  position: relative;
+  z-index: 2;
 }
 .start-kaos-box {
-  background: rgba(0, 255, 238, 0.1);
+  background: rgba(0, 255, 238, 0.08);
   border: 2px solid #00ffee;
   color: #00ffee;
   padding: 16px 30px;
@@ -199,6 +218,7 @@ html, body {
   gap: 10px;
   cursor: pointer;
   transition: all 0.3s ease;
+  z-index: 3;
 }
 .start-kaos-box:hover {
   box-shadow: 0 0 15px #00ffeeaa;
@@ -208,20 +228,7 @@ html, body {
   height: 24px;
 }
 
-/* === SVG ZEMİN (Boop-Style) === */
-.chaos-background {
-  width: 100%;
-  height: 320px;
-  background: url('images/floop-pattern.svg') repeat;
-  background-size: 120px;
-  opacity: 0.07;
-  z-index: 0;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-/* === MASKOT ANİMASYONU (SVG ÜSTÜNE) === */
+/* === MASKOT ANİMASYONU (GÖRÜNME + DÖNME) === */
 #mascotChaos {
   position: fixed;
   top: 50%;
@@ -249,200 +256,124 @@ html, body {
     transform: translate(-50%, -50%) rotate(720deg) scale(1);
   }
 }
-/* === FILTER BAR === */
-.filter-bar {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 14px;
-  margin: 30px auto 10px;
-  padding: 0 20px;
-  max-width: 1200px;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-}
-.filter-icon {
-  width: 24px;
-  height: 24px;
-  opacity: 0.7;
-  flex-shrink: 0;
-}
-.filters {
-  display: flex;
-  gap: 10px;
-  flex-wrap: nowrap;
-}
-.filter-btn {
-  padding: 6px 14px;
-  border-radius: 20px;
-  background: #1a1a2e;
-  color: #fff;
-  border: 1px solid #00ffee44;
-  font-size: 0.85rem;
-  white-space: nowrap;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-.filter-btn:hover,
-.filter-btn.active {
-  background: #00ffee;
-  color: #000;
-  box-shadow: 0 0 10px #00ffee99;
-}
-
-/* === TREND TOKEN BAŞLIĞI === */
-.trending-header {
-  margin: 40px auto 10px;
-  font-size: 1.6rem;
-  font-weight: 600;
-  color: #00ffee;
-  text-align: center;
-}
-
-/* === TOKEN CARD LIST === */
-.token-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 20px;
-  padding: 0 20px 100px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-/* === TOKEN CARD === */
-.token-card {
-  background: #1a1a2e;
-  border-radius: 18px;
-  padding: 16px;
-  color: #fff;
-  box-shadow: 0 0 0 transparent;
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.token-card:hover {
-  box-shadow: 0 0 14px #00ffee66;
-  transform: translateY(-3px);
-}
-.token-card img {
+/* === SVG ZEMİN (Boop-Style) === */
+.chaos-background {
   width: 100%;
-  border-radius: 14px;
+  height: 340px;
+  background: url('images/floop-pattern.svg') repeat;
+  background-size: 120px;
+  opacity: 0.1;
+  position: relative;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  animation: pulseGlow 4s infinite ease-in-out;
+  transition: opacity 0.3s ease;
 }
-.token-card h3 {
-  font-size: 1rem;
-  margin: 0;
-}
-.token-card .meta {
-  font-size: 0.8rem;
-  opacity: 0.7;
-}
-/* === RESPONSIVE === */
-@media (max-width: 768px) {
-  .boop-header {
-    flex-direction: row;
-    justify-content: space-between;
+
+/* === SVG PULSE ANİMASYONU === */
+@keyframes pulseGlow {
+  0% {
+    opacity: 0.06;
   }
-  .boop-center {
-    flex-direction: row;
+  50% {
+    opacity: 0.12;
   }
-  .token-form-container {
-    flex-direction: column;
-    align-items: center;
-  }
-  .filter-bar {
-    justify-content: flex-start;
-    overflow-x: auto;
-  }
-}
-@media (max-width: 500px) {
-  .token-form-container {
-    padding: 10px;
-    gap: 20px;
+  100% {
+    opacity: 0.06;
   }
 }
 
-/* === BOTTOM NAVIGATION === */
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background: #0a0a23;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 10px 0;
-  border-top: 1px solid #222;
-  z-index: 1000;
-}
-.nav-link {
-  color: #ffffffcc;
-  text-decoration: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  font-size: 0.7rem;
-}
-.nav-link img {
-  width: 22px;
-  height: 22px;
-  filter: brightness(1.2);
-}
-.nav-link.active {
-  color: #00ffee;
-}
-.nav-link.active img {
-  filter: drop-shadow(0 0 4px #00ffeeaa);
-}
-
-/* === MUTE BUTTON === */
-.mute-button {
-  position: fixed;
-  bottom: 70px;
-  right: 20px;
-  background: #1a1a2e;
-  color: #00ffee;
-  border: none;
-  font-size: 20px;
-  border-radius: 50%;
-  padding: 10px;
-  cursor: pointer;
-  z-index: 1100;
-  box-shadow: 0 0 6px #00ffee44;
-  transition: transform 0.2s ease;
-}
-.mute-button:hover {
-  transform: scale(1.1);
-}
-/* === SCROLLBAR === */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-thumb {
-  background-color: #00ffee66;
-  border-radius: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #0a0a23;
-}
-
-/* === FORM STATUS === */
-.wallet-status {
-  font-size: 0.8rem;
-  color: #ff4444;
-  margin-top: 8px;
-}
-
-/* === GLOW UTILITY === */
-.glow {
-  box-shadow: 0 0 10px #00ffeeaa;
-}
+/* === SVG RECT STYLE (görünürlük için net parıltı) === */
 .chaos-rect {
   fill: rgba(255, 255, 255, 0.08);
-  stroke: #00ffff88;
-  stroke-width: 2;
+  stroke: #00ffffaa;
+  stroke-width: 2.5;
   rx: 30;
   ry: 30;
-  filter: drop-shadow(0 0 10px #00ffff66);
+  filter: drop-shadow(0 0 16px #00ffff88);
+  transition: all 0.3s ease;
+}
+/* === SVG BUTON HOVER & ANİMASYON === */
+.chaos-button-wrapper {
+  position: relative;
+  z-index: 2;
+  margin-top: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chaos-button-wrapper svg {
+  width: 320px;
+  max-width: 90%;
+  cursor: pointer;
+  transition: transform 0.3s ease, filter 0.3s ease;
+  filter: drop-shadow(0 0 10px #00ffeeaa);
+}
+
+.chaos-button-wrapper svg:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 0 18px #00ffee);
+}
+
+.chaos-button-text {
+  font-size: 1.4rem;
+  font-weight: bold;
+  fill: #00ffee;
+  text-shadow: 0 0 10px #00ffee99;
+  pointer-events: none;
+}
+
+/* === TAM EKRANDA DAHA FAZLA GÖRÜNÜRLÜK === */
+@media (max-width: 768px) {
+  .chaos-background {
+    height: 300px;
+    background-size: 100px;
+  }
+
+  .chaos-button-wrapper svg {
+    width: 260px;
+  }
+
+  .chaos-button-text {
+    font-size: 1.1rem;
+  }
+}
+/* === YARDIMCI SINIFLAR (EKSTRA STİL DESTEKLERİ) === */
+.relative {
+  position: relative;
+}
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.mt-60 {
+  margin-top: 60px;
+}
+.text-glow {
+  color: #00ffee;
+  text-shadow: 0 0 10px #00ffeeaa, 0 0 20px #00ffee66;
+}
+.svg-glow {
+  filter: drop-shadow(0 0 12px #00ffeeaa);
+}
+.bg-glass {
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  border: 1px solid #00ffee44;
+}
+
+/* === GÜÇLENDİRİLMİŞ SVG ALANI (ALT FON RENGİ + VURGU) === */
+.chaos-svg-area {
+  background: radial-gradient(circle at center, #001122, #000a0a);
+  border: 2px solid #00ffee22;
+  box-shadow: 0 0 30px #00ffee22 inset, 0 0 10px #00ffee88;
+  padding: 20px;
+  margin-top: 60px;
+  border-radius: 30px;
+  position: relative;
+  z-index: 1;
 }
