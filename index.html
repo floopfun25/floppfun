@@ -43,6 +43,51 @@
       text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
       pointer-events: none;
     }
+
+    /* === Trend Token Alanı Güncel Stil === */
+    .trend-token-list-horizontal {
+      overflow-x: auto;
+      padding: 1rem;
+      margin: 1rem auto;
+      max-width: 100%;
+      backdrop-filter: blur(10px);
+    }
+    .scroll-wrapper {
+      display: flex;
+      gap: 16px;
+      scroll-snap-type: x mandatory;
+      padding-bottom: 0.5rem;
+    }
+    .token-card {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 40px;
+      min-width: 180px;
+      padding: 16px;
+      text-align: center;
+      scroll-snap-align: start;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease;
+      flex-shrink: 0;
+    }
+    .token-card:hover {
+      transform: scale(1.05);
+    }
+    .token-card img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 8px;
+    }
+    .token-card h3 {
+      margin: 0;
+      font-size: 1rem;
+      color: #fff;
+    }
+    .token-card .meta {
+      font-size: 0.85rem;
+      color: #bbb;
+    }
   </style>
 </head>
 <body class="intro-glitch">
@@ -85,7 +130,8 @@
 <div id="mascotChaos" class="hidden">
   <img src="images/floop-mascot.png" alt="Chaos Mascot" class="mascot-popup" />
 </div>
-<!-- TREND TOKENLER - YATAY SCROLL -->
+
+<!-- TREND TOKENLER - YATAY SCROLL (GÜNCELLENDİ) -->
 <section class="trend-token-list-horizontal">
   <div class="scroll-wrapper">
     <div class="token-card">
@@ -105,32 +151,8 @@
       <h3>$SOLBABY</h3>
       <p class="meta">MCAP: $250K • Floops: 990</p>
     </div>
-    <!-- Daha fazla token kartı JS ile eklenebilir -->
   </div>
 </section>
-
-<style>
-  .trend-token-list-horizontal {
-    overflow-x: auto;
-    padding: 20px 0;
-    margin-top: 20px;
-  }
-  .scroll-wrapper {
-    display: flex;
-    gap: 16px;
-    padding: 0 16px;
-    width: max-content;
-  }
-  .scroll-wrapper .token-card {
-    min-width: 200px;
-    background: #11131b;
-    border-radius: 20px;
-    padding: 16px;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
-    text-align: center;
-  }
-</style>
-
 <!-- FİLTRE BAR (KORUNAN) -->
 <div class="filter-bar">
   <img src="images/icons/settings.svg" class="filter-icon" />
@@ -241,47 +263,4 @@
   });
 
   // Menü aç-kapat
-  document.getElementById("menuBtn").addEventListener("click", () => {
-    const menu = document.getElementById("mobileMenu");
-    menu.classList.toggle("hidden");
-  });
-
-  // Create Chaos buton tıklaması
-  function toggleForm() {
-    const mascot = document.getElementById("mascotChaos");
-    mascot.classList.remove("hidden");
-
-    setTimeout(() => {
-      mascot.classList.add("spin");
-    }, 100);
-
-    setTimeout(() => {
-      mascot.classList.add("hidden");
-      window.location.href = "create.html";
-    }, 2000);
-  }
-
-  // Wallet bağla
-  function connectWallet(walletType) {
-    const phantomLink = document.getElementById("phantomLink");
-    if (walletType === "phantom") {
-      if (window.solana && window.solana.isPhantom) {
-        window.solana.connect().then(resp => {
-          const pubKey = resp.publicKey.toString();
-          document.getElementById("connectWallet").innerText = `Connected: ${pubKey.slice(0, 4)}...`;
-        }).catch(() => alert("Phantom connection failed"));
-      } else {
-        phantomLink.click();
-      }
-    } else {
-      alert(walletType + " not yet integrated.");
-    }
-
-    document.getElementById("walletModal").classList.add("hidden");
-  }
-
-  // Wallet seçim menüsü aç
-  document.getElementById("connectWallet").addEventListener("click", () => {
-    document.getElementById("walletModal").classList.remove("hidden");
-  });
-</script>
+  document
