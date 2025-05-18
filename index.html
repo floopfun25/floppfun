@@ -11,6 +11,38 @@
   <meta property="og:title" content="Floop.fun - Meme Token Chaos" />
   <meta property="og:image" content="images/preview.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
+  <style>
+    .chaos-svg-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 40px auto 20px;
+      width: 220px;
+      height: 70px;
+      cursor: pointer;
+      position: relative;
+    }
+    .chaos-svg {
+      width: 100%;
+      height: 100%;
+    }
+    .chaos-rect {
+      fill: rgba(255, 255, 255, 0.05);
+      stroke: #ffffff88;
+      stroke-width: 2;
+      rx: 30;
+      ry: 30;
+    }
+    .chaos-text {
+      position: absolute;
+      font-family: 'Poppins', sans-serif;
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+      pointer-events: none;
+    }
+  </style>
 </head>
 <body class="intro-glitch">
 <canvas id="particle-canvas"></canvas>
@@ -38,22 +70,22 @@
   </ul>
 </div>
 
-<!-- YUKARIDAKİ SVG CREATE CHAOS BUTONU -->
+<!-- YUKARIDAKİ SVG BUTON -->
 <section class="create-chaos-section">
   <div class="chaos-svg-wrapper" onclick="toggleForm()">
-    <svg viewBox="0 0 200 60" class="chaos-svg">
-      <rect x="1" y="1" width="198" height="58" rx="15" ry="15" class="chaos-rect"/>
-      <text x="100" y="38" text-anchor="middle" fill="white" font-size="16" font-family="Poppins">Create the Chaos</text>
+    <svg viewBox="0 0 220 70" class="chaos-svg">
+      <rect x="1" y="1" width="218" height="68" class="chaos-rect" />
     </svg>
+    <div class="chaos-text">Create the Chaos</div>
   </div>
 </section>
 
-<!-- DÖNEN MASKOT -->
+<!-- MASKOT ALANI -->
 <div id="mascotChaos" class="hidden">
   <img src="images/floop-mascot.png" alt="Chaos Mascot" class="mascot-popup" />
 </div>
 
-<!-- TREND TOKENLER (BAŞLIKSIZ) -->
+<!-- TREND TOKENLER -->
 <section class="trend-token-list" id="trendTokens">
   <div class="token-card">
     <img src="images/sample1.png" alt="Token" />
@@ -139,11 +171,11 @@
     </div>
   </div>
 </section>
+
 <!-- TOKEN LİSTELEME ALANI -->
 <section class="token-list" id="tokenList">
   <!-- Bu kısım JavaScript ile dinamik olarak doldurulacak -->
 </section>
-
 <!-- WALLET MODAL -->
 <div class="wallet-modal hidden" id="walletModal">
   <div class="wallet-box">
@@ -209,7 +241,7 @@
     menu.classList.toggle("hidden");
   });
 
-  // Kaos başlat
+  // Kaos başlat (form açılır)
   function toggleForm() {
     const mascot = document.getElementById("mascotChaos");
     mascot.classList.remove("hidden");
@@ -243,7 +275,7 @@
     document.getElementById("walletModal").classList.add("hidden");
   }
 
-  // Cüzdan seçimi için modal aç
+  // Wallet seçim modalı aç
   document.getElementById("connectWallet").addEventListener("click", () => {
     document.getElementById("walletModal").classList.remove("hidden");
   });
