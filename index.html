@@ -38,13 +38,15 @@
   </ul>
 </div>
 
-<!-- KAOS BAŞLAT - SVG ALANI -->
-<section class="start-kaos-wrapper">
-  <div class="start-kaos-box" onclick="toggleForm()">
-    <img src="images/icons/cult.png" alt="Chaos" class="start-kaos-icon" />
-    Create Chaos
+<section class="create-chaos-section">
+  <div class="chaos-svg-wrapper" onclick="toggleForm()">
+    <svg viewBox="0 0 200 60" class="chaos-svg">
+      <rect x="1" y="1" width="198" height="58" rx="15" ry="15" class="chaos-rect"/>
+    </svg>
+    <div class="chaos-text">Create the Chaos</div>
   </div>
 </section>
+
 
 <!-- DÖNEN MASKOT -->
 <div id="mascotChaos" class="hidden">
@@ -79,13 +81,6 @@
     <button class="filter-btn">highest market cap</button>
     <button class="filter-btn">top gainers</button>
     <button class="filter-btn">oldest</button>
-  </div>
-</div>
-<!-- KAOS BAŞLAT BUTONU -->
-<div class="start-kaos-wrapper">
-  <div class="start-kaos-box" onclick="startChaos()">
-    <img src="images/icons/cult.png" alt="Create" class="start-kaos-icon" />
-    Create Chaos
   </div>
 </div>
 
