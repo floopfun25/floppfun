@@ -16,11 +16,12 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      margin: 40px auto 20px;
-      width: 220px;
+      margin: 100px auto 40px;
+      width: 240px;
       height: 70px;
       cursor: pointer;
       position: relative;
+      z-index: 2;
     }
     .chaos-svg {
       width: 100%;
@@ -70,7 +71,7 @@
   </ul>
 </div>
 
-<!-- YUKARIDAKİ SVG BUTON -->
+<!-- SVG CREATE THE CHAOS BUTONU -->
 <section class="create-chaos-section">
   <div class="chaos-svg-wrapper" onclick="toggleForm()">
     <svg viewBox="0 0 220 70" class="chaos-svg">
@@ -80,27 +81,57 @@
   </div>
 </section>
 
-<!-- MASKOT ALANI -->
+<!-- MASKOT DÖNME -->
 <div id="mascotChaos" class="hidden">
   <img src="images/floop-mascot.png" alt="Chaos Mascot" class="mascot-popup" />
 </div>
-
-<!-- TREND TOKENLER -->
-<section class="trend-token-list" id="trendTokens">
-  <div class="token-card">
-    <img src="images/sample1.png" alt="Token" />
-    <h3>$CATFLOOP</h3>
-    <p class="meta">F8x3...Kd9 • 2 saat önce</p>
-    <p class="meta">MCAP: $240,000 • Floops: 1,2 bin</p>
-  </div>
-  <div class="token-card">
-    <img src="images/sample2.png" alt="Token" />
-    <h3>$BOOMSHROOM</h3>
-    <p class="meta">W1kz...Dp3 • 3 saat önce</p>
-    <p class="meta">MCAP: $410,000 • Floops: 3,8 bin</p>
+<!-- TREND TOKENLER - YATAY SCROLL -->
+<section class="trend-token-list-horizontal">
+  <div class="scroll-wrapper">
+    <div class="token-card">
+      <img src="images/sample1.png" alt="Token" />
+      <h3>$CATFLOOP</h3>
+      <p class="meta">F8x3...Kd9 • 2 saat önce</p>
+      <p class="meta">MCAP: $240,000 • Floops: 1,2 bin</p>
+    </div>
+    <div class="token-card">
+      <img src="images/sample2.png" alt="Token" />
+      <h3>$BOOMSHROOM</h3>
+      <p class="meta">W1kz...Dp3 • 3 saat önce</p>
+      <p class="meta">MCAP: $410,000 • Floops: 3,8 bin</p>
+    </div>
+    <div class="token-card">
+      <img src="images/sample-token3.png" alt="Token" />
+      <h3>$SOLBABY</h3>
+      <p class="meta">MCAP: $250K • Floops: 990</p>
+    </div>
+    <!-- Daha fazla token kartı JS ile eklenebilir -->
   </div>
 </section>
-<!-- FİLTRE BAR (ilk olan KORUNDU) -->
+
+<style>
+  .trend-token-list-horizontal {
+    overflow-x: auto;
+    padding: 20px 0;
+    margin-top: 20px;
+  }
+  .scroll-wrapper {
+    display: flex;
+    gap: 16px;
+    padding: 0 16px;
+    width: max-content;
+  }
+  .scroll-wrapper .token-card {
+    min-width: 200px;
+    background: #11131b;
+    border-radius: 20px;
+    padding: 16px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+    text-align: center;
+  }
+</style>
+
+<!-- FİLTRE BAR (KORUNAN) -->
 <div class="filter-bar">
   <img src="images/icons/settings.svg" class="filter-icon" />
   <div class="filters">
@@ -150,32 +181,6 @@
     </div>
   </div>
 </section>
-
-<!-- TREND TOKEN ALANI -->
-<section class="trending-chaos">
-  <div class="trending-grid">
-    <div class="trend-token-card">
-      <img src="images/sample-token.png" alt="Token" />
-      <h3>$BOOPDOG</h3>
-      <p>MCAP: $120K • Floops: 780</p>
-    </div>
-    <div class="trend-token-card">
-      <img src="images/sample-token2.png" alt="Token" />
-      <h3>$MEMECAT</h3>
-      <p>MCAP: $350K • Floops: 1102</p>
-    </div>
-    <div class="trend-token-card">
-      <img src="images/sample-token3.png" alt="Token" />
-      <h3>$SOLBABY</h3>
-      <p>MCAP: $250K • Floops: 990</p>
-    </div>
-  </div>
-</section>
-
-<!-- TOKEN LİSTELEME ALANI -->
-<section class="token-list" id="tokenList">
-  <!-- Bu kısım JavaScript ile dinamik olarak doldurulacak -->
-</section>
 <!-- WALLET MODAL -->
 <div class="wallet-modal hidden" id="walletModal">
   <div class="wallet-box">
@@ -222,26 +227,26 @@
 <script src="script.js"></script>
 
 <script>
-  // Glitch efektini kaldır
+  // Glitch efekti kaldır
   window.addEventListener("load", () => {
     setTimeout(() => {
       document.body.classList.remove("intro-glitch");
     }, 700);
   });
 
-  // Arama kutusunu aç/kapat
+  // Arama kutusu toggle
   document.getElementById("searchBtn").addEventListener("click", () => {
     const searchContainer = document.getElementById("searchContainer");
     searchContainer.classList.toggle("hidden");
   });
 
-  // Mobil menü aç/kapat
+  // Menü aç-kapat
   document.getElementById("menuBtn").addEventListener("click", () => {
     const menu = document.getElementById("mobileMenu");
     menu.classList.toggle("hidden");
   });
 
-  // Kaos başlat (form açılır)
+  // Create Chaos buton tıklaması
   function toggleForm() {
     const mascot = document.getElementById("mascotChaos");
     mascot.classList.remove("hidden");
@@ -256,7 +261,7 @@
     }, 2000);
   }
 
-  // Wallet bağlantısı
+  // Wallet bağla
   function connectWallet(walletType) {
     const phantomLink = document.getElementById("phantomLink");
     if (walletType === "phantom") {
@@ -275,11 +280,8 @@
     document.getElementById("walletModal").classList.add("hidden");
   }
 
-  // Wallet seçim modalı aç
+  // Wallet seçim menüsü aç
   document.getElementById("connectWallet").addEventListener("click", () => {
     document.getElementById("walletModal").classList.remove("hidden");
   });
 </script>
-
-</body>
-</html>
