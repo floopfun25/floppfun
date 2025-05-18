@@ -44,28 +44,28 @@
       pointer-events: none;
     }
 
-    /* === Trend Token Alanı Güncel Stil === */
+    /* === Trend Token Alanı Optimize Edildi === */
     .trend-token-list-horizontal {
       overflow-x: auto;
-      padding: 1rem;
-      margin: 1rem auto;
+      padding: 8px 0;
+      margin: 0 auto 16px;
       max-width: 100%;
       backdrop-filter: blur(10px);
     }
     .scroll-wrapper {
       display: flex;
-      gap: 16px;
+      gap: 12px;
       scroll-snap-type: x mandatory;
-      padding-bottom: 0.5rem;
+      padding: 0 12px;
     }
     .token-card {
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 40px;
-      min-width: 180px;
-      padding: 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 30px;
+      min-width: 150px;
+      padding: 10px;
       text-align: center;
       scroll-snap-align: start;
-      box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
       transition: transform 0.3s ease;
       flex-shrink: 0;
     }
@@ -73,19 +73,18 @@
       transform: scale(1.05);
     }
     .token-card img {
-      width: 60px;
-      height: 60px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       object-fit: cover;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
     .token-card h3 {
-      margin: 0;
-      font-size: 1rem;
-      color: #fff;
+      font-size: 0.9rem;
+      margin: 4px 0;
     }
     .token-card .meta {
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       color: #bbb;
     }
   </style>
@@ -131,7 +130,7 @@
   <img src="images/floop-mascot.png" alt="Chaos Mascot" class="mascot-popup" />
 </div>
 
-<!-- TREND TOKENLER - YATAY SCROLL (GÜNCELLENDİ) -->
+<!-- TREND TOKENLER - COMPACT GÖRÜNÜM -->
 <section class="trend-token-list-horizontal">
   <div class="scroll-wrapper">
     <div class="token-card">
@@ -164,45 +163,6 @@
     <button class="filter-btn">oldest</button>
   </div>
 </div>
-
-<!-- FORM SEKTÖRÜ -->
-<section class="token-form-container hidden" id="tokenFormSection">
-  <div class="form-content">
-    <div class="form-image-upload" id="imageUploadBox">
-      Click or Drop Image Here
-      <input type="file" id="tokenImage" accept="image/*" hidden />
-    </div>
-    <div class="form-fields">
-      <input type="text" id="tokenName" placeholder="Token Name" required />
-      <input type="text" id="tokenSymbol" placeholder="Ticker Symbol (e.g. $CHAOS)" required />
-      <textarea id="tokenLore" rows="3" placeholder="Kaos Lore..."></textarea>
-
-      <select id="tokenSocials">
-        <option value="">Add Socials</option>
-        <option value="x">X (Twitter)</option>
-        <option value="telegram">Telegram</option>
-        <option value="website">Website</option>
-      </select>
-
-      <label class="prebuy-checkbox">
-        <input type="checkbox" id="preBuy" />
-        Enable Pre-Buy
-      </label>
-
-      <div class="prebuy-options hidden" id="preBuyOptions">
-        <button type="button" data-percent="1">%1</button>
-        <button type="button" data-percent="5">%5</button>
-        <button type="button" data-percent="10">%10</button>
-        <button type="button" data-percent="100">%MAX</button>
-      </div>
-
-      <p class="cost">pre-buy cost: <span id="cost">0 SOL</span></p>
-
-      <button type="submit" class="connect-btn" id="mintTokenBtn">Launch</button>
-      <p id="formStatus" class="wallet-status"></p>
-    </div>
-  </div>
-</section>
 <!-- WALLET MODAL -->
 <div class="wallet-modal hidden" id="walletModal">
   <div class="wallet-box">
@@ -263,4 +223,49 @@
   });
 
   // Menü aç-kapat
-  document
+  document.getElementById("menuBtn").addEventListener("click", () => {
+    const menu = document.getElementById("mobileMenu");
+    menu.classList.toggle("hidden");
+  });
+
+  // Create Chaos buton tıklaması
+  function toggleForm() {
+    const mascot = document.getElementById("mascotChaos");
+    mascot.classList.remove("hidden");
+
+    setTimeout(() => {
+      mascot.classList.add("spin");
+    }, 100);
+
+    setTimeout(() => {
+      mascot.classList.add("hidden");
+      window.location.href = "create.html";
+    }, 2000);
+  }
+
+  // Wallet bağla
+  function connectWallet(walletType) {
+    const phantomLink = document.getElementById("phantomLink");
+    if (walletType === "phantom") {
+      if (window.solana && window.solana.isPhantom) {
+        window.solana.connect().then(resp => {
+          const pubKey = resp.publicKey.toString();
+          document.getElementById("connectWallet").innerText = `Connected: ${pubKey.slice(0, 4)}...`;
+        }).catch(() => alert("Phantom connection failed"));
+      } else {
+        phantomLink.click();
+      }
+    } else {
+      alert(walletType + " not yet integrated.");
+    }
+
+    document.getElementById("walletModal").classList.add("hidden");
+  }
+
+  // Wallet seçim menüsü aç
+  document.getElementById("connectWallet").addEventListener("click", () => {
+    document.getElementById("walletModal").classList.remove("hidden");
+  });
+</script>
+</body>
+</html>
