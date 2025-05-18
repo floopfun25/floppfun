@@ -301,13 +301,29 @@ html, body {
 
 /* === TOKEN CARD LIST === */
 .token-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 20px;
-  padding: 0 20px 100px;
-  max-width: 1200px;
-  margin: 0 auto;
+  display: flex;
+  overflow-x: auto;
+  gap: 16px;
+  padding: 20px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
 }
+
+.token-card {
+  min-width: 240px;
+  background: #1a1a2e;
+  border-radius: 30px;
+  padding: 16px;
+  color: #fff;
+  scroll-snap-align: start;
+  box-shadow: 0 0 0 transparent;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 
 /* === TOKEN CARD === */
 .token-card {
