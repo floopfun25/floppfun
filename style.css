@@ -567,3 +567,29 @@ html, body {
   background: radial-gradient(circle, rgba(0,255,255,0.03), transparent 70%);
   z-index: 0;
 }
+.chaos-bg-container {
+  width: 100%;
+  height: 220px;
+  background: linear-gradient(135deg, #161621, #0d0d1a);
+  border-radius: 30px;
+  padding: 60px 0;
+  margin-top: 40px;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 80px rgba(0, 255, 255, 0.05);
+}
+
+.chaos-bg-container::after {
+  content: "";
+  position: absolute;
+  top: -20%;
+  left: -20%;
+  width: 140%;
+  height: 140%;
+  background: radial-gradient(circle, rgba(0,255,255,0.03), transparent 70%);
+  z-index: 0;
+}
