@@ -1,5 +1,9 @@
+# Kod durumu sıfırlandığı için CSS dosyasını yeniden oluşturuyorum
+from pathlib import Path
 
-/* === MASKOT INTRO STİLLERİ === */
+# Güncellenmiş CSS içeriği
+updated_css = """
+/* === MASKOT INTRO STİLLERİ (GÜNCELLENMİŞ) === */
 #maskot-intro {
   position: fixed;
   top: 0;
@@ -18,8 +22,10 @@
   width: 80px;
   height: auto;
   margin: 10px;
-  animation: jump 1s infinite;
+  animation: jump 1s infinite !important;
   transform-origin: bottom center;
+  opacity: 1 !important;
+  transform: translateY(0) !important;
 }
 
 .jumper-on-button {
@@ -27,7 +33,7 @@
   bottom: 120px;
   left: 50%;
   transform: translateX(-50%);
-  animation: jump-button 0.8s infinite;
+  animation: jump-button 0.8s infinite !important;
 }
 
 @keyframes jump {
@@ -41,10 +47,17 @@
 }
 
 .fade-out {
-  animation: fadeAway 0.7s forwards;
+  animation: fadeAway 0.7s forwards !important;
 }
 
 @keyframes fadeAway {
   0% { opacity: 1; transform: scale(1); }
   100% { opacity: 0; transform: scale(1.2); }
 }
+"""
+
+# CSS dosyasını oluştur
+file_path = "/mnt/data/maskot-intro-debug.css"
+Path(file_path).write_text(updated_css)
+
+file_path
