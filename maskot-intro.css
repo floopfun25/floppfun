@@ -1,63 +1,44 @@
-# Kod durumu sıfırlandığı için CSS dosyasını yeniden oluşturuyorum
-from pathlib import Path
-
-# Güncellenmiş CSS içeriği
-updated_css = """
-/* === MASKOT INTRO STİLLERİ (GÜNCELLENMİŞ) === */
+/* === ANİMASYONLU MASKOT GİRİŞ === */
 #maskot-intro {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: radial-gradient(circle at center, #0a0a23, #000);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999;
-  pointer-events: none;
+  flex-wrap: wrap;
+  z-index: 99999;
+  transition: opacity 1s ease;
+  animation: introFadeOut 1s ease 4s forwards; /* 5. saniyede kaybolur */
 }
 
 .intro-maskot {
   width: 80px;
   height: auto;
-  margin: 10px;
-  animation: jump 1s infinite !important;
-  transform-origin: bottom center;
-  opacity: 1 !important;
-  transform: translateY(0) !important;
+  margin: 20px;
+  animation: entranceJump 1s ease-in-out infinite;
 }
 
-.jumper-on-button {
-  position: absolute;
-  bottom: 120px;
-  left: 50%;
-  transform: translateX(-50%);
-  animation: jump-button 0.8s infinite !important;
+@keyframes entranceJump {
+  0% { transform: translateY(0) scale(1); }
+  30% { transform: translateY(-20px) scale(1.05); }
+  50% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(0) scale(1); }
 }
 
-@keyframes jump {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-20px); }
+@keyframes introFadeOut {
+  to {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
 }
 
-@keyframes jump-button {
-  0%, 100% { transform: translate(-50%, 0); }
-  50% { transform: translate(-50%, -20px); }
+/* Geri kalan her şey 5 saniye boyunca gizli kalsın */
+body.hide-content main,
+body.hide-content header,
+body.hide-content section,
+body.hide-content nav,
+body.hide-content footer {
+  display: none !important;
 }
-
-.fade-out {
-  animation: fadeAway 0.7s forwards !important;
-}
-
-@keyframes fadeAway {
-  0% { opacity: 1; transform: scale(1); }
-  100% { opacity: 0; transform: scale(1.2); }
-}
-"""
-
-# CSS dosyasını oluştur
-file_path = "/mnt/data/maskot-intro-debug.css"
-Path(file_path).write_text(updated_css)
-
-file_path
