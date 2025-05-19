@@ -11,6 +11,7 @@
   <meta property="og:title" content="Floop.fun - Meme Token Chaos" />
   <meta property="og:image" content="images/preview.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
+  <link rel="stylesheet" href="maskot-intro.css" /> <!-- Maskot intro CSS eklendi -->
   <style>
     .chaos-svg-wrapper {
       display: flex;
@@ -93,9 +94,18 @@
     }
   </style>
 </head>
-<body class="intro-glitch">
-<canvas id="particle-canvas"></canvas>
+<body class="intro-glitch hide-content"> <!-- hide-content eklendi -->
 
+<!-- MASKOT GİRİŞ -->
+<div id="maskot-intro">
+  <img src="images/mascot-red.png" class="intro-maskot">
+  <img src="images/mascot-blue.png" class="intro-maskot">
+  <img src="images/mascot-black.png" class="intro-maskot">
+  <img src="images/mascot-white.png" class="intro-maskot">
+  <img src="images/mascot-cyan.png" class="intro-maskot jumper-on-button">
+</div>
+
+<canvas id="particle-canvas"></canvas>
 <header class="boop-header">
   <div class="boop-left">
     <img src="images/floop-mascot.png" alt="Floop Mascot" class="boop-logo" />
@@ -125,7 +135,7 @@
   </div>
 
   <!-- Parlayan SVG Buton -->
-  <div class="chaos-svg-wrapper" onclick="toggleForm()">
+  <div class="chaos-svg-wrapper" id="create-button" onclick="toggleForm()"> <!-- id eklendi -->
     <svg viewBox="0 0 220 70" class="chaos-svg">
       <defs>
         <linearGradient id="chaosGradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -138,8 +148,6 @@
     <div class="chaos-text">Create the Chaos</div>
   </div>
 </section>
-
-
 <!-- MASKOT DÖNME -->
 <div id="mascotChaos" class="hidden">
   <img src="images/floop-mascot.png" alt="Chaos Mascot" class="mascot-popup" />
@@ -180,6 +188,7 @@
     <button class="filter-btn">oldest</button>
   </div>
 </div>
+
 <!-- WALLET MODAL -->
 <div class="wallet-modal hidden" id="walletModal">
   <div class="wallet-box">
@@ -189,7 +198,6 @@
     <button onclick="connectWallet('backpack')">Backpack</button>
   </div>
 </div>
-
 <!-- PHANTOM MOBİL FALLBACK -->
 <a href="https://phantom.app/ul/browse/https://floopfun25.github.io/floppfun/" id="phantomLink" style="display: none;">Phantom</a>
 
@@ -224,7 +232,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
 <script src="script.js"></script>
-
+<script src="maskot-intro.js"></script> <!-- Maskot intro JS eklendi -->
 <script>
   // Glitch efekti kaldır
   window.addEventListener("load", () => {
