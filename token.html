@@ -36,32 +36,24 @@
     <li><a href="#"><img src="images/icons/chart.svg" class="menu-icon" /> Chart</a></li>
   </ul>
 </div>
+
 <!-- TOKEN DETAY KUTUSU -->
 <section class="token-details-section">
   <div class="token-detail-card">
     <img src="images/sample-token.png" alt="$FLOOPCAT" class="token-detail-img" />
-
     <div class="token-info">
       <h1 class="token-name">$FLOOPCAT</h1>
       <p class="token-symbol">by 7x2d...Lop</p>
       <p class="token-meta">Marketcap: $120K • Floops: 927</p>
-
-      <!-- Kaos Lore -->
       <div class="token-lore">
         <h3>Kaos Lore</h3>
-        <p>
-          $FLOOPCAT is a mischievous meme token born from chaos. It roams the Solana jungles, flipping charts and purring profits.
-        </p>
+        <p>$FLOOPCAT is a mischievous meme token born from chaos. It roams the Solana jungles, flipping charts and purring profits.</p>
       </div>
-
-      <!-- Sosyal Linkler -->
       <div class="token-socials">
         <a href="https://x.com/floopcat" target="_blank" class="connect-btn">X</a>
         <a href="https://t.me/floopcat" target="_blank" class="connect-btn">Telegram</a>
         <a href="https://floopcat.io" target="_blank" class="connect-btn">Website</a>
       </div>
-
-      <!-- Token İşlem Butonları -->
       <div class="token-actions">
         <a href="#" class="connect-btn">Buy on Raydium</a>
         <a href="#" class="connect-btn">Chart</a>
@@ -70,28 +62,95 @@
     </div>
   </div>
 </section>
- <!-- FOOTER NAV -->
+
+<!-- METRICS + CHART -->
+<section class="token-metrics-and-chart">
+  <div class="token-metrics-box">
+    <div class="metric"><strong>Market Cap:</strong> $120,000</div>
+    <div class="metric"><strong>Age:</strong> 3d 14h</div>
+    <div class="metric"><strong>Volume 24h:</strong> $18,431</div>
+    <div class="metric"><strong>Stakers Reward:</strong> $1,203</div>
+  </div>
+  <div class="chart-box">
+    <h3>Live Chart</h3>
+    <div id="chart-placeholder">
+      <img src="images/chart-placeholder.png" alt="Chart" style="width:100%; border-radius:12px; opacity:0.9;" />
+    </div>
+  </div>
+</section>
+<!-- SWAP PANEL -->
+<section class="swap-panel">
+  <div class="swap-box">
+    <div class="swap-tabs">
+      <button class="swap-tab active" id="buyTab">Buy</button>
+      <button class="swap-tab" id="sellTab">Sell</button>
+    </div>
+
+    <div class="swap-form">
+      <label for="swap-amount">Amount</label>
+      <input type="number" id="swap-amount" placeholder="0" min="0" />
+
+      <div class="percent-buttons">
+        <button class="percent-btn">25%</button>
+        <button class="percent-btn">50%</button>
+        <button class="percent-btn">75%</button>
+        <button class="percent-btn">Max</button>
+      </div>
+
+      <div class="swap-details">
+        <p><strong>Min Received:</strong> 0</p>
+        <div class="advanced-toggle" onclick="toggleAdvanced()">Advanced Settings ▼</div>
+        <div class="advanced-settings hidden">
+          <input type="text" placeholder="Slippage (e.g. 0.5%)" />
+        </div>
+      </div>
+
+      <button class="connect-btn">Connect</button>
+    </div>
+  </div>
+</section>
+<!-- RECENT TRANSACTIONS -->
+<section class="transaction-history">
+  <h2>Recent Transactions</h2>
+  <table class="transaction-table">
+    <thead>
+      <tr>
+        <th>Trader</th>
+        <th>Action</th>
+        <th>SOL</th>
+        <th>$FLOOPCAT</th>
+        <th>Time</th>
+        <th>Tx</th>
+      </tr>
+    </thead>
+    <tbody id="transaction-list">
+      <tr>
+        <td>6K7P...f3Tz</td>
+        <td class="buy">Buy</td>
+        <td>0.45</td>
+        <td>12,341,000</td>
+        <td>13s</td>
+        <td><a href="#" target="_blank">↗</a></td>
+      </tr>
+      <tr>
+        <td>9ZZX...pd99</td>
+        <td class="sell">Sell</td>
+        <td>1.12</td>
+        <td>28,900,000</td>
+        <td>2m</td>
+        <td><a href="#" target="_blank">↗</a></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- FOOTER NAV -->
 <nav class="bottom-nav">
-  <a href="index.html" class="nav-link">
-    <img src="images/icons/cult.png" />
-    <span>cults</span>
-  </a>
-  <a href="rewards.html" class="nav-link">
-    <img src="images/icons/rewards.png" />
-    <span>rewards</span>
-  </a>
-  <a href="staking.html" class="nav-link">
-    <img src="images/icons/staking.png" />
-    <span>staking</span>
-  </a>
-  <a href="leaderboard.html" class="nav-link">
-    <img src="images/icons/leaderboard.png" />
-    <span>leaderb.</span>
-  </a>
-  <a href="airdrop.html" class="nav-link">
-    <img src="images/icons/airdrop.png" />
-    <span>airdrop</span>
-  </a>
+  <a href="index.html" class="nav-link"><img src="images/icons/cult.png" /><span>cults</span></a>
+  <a href="rewards.html" class="nav-link"><img src="images/icons/rewards.png" /><span>rewards</span></a>
+  <a href="staking.html" class="nav-link"><img src="images/icons/staking.png" /><span>staking</span></a>
+  <a href="leaderboard.html" class="nav-link"><img src="images/icons/leaderboard.png" /><span>leaderb.</span></a>
+  <a href="airdrop.html" class="nav-link"><img src="images/icons/airdrop.png" /><span>airdrop</span></a>
 </nav>
 
 <!-- MUTE BUTTON -->
@@ -107,15 +166,50 @@
 <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
 <script src="script.js"></script>
 
-<!-- INLINE INIT -->
+<!-- INLINE INIT + JS İşlevleri -->
 <script>
   window.addEventListener("load", () => {
     setTimeout(() => {
       document.body.classList.remove("intro-glitch");
     }, 700);
   });
+
+  // Sekmeler
+  document.getElementById("buyTab").addEventListener("click", () => {
+    document.getElementById("buyTab").classList.add("active");
+    document.getElementById("sellTab").classList.remove("active");
+  });
+
+  document.getElementById("sellTab").addEventListener("click", () => {
+    document.getElementById("sellTab").classList.add("active");
+    document.getElementById("buyTab").classList.remove("active");
+  });
+
+  // % Butonlar
+  const percentButtons = document.querySelectorAll(".percent-btn");
+  const amountInput = document.getElementById("swap-amount");
+  percentButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      let percent = btn.textContent.replace("%", "");
+      let mockBalance = 100;
+      let result = (mockBalance * (parseInt(percent) / 100)).toFixed(2);
+      amountInput.value = result;
+    });
+  });
+
+  // Advanced toggle
+  function toggleAdvanced() {
+    const adv = document.querySelector(".advanced-settings");
+    adv.classList.toggle("hidden");
+  }
+
+  // Connect Simülasyonu
+  document.querySelectorAll(".connect-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      alert("Connecting wallet... (simulated)");
+    });
+  });
 </script>
 
 </body>
 </html>
- 
