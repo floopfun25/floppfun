@@ -17,7 +17,7 @@
       min-height: 100vh;
     }
 
-    /* Arka plana saydam Floop görseli */
+    /* Saydam floop arka plan */
     body::before {
       content: "";
       background: url('images/floop-bg.png') no-repeat center center/cover;
@@ -114,6 +114,16 @@
       cursor: pointer;
     }
 
+    .social-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .social-row input {
+      flex: 1;
+    }
+
     @media (max-width: 800px) {
       .form-grid {
         grid-template-columns: 1fr;
@@ -130,8 +140,12 @@
 </div>
 
 <div class='modal-overlay' onclick='closeForm()' style='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:5;'></div>
+
 <div class="form-container" id="formContainer">
+  <!-- Geri tuşu -->
   <button onclick="goBack()" style="position:absolute;top:10px;left:15px;font-size:22px;background:none;border:none;color:white;cursor:pointer;">←</button>
+
+  <!-- Kapatma tuşu -->
   <button onclick="closeForm()" style="position:absolute;top:10px;right:15px;font-size:24px;background:none;border:none;color:white;cursor:pointer;">×</button>
 
   <h2>start a chaos</h2>
@@ -177,6 +191,7 @@
   </div>
 
   <div class="form-footer">
+    <!-- Pre-buy -->
     <div class="prebuy-section">
       <div class="prebuy-toggle" onclick="togglePrebuy()">
         <label>pre-buy <small>(optional)</small></label>
@@ -184,15 +199,16 @@
       </div>
       <div id="prebuyOptions" class="prebuy-options">
         <div class="prebuy-buttons">
-          <button onclick="setPrebuy(this, 1)">1%</button>
-          <button onclick="setPrebuy(this, 5)">5%</button>
-          <button onclick="setPrebuy(this, 10)">10%</button>
-          <button onclick="setPrebuy(this, 100)">max</button>
+          <button type="button" onclick="setPrebuy(this, 1)">1%</button>
+          <button type="button" onclick="setPrebuy(this, 5)">5%</button>
+          <button type="button" onclick="setPrebuy(this, 10)">10%</button>
+          <button type="button" onclick="setPrebuy(this, 100)">max</button>
         </div>
         <div style="margin-top:10px;">pre-buy cost: <b id="cost"><span class="notranslate">0 SOL</span></b> $0.00</div>
       </div>
     </div>
 
+    <!-- Sosyal medya -->
     <div>
       <label>add socials</label>
       <select id="socialSelect">
@@ -204,168 +220,100 @@
         <option value="discord">Discord</option>
         <option value="website">Website</option>
       </select>
-      <div id="socialContainer"></div>
+      <div id="socialContainer" style="margin-top:10px;"></div>
+      <button type="button" onclick="saveSocials()" class="connect-btn" style="margin-top:10px;">Save Socials</button>
     </div>
 
+    <!-- Phantom bağlantısı -->
     <button class="connect-btn">connect</button>
 
-    <!-- Launch Chaos Butonu -->
-    <button onclick="launchChaos()" class="connect-btn" style="background:#0f0; color:#000;">Launch Chaos</button>
+    <!-- Launch Chaos: ortalanmış büyük buton -->
+    <div style="text-align:center; margin-top:20px;">
+      <button onclick="launchChaos()" class="connect-btn" style="background:#0f0; color:#000; font-weight:bold; padding:14px 30px; font-size:16px;">Launch Chaos</button>
+    </div>
   </div>
 </div>
-<script>
-  function goBack() {
-    if (window.location.pathname.includes("create.html")) {
-      window.location.href = "index.html";
-    } else {
-      closeForm();
-    }
-  }
+  <div class="form-grid">
+    <div class="form-group">
+      <label>image upload *</label>
+      <label class="upload-box" id="uploadBox" for="imageInput">
+        <span id="uploadText">click to upload<br><small>max size: 5mb</small><br><small>formats: .jpg, .jpeg, .png, .gif, .webp, .svg</small></span>
+        <img id="previewImg" style="display:none;" />
+      </label>
+      <input type="file" id="imageInput" accept=".jpg,.jpeg,.png,.gif,.webp,.svg" style="display:none;">
+    </div>
 
-  function closeForm() {
-    const form = document.getElementById("formContainer");
-    const overlay = document.querySelector(".modal-overlay");
-    if (form) form.style.display = "none";
-    if (overlay) overlay.style.display = "none";
-    if (history.state && history.state.formOpen) {
-      history.back();
-    }
-  }
+    <div class="form-group">
+      <label>token name *</label>
+      <input type="text" maxlength="32" placeholder="My Token Name">
 
-  window.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") closeForm();
-  });
+      <label style="margin-top:10px;">ticker symbol *</label>
+      <input type="text" maxlength="10" placeholder="$ TICKER">
 
-  window.addEventListener("popstate", function (event) {
-    if (event.state && event.state.formOpen) closeForm();
-  });
+      <label style="margin-top:10px;">total supply *</label>
+      <input type="text" maxlength="18" placeholder="e.g. 1000000">
 
-  window.onload = function () {
-    history.pushState({ formOpen: true }, "", "#create");
-  };
+      <label style="margin-top:10px;">developer share (%) *</label>
+      <input type="number" placeholder="e.g. 10" />
 
-  // Pre-buy
-  function togglePrebuy() {
-    const sw = document.getElementById('prebuySwitch');
-    const box = document.getElementById('prebuyOptions');
-    sw.classList.toggle('active');
-    const show = sw.classList.contains('active');
-    box.style.display = show ? 'block' : 'none';
-    box.classList.toggle('active', show);
-  }
+      <label style="margin-top:10px;">lock % of dev share</label>
+      <input type="number" placeholder="e.g. 3" />
 
-  function setPrebuy(button, percent) {
-    document.querySelectorAll('.prebuy-buttons button').forEach(b => b.classList.remove('active'));
-    button.classList.add('active');
-    let sol = percent === 100 ? 25 : percent;
-    document.getElementById('cost').innerHTML = `<span class="notranslate">${sol} SOL</span>`;
-  }
+      <label style="margin-top:10px;">lock duration</label>
+      <select id="lockDuration">
+        <option value="">-- select --</option>
+        <option value="1m">1 Month</option>
+        <option value="3m">3 Months</option>
+        <option value="1y">1 Year</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input type="number" id="customLock" placeholder="Enter days" style="display:none; margin-top:10px;">
 
-  // Lock Süresi
-  document.getElementById("lockDuration").addEventListener("change", function () {
-    document.getElementById("customLock").style.display = this.value === "custom" ? "block" : "none";
-  });
+      <label style="margin-top:10px;">kaos lore *</label>
+      <textarea maxlength="512" placeholder="write a little about your chaos"></textarea>
+    </div>
+  </div>
 
-  // Görsel yükleme
-  const uploadBox = document.getElementById('uploadBox');
-  const imageInput = document.getElementById('imageInput');
-  const preview = document.getElementById('previewImg');
-  const uploadText = document.getElementById('uploadText');
+  <div class="form-footer">
+    <!-- === PRE-BUY DÜZENLİ === -->
+    <div class="prebuy-section">
+      <div class="prebuy-toggle" onclick="togglePrebuy()">
+        <label>pre-buy <small>(optional)</small></label>
+        <div id="prebuySwitch" class="toggle-switch"></div>
+      </div>
+      <div id="prebuyOptions" class="prebuy-options">
+        <div class="prebuy-buttons">
+          <button type="button" onclick="setPrebuy(this, 1)">1%</button>
+          <button type="button" onclick="setPrebuy(this, 5)">5%</button>
+          <button type="button" onclick="setPrebuy(this, 10)">10%</button>
+          <button type="button" onclick="setPrebuy(this, 100)">max</button>
+        </div>
+        <div style="margin-top:10px;">pre-buy cost: <b id="cost"><span class="notranslate">0 SOL</span></b> $0.00</div>
+      </div>
+    </div>
 
-  function handleFile(file) {
-    if (file && file.size <= 5 * 1024 * 1024 && file.type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = e => {
-        preview.src = e.target.result;
-        preview.style.display = 'block';
-        uploadText.style.display = 'none';
-      };
-      reader.readAsDataURL(file);
-    } else {
-      alert("File too large or invalid.");
-    }
-  }
+    <!-- === SOSYAL MEDYA ÇOKLU + KAYDET TUŞU === -->
+    <div>
+      <label>add socials</label>
+      <select id="socialSelect">
+        <option value="">-- select --</option>
+        <option value="x">X (Twitter)</option>
+        <option value="facebook">Facebook</option>
+        <option value="instagram">Instagram</option>
+        <option value="tiktok">TikTok</option>
+        <option value="discord">Discord</option>
+        <option value="website">Website</option>
+      </select>
+      <div id="socialContainer" style="margin-top:10px;"></div>
+      <button type="button" onclick="saveSocials()" class="connect-btn" style="margin-top:10px;">Save Socials</button>
+    </div>
 
-  uploadBox.addEventListener('dragover', e => {
-    e.preventDefault();
-    uploadBox.style.borderColor = '#0f0';
-  });
+    <!-- === PHANTOM WALLET BAĞLANTI (DEĞİŞMEDİ) === -->
+    <button class="connect-btn">connect</button>
 
-  uploadBox.addEventListener('dragleave', () => {
-    uploadBox.style.borderColor = '#444';
-  });
-
-  uploadBox.addEventListener('drop', e => {
-    e.preventDefault();
-    uploadBox.style.borderColor = '#444';
-    const file = e.dataTransfer.files[0];
-    handleFile(file);
-  });
-
-  imageInput.addEventListener('change', function () {
-    handleFile(this.files[0]);
-  });
-
-  // Sosyal Medya Çoklu Kayıt
-  document.getElementById('socialSelect').addEventListener('change', function () {
-    const value = this.value;
-    if (!value) return;
-
-    const container = document.getElementById('socialContainer');
-    if (container.querySelector(`#social-${value}`)) return;
-
-    const row = document.createElement('div');
-    row.className = 'social-row';
-    row.id = `social-${value}`;
-    row.innerHTML = `
-      <input type="text" placeholder="${value} link" name="social-${value}" />
-      <button onclick="this.parentElement.remove()" style="background:#222;color:#fff;border:none;padding:4px 10px;border-radius:6px;cursor:pointer;">×</button>
-    `;
-    container.appendChild(row);
-    this.value = "";
-  });
-
-  // Phantom Wallet
-  async function connectWallet() {
-    if (window.solana && window.solana.isPhantom) {
-      try {
-        const resp = await window.solana.connect();
-        const btn = document.querySelector('.connect-btn');
-        btn.innerText = "Connected: " + resp.publicKey.toString().slice(0, 6) + "...";
-        btn.disabled = true;
-        btn.style.background = "#0f0";
-        btn.style.color = "#000";
-      } catch (err) {
-        alert("Wallet connection failed");
-      }
-    } else {
-      alert("Phantom wallet not found.");
-      window.open("https://phantom.app", "_blank");
-    }
-  }
-
-  document.querySelector(".connect-btn").addEventListener("click", connectWallet);
-
-  // Launch Chaos: Cam kırma + maskot
-  function launchChaos() {
-    const chaos = document.getElementById("chaosEffect");
-    const mascot = document.getElementById("chaosMascot");
-    const crack = document.getElementById("glassCrack");
-
-    chaos.style.display = "block";
-    mascot.style.top = "40%";
-
-    setTimeout(() => {
-      crack.style.display = "block";
-    }, 500);
-
-    setTimeout(() => {
-      chaos.style.display = "none";
-      mascot.style.top = "-100px";
-      crack.style.display = "none";
-      alert("Kaos başlatıldı!");
-    }, 2000);
-  }
-</script>
-</body>
-</html>
+    <!-- === ORTALANMIŞ LAUNCH CHAOS BUTONU === -->
+    <div style="text-align:center; margin-top:20px;">
+      <button onclick="launchChaos()" class="connect-btn" style="background:#0f0; color:#000; font-weight:bold; padding:14px 30px; font-size:16px;">Launch Chaos</button>
+    </div>
+  </div>
+</div>
