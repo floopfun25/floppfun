@@ -30,20 +30,39 @@
       opacity: 0;
     }
 
-    /* === FORM AÇILIŞ ANİMASYONU === */
+    /* === GİRİŞ ANİMASYONLARI === */
     @keyframes fadeSlideIn {
-      0% {
-        opacity: 0;
-        transform: translateY(50px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      0% { opacity: 0; transform: translateY(50px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
-
     .form-container.animate-in {
       animation: fadeSlideIn 0.8s ease-out forwards;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-5px); }
+      40%, 80% { transform: translateX(5px); }
+    }
+    .form-container.shake {
+      animation: shake 0.6s;
+    }
+
+    .mascot-spin {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 120px;
+      height: 120px;
+      z-index: 1000;
+      animation: rotateMascot 1.2s ease-out forwards;
+      pointer-events: none;
+    }
+    @keyframes rotateMascot {
+      0% { transform: translate(-50%, -50%) rotate(0deg); opacity: 0; }
+      30% { opacity: 1; }
+      100% { transform: translate(-50%, -50%) rotate(360deg); opacity: 0; }
     }
 
     h2 {
@@ -183,6 +202,7 @@
       padding: 10px;
       box-shadow: 0 0 10px rgba(0,255,0,0.2);
     }
+
     .prebuy-buttons {
       display: flex;
       gap: 10px;
@@ -296,7 +316,7 @@
       <label style="margin-top:10px;">kaos lore *</label>
       <textarea maxlength="512" placeholder="write a little about your chaos"></textarea>
 
-      <!-- LAUNCH CHAOS BUTTON -->
+      <!-- Launch Chaos Button -->
       <button class="launch-btn">Launch Chaos</button>
     </div>
   </div>
@@ -337,6 +357,10 @@
     <button class="connect-btn">connect</button>
   </div>
 </div>
+
+<!-- Maskot ve ses -->
+<img src="images/mascot-spin.gif" id="mascotSpin" class="mascot-spin" style="display:none;" />
+<audio id="glassBreak" src="sounds/glass-break.mp3" preload="auto"></audio>
 <script>
   // === Geri Tuşu ===
   function goBack() {
@@ -370,12 +394,28 @@
     }
   });
 
-  // === Form Açılışta Animasyonla Görünsün ===
+  // === Form Açılışta Animasyon + Efektler ===
   window.onload = function () {
     history.pushState({ formOpen: true }, "", "#create");
+
     const form = document.getElementById("formContainer");
+    const mascot = document.getElementById("mascotSpin");
+    const audio = document.getElementById("glassBreak");
+
     if (form) {
       form.classList.add("animate-in");
+
+      if (mascot) mascot.style.display = "block";
+      if (audio) audio.play().catch(() => {});
+
+      setTimeout(() => {
+        form.classList.add("shake");
+        setTimeout(() => form.classList.remove("shake"), 600);
+      }, 600);
+
+      setTimeout(() => {
+        if (mascot) mascot.style.display = "none";
+      }, 1400);
     }
   };
 
@@ -481,7 +521,5 @@
 
   document.querySelector(".connect-btn").addEventListener("click", connectWallet);
 </script>
-  <img src="images/mascot-spin.gif" id="mascotSpin" class="mascot-spin" style="display:none;" />
-<audio id="glassBreak" src="sounds/glass-break.mp3" preload="auto"></audio>
 </body>
 </html>
