@@ -9,9 +9,9 @@
   flex-wrap: wrap;
   z-index: 99999;
   transition: opacity 1s ease;
-  animation: introFadeOut 1s ease 4s forwards; /* 5. saniyede kaybolur */
 }
 
+/* Maskot karakter stili */
 .intro-maskot {
   width: 80px;
   height: auto;
@@ -19,6 +19,7 @@
   animation: entranceJump 1s ease-in-out infinite;
 }
 
+/* Zıplama animasyonu */
 @keyframes entranceJump {
   0% { transform: translateY(0) scale(1); }
   30% { transform: translateY(-20px) scale(1.05); }
@@ -26,6 +27,7 @@
   100% { transform: translateY(0) scale(1); }
 }
 
+/* Kapanış animasyonu (JS tetikleyecek) */
 @keyframes introFadeOut {
   to {
     opacity: 0;
@@ -34,7 +36,27 @@
   }
 }
 
-/* Geri kalan her şey 5 saniye boyunca gizli kalsın */
+/* Atla Butonu */
+#skip-intro {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  padding: 10px 20px;
+  background: #ffffff20;
+  border: 1px solid #fff;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 5px;
+  backdrop-filter: blur(5px);
+  transition: background 0.3s ease;
+}
+
+#skip-intro:hover {
+  background: #ffffff40;
+}
+
+/* Sayfa içeriğini gizle */
 body.hide-content main,
 body.hide-content header,
 body.hide-content section,
