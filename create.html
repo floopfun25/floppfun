@@ -15,18 +15,21 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
+      overflow: hidden;
+      position: relative;
     }
 
-    /* Floop arka plan */
     body::before {
       content: "";
-      background: url('images/floop-bg.png') no-repeat center center/cover;
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      opacity: 0.05;
+      background-image: url('images/floop-bg-overlay.png');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.08;
       z-index: 0;
     }
 
@@ -114,16 +117,6 @@
       cursor: pointer;
     }
 
-    .social-row {
-      display: flex;
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    .social-row input {
-      flex: 1;
-    }
-
     @media (max-width: 800px) {
       .form-grid {
         grid-template-columns: 1fr;
@@ -132,106 +125,103 @@
   </style>
 </head>
 <body>
+  <div class='modal-overlay' onclick='closeForm()' style='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:5;'></div>
+  <div class="form-container" id="formContainer">
+    <!-- Back Button -->
+    <button onclick="goBack()" style="position:absolute;top:10px;left:15px;font-size:22px;background:none;border:none;color:white;cursor:pointer;">←</button>
 
-<!-- Cam kırma efekti -->
-<div id="chaosEffect" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;z-index:999;background:rgba(0,0,0,0.6);">
-  <img src="images/maskot-white.png" id="chaosMascot" style="position:absolute;width:80px;top:-100px;left:50%;transform:translateX(-50%);transition:top 0.6s ease-out;">
-  <img src="images/glass-crack.png" id="glassCrack" style="display:none;position:absolute;width:200px;top:40%;left:50%;transform:translateX(-50%);">
-</div>
+    <!-- Close Button -->
+    <button onclick="closeForm()" style="position:absolute;top:10px;right:15px;font-size:24px;background:none;border:none;color:white;cursor:pointer;">×</button>
 
-<div class='modal-overlay' onclick='closeForm()' style='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:5;'></div>
-
-<div class="form-container" id="formContainer">
-  <button onclick="goBack()" style="position:absolute;top:10px;left:15px;font-size:22px;background:none;border:none;color:white;cursor:pointer;">←</button>
-  <button onclick="closeForm()" style="position:absolute;top:10px;right:15px;font-size:24px;background:none;border:none;color:white;cursor:pointer;">×</button>
-
-  <h2>start a chaos</h2>
-  <div class="form-grid">
-    <div class="form-group">
-      <label>image upload *</label>
-      <label class="upload-box" id="uploadBox" for="imageInput">
-        <span id="uploadText">click to upload<br><small>max size: 5mb</small><br><small>formats: .jpg, .jpeg, .png, .gif, .webp, .svg</small></span>
-        <img id="previewImg" style="display:none;" />
-      </label>
-      <input type="file" id="imageInput" accept=".jpg,.jpeg,.png,.gif,.webp,.svg" style="display:none;">
-    </div>
-
-    <div class="form-group">
-      <label>token name *</label>
-      <input type="text" maxlength="32" placeholder="My Token Name">
-
-      <label style="margin-top:10px;">ticker symbol *</label>
-      <input type="text" maxlength="10" placeholder="$ TICKER">
-
-      <label style="margin-top:10px;">total supply *</label>
-      <input type="text" maxlength="18" placeholder="e.g. 1000000">
-
-      <label style="margin-top:10px;">developer share (%) *</label>
-      <input type="number" placeholder="e.g. 10" />
-
-      <label style="margin-top:10px;">lock % of dev share</label>
-      <input type="number" placeholder="e.g. 3" />
-
-      <label style="margin-top:10px;">lock duration</label>
-      <select id="lockDuration">
-        <option value="">-- select --</option>
-        <option value="1m">1 Month</option>
-        <option value="3m">3 Months</option>
-        <option value="1y">1 Year</option>
-        <option value="custom">Custom</option>
-      </select>
-      <input type="number" id="customLock" placeholder="Enter days" style="display:none; margin-top:10px;">
-
-      <label style="margin-top:10px;">kaos lore *</label>
-      <textarea maxlength="512" placeholder="write a little about your chaos"></textarea>
-    </div>
-  </div>
-
-  <div class="form-footer">
-    <!-- Pre-buy -->
-    <div class="prebuy-section">
-      <div class="prebuy-toggle" onclick="togglePrebuy()">
-        <label>pre-buy <small>(optional)</small></label>
-        <div id="prebuySwitch" class="toggle-switch"></div>
+    <h2>Start a Chaos</h2>
+    <div class="form-grid">
+      <!-- Image Upload -->
+      <div class="form-group">
+        <label>Image Upload *</label>
+        <label class="upload-box" id="uploadBox" for="imageInput">
+          <span id="uploadText">Click to upload<br><small>Max size: 5MB</small><br><small>Formats: .jpg, .jpeg, .png, .gif, .webp, .svg</small></span>
+          <img id="previewImg" style="display:none;" />
+        </label>
+        <input type="file" id="imageInput" accept=".jpg,.jpeg,.png,.gif,.webp,.svg" style="display:none;">
       </div>
-      <div id="prebuyOptions" class="prebuy-options">
-        <div class="prebuy-buttons">
-          <button type="button" onclick="setPrebuy(this, 1)">1%</button>
-          <button type="button" onclick="setPrebuy(this, 5)">5%</button>
-          <button type="button" onclick="setPrebuy(this, 10)">10%</button>
-          <button type="button" onclick="setPrebuy(this, 100)">max</button>
+
+      <!-- Token Info -->
+      <div class="form-group">
+        <label>Token Name *</label>
+        <input type="text" maxlength="32" placeholder="My Token Name">
+
+        <label style="margin-top:10px;">Ticker Symbol *</label>
+        <input type="text" maxlength="10" placeholder="$TICKER">
+
+        <label style="margin-top:10px;">Total Supply *</label>
+        <input type="text" maxlength="18" placeholder="e.g. 1000000">
+
+        <label style="margin-top:10px;">Developer Share (%) *</label>
+        <input type="number" placeholder="e.g. 10" />
+
+        <label style="margin-top:10px;">Lock % of Dev Share</label>
+        <input type="number" placeholder="e.g. 3" />
+
+        <label style="margin-top:10px;">Lock Duration</label>
+        <select id="lockDuration">
+          <option value="">-- Select --</option>
+          <option value="1m">1 Month</option>
+          <option value="3m">3 Months</option>
+          <option value="1y">1 Year</option>
+          <option value="custom">Custom</option>
+        </select>
+        <input type="number" id="customLock" placeholder="Enter days" style="display:none; margin-top:10px;">
+
+        <label style="margin-top:10px;">Chaos Lore *</label>
+        <textarea maxlength="512" placeholder="Write a little about your chaos"></textarea>
+      </div>
+    </div>
+
+    <!-- Launch Chaos Button -->
+    <div style="display: flex; justify-content: center; margin-top: -10px;">
+      <button type="submit" style="background: #fff; color: #000; font-weight: bold; padding: 12px 24px; border: none; border-radius: 12px; font-size: 16px; cursor: pointer;">
+        Launch Chaos
+      </button>
+    </div>
+    <div class="form-footer">
+      <!-- Pre-buy Section -->
+      <div class="prebuy-section">
+        <div class="prebuy-toggle" onclick="togglePrebuy()">
+          <label>Pre-buy <small>(optional)</small></label>
+          <div id="prebuySwitch" class="toggle-switch"></div>
         </div>
-        <div style="margin-top:10px;">pre-buy cost: <b id="cost"><span class="notranslate">0 SOL</span></b> $0.00</div>
+        <div id="prebuyOptions" class="prebuy-options">
+          <div class="prebuy-buttons">
+            <button onclick="setPrebuy(this, 1)">1%</button>
+            <button onclick="setPrebuy(this, 5)">5%</button>
+            <button onclick="setPrebuy(this, 10)">10%</button>
+            <button onclick="setPrebuy(this, 100)">Max</button>
+          </div>
+          <div style="margin-top:10px;">Pre-buy cost: <b id="cost"><span class="notranslate">0 SOL</span></b> $0.00</div>
+        </div>
       </div>
-    </div>
 
-    <!-- Sosyal medya -->
-    <div>
-      <label>add socials</label>
-      <select id="socialSelect">
-        <option value="">-- select --</option>
-        <option value="x">X (Twitter)</option>
-        <option value="facebook">Facebook</option>
-        <option value="instagram">Instagram</option>
-        <option value="tiktok">TikTok</option>
-        <option value="discord">Discord</option>
-        <option value="website">Website</option>
-      </select>
-      <div id="socialContainer" style="margin-top:10px;"></div>
-      <button type="button" onclick="saveSocials()" class="connect-btn" style="margin-top:10px;">Save Socials</button>
-    </div>
+      <!-- Social Media Section -->
+      <div>
+        <label>Add Social Links</label>
+        <select id="socialSelect">
+          <option value="">-- Select --</option>
+          <option value="x">X (Twitter)</option>
+          <option value="facebook">Facebook</option>
+          <option value="instagram">Instagram</option>
+          <option value="tiktok">TikTok</option>
+          <option value="discord">Discord</option>
+          <option value="website">Website</option>
+        </select>
+        <div id="socialContainer" style="margin-top: 10px;"></div>
+      </div>
 
-    <!-- Phantom bağlantısı -->
-    <button class="connect-btn">connect</button>
-
-    <!-- Launch Chaos -->
-    <div style="text-align:center; margin-top:20px;">
-      <button onclick="launchChaos()" class="connect-btn" style="background:#0f0; color:#000; font-weight:bold; padding:14px 30px; font-size:16px;">Launch Chaos</button>
+      <!-- Connect Wallet -->
+      <button class="connect-btn">Connect</button>
     </div>
-  </div>
-</div>
+  </div> <!-- .form-container sonu -->
 <script>
-  // === Geri Tuşu ===
+  // Go Back
   function goBack() {
     if (window.location.pathname.includes("create.html")) {
       window.location.href = "index.html";
@@ -240,7 +230,7 @@
     }
   }
 
-  // === Form Kapatma ===
+  // Close Form
   function closeForm() {
     const form = document.getElementById("formContainer");
     const overlay = document.querySelector(".modal-overlay");
@@ -252,18 +242,22 @@
   }
 
   window.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") closeForm();
+    if (e.key === "Escape") {
+      closeForm();
+    }
   });
 
   window.addEventListener("popstate", function (event) {
-    if (event.state && event.state.formOpen) closeForm();
+    if (event.state && event.state.formOpen) {
+      closeForm();
+    }
   });
 
   window.onload = function () {
     history.pushState({ formOpen: true }, "", "#create");
   };
 
-  // === Prebuy ===
+  // === Pre-buy Toggle ===
   function togglePrebuy() {
     const sw = document.getElementById('prebuySwitch');
     const box = document.getElementById('prebuyOptions');
@@ -280,12 +274,12 @@
     document.getElementById('cost').innerHTML = `<span class="notranslate">${sol} SOL</span>`;
   }
 
-  // === Lock Süresi ===
+  // === Lock Duration Custom Input ===
   document.getElementById("lockDuration").addEventListener("change", function () {
     document.getElementById("customLock").style.display = this.value === "custom" ? "block" : "none";
   });
 
-  // === Upload Görsel ===
+  // === Drag & Drop Upload ===
   const uploadBox = document.getElementById('uploadBox');
   const imageInput = document.getElementById('imageInput');
   const preview = document.getElementById('previewImg');
@@ -324,8 +318,7 @@
   imageInput.addEventListener('change', function () {
     handleFile(this.files[0]);
   });
-
-  // === Sosyal Medya ===
+  // === Social Media Inputs with Save ===
   document.getElementById('socialSelect').addEventListener('change', function () {
     const value = this.value;
     if (!value) return;
@@ -338,26 +331,15 @@
     row.id = `social-${value}`;
     row.innerHTML = `
       <input type="text" placeholder="${value} link" name="social-${value}" />
-      <button onclick="this.parentElement.remove()" style="background:#222;color:#fff;border:none;padding:4px 10px;border-radius:6px;cursor:pointer;">×</button>
+      <button onclick="alert('Saved!')" style="background:#0f0;color:#000;border:none;padding:4px 10px;border-radius:6px;cursor:pointer;font-weight:bold;">Save</button>
+      <button onclick="this.parentElement.remove()" style="background:#222;color:#fff;border:none;padding:4px 10px;border-radius:6px;cursor:pointer;margin-left:6px;">×</button>
     `;
     container.appendChild(row);
     this.value = "";
   });
 
-  function saveSocials() {
-    const inputs = document.querySelectorAll('#socialContainer input');
-    let socials = {};
-    inputs.forEach(input => {
-      if (input.value.trim()) {
-        socials[input.name] = input.value.trim();
-      }
-    });
-    console.log("Saved Socials:", socials);
-    alert("Social media links saved!");
-  }
-
-  // === Phantom Wallet ===
-  document.querySelector(".connect-btn").addEventListener("click", async () => {
+  // === Phantom Wallet Connect ===
+  async function connectWallet() {
     if (window.solana && window.solana.isPhantom) {
       try {
         const resp = await window.solana.connect();
@@ -373,24 +355,9 @@
       alert("Phantom wallet not found.");
       window.open("https://phantom.app", "_blank");
     }
-  });
-
-  // === Launch Chaos ===
-  function launchChaos() {
-    const chaos = document.getElementById("chaosEffect");
-    const mascot = document.getElementById("chaosMascot");
-    const glass = document.getElementById("glassCrack");
-    chaos.style.display = "block";
-    mascot.style.top = "40%";
-    setTimeout(() => {
-      glass.style.display = "block";
-    }, 500);
-    setTimeout(() => {
-      chaos.style.display = "none";
-      glass.style.display = "none";
-      mascot.style.top = "-100px";
-    }, 1500);
   }
+
+  document.querySelector(".connect-btn").addEventListener("click", connectWallet);
 </script>
 </body>
 </html>
