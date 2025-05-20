@@ -520,6 +520,44 @@
   }
 
   document.querySelector(".connect-btn").addEventListener("click", connectWallet);
+    // === FORM VERİLERİNİ TOPLAYIP KONSOLA YAZ ===
+  async function submitForm() {
+    const tokenName = document.querySelector('input[placeholder="My Token Name"]').value;
+    const ticker = document.querySelector('input[placeholder="$ TICKER"]').value;
+    const supply = document.querySelector('input[placeholder="e.g. 1000000"]').value;
+    const devShare = document.querySelector('input[placeholder="e.g. 10"]').value;
+    const lockPercent = document.querySelector('input[placeholder="e.g. 3"]').value;
+    const lockDuration = document.getElementById("lockDuration").value;
+    const customDays = document.getElementById("customLock").value;
+    const lore = document.querySelector('textarea').value;
+
+    const socials = [];
+    document.querySelectorAll("#socialContainer input").forEach(input => {
+      socials.push({ platform: input.name.replace("social-", ""), url: input.value });
+    });
+
+    let prebuyPercent = null;
+    const activeBtn = document.querySelector(".prebuy-buttons button.active");
+    if (activeBtn) {
+      prebuyPercent = activeBtn.innerText.replace("%", "") === "max" ? 100 : parseInt(activeBtn.innerText);
+    }
+
+    console.log("Form verileri:", {
+      tokenName,
+      ticker,
+      supply,
+      devShare,
+      lockPercent,
+      lockDuration: lockDuration === "custom" ? customDays + " gün" : lockDuration,
+      lore,
+      socials,
+      prebuyPercent
+    });
+
+    alert("Form verileri konsola yazıldı. Supabase bağlantısı yakında!");
+  }
+
+  document.querySelector(".launch-btn").addEventListener("click", submitForm);
 </script>
 </body>
 </html>
