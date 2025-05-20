@@ -317,7 +317,8 @@
       <textarea maxlength="512" placeholder="write a little about your chaos"></textarea>
 
       <!-- Launch Chaos Button -->
-      <button class="launch-btn">Launch Chaos</button>
+      <button class="launch-btn" onclick="submitForm()">Launch Chaos</button>
+
     </div>
   </div>
   <div class="form-footer">
@@ -592,5 +593,14 @@
 }
 
 </script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script>
+  const supabase = supabase.createClient(
+    "https://mlczuanztnqcngioayas.supabase.co",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  );
+</script>
+
+ 
 </body>
 </html>
