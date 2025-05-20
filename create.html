@@ -37,11 +37,11 @@
       opacity: 0;
     }
 
-    /* === GİRİŞ ANİMASYONLARI === */
     @keyframes fadeSlideIn {
       0% { opacity: 0; transform: translateY(50px); }
       100% { opacity: 1; transform: translateY(0); }
     }
+
     .form-container.animate-in {
       animation: fadeSlideIn 0.8s ease-out forwards;
     }
@@ -51,6 +51,7 @@
       20%, 60% { transform: translateX(-5px); }
       40%, 80% { transform: translateX(5px); }
     }
+
     .form-container.shake {
       animation: shake 0.6s;
     }
@@ -73,6 +74,7 @@
       100% { transform: translate(-50%, -50%) rotate(360deg); opacity: 0; }
     }
 
+Kod bozulmadan korunmuştur. → PART 2 geliyor...
     h2 {
       margin-bottom: 20px;
       font-size: 24px;
@@ -111,7 +113,6 @@
       font-size: 14px;
     }
 
-Kod bozulmadan korunmuştur. → PART 2 geliyor...
     textarea {
       resize: vertical;
       min-height: 100px;
@@ -163,6 +164,7 @@ Kod bozulmadan korunmuştur. → PART 2 geliyor...
       margin-right: auto;
     }
 
+Kod bozulmadan korunmuştur. → PART 3 geliyor...
     .prebuy-toggle {
       display: flex;
       align-items: center;
@@ -234,7 +236,6 @@ Kod bozulmadan korunmuştur. → PART 2 geliyor...
       font-weight: bold;
     }
 
-Kod bozulmadan korunmuştur. → PART 3 geliyor...
     .connect-btn {
       background: white;
       color: black;
@@ -252,6 +253,7 @@ Kod bozulmadan korunmuştur. → PART 3 geliyor...
       margin-top: 10px;
     }
 
+Kod bozulmadan korunmuştur. → PART 4 geliyor...
     .social-row input {
       flex: 1;
     }
@@ -332,7 +334,7 @@ Kod bozulmadan korunmuştur. → PART 3 geliyor...
     </div>
   </div>
 
-Kod bozulmadan korunmuştur. → PART 4 geliyor...
+Kod bozulmadan korunmuştur. → PART 5 geliyor...
   <div class="form-footer">
     <!-- Pre-buy -->
     <div class="prebuy-section">
@@ -374,41 +376,9 @@ Kod bozulmadan korunmuştur. → PART 4 geliyor...
 <!-- Maskot ve ses -->
 <img src="images/mascot-spin.gif" id="mascotSpin" class="mascot-spin" style="display:none;" />
 <audio id="glassBreak" src="sounds/glass-break.mp3" preload="auto"></audio>
+
+Kod bozulmadan korunmuştur. → PART 6 geliyor...
 <script>
-  // === Geri Tuşu ===
-  function goBack() {
-    if (window.location.pathname.includes("create.html")) {
-      window.location.href = "index.html";
-    } else {
-      closeForm();
-    }
-  }
-
-  // === Form Kapatma ===
-  function closeForm() {
-    const form = document.getElementById("formContainer");
-    const overlay = document.querySelector(".modal-overlay");
-    if (form) form.style.display = "none";
-    if (overlay) overlay.style.display = "none";
-    if (history.state && history.state.formOpen) {
-      history.back();
-    }
-  }
-
-  window.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") {
-      closeForm();
-    }
-  });
-
-Kod bozulmadan korunmuştur. → PART 5 geliyor...
-  window.addEventListener("popstate", function (event) {
-    if (event.state && event.state.formOpen) {
-      closeForm();
-    }
-  });
-
-  // === Form Açılışta Animasyon + Efektler ===
   window.onload = function () {
     history.pushState({ formOpen: true }, "", "#create");
 
@@ -418,45 +388,33 @@ Kod bozulmadan korunmuştur. → PART 5 geliyor...
 
     if (form) {
       form.classList.add("animate-in");
-
       if (mascot) mascot.style.display = "block";
       if (audio) audio.play().catch(() => {});
-
       setTimeout(() => {
         form.classList.add("shake");
         setTimeout(() => form.classList.remove("shake"), 600);
       }, 600);
-
       setTimeout(() => {
         if (mascot) mascot.style.display = "none";
       }, 1400);
     }
   };
 
-  // === Prebuy Toggle ===
-  function togglePrebuy() {
-    const sw = document.getElementById('prebuySwitch');
-    const box = document.getElementById('prebuyOptions');
-    sw.classList.toggle('active');
-    const show = sw.classList.contains('active');
-    box.style.display = show ? 'block' : 'none';
-    box.classList.toggle('active', show);
+  function closeForm() {
+    const form = document.getElementById("formContainer");
+    const overlay = document.querySelector(".modal-overlay");
+    if (form) form.style.display = "none";
+    if (overlay) overlay.style.display = "none";
+    if (history.state && history.state.formOpen) history.back();
   }
 
-  function setPrebuy(button, percent) {
-    document.querySelectorAll('.prebuy-buttons button').forEach(b => b.classList.remove('active'));
-    button.classList.add('active');
-    let sol = percent === 100 ? 25 : percent;
-    document.getElementById('cost').innerHTML = `<span class="notranslate">${sol} SOL</span>`;
-  }
+  window.addEventListener("keydown", e => { if (e.key === "Escape") closeForm(); });
+  window.addEventListener("popstate", e => { if (e.state?.formOpen) closeForm(); });
 
-  // === Lock Süresi ===
   document.getElementById("lockDuration").addEventListener("change", function () {
     document.getElementById("customLock").style.display = this.value === "custom" ? "block" : "none";
   });
 
-Kod bozulmadan korunmuştur. → PART 6 geliyor...
-  // === Drag & Drop Görsel ===
   const uploadBox = document.getElementById('uploadBox');
   const imageInput = document.getElementById('imageInput');
   const preview = document.getElementById('previewImg');
@@ -476,67 +434,60 @@ Kod bozulmadan korunmuştur. → PART 6 geliyor...
     }
   }
 
-  uploadBox.addEventListener('dragover', e => {
-    e.preventDefault();
-    uploadBox.style.borderColor = '#0f0';
-  });
-
-  uploadBox.addEventListener('dragleave', () => {
-    uploadBox.style.borderColor = '#444';
-  });
-
+  uploadBox.addEventListener('dragover', e => { e.preventDefault(); uploadBox.style.borderColor = '#0f0'; });
+  uploadBox.addEventListener('dragleave', () => { uploadBox.style.borderColor = '#444'; });
   uploadBox.addEventListener('drop', e => {
-    e.preventDefault();
-    uploadBox.style.borderColor = '#444';
-    const file = e.dataTransfer.files[0];
-    handleFile(file);
+    e.preventDefault(); uploadBox.style.borderColor = '#444';
+    handleFile(e.dataTransfer.files[0]);
   });
+  imageInput.addEventListener('change', () => handleFile(imageInput.files[0]));
 
-  imageInput.addEventListener('change', function () {
-    handleFile(this.files[0]);
-  });
-
-  // === Sosyal Medya Çoklu Alan ===
   document.getElementById('socialSelect').addEventListener('change', function () {
     const value = this.value;
     if (!value) return;
-
     const container = document.getElementById('socialContainer');
     if (container.querySelector(`#social-${value}`)) return;
 
     const row = document.createElement('div');
     row.className = 'social-row';
     row.id = `social-${value}`;
-    row.innerHTML = `
-      <input type="text" placeholder="${value} link" name="social-${value}" />
-      <button onclick="this.parentElement.remove()" style="background:#222;color:#fff;border:none;padding:4px 10px;border-radius:6px;cursor:pointer;">×</button>
-    `;
+    row.innerHTML = `<input type="text" placeholder="${value} link" name="social-${value}" />
+      <button onclick="this.parentElement.remove()" style="background:#222;color:#fff;border:none;padding:4px 10px;border-radius:6px;cursor:pointer;">×</button>`;
     container.appendChild(row);
     this.value = "";
   });
 
-  // === Phantom Wallet Connect ===
   async function connectWallet() {
-    if (window.solana && window.solana.isPhantom) {
+    if (window.solana?.isPhantom) {
       try {
         const resp = await window.solana.connect();
         const btn = document.querySelector('.connect-btn');
         btn.innerText = "Connected: " + resp.publicKey.toString().slice(0, 6) + "...";
         btn.disabled = true;
-        btn.style.background = "#0f0";
-        btn.style.color = "#000";
-      } catch (err) {
-        alert("Wallet connection failed");
-      }
+        btn.style.background = "#0f0"; btn.style.color = "#000";
+      } catch { alert("Wallet connection failed"); }
     } else {
-      alert("Phantom wallet not found.");
-      window.open("https://phantom.app", "_blank");
+      alert("Phantom wallet not found."); window.open("https://phantom.app", "_blank");
     }
   }
-
   document.querySelector(".connect-btn").addEventListener("click", connectWallet);
 
-  // === FORM VERİLERİNİ SUPABASE’E GÖNDER ===
+  function togglePrebuy() {
+    const sw = document.getElementById('prebuySwitch');
+    const box = document.getElementById('prebuyOptions');
+    sw.classList.toggle('active');
+    const show = sw.classList.contains('active');
+    box.style.display = show ? 'block' : 'none';
+    box.classList.toggle('active', show);
+  }
+
+  function setPrebuy(button, percent) {
+    document.querySelectorAll('.prebuy-buttons button').forEach(b => b.classList.remove('active'));
+    button.classList.add('active');
+    const sol = percent === 100 ? 25 : percent;
+    document.getElementById('cost').innerHTML = `<span class="notranslate">${sol} SOL</span>`;
+  }
+
   async function submitForm() {
     const imageFile = document.getElementById('imageInput').files[0];
     let imageUrl = null;
@@ -545,24 +496,13 @@ Kod bozulmadan korunmuştur. → PART 6 geliyor...
       const fileExt = imageFile.name.split('.').pop();
       const fileName = `${Date.now()}.${fileExt}`;
       const filePath = `${fileName}`;
+      const { error: uploadError } = await supabase.storage.from('chaos-images').upload(filePath, imageFile, {
+        cacheControl: '3600',
+        upsert: false
+      });
+      if (uploadError) return alert("Image upload failed.");
 
-      let { error: uploadError } = await supabase.storage
-        .from('chaos-images')
-        .upload(filePath, imageFile, {
-          cacheControl: '3600',
-          upsert: false
-        });
-
-      if (uploadError) {
-        alert("Image upload failed.");
-        console.error(uploadError);
-        return;
-      }
-
-      const { data } = supabase.storage
-        .from('chaos-images')
-        .getPublicUrl(filePath);
-
+      const { data } = supabase.storage.from('chaos-images').getPublicUrl(filePath);
       imageUrl = data.publicUrl;
     }
 
@@ -600,8 +540,7 @@ Kod bozulmadan korunmuştur. → PART 6 geliyor...
     }]);
 
     if (error) {
-      alert("Form submission failed.");
-      console.error(error);
+      alert("Form submission failed."); console.error(error);
     } else {
       alert("Form başarıyla Supabase'e kaydedildi!");
     }
