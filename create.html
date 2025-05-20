@@ -5,6 +5,13 @@
   <title>Create Your Cult</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const supabase = supabase.createClient(
+      'https://mlczuanztnqcngioayas.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sY3p1YW56dG5xY25naW9heWFzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NzIwOTYsImV4cCI6MjA2MjM0ODA5Nn0.ShPAiWshDqZD0pAP9RMGdpfrpBtoGd58r_agzigReeI'
+    );
+  </script>
   <style>
     body {
       margin: 0;
@@ -59,6 +66,7 @@
       animation: rotateMascot 1.2s ease-out forwards;
       pointer-events: none;
     }
+
     @keyframes rotateMascot {
       0% { transform: translate(-50%, -50%) rotate(0deg); opacity: 0; }
       30% { opacity: 1; }
@@ -90,6 +98,7 @@
       margin-bottom: 6px;
       color: #ccc;
     }
+
     input[type="text"],
     textarea,
     select,
@@ -102,6 +111,7 @@
       font-size: 14px;
     }
 
+Kod bozulmadan korunmuştur. → PART 2 geliyor...
     textarea {
       resize: vertical;
       min-height: 100px;
@@ -224,6 +234,7 @@
       font-weight: bold;
     }
 
+Kod bozulmadan korunmuştur. → PART 3 geliyor...
     .connect-btn {
       background: white;
       color: black;
@@ -317,9 +328,11 @@
       <textarea maxlength="512" placeholder="write a little about your chaos"></textarea>
 
       <!-- Launch Chaos Button -->
-      <button class="launch-btn">Launch Chaos</button>
+      <button class="launch-btn" onclick="submitForm()">Launch Chaos</button>
     </div>
   </div>
+
+Kod bozulmadan korunmuştur. → PART 4 geliyor...
   <div class="form-footer">
     <!-- Pre-buy -->
     <div class="prebuy-section">
@@ -388,6 +401,7 @@
     }
   });
 
+Kod bozulmadan korunmuştur. → PART 5 geliyor...
   window.addEventListener("popstate", function (event) {
     if (event.state && event.state.formOpen) {
       closeForm();
@@ -441,6 +455,7 @@
     document.getElementById("customLock").style.display = this.value === "custom" ? "block" : "none";
   });
 
+Kod bozulmadan korunmuştur. → PART 6 geliyor...
   // === Drag & Drop Görsel ===
   const uploadBox = document.getElementById('uploadBox');
   const imageInput = document.getElementById('imageInput');
@@ -520,77 +535,77 @@
   }
 
   document.querySelector(".connect-btn").addEventListener("click", connectWallet);
-    // === FORM VERİLERİNİ TOPLAYIP KONSOLA YAZ ===
+
+  // === FORM VERİLERİNİ SUPABASE’E GÖNDER ===
   async function submitForm() {
-  const imageFile = document.getElementById('imageInput').files[0];
-  let imageUrl = null;
+    const imageFile = document.getElementById('imageInput').files[0];
+    let imageUrl = null;
 
-  if (imageFile) {
-    const fileExt = imageFile.name.split('.').pop();
-    const fileName = `${Date.now()}.${fileExt}`;
-    const filePath = `${fileName}`;
+    if (imageFile) {
+      const fileExt = imageFile.name.split('.').pop();
+      const fileName = `${Date.now()}.${fileExt}`;
+      const filePath = `${fileName}`;
 
-    let { error: uploadError } = await supabase.storage
-      .from('chaos-images')
-      .upload(filePath, imageFile, {
-        cacheControl: '3600',
-        upsert: false
-      });
+      let { error: uploadError } = await supabase.storage
+        .from('chaos-images')
+        .upload(filePath, imageFile, {
+          cacheControl: '3600',
+          upsert: false
+        });
 
-    if (uploadError) {
-      alert("Image upload failed.");
-      console.error(uploadError);
-      return;
+      if (uploadError) {
+        alert("Image upload failed.");
+        console.error(uploadError);
+        return;
+      }
+
+      const { data } = supabase.storage
+        .from('chaos-images')
+        .getPublicUrl(filePath);
+
+      imageUrl = data.publicUrl;
     }
 
-    const { data } = supabase.storage
-      .from('chaos-images')
-      .getPublicUrl(filePath);
-    
-    imageUrl = data.publicUrl;
+    const tokenName = document.querySelector('input[placeholder="My Token Name"]').value;
+    const ticker = document.querySelector('input[placeholder="$ TICKER"]').value;
+    const supply = document.querySelector('input[placeholder="e.g. 1000000"]').value;
+    const devShare = document.querySelector('input[placeholder="e.g. 10"]').value;
+    const lockPercent = document.querySelector('input[placeholder="e.g. 3"]').value;
+    const lockDuration = document.getElementById("lockDuration").value;
+    const customDays = document.getElementById("customLock").value;
+    const lore = document.querySelector('textarea').value;
+
+    const socials = [];
+    document.querySelectorAll("#socialContainer input").forEach(input => {
+      socials.push({ platform: input.name.replace("social-", ""), url: input.value });
+    });
+
+    let prebuyPercent = null;
+    const activeBtn = document.querySelector(".prebuy-buttons button.active");
+    if (activeBtn) {
+      prebuyPercent = activeBtn.innerText.replace("%", "") === "max" ? 100 : parseInt(activeBtn.innerText);
+    }
+
+    const { error } = await supabase.from('create_chaos').insert([{
+      token_name: tokenName,
+      ticker: ticker,
+      supply: supply,
+      dev_share: devShare,
+      lock_percent: lockPercent,
+      lock_duration: lockDuration === "custom" ? `${customDays} days` : lockDuration,
+      lore: lore,
+      socials: socials,
+      prebuy_percent: prebuyPercent,
+      image_url: imageUrl
+    }]);
+
+    if (error) {
+      alert("Form submission failed.");
+      console.error(error);
+    } else {
+      alert("Form başarıyla Supabase'e kaydedildi!");
+    }
   }
-
-  const tokenName = document.querySelector('input[placeholder="My Token Name"]').value;
-  const ticker = document.querySelector('input[placeholder="$ TICKER"]').value;
-  const supply = document.querySelector('input[placeholder="e.g. 1000000"]').value;
-  const devShare = document.querySelector('input[placeholder="e.g. 10"]').value;
-  const lockPercent = document.querySelector('input[placeholder="e.g. 3"]').value;
-  const lockDuration = document.getElementById("lockDuration").value;
-  const customDays = document.getElementById("customLock").value;
-  const lore = document.querySelector('textarea').value;
-
-  const socials = [];
-  document.querySelectorAll("#socialContainer input").forEach(input => {
-    socials.push({ platform: input.name.replace("social-", ""), url: input.value });
-  });
-
-  let prebuyPercent = null;
-  const activeBtn = document.querySelector(".prebuy-buttons button.active");
-  if (activeBtn) {
-    prebuyPercent = activeBtn.innerText.replace("%", "") === "max" ? 100 : parseInt(activeBtn.innerText);
-  }
-
-  const { error } = await supabase.from('create_chaos').insert([{
-    token_name: tokenName,
-    ticker: ticker,
-    supply: supply,
-    dev_share: devShare,
-    lock_percent: lockPercent,
-    lock_duration: lockDuration === "custom" ? `${customDays} days` : lockDuration,
-    lore: lore,
-    socials: socials,
-    prebuy_percent: prebuyPercent,
-    image_url: imageUrl
-  }]);
-
-  if (error) {
-    alert("Form submission failed.");
-    console.error(error);
-  } else {
-    alert("Form başarıyla Supabase'e kaydedildi!");
-  }
-}
-
 </script>
 </body>
 </html>
