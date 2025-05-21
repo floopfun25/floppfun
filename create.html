@@ -30,11 +30,11 @@
       opacity: 0;
     }
 
-    /* === GİRİŞ ANİMASYONLARI === */
     @keyframes fadeSlideIn {
       0% { opacity: 0; transform: translateY(50px); }
       100% { opacity: 1; transform: translateY(0); }
     }
+
     .form-container.animate-in {
       animation: fadeSlideIn 0.8s ease-out forwards;
     }
@@ -44,6 +44,7 @@
       20%, 60% { transform: translateX(-5px); }
       40%, 80% { transform: translateX(5px); }
     }
+
     .form-container.shake {
       animation: shake 0.6s;
     }
@@ -59,6 +60,7 @@
       animation: rotateMascot 1.2s ease-out forwards;
       pointer-events: none;
     }
+
     @keyframes rotateMascot {
       0% { transform: translate(-50%, -50%) rotate(0deg); opacity: 0; }
       30% { opacity: 1; }
@@ -66,9 +68,16 @@
     }
 
     h2 {
-      margin-bottom: 20px;
+      margin-bottom: 10px;
       font-size: 24px;
       color: white;
+    }
+
+    #solPriceDisplay {
+      text-align: center;
+      margin-bottom: 15px;
+      color: #ccc;
+      font-size: 14px;
     }
 
     .form-grid {
@@ -90,6 +99,7 @@
       margin-bottom: 6px;
       color: #ccc;
     }
+
     input[type="text"],
     textarea,
     select,
@@ -106,7 +116,6 @@
       resize: vertical;
       min-height: 100px;
     }
-
     .upload-box {
       display: flex;
       justify-content: center;
@@ -126,6 +135,7 @@
       max-height: 100%;
       max-width: 100%;
       display: block;
+      object-fit: contain;
     }
 
     .upload-box input[type="file"] {
@@ -207,6 +217,7 @@
       display: flex;
       gap: 10px;
       margin-top: 8px;
+      flex-wrap: wrap;
     }
 
     .prebuy-buttons button {
@@ -269,6 +280,7 @@
 <body>
 <div class='modal-overlay' onclick='closeForm()' style='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:5;'></div>
 <div class="form-container" id="formContainer">
+
   <!-- Geri tuşu -->
   <button onclick="goBack()" style="position:absolute;top:10px;left:15px;font-size:22px;background:none;border:none;color:white;cursor:pointer;">←</button>
 
@@ -276,6 +288,9 @@
   <button onclick="closeForm()" style="position:absolute;top:10px;right:15px;font-size:24px;background:none;border:none;color:white;cursor:pointer;">×</button>
 
   <h2>start a chaos</h2>
+  <div id="solPriceDisplay">
+    1 SOL ≈ $<span id="solPriceVal">...</span>
+  </div>
 
   <div class="form-grid">
     <div class="form-group">
@@ -289,22 +304,22 @@
 
     <div class="form-group">
       <label>token name *</label>
-      <input type="text" maxlength="32" placeholder="My Token Name">
+      <input type="text" maxlength="32" placeholder="My Token Name" required>
 
       <label style="margin-top:10px;">ticker symbol *</label>
-      <input type="text" maxlength="10" placeholder="$ TICKER">
+      <input type="text" maxlength="10" placeholder="$ TICKER" required>
 
       <label style="margin-top:10px;">total supply *</label>
-      <input type="text" maxlength="18" placeholder="e.g. 1000000">
+      <input type="text" maxlength="18" placeholder="e.g. 1000000" required>
 
       <label style="margin-top:10px;">developer share (%) *</label>
-      <input type="number" placeholder="e.g. 10" />
+      <input type="number" placeholder="e.g. 10" required>
 
       <label style="margin-top:10px;">lock % of dev share</label>
       <input type="number" placeholder="e.g. 3" />
 
       <label style="margin-top:10px;">lock duration</label>
-      <select id="lockDuration">
+      <select id="lockDuration" required>
         <option value="">-- select --</option>
         <option value="1m">1 Month</option>
         <option value="3m">3 Months</option>
@@ -314,12 +329,13 @@
       <input type="number" id="customLock" placeholder="Enter days" style="display:none; margin-top:10px;">
 
       <label style="margin-top:10px;">kaos lore *</label>
-      <textarea maxlength="512" placeholder="write a little about your chaos"></textarea>
+      <textarea maxlength="512" placeholder="write a little about your chaos" required></textarea>
 
       <!-- Launch Chaos Button -->
-      <button class="launch-btn">Launch Chaos</button>
+      <button class="launch-btn" onclick="submitForm()">Launch Chaos</button>
     </div>
   </div>
+
   <div class="form-footer">
     <!-- Pre-buy -->
     <div class="prebuy-section">
@@ -327,6 +343,7 @@
         <label>pre-buy <small>(optional)</small></label>
         <div id="prebuySwitch" class="toggle-switch"></div>
       </div>
+
       <div id="prebuyOptions" class="prebuy-options">
         <div class="prebuy-buttons">
           <button onclick="setPrebuy(this, 1)">1%</button>
@@ -334,10 +351,20 @@
           <button onclick="setPrebuy(this, 10)">10%</button>
           <button onclick="setPrebuy(this, 100)">max</button>
         </div>
-        <div style="margin-top:10px;">pre-buy cost: <b id="cost"><span class="notranslate">0 SOL</span></b> $0.00</div>
+
+        <div id="solUsdValue" style="margin-top:6px;font-size:13px;color:#aaa;display:none;"></div>
+
+        <div style="margin-top:10px;">
+          <label style="font-size:13px;">or enter amount (SOL)</label>
+          <input type="number" id="manualSOL" min="0" step="0.01" placeholder="e.g. 1.5"
+          style="width:100%;padding:8px;margin-top:4px;border-radius:8px;background:#1a1c24;border:1px solid #333;color:white;" />
+        </div>
+
+        <div id="prebuyCostDisplay" style="margin-top:10px; display:none;">
+          pre-buy cost: <b id="cost"><span class="notranslate">0 SOL</span></b> $0.00
+        </div>
       </div>
     </div>
-
     <!-- Sosyal medya bağlantıları -->
     <div>
       <label>add socials</label>
@@ -361,236 +388,234 @@
 <!-- Maskot ve ses -->
 <img src="images/mascot-spin.gif" id="mascotSpin" class="mascot-spin" style="display:none;" />
 <audio id="glassBreak" src="sounds/glass-break.mp3" preload="auto"></audio>
+
 <script>
-  // === Geri Tuşu ===
-  function goBack() {
-    if (window.location.pathname.includes("create.html")) {
-      window.location.href = "index.html";
-    } else {
-      closeForm();
-    }
-  }
+let solPriceUSD = 150;
 
-  // === Form Kapatma ===
-  function closeForm() {
-    const form = document.getElementById("formContainer");
-    const overlay = document.querySelector(".modal-overlay");
-    if (form) form.style.display = "none";
-    if (overlay) overlay.style.display = "none";
-    if (history.state && history.state.formOpen) {
-      history.back();
-    }
-  }
-
-  window.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") {
-      closeForm();
-    }
-  });
-
-  window.addEventListener("popstate", function (event) {
-    if (event.state && event.state.formOpen) {
-      closeForm();
-    }
-  });
-
-  // === Form Açılışta Animasyon + Efektler ===
-  window.onload = function () {
-    history.pushState({ formOpen: true }, "", "#create");
-
-    const form = document.getElementById("formContainer");
-    const mascot = document.getElementById("mascotSpin");
-    const audio = document.getElementById("glassBreak");
-
-    if (form) {
-      form.classList.add("animate-in");
-
-      if (mascot) mascot.style.display = "block";
-      if (audio) audio.play().catch(() => {});
-
-      setTimeout(() => {
-        form.classList.add("shake");
-        setTimeout(() => form.classList.remove("shake"), 600);
-      }, 600);
-
-      setTimeout(() => {
-        if (mascot) mascot.style.display = "none";
-      }, 1400);
-    }
-  };
-
-  // === Prebuy Toggle ===
-  function togglePrebuy() {
-    const sw = document.getElementById('prebuySwitch');
-    const box = document.getElementById('prebuyOptions');
-    sw.classList.toggle('active');
-    const show = sw.classList.contains('active');
-    box.style.display = show ? 'block' : 'none';
-    box.classList.toggle('active', show);
-  }
-
-  function setPrebuy(button, percent) {
-    document.querySelectorAll('.prebuy-buttons button').forEach(b => b.classList.remove('active'));
-    button.classList.add('active');
-    let sol = percent === 100 ? 25 : percent;
-    document.getElementById('cost').innerHTML = `<span class="notranslate">${sol} SOL</span>`;
-  }
-
-  // === Lock Süresi ===
-  document.getElementById("lockDuration").addEventListener("change", function () {
-    document.getElementById("customLock").style.display = this.value === "custom" ? "block" : "none";
-  });
-
-  // === Drag & Drop Görsel ===
-  const uploadBox = document.getElementById('uploadBox');
-  const imageInput = document.getElementById('imageInput');
-  const preview = document.getElementById('previewImg');
-  const uploadText = document.getElementById('uploadText');
-
-  function handleFile(file) {
-    if (file && file.size <= 5 * 1024 * 1024 && file.type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = e => {
-        preview.src = e.target.result;
-        preview.style.display = 'block';
-        uploadText.style.display = 'none';
-      };
-      reader.readAsDataURL(file);
-    } else {
-      alert("File too large or invalid.");
-    }
-  }
-
-  uploadBox.addEventListener('dragover', e => {
-    e.preventDefault();
-    uploadBox.style.borderColor = '#0f0';
-  });
-
-  uploadBox.addEventListener('dragleave', () => {
-    uploadBox.style.borderColor = '#444';
-  });
-
-  uploadBox.addEventListener('drop', e => {
-    e.preventDefault();
-    uploadBox.style.borderColor = '#444';
-    const file = e.dataTransfer.files[0];
-    handleFile(file);
-  });
-
-  imageInput.addEventListener('change', function () {
-    handleFile(this.files[0]);
-  });
-
-  // === Sosyal Medya Çoklu Alan ===
-  document.getElementById('socialSelect').addEventListener('change', function () {
-    const value = this.value;
-    if (!value) return;
-
-    const container = document.getElementById('socialContainer');
-    if (container.querySelector(`#social-${value}`)) return;
-
-    const row = document.createElement('div');
-    row.className = 'social-row';
-    row.id = `social-${value}`;
-    row.innerHTML = `
-      <input type="text" placeholder="${value} link" name="social-${value}" />
-      <button onclick="this.parentElement.remove()" style="background:#222;color:#fff;border:none;padding:4px 10px;border-radius:6px;cursor:pointer;">×</button>
-    `;
-    container.appendChild(row);
-    this.value = "";
-  });
-
-  // === Phantom Wallet Connect ===
-  async function connectWallet() {
-    if (window.solana && window.solana.isPhantom) {
-      try {
-        const resp = await window.solana.connect();
-        const btn = document.querySelector('.connect-btn');
-        btn.innerText = "Connected: " + resp.publicKey.toString().slice(0, 6) + "...";
-        btn.disabled = true;
-        btn.style.background = "#0f0";
-        btn.style.color = "#000";
-      } catch (err) {
-        alert("Wallet connection failed");
-      }
-    } else {
-      alert("Phantom wallet not found.");
-      window.open("https://phantom.app", "_blank");
-    }
-  }
-
-  document.querySelector(".connect-btn").addEventListener("click", connectWallet);
-    // === FORM VERİLERİNİ TOPLAYIP KONSOLA YAZ ===
-  async function submitForm() {
-  const imageFile = document.getElementById('imageInput').files[0];
-  let imageUrl = null;
-
-  if (imageFile) {
-    const fileExt = imageFile.name.split('.').pop();
-    const fileName = `${Date.now()}.${fileExt}`;
-    const filePath = `${fileName}`;
-
-    let { error: uploadError } = await supabase.storage
-      .from('chaos-images')
-      .upload(filePath, imageFile, {
-        cacheControl: '3600',
-        upsert: false
-      });
-
-    if (uploadError) {
-      alert("Image upload failed.");
-      console.error(uploadError);
-      return;
-    }
-
-    const { data } = supabase.storage
-      .from('chaos-images')
-      .getPublicUrl(filePath);
-    
-    imageUrl = data.publicUrl;
-  }
-
-  const tokenName = document.querySelector('input[placeholder="My Token Name"]').value;
-  const ticker = document.querySelector('input[placeholder="$ TICKER"]').value;
-  const supply = document.querySelector('input[placeholder="e.g. 1000000"]').value;
-  const devShare = document.querySelector('input[placeholder="e.g. 10"]').value;
-  const lockPercent = document.querySelector('input[placeholder="e.g. 3"]').value;
-  const lockDuration = document.getElementById("lockDuration").value;
-  const customDays = document.getElementById("customLock").value;
-  const lore = document.querySelector('textarea').value;
-
-  const socials = [];
-  document.querySelectorAll("#socialContainer input").forEach(input => {
-    socials.push({ platform: input.name.replace("social-", ""), url: input.value });
-  });
-
-  let prebuyPercent = null;
-  const activeBtn = document.querySelector(".prebuy-buttons button.active");
-  if (activeBtn) {
-    prebuyPercent = activeBtn.innerText.replace("%", "") === "max" ? 100 : parseInt(activeBtn.innerText);
-  }
-
-  const { error } = await supabase.from('create_chaos').insert([{
-    token_name: tokenName,
-    ticker: ticker,
-    supply: supply,
-    dev_share: devShare,
-    lock_percent: lockPercent,
-    lock_duration: lockDuration === "custom" ? `${customDays} days` : lockDuration,
-    lore: lore,
-    socials: socials,
-    prebuy_percent: prebuyPercent,
-    image_url: imageUrl
-  }]);
-
-  if (error) {
-    alert("Form submission failed.");
-    console.error(error);
-  } else {
-    alert("Form başarıyla Supabase'e kaydedildi!");
+async function fetchSOLPrice() {
+  try {
+    const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd');
+    const data = await res.json();
+    solPriceUSD = data.solana.usd;
+    document.getElementById('solPriceVal').innerText = solPriceUSD.toFixed(2);
+  } catch (err) {
+    console.warn("SOL fiyatı alınamadı:", err);
   }
 }
 
+fetchSOLPrice();
+
+function goBack() {
+  if (window.location.pathname.includes("create.html")) {
+    window.location.href = "index.html";
+  } else {
+    closeForm();
+  }
+}
+
+function closeForm() {
+  const form = document.getElementById("formContainer");
+  const overlay = document.querySelector(".modal-overlay");
+  if (form) form.style.display = "none";
+  if (overlay) overlay.style.display = "none";
+  if (history.state && history.state.formOpen) {
+    history.back();
+  }
+}
+
+window.addEventListener("keydown", function (e) {
+  if (e.key === "Escape") closeForm();
+});
+
+window.addEventListener("popstate", function (event) {
+  if (event.state && event.state.formOpen) closeForm();
+});
+
+window.onload = function () {
+  history.pushState({ formOpen: true }, "", "#create");
+
+  const form = document.getElementById("formContainer");
+  const mascot = document.getElementById("mascotSpin");
+  const audio = document.getElementById("glassBreak");
+
+  if (form) {
+    form.classList.add("animate-in");
+
+    if (mascot) mascot.style.display = "block";
+    if (audio) audio.play().catch(() => {});
+
+    setTimeout(() => {
+      form.classList.add("shake");
+      setTimeout(() => form.classList.remove("shake"), 600);
+    }, 600);
+
+    setTimeout(() => {
+      if (mascot) mascot.style.display = "none";
+    }, 1400);
+  }
+};
+function togglePrebuy() {
+  const sw = document.getElementById('prebuySwitch');
+  const box = document.getElementById('prebuyOptions');
+  const cost = document.getElementById('prebuyCostDisplay');
+  const solusd = document.getElementById('solUsdValue');
+
+  sw.classList.toggle('active');
+  const show = sw.classList.contains('active');
+  box.style.display = show ? 'block' : 'none';
+  box.classList.toggle('active', show);
+
+  cost.style.display = show ? 'block' : 'none';
+  solusd.style.display = show ? 'block' : 'none';
+}
+
+function setPrebuy(button, percent) {
+  document.querySelectorAll('.prebuy-buttons button').forEach(b => b.classList.remove('active'));
+  button.classList.add('active');
+  document.getElementById('manualSOL').value = '';
+
+  const supply = parseFloat(document.querySelector('input[placeholder="e.g. 1000000"]').value) || 0;
+  const devShare = parseFloat(document.querySelector('input[placeholder="e.g. 10"]').value) || 0;
+
+  const devTokens = (supply * devShare) / 100;
+  const prebuyTokens = (devTokens * percent) / 100;
+  const tokensPerSOL = 1000;
+  const solAmount = (prebuyTokens / tokensPerSOL).toFixed(2);
+  const usdAmount = (solAmount * solPriceUSD).toFixed(2);
+
+  document.getElementById('cost').innerHTML = `<span class="notranslate">${solAmount} SOL</span> $${usdAmount}`;
+  document.getElementById('solUsdValue').style.display = 'block';
+  document.getElementById('solUsdValue').innerText = `${solAmount} SOL ≈ $${usdAmount}`;
+  document.getElementById('prebuyCostDisplay').style.display = 'block';
+}
+
+document.getElementById("manualSOL").addEventListener("input", function () {
+  let solAmount = parseFloat(this.value);
+  if (isNaN(solAmount)) return;
+  if (solAmount > 25) {
+    alert("Maksimum pre-buy limiti 25 SOL'dur.");
+    this.value = '';
+    return;
+  }
+
+  document.querySelectorAll('.prebuy-buttons button').forEach(b => b.classList.remove('active'));
+
+  const tokensPerSOL = 1000;
+  const usdAmount = (solAmount * solPriceUSD).toFixed(2);
+  document.getElementById("prebuyCostDisplay").style.display = "block";
+  document.getElementById("solUsdValue").style.display = "block";
+  document.getElementById("solUsdValue").innerText = `${solAmount} SOL ≈ $${usdAmount}`;
+  document.getElementById("cost").innerHTML = `<span class="notranslate">${solAmount} SOL</span> $${usdAmount}`;
+});
+
+document.getElementById("lockDuration").addEventListener("change", function () {
+  document.getElementById("customLock").style.display = this.value === "custom" ? "block" : "none";
+});
+
+const uploadBox = document.getElementById('uploadBox');
+const imageInput = document.getElementById('imageInput');
+const preview = document.getElementById('previewImg');
+const uploadText = document.getElementById('uploadText');
+
+function handleFile(file) {
+  if (file && file.size <= 5 * 1024 * 1024 && file.type.startsWith('image/')) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      preview.src = e.target.result;
+      preview.style.display = 'block';
+      uploadText.style.display = 'none';
+    };
+    reader.readAsDataURL(file);
+  } else {
+    alert("File too large or invalid.");
+  }
+}
+
+uploadBox.addEventListener('dragover', e => {
+  e.preventDefault();
+  uploadBox.style.borderColor = '#0f0';
+});
+
+uploadBox.addEventListener('dragleave', () => {
+  uploadBox.style.borderColor = '#444';
+});
+
+uploadBox.addEventListener('drop', e => {
+  e.preventDefault();
+  uploadBox.style.borderColor = '#444';
+  const file = e.dataTransfer.files[0];
+  handleFile(file);
+});
+
+imageInput.addEventListener('change', function () {
+  handleFile(this.files[0]);
+});
+
+document.getElementById('socialSelect').addEventListener('change', function () {
+  const value = this.value;
+  if (!value) return;
+
+  const container = document.getElementById('socialContainer');
+  if (container.querySelector(`#social-${value}`)) return;
+
+  const row = document.createElement('div');
+  row.className = 'social-row';
+  row.id = `social-${value}`;
+  row.innerHTML = `
+    <input type="text" placeholder="${value} link" name="social-${value}" />
+    <button onclick="this.parentElement.remove()" style="background:#222;color:#fff;border:none;padding:4px 10px;border-radius:6px;cursor:pointer;">×</button>
+  `;
+  container.appendChild(row);
+  this.value = "";
+});
+
+async function connectWallet() {
+  if (window.solana && window.solana.isPhantom) {
+    try {
+      const resp = await window.solana.connect();
+      const btn = document.querySelector('.connect-btn');
+      btn.innerText = "Connected: " + resp.publicKey.toString().slice(0, 6) + "...";
+      btn.disabled = true;
+      btn.style.background = "#0f0";
+      btn.style.color = "#000";
+    } catch (err) {
+      alert("Wallet connection failed");
+    }
+  } else {
+    alert("Phantom wallet not found.");
+    window.open("https://phantom.app", "_blank");
+  }
+}
+
+document.querySelector(".connect-btn").addEventListener("click", connectWallet);
+async function submitForm() {
+  const imageFile = document.getElementById('imageInput').files[0];
+  if (!imageFile) {
+    alert("Lütfen bir görsel yükleyin.");
+    return;
+  }
+
+  const tokenName = document.querySelector('input[placeholder="My Token Name"]').value.trim();
+  const ticker = document.querySelector('input[placeholder="$ TICKER"]').value.trim();
+  const supply = document.querySelector('input[placeholder="e.g. 1000000"]').value.trim();
+  const devShare = document.querySelector('input[placeholder="e.g. 10"]').value.trim();
+  const lore = document.querySelector('textarea').value.trim();
+  const lockType = document.getElementById("lockDuration").value;
+  const customDays = document.getElementById("customLock").value;
+
+  if (!tokenName || !ticker || !supply || !devShare || !lore) {
+    alert("Tüm zorunlu alanları doldurun.");
+    return;
+  }
+
+  if (lockType === "custom" && !customDays) {
+    alert("Custom lock süresi giriniz.");
+    return;
+  }
+
+  // Devamında Supabase ile gönderim işlemleri burada yapılır
+  alert("Form doğrulamaları geçti. Supabase gönderimi burada yapılır.");
+}
 </script>
 </body>
 </html>
