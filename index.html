@@ -16,7 +16,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      margin: 100px auto 40px;
+      margin: 60px auto;
       width: 240px;
       height: 70px;
       cursor: pointer;
@@ -29,7 +29,7 @@
       height: 100%;
     }
     .chaos-rect {
-      fill: rgba(255, 255, 255, 0.05);
+      fill: rgba(255, 255, 255, 0.1);
       stroke: url(#chaosGradient);
       stroke-width: 2;
       rx: 30;
@@ -50,11 +50,17 @@
     }
 
     .chaos-bg-container {
-      margin: 4cm auto 2cm auto;
-      max-width: calc(100% - 8cm);
+      margin: 1.5cm auto;
+      max-width: calc(100% - 6cm);
       position: relative;
       border-radius: 60px;
       overflow: hidden;
+    }
+
+    .chaos-bg-svg img {
+      width: 100%;
+      height: auto;
+      opacity: 0.6;
     }
 
     .ad-scroll {
@@ -83,7 +89,7 @@
     <img src="images/floop-mascot.png" alt="Floop Mascot" class="boop-logo" />
   </div>
   <div class="boop-center">
-    <button id="connectWallet" class="connect-btn">Bağlamak</button>
+    <button id="connectWallet" class="connect-btn">Connect</button>
     <button id="searchBtn" class="icon-btn">🔍</button>
   </div>
   <div class="boop-right">
@@ -145,13 +151,29 @@
   </div>
 </div>
 
-<!-- WALLET MODAL -->
-<div class="wallet-modal hidden" id="walletModal">
-  <div class="wallet-box">
-    <h3>Choose a wallet</h3>
-    <button onclick="connectWallet('phantom')">Phantom</button>
-    <button onclick="connectWallet('solflare')">Solflare</button>
-    <button onclick="connectWallet('backpack')">Backpack</button>
+<!-- WALLET MODAL (BOOP-STYLE) -->
+<div id="walletModal" class="wallet-modal-overlay hidden">
+  <div class="wallet-modal-box">
+    <img src="images/floop-mascot.png" class="wallet-logo" />
+    <h2>Log in or sign up</h2>
+
+    <button onclick="connectWallet('okx')" class="wallet-option">
+      <img src="images/icons/okx.svg" /> OKX Wallet <span>Solana</span>
+    </button>
+    <button onclick="connectWallet('phantom')" class="wallet-option">
+      <img src="images/icons/phantom.svg" /> Phantom <span>Solana</span>
+    </button>
+    <button onclick="connectWallet('solflare')" class="wallet-option">
+      <img src="images/icons/solflare.svg" /> Solflare <span>Solana</span>
+    </button>
+    <button onclick="connectWallet('backpack')" class="wallet-option">
+      <img src="images/icons/backpack.svg" /> Backpack <span>Solana</span>
+    </button>
+    <button onclick="alert('Twitter login not supported yet')" class="wallet-option">
+      <img src="images/icons/twitter.svg" /> Twitter
+    </button>
+
+    <p class="protected">Protected by Floop</p>
   </div>
 </div>
 
@@ -184,10 +206,78 @@
 <!-- SES BUTONU -->
 <button id="muteToggle" class="mute-button">🔊</button>
 
+<!-- WALLET MODAL STİLİ (boop-style) -->
+<style>
+  .wallet-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(6px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+  .wallet-modal-box {
+    background: #11131b;
+    border-radius: 16px;
+    padding: 30px;
+    width: 320px;
+    max-width: 90%;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    animation: fadeIn 0.3s ease-out;
+  }
+  .wallet-logo {
+    width: 48px;
+    margin-bottom: 12px;
+  }
+  .wallet-modal-box h2 {
+    font-size: 1.2rem;
+    color: white;
+    margin-bottom: 20px;
+  }
+  .wallet-option {
+    width: 100%;
+    background: #222;
+    border: 1px solid #333;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    gap: 10px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .wallet-option img {
+    width: 24px;
+    height: 24px;
+  }
+  .wallet-option span {
+    font-size: 0.75rem;
+    opacity: 0.6;
+  }
+  .wallet-option:hover {
+    background: #333;
+  }
+  .protected {
+    margin-top: 12px;
+    font-size: 0.75rem;
+    color: #888;
+  }
+</style>
 <!-- SCRIPTLER -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
 <script src="script.js"></script>
+
 <script>
   // Sayfa açıldığında glitch efektini kaldır
   window.addEventListener("load", () => {
@@ -214,20 +304,17 @@
   function toggleForm() {
     const mascot = document.getElementById("mascotChaos");
     mascot.classList.remove("hidden");
-
-    setTimeout(() => {
-      mascot.classList.add("spin");
-    }, 100);
-
+    setTimeout(() => mascot.classList.add("spin"), 100);
     setTimeout(() => {
       mascot.classList.add("hidden");
       window.location.href = "create.html";
     }, 2000);
   }
 
-  // Cüzdan bağlantısı
+  // Wallet bağlantısı
   function connectWallet(walletType) {
     const phantomLink = document.getElementById("phantomLink");
+
     if (walletType === "phantom") {
       if (window.solana && window.solana.isPhantom) {
         window.solana.connect().then(resp => {
@@ -244,7 +331,15 @@
     document.getElementById("walletModal").classList.add("hidden");
   }
 
-  // Connect butonuna tıklanınca modal aç
+  // Modal dışına tıklanırsa kapat
+  document.getElementById("walletModal").addEventListener("click", (e) => {
+    const box = document.querySelector(".wallet-modal-box");
+    if (!box.contains(e.target)) {
+      document.getElementById("walletModal").classList.add("hidden");
+    }
+  });
+
+  // Connect butonuna tıklanınca modalı aç
   document.getElementById("connectWallet").addEventListener("click", () => {
     document.getElementById("walletModal").classList.remove("hidden");
   });
