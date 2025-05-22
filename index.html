@@ -422,14 +422,20 @@
 
   // Create Chaos butonu tıklanınca maskot dönsün ve yönlendirsin
   function toggleForm() {
-    const mascot = document.getElementById("mascotChaos");
-    mascot.classList.remove("hidden");
-    setTimeout(() => mascot.classList.add("spin"), 100);
-    setTimeout(() => {
-      mascot.classList.add("hidden");
-      window.location.href = "create.html";
-    }, 2000);
-  }
+  const mascot = document.getElementById("mascotChaos");
+  mascot.classList.remove("hidden");
+  mascot.classList.remove("spin");
+
+  setTimeout(() => {
+    mascot.classList.add("spin");
+  }, 50);
+
+  setTimeout(() => {
+    mascot.classList.add("hidden");
+    window.location.href = "create.html";
+  }, 2000);
+}
+
   // Wallet bağlantısı
   function connectWallet(walletType) {
     const phantomLink = document.getElementById("phantomLink");
