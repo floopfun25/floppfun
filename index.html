@@ -12,9 +12,7 @@
   <meta property="og:image" content="images/preview.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="stylesheet" href="maskot-intro.css" />
-
   <style>
-    /* ===== Arama kutusu stili ===== */
     .search-container {
       position: absolute;
       top: 70px;
@@ -35,8 +33,6 @@
       background: #111;
       color: #fff;
     }
-
-    /* ===== Hamburger menü kutusu ===== */
     .hamburger-menu-box {
       position: absolute;
       right: 16px;
@@ -107,10 +103,11 @@
 </div>
 
 <canvas id="particle-canvas"></canvas>
+
 <!-- CHAOS BUTONU + SVG ARKA PLAN -->
-<section class="chaos-bg-container" style="border-radius: 60px; overflow: hidden; max-width: 100%; margin: 16px auto 16px auto; position: relative; padding-top: 16px; padding-bottom: 16px;">
-  <!-- INLINE SVG ZEMİN: Sağ-Soldan 16px boşluk için padding ile ayarlandı -->
-  <svg viewBox="0 0 1000 200" preserveAspectRatio="xMidYMid slice" style="width: calc(100% - 32px); height: 180px; position: absolute; top: 0; left: 16px; opacity: 0.3;">
+<section class="chaos-bg-container" style="border-radius: 60px; overflow: hidden; max-width: 100%; margin: 16px auto; position: relative; padding-top: 16px; padding-bottom: 16px;">
+  <!-- SVG zemin: sol-sağdan 2cm boşluk -->
+  <svg viewBox="0 0 1000 200" preserveAspectRatio="xMidYMid slice" style="width: calc(100% - 64px); height: 180px; position: absolute; top: 0; left: 32px; opacity: 0.3;">
     <defs>
       <pattern id="pattern" width="40" height="40" patternUnits="userSpaceOnUse">
         <circle cx="20" cy="20" r="18" stroke="#00f0ff" stroke-width="1" fill="none" />
@@ -119,7 +116,7 @@
     <rect width="100%" height="100%" fill="url(#pattern)" />
   </svg>
 
-  <!-- PARLAYAN BUTON -->
+  <!-- CREATE CHAOS Butonu -->
   <div class="chaos-svg-wrapper" id="create-button" onclick="toggleForm()" style="position: relative; z-index: 10;">
     <svg viewBox="0 0 220 70" class="chaos-svg">
       <defs>
@@ -134,39 +131,36 @@
   </div>
 </section>
 
-<!-- REKLAM ALANI (SVG ile filtre bar arası) -->
-<section id="adBanner" style="max-width: 100%; margin: 0 auto 16px auto; height: 60px; background: rgba(255, 255, 255, 0.05); border-radius: 20px; text-align: center; line-height: 60px; color: #888; font-style: italic;">
-  Your ad space here
-</section>
-<!-- MASKOT DÖNME ANİMASYONU (KÜÇÜLTÜLDÜ) -->
-<div id="mascotChaos" class="hidden" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 20000;">
-  <img src="images/floop-mascot.png" alt="Chaos Mascot" class="mascot-popup" style="width: 120px; height: auto; animation: spin 2s linear;">
-</div>
-
-<!-- TREND TOKENLER - YATAY SCROLL -->
-<section class="trend-token-list-horizontal">
-  <div class="scroll-wrapper">
-    <div class="token-card">
-      <img src="images/sample1.png" alt="Token" />
-      <h3>$CATFLOOP</h3>
-      <p class="meta">F8x3...Kd9 • 2h ago</p>
-      <p class="meta">MCAP: $240K • Floops: 1.2K</p>
-    </div>
-    <div class="token-card">
-      <img src="images/sample2.png" alt="Token" />
-      <h3>$BOOMSHROOM</h3>
-      <p class="meta">W1kz...Dp3 • 3h ago</p>
-      <p class="meta">MCAP: $410K • Floops: 3.8K</p>
-    </div>
-    <div class="token-card">
-      <img src="images/sample-token3.png" alt="Token" />
-      <h3>$SOLBABY</h3>
-      <p class="meta">MCAP: $250K • Floops: 990</p>
-    </div>
-    <!-- Ek kartlar eklenebilir -->
+<!-- REKLAM ALANI (SVG + filtre bar arasında kayan yazı) -->
+<section id="adBanner" style="max-width: 100%; margin: 0 auto 16px auto; height: 60px; background: rgba(255, 255, 255, 0.05); border-radius: 20px; overflow: hidden; padding: 0 20px;">
+  <div class="ad-scroll">
+    <span>Floop Ads: Create your meme token now • Featured cults get promoted • Join our Telegram for updates</span>
   </div>
 </section>
 
+<style>
+  .ad-scroll {
+    white-space: nowrap;
+    overflow: hidden;
+    position: relative;
+  }
+  .ad-scroll span {
+    display: inline-block;
+    padding-left: 100%;
+    animation: scroll-left 15s linear infinite;
+    color: #bbb;
+    font-style: italic;
+  }
+  @keyframes scroll-left {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+  }
+</style>
+
+<!-- MASKOT DÖNME ANİMASYONU -->
+<div id="mascotChaos" class="hidden" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 20000;">
+  <img src="images/floop-mascot.png" alt="Chaos Mascot" class="mascot-popup" style="width: 120px; height: auto; animation: spin 2s linear;">
+</div>
 <!-- FİLTRE BAR -->
 <div class="filter-bar" style="display: flex; align-items: center; gap: 16px; padding: 12px 20px;">
   <img src="images/icons/settings.svg" class="filter-icon" style="width: 20px; height: 20px; opacity: 0.7;" />
@@ -178,50 +172,35 @@
     <button class="filter-btn">oldest</button>
   </div>
 </div>
-<style>
-  .trend-token-list-horizontal {
-    overflow-x: auto;
-    padding: 8px 0;
-    margin: 0 auto 16px auto;
-    max-width: 100%;
-    backdrop-filter: blur(10px);
-  }
-  .scroll-wrapper {
-    display: flex;
-    gap: 12px;
-    scroll-snap-type: x mandatory;
-    padding: 0 12px;
-  }
-  .token-card {
-    background: rgba(255, 255, 255, 0.04);
-    border-radius: 30px;
-    min-width: 160px;
-    padding: 12px;
-    text-align: center;
-    scroll-snap-align: start;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease;
-    flex-shrink: 0;
-  }
-  .token-card:hover {
-    transform: scale(1.05);
-  }
-  .token-card img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 6px;
-  }
-  .token-card h3 {
-    font-size: 0.9rem;
-    margin: 4px 0;
-  }
-  .token-card .meta {
-    font-size: 0.75rem;
-    color: #bbb;
-  }
 
+<!-- ALT NAVİGASYON -->
+<nav class="bottom-nav">
+  <a href="index.html" class="nav-link active">
+    <img src="images/icons/cult.png" />
+    <span>cults</span>
+  </a>
+  <a href="rewards.html" class="nav-link">
+    <img src="images/icons/rewards.png" />
+    <span>rewards</span>
+  </a>
+  <a href="staking.html" class="nav-link">
+    <img src="images/icons/staking.png" />
+    <span>staking</span>
+  </a>
+  <a href="leaderboard.html" class="nav-link">
+    <img src="images/icons/leaderboard.png" />
+    <span>leaderb.</span>
+  </a>
+  <a href="airdrop.html" class="nav-link">
+    <img src="images/icons/airdrop.png" />
+    <span>airdrop</span>
+  </a>
+</nav>
+
+<!-- SES BUTONU -->
+<button id="muteToggle" class="mute-button">🔊</button>
+
+<style>
   .filter-btn {
     background: rgba(255,255,255,0.06);
     color: white;
@@ -240,50 +219,50 @@
     color: black;
     font-weight: bold;
   }
-</style>
 
-<!-- PORTFÖY TRACKER (SCROLL BAR) -->
-<section class="portfolio-tracker">
-  <div class="tracker-scroll">
-    <div class="tracker-item"><img src="images/sample-avatar1.png" /> Boopa sold 1.495 SOL</div>
-    <div class="tracker-item"><img src="images/sample-avatar2.png" /> PORK bought 0.206 SOL</div>
-    <div class="tracker-item"><img src="images/sample-avatar3.png" /> 222 sold 0.009 SOL</div>
-    <div class="tracker-item"><img src="images/sample-avatar4.png" /> FLOOP bought 2.5 SOL</div>
-  </div>
-</section>
-<style>
-  .portfolio-tracker {
-    overflow-x: auto;
-    white-space: nowrap;
-    padding: 10px 16px;
-    background: rgba(255,255,255,0.02);
-    border-top: 1px solid rgba(255,255,255,0.05);
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-  }
-  .tracker-scroll {
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #11131b;
     display: flex;
-    gap: 24px;
-    animation: scroll-left 30s linear infinite;
+    justify-content: space-around;
+    padding: 8px 0;
+    border-top: 1px solid #222;
+    z-index: 99;
   }
-  .tracker-item {
+  .nav-link {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    color: white;
-    font-size: 0.9rem;
-    gap: 8px;
-    flex-shrink: 0;
+    color: #888;
+    font-size: 0.7rem;
+    text-decoration: none;
   }
-  .tracker-item img {
+  .nav-link.active {
+    color: #00f0ff;
+  }
+  .nav-link img {
     width: 24px;
     height: 24px;
-    border-radius: 50%;
+    margin-bottom: 2px;
   }
-  @keyframes scroll-left {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-100%); }
+
+  .mute-button {
+    position: fixed;
+    bottom: 60px;
+    right: 20px;
+    background: #222;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 50%;
+    font-size: 16px;
+    cursor: pointer;
+    z-index: 100;
   }
 </style>
-
 <!-- WALLET MODAL (BOOP STYLE) -->
 <div id="walletModal" class="wallet-modal-overlay hidden">
   <div class="wallet-modal-box">
@@ -312,32 +291,6 @@
 
 <!-- PHANTOM MOBİL FALLBACK -->
 <a href="https://phantom.app/ul/browse/https://floopfun25.github.io/floppfun/" id="phantomLink" style="display: none;">Phantom</a>
-<!-- ALT NAVİGASYON -->
-<nav class="bottom-nav">
-  <a href="index.html" class="nav-link active">
-    <img src="images/icons/cult.png" />
-    <span>cults</span>
-  </a>
-  <a href="rewards.html" class="nav-link">
-    <img src="images/icons/rewards.png" />
-    <span>rewards</span>
-  </a>
-  <a href="staking.html" class="nav-link">
-    <img src="images/icons/staking.png" />
-    <span>staking</span>
-  </a>
-  <a href="leaderboard.html" class="nav-link">
-    <img src="images/icons/leaderboard.png" />
-    <span>leaderb.</span>
-  </a>
-  <a href="airdrop.html" class="nav-link">
-    <img src="images/icons/airdrop.png" />
-    <span>airdrop</span>
-  </a>
-</nav>
-
-<!-- SES BUTONU -->
-<button id="muteToggle" class="mute-button">🔊</button>
 
 <style>
   .wallet-modal-overlay {
@@ -404,51 +357,7 @@
     font-size: 0.75rem;
     color: #888;
   }
-
-  .bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: #11131b;
-    display: flex;
-    justify-content: space-around;
-    padding: 8px 0;
-    border-top: 1px solid #222;
-    z-index: 99;
-  }
-  .nav-link {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: #888;
-    font-size: 0.7rem;
-    text-decoration: none;
-  }
-  .nav-link.active {
-    color: #00f0ff;
-  }
-  .nav-link img {
-    width: 24px;
-    height: 24px;
-    margin-bottom: 2px;
-  }
-
-  .mute-button {
-    position: fixed;
-    bottom: 60px;
-    right: 20px;
-    background: #222;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 50%;
-    font-size: 16px;
-    cursor: pointer;
-    z-index: 100;
-  }
 </style>
-
 <!-- SCRIPTLER -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
@@ -483,18 +392,18 @@
     }
   });
 
-  // Menü toggle (hamburger)
-  document.getElementById("menuBtn").addEventListener("click", () => {
-    const menu = document.getElementById("mobileMenu");
-    menu.classList.toggle("hidden");
+  // Hamburger menü toggle
+  const menuBtn = document.getElementById("menuBtn");
+  const menu = document.getElementById("hamburgerMenu");
+
+  menuBtn.addEventListener("click", () => {
+    menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
   });
 
-  // Dış tıklamayla mobil menüyü kapat
+  // Dış tıklamayla menüyü kapat
   document.addEventListener("click", (e) => {
-    const menu = document.getElementById("mobileMenu");
-    const btn = document.getElementById("menuBtn");
-    if (!menu.classList.contains("hidden") && !menu.contains(e.target) && e.target !== btn) {
-      menu.classList.add("hidden");
+    if (!menu.contains(e.target) && e.target !== menuBtn) {
+      menu.style.display = "none";
     }
   });
 
@@ -505,24 +414,22 @@
 
   // Modal dışına tıklanınca kapat
   document.getElementById("walletModal").addEventListener("click", (e) => {
-    if (e.target.id === "walletModal") {
+    const box = document.querySelector(".wallet-modal-box");
+    if (!box.contains(e.target)) {
       document.getElementById("walletModal").classList.add("hidden");
     }
   });
 
-  // Create Chaos tıklanınca maskot animasyonlu yönlendirme
+  // Create Chaos butonu tıklanınca maskot dönsün ve yönlendirsin
   function toggleForm() {
     const mascot = document.getElementById("mascotChaos");
     mascot.classList.remove("hidden");
-    setTimeout(() => {
-      mascot.classList.add("spin");
-    }, 100);
+    setTimeout(() => mascot.classList.add("spin"), 100);
     setTimeout(() => {
       mascot.classList.add("hidden");
       window.location.href = "create.html";
     }, 2000);
   }
-
   // Wallet bağlantısı
   function connectWallet(walletType) {
     const phantomLink = document.getElementById("phantomLink");
@@ -543,7 +450,6 @@
 </script>
 
 <style>
-  /* CHAOS BUTON SVG STİLLERİ */
   .chaos-svg-wrapper {
     position: relative;
     display: flex;
@@ -575,53 +481,19 @@
     text-shadow: 0 0 4px #00f0ff;
   }
 
-  /* YENİ HAMBURGER MENÜ STİLİ */
-  .mobile-menu {
-    background: #0e0e1a;
-    padding: 20px;
-    border-radius: 12px;
-    position: absolute;
-    top: 60px;
-    right: 10px;
-    width: 200px;
-    z-index: 1000;
-    box-shadow: 0 0 10px rgba(0,0,0,0.6);
-  }
-
-  .mobile-menu ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .mobile-menu li {
-    margin-bottom: 14px;
-  }
-
-  .mobile-menu a {
-    color: white;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.9rem;
-    padding: 6px 10px;
-    transition: background 0.2s;
-    border-radius: 8px;
-  }
-
-  .mobile-menu a:hover {
-    background: rgba(255, 255, 255, 0.05);
-  }
-
-  .menu-icon {
-    width: 20px;
-    height: 20px;
-    opacity: 0.8;
-  }
-
-  /* ARAMA KUTUSU HIDDEN SINIFI */
   .hidden {
     display: none !important;
   }
+
+  .spin {
+    animation: spin 2s linear;
+  }
+
+  @keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+  }
 </style>
+
+</body>
+</html>
