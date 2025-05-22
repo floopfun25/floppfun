@@ -5,6 +5,7 @@
   <title>Create Your Cult</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <style>
     body {
       margin: 0;
@@ -387,8 +388,11 @@
 <audio id="glassBreak" src="sounds/glass-break.mp3" preload="auto"></audio>
 
 <script>
+const supabase = supabase.createClient(
+  "https://mlczuanztnqcngioayas.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sY3p1YW56dG5xY25naW9heWFzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NzIwOTYsImV4cCI6MjA2MjM0ODA5Nn0.ShPAiWshDqZD0pAP9RMGdpfrpBtoGd58r_agzigReeI"
+);
 let solPriceUSD = 150;
-
 async function fetchSOLPrice() {
   try {
     const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd');
@@ -419,6 +423,7 @@ function closeForm() {
     history.back();
   }
 }
+
 window.addEventListener("keydown", function (e) {
   if (e.key === "Escape") closeForm();
 });
@@ -450,40 +455,84 @@ window.onload = function () {
     }, 1400);
   }
 };
+async function submitForm() {
+  const imageFile = document.getElementById('imageInput').files[0];
+  if (!imageFile) {
+    alert("Lütfen bir görsel yükleyin.");
+    return;
+  }
 
-function togglePrebuy() {
-  const sw = document.getElementById('prebuySwitch');
-  const box = document.getElementById('prebuyOptions');
-  const cost = document.getElementById('prebuyCostDisplay');
-  const solusd = document.getElementById('solUsdValue');
+  const tokenName = document.querySelector('input[placeholder="My Token Name"]').value.trim();
+  const ticker = document.querySelector('input[placeholder="$ TICKER"]').value.trim();
+  const supply = document.querySelector('input[placeholder="e.g. 1000000"]').value.trim();
+  const devShare = document.querySelector('input[placeholder="e.g. 10"]').value.trim();
+  const lockPercent = document.querySelector('input[placeholder="e.g. 3"]').value.trim();
+  const lockDuration = document.getElementById("lockDuration").value;
+  const customLock = document.getElementById("customLock").value.trim();
+  const lore = document.querySelector('textarea').value.trim();
 
-  sw.classList.toggle('active');
-  const show = sw.classList.contains('active');
-  box.style.display = show ? 'block' : 'none';
-  box.classList.toggle('active', show);
+  if (!tokenName || !ticker || !supply || !devShare || !lore) {
+    alert("Lütfen tüm zorunlu alanları doldurun.");
+    return;
+  }
 
-  cost.style.display = show ? 'block' : 'none';
-  solusd.style.display = show ? 'block' : 'none';
-}
+  const finalLockDuration = lockDuration === "custom" ? `${customLock}d` : lockDuration;
 
-function setPrebuy(button, percent) {
-  document.querySelectorAll('.prebuy-buttons button').forEach(b => b.classList.remove('active'));
-  button.classList.add('active');
-  document.getElementById('manualSOL').value = '';
+  // Görseli Supabase Storage'a yükle
+  const filename = `${Date.now()}_${imageFile.name}`;
+  const { data: uploadData, error: uploadError } = await supabase.storage
+    .from("chaos_images")
+    .upload(filename, imageFile);
 
-  const supply = parseFloat(document.querySelector('input[placeholder="e.g. 1000000"]').value) || 0;
-  const devShare = parseFloat(document.querySelector('input[placeholder="e.g. 10"]').value) || 0;
+  if (uploadError) {
+    alert("Görsel yüklenemedi.");
+    console.error(uploadError);
+    return;
+  }
 
-  const devTokens = (supply * devShare) / 100;
-  const prebuyTokens = (devTokens * percent) / 100;
-  const tokensPerSOL = 1000;
-  const solAmount = (prebuyTokens / tokensPerSOL).toFixed(2);
-  const usdAmount = (solAmount * solPriceUSD).toFixed(2);
+  const imageUrl = supabase.storage
+    .from("chaos_images")
+    .getPublicUrl(filename).data.publicUrl;
 
-  document.getElementById('cost').innerHTML = `<span class="notranslate">${solAmount} SOL</span> $${usdAmount}`;
-  document.getElementById('solUsdValue').style.display = 'block';
-  document.getElementById('solUsdValue').innerText = `${solAmount} SOL ≈ $${usdAmount}`;
-  document.getElementById('prebuyCostDisplay').style.display = 'block';
+  // Sosyal medya linklerini topla
+  const socialInputs = document.querySelectorAll('#socialContainer input');
+  const socials = {};
+  socialInputs.forEach(input => {
+    const name = input.name.replace("social-", "");
+    socials[name] = input.value.trim();
+  });
+
+  // Pre-buy oranı
+  const prebuyActive = document.getElementById('prebuySwitch').classList.contains('active');
+  let prebuyPercent = null;
+  if (prebuyActive) {
+    const activeBtn = document.querySelector('.prebuy-buttons button.active');
+    if (activeBtn) prebuyPercent = parseInt(activeBtn.innerText);
+  }
+
+  // Veri tablosuna gönder
+  const { error } = await supabase.from("create_chaos").insert([
+    {
+      token_name: tokenName,
+      ticker: ticker,
+      supply: supply,
+      dev_share: devShare,
+      lock_percent: lockPercent,
+      lock_duration: finalLockDuration,
+      lore: lore,
+      prebuy_percent: prebuyPercent,
+      socials: socials,
+      image_url: imageUrl,
+    }
+  ]);
+
+  if (error) {
+    alert("Veri gönderilemedi.");
+    console.error(error);
+  } else {
+    alert("Başarıyla kaos başlatıldı!");
+    location.reload();
+  }
 }
 document.getElementById("manualSOL").addEventListener("input", function () {
   let solAmount = parseFloat(this.value);
@@ -565,54 +614,4 @@ document.getElementById('socialSelect').addEventListener('change', function () {
   this.value = "";
 });
 
-async function connectWallet() {
-  if (window.solana && window.solana.isPhantom) {
-    try {
-      const resp = await window.solana.connect();
-      const btn = document.querySelector('.connect-btn');
-      btn.innerText = "Connected: " + resp.publicKey.toString().slice(0, 6) + "...";
-      btn.disabled = true;
-      btn.style.background = "#0f0";
-      btn.style.color = "#000";
-    } catch (err) {
-      alert("Wallet connection failed");
-    }
-  } else {
-    alert("Phantom wallet not found.");
-    window.open("https://phantom.app", "_blank");
-  }
-}
-
 document.querySelector(".connect-btn").addEventListener("click", connectWallet);
-
-async function submitForm() {
-  const imageFile = document.getElementById('imageInput').files[0];
-  if (!imageFile) {
-    alert("Lütfen bir görsel yükleyin.");
-    return;
-  }
-
-  const tokenName = document.querySelector('input[placeholder="My Token Name"]').value.trim();
-  const ticker = document.querySelector('input[placeholder="$ TICKER"]').value.trim();
-  const supply = document.querySelector('input[placeholder="e.g. 1000000"]').value.trim();
-  const devShare = document.querySelector('input[placeholder="e.g. 10"]').value.trim();
-  const lore = document.querySelector('textarea').value.trim();
-  const lockType = document.getElementById("lockDuration").value;
-  const customDays = document.getElementById("customLock").value;
-
-  if (!tokenName || !ticker || !supply || !devShare || !lore) {
-    alert("Tüm zorunlu alanları doldurun.");
-    return;
-  }
-
-  if (lockType === "custom" && !customDays) {
-    alert("Custom lock süresi giriniz.");
-    return;
-  }
-
-  // Devamında Supabase ile gönderim işlemleri burada yapılır
-  alert("Form doğrulamaları geçti. Supabase gönderimi burada yapılır.");
-}
-</script>
-</body>
-</html>
