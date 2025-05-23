@@ -34,45 +34,45 @@ async function submitForm() {
   });
 
   try {
-    // === 1. Görseli chaos-images bucket'a yükle ===
-    const fileExt = imageFile.name.split('.').pop();
-    const fileName = `${Date.now()}.${fileExt}`;
-    const { data: uploadData, error: uploadError } = await supabase
-      .storage
-      .from("chaos-images")
-      .upload(fileName, imageFile);
+  // === 1. Görseli chaos-images bucket'a yükle ===
+  const fileExt = imageFile.name.split('.').pop();
+  const fileName = `${Date.now()}.${fileExt}`;
+  const { data: uploadData, error: uploadError } = await supabase
+    .storage
+    .from("chaos-images")
+    .upload(fileName, imageFile);
 
-    if (uploadError) throw uploadError;
+  if (uploadError) throw uploadError;
 
-    const { data: urlData } = supabase
-      .storage
-      .from("chaos-images")
-      .getPublicUrl(fileName);
+  const { data: urlData } = supabase
+    .storage
+    .from("chaos-images")
+    .getPublicUrl(fileName);
 
-    const imageUrl = urlData.publicUrl;
+  const imageUrl = urlData.publicUrl;
 
-    // === 2. Verileri create_chaos tablosuna kaydet ===
-    const { error: insertError } = await supabase
-      .from("create_chaos")
-      .insert([
-        {
-          token_name: tokenName,
-          ticker: ticker,
-          supply: supply,
-          dev_share: devShare,
-          kaos_lore: lore,
-          lock_duration: lockDuration,
-          image_url: imageUrl,
-          socials: socials,
-          prebuy_sol: prebuy
-        }
-      ]);
+  // === 2. Verileri create_chaos tablosuna kaydet ===
+  const { error: insertError } = await supabase
+    .from("create_chaos")
+    .insert([
+      {
+        token_name: tokenName,
+        ticker: ticker,
+        supply: supply,
+        dev_share: devShare,
+        kaos_lore: lore,
+        lock_duration: lockDuration,
+        image_url: imageUrl,
+        socials: socials,
+        prebuy_sol: prebuy
+      }
+    ]);
 
-    if (insertError) throw insertError;
+  if (insertError) throw insertError;
 
-    alert("Form başarıyla gönderildi!");
-    window.location.href = "index.html";
-  catch (err) {
+  alert("Form başarıyla gönderildi!");
+  window.location.href = "index.html";
+} catch (err) {
   console.error("Form gönderim hatası:", err);
   alert("Hata: " + err.message);
 }
