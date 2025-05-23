@@ -1,50 +1,37 @@
-<div class="chaos-bg-container">
-  <svg viewBox="0 0 600 600" preserveAspectRatio="xMidYMid meet"
-       xmlns="http://www.w3.org/2000/svg"
-       style="width: 100%; height: auto; max-width: 600px; margin: 0 auto;">
-    <!-- Arka plan -->
-    <rect width="600" height="600" fill="black"/>
+<svg width="600" height="600" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="600" height="600" fill="black"/>
 
-    <!-- Dış halkalar -->
-    <circle cx="300" cy="300" r="250" fill="none" stroke="#333" stroke-width="4">
-      <animateTransform attributeName="transform" type="rotate"
-        from="0 300 300" to="360 300 300" dur="20s" repeatCount="indefinite"/>
-      <animate attributeName="r" values="250;180;250" dur="20s" repeatCount="indefinite"/>
-    </circle>
+  <g>
+    <g id="movingGroup">
+      <!-- İç halkalar -->
+      <circle cx="300" cy="300" r="150" fill="none" stroke="#555" stroke-width="4">
+        <animateTransform attributeName="transform" type="rotate" from="0 300 300" to="360 300 300" dur="15s" repeatCount="indefinite"/>
+        <animate attributeName="r" values="150;90;150" dur="15s" repeatCount="indefinite"/>
+      </circle>
 
-    <circle cx="300" cy="300" r="200" fill="none" stroke="#444" stroke-width="4">
-      <animateTransform attributeName="transform" type="rotate"
-        from="360 300 300" to="0 300 300" dur="18s" repeatCount="indefinite"/>
-      <animate attributeName="r" values="200;140;200" dur="18s" repeatCount="indefinite"/>
-    </circle>
+      <circle cx="300" cy="300" r="130" fill="none" stroke="#666" stroke-width="4">
+        <animateTransform attributeName="transform" type="rotate" from="360 300 300" to="0 300 300" dur="10s" repeatCount="indefinite"/>
+        <animate attributeName="r" values="130;60;130" dur="10s" repeatCount="indefinite"/>
+      </circle>
 
-    <!-- Orta halka -->
-    <circle cx="300" cy="300" r="150" fill="none" stroke="#555" stroke-width="4">
-      <animateTransform attributeName="transform" type="rotate"
-        from="0 300 300" to="360 300 300" dur="15s" repeatCount="indefinite"/>
-      <animate attributeName="r" values="150;90;150" dur="15s" repeatCount="indefinite"/>
-    </circle>
+      <circle cx="300" cy="300" r="50" fill="none" stroke="#777" stroke-width="4">
+        <animateTransform attributeName="transform" type="rotate" from="0 300 300" to="360 300 300" dur="10s" repeatCount="indefinite"/>
+        <animate attributeName="r" values="50;180;50" dur="10s" repeatCount="indefinite"/>
+      </circle>
 
-    <!-- İç halkalar -->
-    <circle cx="300" cy="300" r="50" fill="none" stroke="#777" stroke-width="4">
-      <animateTransform attributeName="transform" type="rotate"
-        from="0 300 300" to="360 300 300" dur="10s" repeatCount="indefinite"/>
-      <animate attributeName="r" values="50;180;50" dur="10s" repeatCount="indefinite"/>
-    </circle>
+      <!-- Gözler -->
+      <ellipse cx="270" cy="300" rx="15" ry="10" fill="#003366" stroke="#001A33" stroke-width="4" />
+      <circle cx="270" cy="300" r="9" fill="black" />
+      <circle cx="270" cy="295" r="3" fill="#66CCFF" opacity="0.8" />
 
-    <circle cx="300" cy="300" r="130" fill="none" stroke="#666" stroke-width="4">
-      <animateTransform attributeName="transform" type="rotate"
-        from="360 300 300" to="0 300 300" dur="10s" repeatCount="indefinite"/>
-      <animate attributeName="r" values="130;60;130" dur="10s" repeatCount="indefinite"/>
-    </circle>
+      <ellipse cx="330" cy="300" rx="15" ry="10" fill="#003366" stroke="#001A33" stroke-width="4" />
+      <circle cx="330" cy="300" r="9" fill="black" />
+      <circle cx="330" cy="295" r="3" fill="#66CCFF" opacity="0.8" />
+    </g>
 
-    <!-- Gözler -->
-    <ellipse cx="270" cy="300" rx="15" ry="10" fill="#003366" stroke="#001A33" stroke-width="4" />
-    <circle cx="270" cy="300" r="9" fill="black" />
-    <circle cx="270" cy="295" r="3" fill="#66CCFF" opacity="0.8" />
-
-    <ellipse cx="330" cy="300" rx="15" ry="10" fill="#003366" stroke="#001A33" stroke-width="4" />
-    <circle cx="330" cy="300" r="9" fill="black" />
-    <circle cx="330" cy="295" r="3" fill="#66CCFF" opacity="0.8" />
-  </svg>
-</div>
+    <!-- Yukarı aşağı animasyon -->
+    <animateTransform attributeName="transform" type="translate"
+      values="0 0; 0 -250; 0 0; 0 250; 0 0"
+      dur="20s" repeatCount="indefinite"/>
+  </g>
+</svg>
