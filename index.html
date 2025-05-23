@@ -11,6 +11,7 @@
   <meta property="og:title" content="Floop.fun - Meme Token Chaos" />
   <meta property="og:image" content="images/preview.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
+
   <style>
     .chaos-svg-wrapper {
       display: flex;
@@ -49,24 +50,21 @@
       50% { transform: scale(1.05); }
     }
 
-   .chaos-bg-container {
-  margin: 1cm auto;
-  max-width: 100%;
-  padding: 0 1cm;
-  position: relative;
-  border-radius: 60px;
-  overflow: hidden;
-}
-
-@media (min-width: 768px) {
-  .chaos-bg-container {
-    margin: 1.5cm auto;
-    max-width: calc(100% - 6cm);
-    padding: 0;
-  }
-}
-
-
+    .chaos-bg-container {
+      margin: 1cm auto;
+      max-width: 100%;
+      padding: 0 1cm;
+      position: relative;
+      border-radius: 60px;
+      overflow: hidden;
+    }
+    @media (min-width: 768px) {
+      .chaos-bg-container {
+        margin: 1.5cm auto;
+        max-width: calc(100% - 6cm);
+        padding: 0;
+      }
+    }
     .chaos-bg-svg img {
       width: 100%;
       height: auto;
@@ -89,10 +87,55 @@
       0% { transform: translateX(0); }
       100% { transform: translateX(-100%); }
     }
+
+    .mobile-menu {
+      position: absolute;
+      top: 60px;
+      right: 20px;
+      background: #11131b;
+      border: 1px solid #333;
+      border-radius: 10px;
+      padding: 10px;
+      z-index: 9999;
+    }
+    .mobile-menu ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .mobile-menu li {
+      margin: 10px 0;
+    }
+    .mobile-menu a {
+      color: white;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .menu-icon {
+      width: 20px;
+      height: 20px;
+    }
+
+    #searchContainer {
+      text-align: center;
+      margin: 10px;
+    }
+    #searchContainer input {
+      padding: 8px 12px;
+      border-radius: 20px;
+      border: none;
+    }
   </style>
 </head>
 <body class="intro-glitch">
 <canvas id="particle-canvas"></canvas>
+
+<!-- Arama Kutusu -->
+<div id="searchContainer" class="hidden">
+  <input type="text" placeholder="Search cults..." onkeydown="if(event.key === 'Enter'){ alert('Search: ' + this.value); }" />
+</div>
 
 <header class="boop-header">
   <div class="boop-left">
@@ -107,7 +150,7 @@
   </div>
 </header>
 
-<!-- MOBİL MENÜ -->
+<!-- Mobil Menü -->
 <div class="mobile-menu hidden" id="mobileMenu">
   <ul>
     <li><a href="https://x.com/floopfun" target="_blank"><img src="images/icons/x.svg" class="menu-icon" /> X</a></li>
@@ -115,14 +158,13 @@
     <li><a href="#"><img src="images/icons/chart.svg" class="menu-icon" /> Floop Chart</a></li>
   </ul>
 </div>
-<!-- SVG ZEMİN + BUTON -->
+
+<!-- SVG Zemin + Chaos Butonu -->
 <section class="chaos-bg-container">
-  <!-- Arka plan SVG -->
   <div class="chaos-bg-svg">
     <img src="images/chaos-bg.svg" alt="Chaos Background" />
   </div>
 
-  <!-- Parlayan SVG Buton -->
   <div class="chaos-svg-wrapper" onclick="toggleForm()">
     <svg viewBox="0 0 220 70" class="chaos-svg">
       <defs>
@@ -136,20 +178,19 @@
     <div class="chaos-text">Create the Chaos</div>
   </div>
 </section>
-
-<!-- REKLAM ALANI -->
+<!-- Reklam Alanı -->
 <section id="adBanner" style="max-width: 100%; margin: 0 auto 16px auto; height: 60px; background: rgba(255, 255, 255, 0.05); border-radius: 20px; overflow: hidden; padding: 0 20px;">
   <div class="ad-scroll">
     <span>Floop Ads: Create your meme token now • Featured cults get promoted • Join our Telegram for updates</span>
   </div>
 </section>
 
-<!-- MASKOT DÖNME -->
+<!-- Maskot Dönme Alanı -->
 <div id="mascotChaos" class="hidden">
   <img src="images/floop-mascot.png" alt="Chaos Mascot" class="mascot-popup" />
 </div>
 
-<!-- FİLTRE BAR -->
+<!-- Filtre Barı -->
 <div class="filter-bar">
   <img src="images/icons/settings.svg" class="filter-icon" />
   <div class="filters">
@@ -161,7 +202,7 @@
   </div>
 </div>
 
-<!-- WALLET MODAL (BOOP-STYLE) -->
+<!-- Wallet Modal -->
 <div id="walletModal" class="wallet-modal-overlay hidden">
   <div class="wallet-modal-box">
     <img src="images/floop-mascot.png" class="wallet-logo" />
@@ -182,14 +223,13 @@
     <button onclick="alert('Twitter login not supported yet')" class="wallet-option">
       <img src="images/icons/twitter.svg" /> Twitter
     </button>
-
     <p class="protected">Protected by Floop</p>
   </div>
 </div>
-
-<!-- PHANTOM MOBİL FALLBACK -->
+<!-- Phantom Mobil Fallback -->
 <a href="https://phantom.app/ul/browse/https://floopfun25.github.io/floppfun/" id="phantomLink" style="display: none;">Phantom</a>
-<!-- ALT NAVİGASYON -->
+
+<!-- Alt Navigasyon -->
 <nav class="bottom-nav">
   <a href="index.html" class="nav-link active">
     <img src="images/icons/cult.png" />
@@ -213,10 +253,10 @@
   </a>
 </nav>
 
-<!-- SES BUTONU -->
+<!-- Ses Butonu -->
 <button id="muteToggle" class="mute-button">🔊</button>
 
-<!-- WALLET MODAL STİLİ (boop-style) -->
+<!-- Wallet Modal Stili -->
 <style>
   .wallet-modal-overlay {
     position: fixed;
@@ -320,7 +360,6 @@
       window.location.href = "create.html";
     }, 2000);
   }
-
   // Wallet bağlantısı
   function connectWallet(walletType) {
     const phantomLink = document.getElementById("phantomLink");
