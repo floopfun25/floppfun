@@ -1,29 +1,113 @@
-<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="a" x1=".5" x2=".5" y2="1" gradientUnits="objectBoundingBox">
-      <stop offset="0" stop-color="#fff"/>
-      <stop offset="1" stop-color="#d0d1c8"/>
-    </linearGradient>
-  </defs>
-  <g transform="translate(-115 -118)">
-    <circle cx="100" cy="100" r="100" transform="translate(115 118)" fill="url(#a)"/>
-    <g transform="translate(154.452 166.553)">
-      <ellipse cx="17.272" cy="17.277" rx="17.272" ry="17.277" fill="#3a3a38"/>
-      <ellipse cx="17.272" cy="17.277" rx="11.153" ry="11.156" fill="#fff"/>
-      <ellipse cx="5.423" cy="5.423" rx="5.423" ry="5.423" transform="translate(11.849 11.854)" fill="#0d0e0c"/>
-      <circle cx="2.96" cy="2.96" r="2.96" transform="translate(21.184 14.813)" fill="#fff"/>
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100%" height="100%" fill="#FFFFFF"/>
+
+  <!-- Yağmur Damlaları -->
+  <g fill="#000000">
+    <path d="M0 0 Q3 10 0 20 Q-3 10 0 0 Z" >
+      <animateTransform attributeName="transform" type="translate" values="40,-40;40,220" dur="1.5s" repeatCount="indefinite" />
+    </path>
+    <path d="M0 0 Q3 10 0 20 Q-3 10 0 0 Z" >
+      <animateTransform attributeName="transform" type="translate" values="80,-60;80,220" dur="2s" repeatCount="indefinite" />
+    </path>
+  </g>
+
+  <!-- Çiçekler -->
+  <g fill="#FF69B4">
+    <g>
+      <circle cx="0" cy="0" r="3"/>
+      <ellipse cx="-5" cy="0" rx="2" ry="5" transform="rotate(45)"/>
+      <ellipse cx="5" cy="0" rx="2" ry="5" transform="rotate(-45)"/>
+      <animateTransform attributeName="transform" type="translate" values="60,-40;60,220" dur="3s" repeatCount="indefinite" />
     </g>
-    <g transform="translate(240.256 166.553)">
-      <ellipse cx="17.272" cy="17.277" rx="17.272" ry="17.277" fill="#3a3a38"/>
-      <ellipse cx="17.272" cy="17.277" rx="11.153" ry="11.156" fill="#fff"/>
-      <ellipse cx="5.423" cy="5.423" rx="5.423" ry="5.423" transform="translate(11.849 11.854)" fill="#0d0e0c"/>
-      <circle cx="2.96" cy="2.96" r="2.96" transform="translate(21.184 14.813)" fill="#fff"/>
+  </g>
+
+  <g fill="#FFA500">
+    <g>
+      <circle cx="0" cy="0" r="3"/>
+      <ellipse cx="-5" cy="0" rx="2" ry="5" transform="rotate(45)"/>
+      <ellipse cx="5" cy="0" rx="2" ry="5" transform="rotate(-45)"/>
+      <animateTransform attributeName="transform" type="translate" values="100,-50;100,220" dur="4s" repeatCount="indefinite" />
     </g>
-    <g transform="translate(154.646 255.222)">
-      <path d="M128.333 64.167a64.167 64.167 0 1 1-64.167-64.167 64.167 64.167 0 0 1 64.167 64.167z" transform="translate(-64.166)" fill="#3a3a38"/>
-      <ellipse cx="51.87" cy="51.888" rx="51.87" ry="51.888" transform="translate(12.298 12.278)" fill="#fff"/>
-      <ellipse cx="28.252" cy="28.259" rx="28.252" ry="28.259" transform="translate(35.915 35.906)" fill="#0d0e0c"/>
-      <circle cx="15.609" cy="15.609" r="15.609" transform="translate(48.557 48.557)" fill="#fff"/>
-    </g>
+  </g>
+
+  <!-- Kar Taneleri -->
+  <g fill="#FFFFFF">
+    <circle r="2">
+      <animateTransform attributeName="transform" type="translate" values="30,-30;30,220" dur="3.2s" repeatCount="indefinite"/>
+      <animate attributeName="cx" values="30;35;25;30" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="2.5">
+      <animateTransform attributeName="transform" type="translate" values="90,-50;90,220" dur="4s" repeatCount="indefinite"/>
+      <animate attributeName="cx" values="90;95;85;90" dur="4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- Araba -->
+  <g fill="#007ACC" >
+    <rect width="30" height="15" rx="3" ry="3" >
+      <animateTransform attributeName="transform" type="translate" values="20,-60;20,220" dur="5s" repeatCount="indefinite" />
+    </rect>
+    <circle cx="7" cy="15" r="5" fill="#333">
+      <animateTransform attributeName="transform" type="translate" values="20,-60;20,220" dur="5s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="23" cy="15" r="5" fill="#333">
+      <animateTransform attributeName="transform" type="translate" values="20,-60;20,220" dur="5s" repeatCount="indefinite" />
+    </circle>
+  </g>
+
+  <!-- Kedi -->
+  <g fill="#8B4513" >
+    <!-- Gövde -->
+    <ellipse cx="0" cy="0" rx="8" ry="12" />
+    <!-- Kulaklar -->
+    <polygon points="-6,-10 -2,-18 0,-12" fill="#5A3311"/>
+    <polygon points="6,-10 2,-18 0,-12" fill="#5A3311"/>
+    <!-- Gözler -->
+    <circle cx="-3" cy="-2" r="2" fill="#FFFFFF"/>
+    <circle cx="3" cy="-2" r="2" fill="#FFFFFF"/>
+    <circle cx="-3" cy="-2" r="1" fill="#000000"/>
+    <circle cx="3" cy="-2" r="1" fill="#000000"/>
+    <!-- Burun -->
+    <polygon points="-1,3 0,5 1,3" fill="#D2691E"/>
+    <animateTransform attributeName="transform" type="translate" values="120,-70;120,220" dur="6s" repeatCount="indefinite" />
+  </g>
+
+  <!-- Köpek -->
+  <g fill="#654321" >
+    <!-- Gövde -->
+    <ellipse cx="0" cy="0" rx="12" ry="8" />
+    <!-- Kulaklar -->
+    <ellipse cx="-8" cy="-10" rx="3" ry="5" fill="#5A3311"/>
+    <ellipse cx="8" cy="-10" rx="3" ry="5" fill="#5A3311"/>
+    <!-- Gözler -->
+    <circle cx="-5" cy="-2" r="2" fill="#FFFFFF"/>
+    <circle cx="5" cy="-2" r="2" fill="#FFFFFF"/>
+    <circle cx="-5" cy="-2" r="1" fill="#000000"/>
+    <circle cx="5" cy="-2" r="1" fill="#000000"/>
+    <!-- Burun -->
+    <ellipse cx="0" cy="4" rx="3" ry="2" fill="#3E2F1C"/>
+    <animateTransform attributeName="transform" type="translate" values="160,-80;160,220" dur="7s" repeatCount="indefinite" />
+  </g>
+
+  <!-- Ördek -->
+  <g fill="#FFD700" >
+    <!-- Gövde -->
+    <ellipse cx="0" cy="0" rx="12" ry="8" />
+    <!-- Baş -->
+    <circle cx="10" cy="-6" r="6" />
+    <!-- Göz -->
+    <circle cx="12" cy="-8" r="2" fill="#FFFFFF"/>
+    <circle cx="12" cy="-8" r="1" fill="#000000"/>
+    <!-- Gaga -->
+    <polygon points="16,-6 22,-4 16,-2" fill="#FFA500"/>
+    <animateTransform attributeName="transform" type="translate" values="50,-90;50,220" dur="5.5s" repeatCount="indefinite" />
+  </g>
+
+  <!-- Boğa -->
+  <g fill="#A52A2A" >
+    <rect x="-15" y="-10" width="30" height="20" rx="5" ry="5"/>
+    <polygon points="-15,-10 -25,-20 -20,-15 -15,-10" />
+    <polygon points="15,-10 25,-20 20,-15 15,-10" />
+    <animateTransform attributeName="transform" type="translate" values="180,-100;180,220" dur="6.5s" repeatCount="indefinite" />
   </g>
 </svg>
