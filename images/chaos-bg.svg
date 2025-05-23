@@ -1,4 +1,4 @@
-<div class="chaos-bg-container" style="position: relative; text-align: center;">
+<div class="chaos-bg-container" style="position: relative; text-align: center; overflow: hidden;">
   <!-- SVG Arka Plan -->
   <svg viewBox="0 0 600 600" preserveAspectRatio="xMidYMid slice"
        style="width: 100%; max-width: 320px; height: auto; display: block; margin: 0 auto;">
@@ -8,22 +8,18 @@
       <animateTransform attributeName="transform" type="rotate" from="0 300 300" to="360 300 300" dur="20s" repeatCount="indefinite"/>
       <animate attributeName="r" values="250;180;250" dur="20s" repeatCount="indefinite"/>
     </circle>
-
     <circle cx="300" cy="300" r="200" fill="none" stroke="#444" stroke-width="4">
       <animateTransform attributeName="transform" type="rotate" from="360 300 300" to="0 300 300" dur="18s" repeatCount="indefinite"/>
       <animate attributeName="r" values="200;140;200" dur="18s" repeatCount="indefinite"/>
     </circle>
-
     <circle cx="300" cy="300" r="150" fill="none" stroke="#555" stroke-width="4">
       <animateTransform attributeName="transform" type="rotate" from="0 300 300" to="360 300 300" dur="15s" repeatCount="indefinite"/>
       <animate attributeName="r" values="150;90;150" dur="15s" repeatCount="indefinite"/>
     </circle>
-
     <circle cx="300" cy="300" r="50" fill="none" stroke="#777" stroke-width="4">
       <animateTransform attributeName="transform" type="rotate" from="0 300 300" to="360 300 300" dur="10s" repeatCount="indefinite"/>
       <animate attributeName="r" values="50;180;50" dur="10s" repeatCount="indefinite"/>
     </circle>
-
     <circle cx="300" cy="300" r="130" fill="none" stroke="#666" stroke-width="4">
       <animateTransform attributeName="transform" type="rotate" from="360 300 300" to="0 300 300" dur="10s" repeatCount="indefinite"/>
       <animate attributeName="r" values="130;60;130" dur="10s" repeatCount="indefinite"/>
