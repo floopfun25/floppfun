@@ -1,137 +1,45 @@
-<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
-  <rect width="100%" height="100%" fill="#FFFFFF"/>
+<svg width="600" height="600" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+  <!-- Arka plan -->
+  <rect width="600" height="600" fill="black"/>
 
-  <!-- Yağmur Damlaları -->
-  <g fill="#000000">
-    <path d="M0 0 Q3 10 0 20 Q-3 10 0 0 Z" >
-      <animateTransform attributeName="transform" type="translate" values="40,-40;40,220" dur="1.5s" repeatCount="indefinite" />
-    </path>
-    <path d="M0 0 Q3 10 0 20 Q-3 10 0 0 Z" >
-      <animateTransform attributeName="transform" type="translate" values="80,-60;80,220" dur="2s" repeatCount="indefinite" />
-    </path>
-  </g>
+  <!-- Dış halkalar (daha fazla içe yaklaşma) -->
+  <circle cx="300" cy="300" r="250" fill="none" stroke="#333" stroke-width="4">
+    <animateTransform attributeName="transform" attributeType="XML"
+      type="rotate" from="0 300 300" to="360 300 300" dur="20s" repeatCount="indefinite"/>
+    <animate attributeName="r" values="250;180;250" dur="20s" repeatCount="indefinite"/>
+  </circle>
 
-  <!-- Çiçekler -->
-  <g fill="#FF69B4">
-    <g>
-      <circle cx="0" cy="0" r="3"/>
-      <ellipse cx="-5" cy="0" rx="2" ry="5" transform="rotate(45)"/>
-      <ellipse cx="5" cy="0" rx="2" ry="5" transform="rotate(-45)"/>
-      <animateTransform attributeName="transform" type="translate" values="60,-40;60,220" dur="3s" repeatCount="indefinite" />
-    </g>
-  </g>
+  <circle cx="300" cy="300" r="200" fill="none" stroke="#444" stroke-width="4">
+    <animateTransform attributeName="transform" attributeType="XML"
+      type="rotate" from="360 300 300" to="0 300 300" dur="18s" repeatCount="indefinite"/>
+    <animate attributeName="r" values="200;140;200" dur="18s" repeatCount="indefinite"/>
+  </circle>
 
-  <g fill="#FFA500">
-    <g>
-      <circle cx="0" cy="0" r="3"/>
-      <ellipse cx="-5" cy="0" rx="2" ry="5" transform="rotate(45)"/>
-      <ellipse cx="5" cy="0" rx="2" ry="5" transform="rotate(-45)"/>
-      <animateTransform attributeName="transform" type="translate" values="100,-50;100,220" dur="4s" repeatCount="indefinite" />
-    </g>
-  </g>
+  <circle cx="300" cy="300" r="150" fill="none" stroke="#555" stroke-width="4">
+    <animateTransform attributeName="transform" attributeType="XML"
+      type="rotate" from="0 300 300" to="360 300 300" dur="15s" repeatCount="indefinite"/>
+    <animate attributeName="r" values="150;90;150" dur="15s" repeatCount="indefinite"/>
+  </circle>
 
-  <!-- Kar Taneleri -->
-  <g fill="#FFFFFF">
-    <circle r="2">
-      <animateTransform attributeName="transform" type="translate" values="30,-30;30,220" dur="3.2s" repeatCount="indefinite"/>
-      <animate attributeName="cx" values="30;35;25;30" dur="3.2s" repeatCount="indefinite"/>
-    </circle>
-    <circle r="2.5">
-      <animateTransform attributeName="transform" type="translate" values="90,-50;90,220" dur="4s" repeatCount="indefinite"/>
-      <animate attributeName="cx" values="90;95;85;90" dur="4s" repeatCount="indefinite"/>
-    </circle>
-  </g>
+  <!-- İç halkalar (daha fazla dışa genişleme) -->
+  <circle cx="300" cy="300" r="50" fill="none" stroke="#777" stroke-width="4">
+    <animateTransform attributeName="transform" attributeType="XML"
+      type="rotate" from="0 300 300" to="360 300 300" dur="10s" repeatCount="indefinite"/>
+    <animate attributeName="r" values="50;180;50" dur="10s" repeatCount="indefinite"/>
+  </circle>
 
-  <!-- Ferrari Tarzı Araba -->
-  <g id="ferrari" fill="#D40000" stroke="#800000" stroke-width="1" transform="translate(0,-200) scale(0.3)">
-    <!-- Gövde -->
-    <path d="M10 40 
-             Q20 30 50 30 
-             L140 30 
-             Q170 30 180 50 
-             L180 70 
-             Q160 90 120 90 
-             L40 90 
-             Q20 90 10 70 
-             Z" />
-    <!-- Ön Kaput -->
-    <path d="M50 30 Q60 20 70 30 Z" fill="#B30000" />
-    <!-- Tekerlekler -->
-    <circle cx="40" cy="90" r="12" fill="#222" />
-    <circle cx="140" cy="90" r="12" fill="#222" />
-    <!-- Jantlar -->
-    <circle cx="40" cy="90" r="6" fill="#AAA" />
-    <circle cx="140" cy="90" r="6" fill="#AAA" />
-    <!-- Farlar -->
-    <ellipse cx="30" cy="50" rx="6" ry="3" fill="#FFF" />
-    <ellipse cx="160" cy="50" rx="6" ry="3" fill="#FFF" />
-    <!-- Cam -->
-    <path d="M70 30 Q100 10 130 30 Z" fill="#660000" />
-    <animateTransform attributeName="transform" type="translate" values="0,0;0,400" dur="6s" repeatCount="indefinite" additive="sum"/>
-  </g>
+  <circle cx="300" cy="300" r="130" fill="none" stroke="#666" stroke-width="4">
+    <animateTransform attributeName="transform" attributeType="XML"
+      type="rotate" from="360 300 300" to="0 300 300" dur="10s" repeatCount="indefinite"/>
+    <animate attributeName="r" values="130;60;130" dur="10s" repeatCount="indefinite"/>
+  </circle>
 
-  <!-- Kedi Kafası -->
-  <g id="cat" transform="translate(20,-100)">
-    <circle cx="0" cy="0" r="10" fill="#A0522D" />
-    <!-- Kulaklar -->
-    <polygon points="-10,-10 -5,-20 0,-10" fill="#A0522D" />
-    <polygon points="10,-10 5,-20 0,-10" fill="#A0522D" />
-    <!-- Gözler -->
-    <circle cx="-4" cy="-2" r="2" fill="#FFF" />
-    <circle cx="4" cy="-2" r="2" fill="#FFF" />
-    <circle cx="-4" cy="-2" r="1" fill="#000" />
-    <circle cx="4" cy="-2" r="1" fill="#000" />
-    <!-- Burun -->
-    <circle cx="0" cy="4" r="1.5" fill="#000" />
-    <!-- Bıyıklar -->
-    <line x1="-7" y1="4" x2="-12" y2="5" stroke="#000" stroke-width="1" />
-    <line x1="7" y1="4" x2="12" y2="5" stroke="#000" stroke-width="1" />
-    <animateTransform attributeName="transform" type="translate" values="20,-100;20,220" dur="5s" repeatCount="indefinite"/>
-  </g>
+  <!-- Korkutucu küçük gözler -->
+  <ellipse cx="270" cy="300" rx="15" ry="10" fill="#003366" stroke="#001A33" stroke-width="4" />
+  <circle cx="270" cy="300" r="9" fill="black" />
+  <circle cx="270" cy="295" r="3" fill="#66CCFF" opacity="0.8" />
 
-  <!-- Köpek Kafası -->
-  <g id="dog" transform="translate(60,-130)">
-    <circle cx="0" cy="0" r="10" fill="#C68642" />
-    <!-- Kulaklar -->
-    <ellipse cx="-7" cy="-7" rx="3" ry="7" fill="#7B4F27" />
-    <ellipse cx="7" cy="-7" rx="3" ry="7" fill="#7B4F27" />
-    <!-- Gözler -->
-    <circle cx="-4" cy="-2" r="2" fill="#FFF" />
-    <circle cx="4" cy="-2" r="2" fill="#FFF" />
-    <circle cx="-4" cy="-2" r="1" fill="#000" />
-    <circle cx="4" cy="-2" r="1" fill="#000" />
-    <!-- Burun -->
-    <ellipse cx="0" cy="5" rx="2" ry="1" fill="#000" />
-    <!-- Dil -->
-    <path d="M-3,8 Q0,12 3,8" fill="#FF6666" />
-    <animateTransform attributeName="transform" type="translate" values="60,-130;60,220" dur="5.5s" repeatCount="indefinite"/>
-  </g>
-
-  <!-- Boğa Kafası -->
-  <g id="bull" transform="translate(110,-110)">
-    <circle cx="0" cy="0" r="10" fill="#804000" />
-    <!-- Boynuzlar -->
-    <path d="M-10,-5 Q-15,-15 -10,-15 Q-5,-10 -10,-5 Z" fill="#DDD" />
-    <path d="M10,-5 Q15,-15 10,-15 Q5,-10 10,-5 Z" fill="#DDD" />
-    <!-- Gözler -->
-    <circle cx="-4" cy="-2" r="2" fill="#FFF" />
-    <circle cx="4" cy="-2" r="2" fill="#FFF" />
-    <circle cx="-4" cy="-2" r="1" fill="#000" />
-    <circle cx="4" cy="-2" r="1" fill="#000" />
-    <!-- Burun delikleri -->
-    <circle cx="-3" cy="5" r="1" fill="#000" />
-    <circle cx="3" cy="5" r="1" fill="#000" />
-    <animateTransform attributeName="transform" type="translate" values="110,-110;110,220" dur="6s" repeatCount="indefinite"/>
-  </g>
-
-  <!-- Ördek Kafası -->
-  <g id="duck" transform="translate(150,-120)">
-    <circle cx="0" cy="0" r="10" fill="#FFD700" />
-    <!-- Göz -->
-    <circle cx="-3" cy="-2" r="2" fill="#FFF" />
-    <circle cx="-3" cy="-2" r="1" fill="#000" />
-    <!-- Gaga -->
-    <path d="M10,0 Q15,5 10,10 Q5,5 10,0 Z" fill="#FF8C00" />
-    <animateTransform attributeName="transform" type="translate" values="150,-120;150,220" dur="6.5s" repeatCount="indefinite"/>
-  </g>
+  <ellipse cx="330" cy="300" rx="15" ry="10" fill="#003366" stroke="#001A33" stroke-width="4" />
+  <circle cx="330" cy="300" r="9" fill="black" />
+  <circle cx="330" cy="295" r="3" fill="#66CCFF" opacity="0.8" />
 </svg>
