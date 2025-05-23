@@ -590,10 +590,7 @@ async function connectWallet() {
 document.querySelector(".connect-btn").addEventListener("click", connectWallet);
 async function submitForm() {
   const imageFile = document.getElementById('imageInput').files[0];
-  if (!imageFile) {
-    alert("Lütfen bir görsel yükleyin.");
-    return;
-  }
+  if (!imageFile) return alert("Lütfen bir görsel yükleyin.");
 
   const tokenName = document.querySelector('input[placeholder="My Token Name"]').value.trim();
   const ticker = document.querySelector('input[placeholder="$ TICKER"]').value.trim();
@@ -602,16 +599,67 @@ async function submitForm() {
   const lore = document.querySelector('textarea').value.trim();
   const lockType = document.getElementById("lockDuration").value;
   const customDays = document.getElementById("customLock").value;
+  const prebuy = document.getElementById("manualSOL").value || "0";
 
   if (!tokenName || !ticker || !supply || !devShare || !lore) {
-    alert("Tüm zorunlu alanları doldurun.");
-    return;
+    return alert("Tüm zorunlu alanları doldurun.");
   }
 
   if (lockType === "custom" && !customDays) {
-    alert("Custom lock süresi giriniz.");
-    return;
+    return alert("Custom lock süresi giriniz.");
   }
+
+  const lockDuration = lockType === "custom" ? `${customDays} days` : lockType;
+
+  // Sosyal medya linklerini topla
+  const socials = {};
+  document.querySelectorAll('#socialContainer input').forEach(input => {
+    socials[input.name.replace('social-', '')] = input.value.trim();
+  });
+
+  try {
+    // === 1. GÖRSELİ YÜKLE ===
+    const fileExt = imageFile.name.split('.').pop();
+    const fileName = `${Date.now()}.${fileExt}`;
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from("token-images")
+      .upload(fileName, imageFile);
+
+    if (uploadError) throw uploadError;
+
+    const { data: urlData } = supabase
+      .storage
+      .from("token-images")
+      .getPublicUrl(fileName);
+
+    const imageUrl = urlData.publicUrl;
+
+    // === 2. FORM VERİSİNİ GÖNDER ===
+    const { error: insertError } = await supabase
+      .from("create_chaos")
+      .insert([
+        {
+          token_name: tokenName,
+          ticker: ticker,
+          supply: supply,
+          dev_share: devShare,
+          kaos_lore: lore,
+          lock_duration: lockDuration,
+          image_url: imageUrl,
+          socials: socials,
+          prebuy_sol: prebuy
+        }
+      ]);
+
+    if (insertError) throw insertError;
+
+    alert("Form başarıyla gönderildi!");
+    window.location.href = "index.html";
+  } catch (err) {
+    console.error("Form gönderim hatası:", err);
+    alert("Bir hata oluştu. Lütfen tekrar deneyin.");
+  }
+}
 
   // Devamında Supabase ile gönderim işlemleri burada yapılır
   alert("Form doğrulamaları geçti. Supabase gönderimi burada yapılır.");
