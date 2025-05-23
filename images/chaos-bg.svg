@@ -1,45 +1,45 @@
-<svg width="600" height="600" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
-  <!-- Arka plan -->
-  <rect width="600" height="600" fill="black"/>
+<div class="chaos-bg-container" style="position: relative; text-align: center;">
+  <!-- SVG Arka Plan -->
+  <svg viewBox="0 0 600 600" preserveAspectRatio="xMidYMid slice"
+       style="width: 100%; max-width: 320px; height: auto; display: block; margin: 0 auto;">
+    <rect width="600" height="600" fill="black"/>
 
-  <!-- Dış halkalar (daha fazla içe yaklaşma) -->
-  <circle cx="300" cy="300" r="250" fill="none" stroke="#333" stroke-width="4">
-    <animateTransform attributeName="transform" attributeType="XML"
-      type="rotate" from="0 300 300" to="360 300 300" dur="20s" repeatCount="indefinite"/>
-    <animate attributeName="r" values="250;180;250" dur="20s" repeatCount="indefinite"/>
-  </circle>
+    <circle cx="300" cy="300" r="250" fill="none" stroke="#333" stroke-width="4">
+      <animateTransform attributeName="transform" type="rotate" from="0 300 300" to="360 300 300" dur="20s" repeatCount="indefinite"/>
+      <animate attributeName="r" values="250;180;250" dur="20s" repeatCount="indefinite"/>
+    </circle>
 
-  <circle cx="300" cy="300" r="200" fill="none" stroke="#444" stroke-width="4">
-    <animateTransform attributeName="transform" attributeType="XML"
-      type="rotate" from="360 300 300" to="0 300 300" dur="18s" repeatCount="indefinite"/>
-    <animate attributeName="r" values="200;140;200" dur="18s" repeatCount="indefinite"/>
-  </circle>
+    <circle cx="300" cy="300" r="200" fill="none" stroke="#444" stroke-width="4">
+      <animateTransform attributeName="transform" type="rotate" from="360 300 300" to="0 300 300" dur="18s" repeatCount="indefinite"/>
+      <animate attributeName="r" values="200;140;200" dur="18s" repeatCount="indefinite"/>
+    </circle>
 
-  <circle cx="300" cy="300" r="150" fill="none" stroke="#555" stroke-width="4">
-    <animateTransform attributeName="transform" attributeType="XML"
-      type="rotate" from="0 300 300" to="360 300 300" dur="15s" repeatCount="indefinite"/>
-    <animate attributeName="r" values="150;90;150" dur="15s" repeatCount="indefinite"/>
-  </circle>
+    <circle cx="300" cy="300" r="150" fill="none" stroke="#555" stroke-width="4">
+      <animateTransform attributeName="transform" type="rotate" from="0 300 300" to="360 300 300" dur="15s" repeatCount="indefinite"/>
+      <animate attributeName="r" values="150;90;150" dur="15s" repeatCount="indefinite"/>
+    </circle>
 
-  <!-- İç halkalar (daha fazla dışa genişleme) -->
-  <circle cx="300" cy="300" r="50" fill="none" stroke="#777" stroke-width="4">
-    <animateTransform attributeName="transform" attributeType="XML"
-      type="rotate" from="0 300 300" to="360 300 300" dur="10s" repeatCount="indefinite"/>
-    <animate attributeName="r" values="50;180;50" dur="10s" repeatCount="indefinite"/>
-  </circle>
+    <circle cx="300" cy="300" r="50" fill="none" stroke="#777" stroke-width="4">
+      <animateTransform attributeName="transform" type="rotate" from="0 300 300" to="360 300 300" dur="10s" repeatCount="indefinite"/>
+      <animate attributeName="r" values="50;180;50" dur="10s" repeatCount="indefinite"/>
+    </circle>
 
-  <circle cx="300" cy="300" r="130" fill="none" stroke="#666" stroke-width="4">
-    <animateTransform attributeName="transform" attributeType="XML"
-      type="rotate" from="360 300 300" to="0 300 300" dur="10s" repeatCount="indefinite"/>
-    <animate attributeName="r" values="130;60;130" dur="10s" repeatCount="indefinite"/>
-  </circle>
+    <circle cx="300" cy="300" r="130" fill="none" stroke="#666" stroke-width="4">
+      <animateTransform attributeName="transform" type="rotate" from="360 300 300" to="0 300 300" dur="10s" repeatCount="indefinite"/>
+      <animate attributeName="r" values="130;60;130" dur="10s" repeatCount="indefinite"/>
+    </circle>
 
-  <!-- Korkutucu küçük gözler -->
-  <ellipse cx="270" cy="300" rx="15" ry="10" fill="#003366" stroke="#001A33" stroke-width="4" />
-  <circle cx="270" cy="300" r="9" fill="black" />
-  <circle cx="270" cy="295" r="3" fill="#66CCFF" opacity="0.8" />
+    <ellipse cx="270" cy="300" rx="15" ry="10" fill="#003366" stroke="#001A33" stroke-width="4" />
+    <circle cx="270" cy="300" r="9" fill="black" />
+    <circle cx="270" cy="295" r="3" fill="#66CCFF" opacity="0.8" />
 
-  <ellipse cx="330" cy="300" rx="15" ry="10" fill="#003366" stroke="#001A33" stroke-width="4" />
-  <circle cx="330" cy="300" r="9" fill="black" />
-  <circle cx="330" cy="295" r="3" fill="#66CCFF" opacity="0.8" />
-</svg>
+    <ellipse cx="330" cy="300" rx="15" ry="10" fill="#003366" stroke="#001A33" stroke-width="4" />
+    <circle cx="330" cy="300" r="9" fill="black" />
+    <circle cx="330" cy="295" r="3" fill="#66CCFF" opacity="0.8" />
+  </svg>
+
+  <!-- Buton -->
+  <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2;">
+    <button class="chaos-button">Create the Chaos</button>
+  </div>
+</div>
