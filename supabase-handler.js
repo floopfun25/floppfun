@@ -72,8 +72,7 @@ async function submitForm() {
 
     alert("Form başarıyla gönderildi!");
     window.location.href = "index.html";
-  } catch (err) {
-    console.error("Form gönderim hatası:", err);
-    alert("Bir hata oluştu. Lütfen tekrar deneyin.");
-  }
+  catch (err) {
+  console.error("Form gönderim hatası:", err);
+  alert("Hata: " + err.message);
 }
