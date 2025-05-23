@@ -11,7 +11,6 @@
   <meta property="og:title" content="Floop.fun - Meme Token Chaos" />
   <meta property="og:image" content="images/preview.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
-
   <style>
     .chaos-svg-wrapper {
       display: flex;
@@ -58,6 +57,7 @@
       border-radius: 60px;
       overflow: hidden;
     }
+
     @media (min-width: 768px) {
       .chaos-bg-container {
         margin: 1.5cm auto;
@@ -65,6 +65,7 @@
         padding: 0;
       }
     }
+
     .chaos-bg-svg img {
       width: 100%;
       height: auto;
@@ -159,7 +160,7 @@
   </ul>
 </div>
 
-<!-- SVG Zemin + Chaos Butonu -->
+<!-- SVG Zemin + Buton -->
 <section class="chaos-bg-container">
   <div class="chaos-bg-svg">
     <img src="images/chaos-bg.svg" alt="Chaos Background" />
@@ -207,7 +208,6 @@
   <div class="wallet-modal-box">
     <img src="images/floop-mascot.png" class="wallet-logo" />
     <h2>Log in or sign up</h2>
-
     <button onclick="connectWallet('okx')" class="wallet-option">
       <img src="images/icons/okx.svg" /> OKX Wallet <span>Solana</span>
     </button>
@@ -329,28 +329,31 @@
 <script src="script.js"></script>
 
 <script>
-  // Sayfa açıldığında glitch efektini kaldır
-  window.addEventListener("load", () => {
+  document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
       document.body.classList.remove("intro-glitch");
     }, 700);
+
+    document.getElementById("searchBtn")?.addEventListener("click", () => {
+      document.getElementById("searchContainer")?.classList.toggle("hidden");
+    });
+
+    document.getElementById("menuBtn")?.addEventListener("click", () => {
+      document.getElementById("mobileMenu")?.classList.toggle("hidden");
+    });
+
+    document.getElementById("connectWallet")?.addEventListener("click", () => {
+      document.getElementById("walletModal")?.classList.remove("hidden");
+    });
+
+    document.getElementById("walletModal")?.addEventListener("click", (e) => {
+      const box = document.querySelector(".wallet-modal-box");
+      if (!box.contains(e.target)) {
+        document.getElementById("walletModal")?.classList.add("hidden");
+      }
+    });
   });
 
-  // Arama kutusu toggle
-  document.getElementById("searchBtn").addEventListener("click", () => {
-    const searchContainer = document.getElementById("searchContainer");
-    if (searchContainer) {
-      searchContainer.classList.toggle("hidden");
-    }
-  });
-
-  // Mobil menü toggle
-  document.getElementById("menuBtn").addEventListener("click", () => {
-    const menu = document.getElementById("mobileMenu");
-    menu.classList.toggle("hidden");
-  });
-
-  // Create Chaos butonuna tıklanınca maskot dönsün ve yönlendirsin
   function toggleForm() {
     const mascot = document.getElementById("mascotChaos");
     mascot.classList.remove("hidden");
@@ -360,10 +363,8 @@
       window.location.href = "create.html";
     }, 2000);
   }
-  // Wallet bağlantısı
   function connectWallet(walletType) {
     const phantomLink = document.getElementById("phantomLink");
-
     if (walletType === "phantom") {
       if (window.solana && window.solana.isPhantom) {
         window.solana.connect().then(resp => {
@@ -376,22 +377,8 @@
     } else {
       alert(walletType + " not yet integrated.");
     }
-
-    document.getElementById("walletModal").classList.add("hidden");
+    document.getElementById("walletModal")?.classList.add("hidden");
   }
-
-  // Modal dışına tıklanırsa kapat
-  document.getElementById("walletModal").addEventListener("click", (e) => {
-    const box = document.querySelector(".wallet-modal-box");
-    if (!box.contains(e.target)) {
-      document.getElementById("walletModal").classList.add("hidden");
-    }
-  });
-
-  // Connect butonuna tıklanınca modalı aç
-  document.getElementById("connectWallet").addEventListener("click", () => {
-    document.getElementById("walletModal").classList.remove("hidden");
-  });
 </script>
 </body>
 </html>
