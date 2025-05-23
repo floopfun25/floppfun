@@ -5,6 +5,7 @@
   <title>Create Your Cult</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <style>
     body {
       margin: 0;
@@ -111,7 +112,6 @@
       border-radius: 10px;
       font-size: 14px;
     }
-
     textarea {
       resize: vertical;
       min-height: 100px;
@@ -343,7 +343,6 @@
         <label>pre-buy <small>(optional)</small></label>
         <div id="prebuySwitch" class="toggle-switch"></div>
       </div>
-
       <div id="prebuyOptions" class="prebuy-options">
         <div class="prebuy-buttons">
           <button onclick="setPrebuy(this, 1)">1%</button>
@@ -365,6 +364,7 @@
         </div>
       </div>
     </div>
+
     <!-- Sosyal medya bağlantıları -->
     <div>
       <label>add socials</label>
@@ -390,6 +390,10 @@
 <audio id="glassBreak" src="sounds/glass-break.mp3" preload="auto"></audio>
 
 <script>
+const supabase = supabase.createClient(
+  "https://mlczuanztnqcngioayas.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sY3p1YW56dG5xY25naW9heWFzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NzIwOTYsImV4cCI6MjA2MjM0ODA5Nn0.ShPAiWshDqZD0pAP9RMGdpfrpBtoGd58r_agzigReeI"
+);
 let solPriceUSD = 150;
 
 async function fetchSOLPrice() {
@@ -530,7 +534,6 @@ function handleFile(file) {
     alert("File too large or invalid.");
   }
 }
-
 uploadBox.addEventListener('dragover', e => {
   e.preventDefault();
   uploadBox.style.borderColor = '#0f0';
@@ -588,6 +591,7 @@ async function connectWallet() {
 }
 
 document.querySelector(".connect-btn").addEventListener("click", connectWallet);
+
 async function submitForm() {
   const imageFile = document.getElementById('imageInput').files[0];
   if (!imageFile) return alert("Lütfen bir görsel yükleyin.");
@@ -610,7 +614,6 @@ async function submitForm() {
   }
 
   const lockDuration = lockType === "custom" ? `${customDays} days` : lockType;
-
   // Sosyal medya linklerini topla
   const socials = {};
   document.querySelectorAll('#socialContainer input').forEach(input => {
@@ -618,10 +621,11 @@ async function submitForm() {
   });
 
   try {
-    // === 1. GÖRSELİ YÜKLE ===
+    // === 1. Görseli Supabase Storage'a yükle ===
     const fileExt = imageFile.name.split('.').pop();
     const fileName = `${Date.now()}.${fileExt}`;
-    const { data: uploadData, error: uploadError } = await supabase.storage
+    const { data: uploadData, error: uploadError } = await supabase
+      .storage
       .from("token-images")
       .upload(fileName, imageFile);
 
@@ -634,7 +638,7 @@ async function submitForm() {
 
     const imageUrl = urlData.publicUrl;
 
-    // === 2. FORM VERİSİNİ GÖNDER ===
+    // === 2. Verileri Supabase'e kaydet ===
     const { error: insertError } = await supabase
       .from("create_chaos")
       .insert([
@@ -659,10 +663,6 @@ async function submitForm() {
     console.error("Form gönderim hatası:", err);
     alert("Bir hata oluştu. Lütfen tekrar deneyin.");
   }
-}
-
-  // Devamında Supabase ile gönderim işlemleri burada yapılır
-  alert("Form doğrulamaları geçti. Supabase gönderimi burada yapılır.");
 }
 </script>
 </body>
