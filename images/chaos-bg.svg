@@ -1,35 +1,14 @@
-<svg width="220" height="120" viewBox="0 0 220 120" xmlns="http://www.w3.org/2000/svg">
-
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <!-- Iris için mavi degrade -->
-    <radialGradient id="irisGradient" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#003399"/>
-      <stop offset="70%" stop-color="#3399ff"/>
-      <stop offset="100%" stop-color="#66ccff"/>
-    </radialGradient>
-
-    <!-- Göz beyazı degrade -->
-    <radialGradient id="eyeWhite" cx="50%" cy="50%" r="70%">
-      <stop offset="30%" stop-color="#ffffff"/>
-      <stop offset="100%" stop-color="#cccccc"/>
-    </radialGradient>
+    <linearGradient id="a" x1=".5" x2=".5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#d0d1c8"/>
+    </linearGradient>
   </defs>
-
-  <!-- Sol göz beyazı -->
-  <ellipse cx="70" cy="60" rx="55" ry="35" fill="url(#eyeWhite)" stroke="black" stroke-width="3"/>
-  <!-- Sol iris -->
-  <circle cx="70" cy="60" r="30" fill="url(#irisGradient)" stroke="#002266" stroke-width="2"/>
-  <!-- Sol göz bebeği -->
-  <circle cx="70" cy="60" r="15" fill="#001133"/>
-  <!-- Sol yansıma -->
-  <circle cx="80" cy="50" r="10" fill="white" opacity="0.8"/>
-
-  <!-- Sağ göz beyazı -->
-  <ellipse cx="150" cy="60" rx="55" ry="35" fill="url(#eyeWhite)" stroke="black" stroke-width="3"/>
-  <!-- Sağ iris -->
-  <circle cx="150" cy="60" r="30" fill="url(#irisGradient)" stroke="#002266" stroke-width="2"/>
-  <!-- Sağ göz bebeği -->
-  <circle cx="150" cy="60" r="15" fill="#001133"/>
-  <!-- Sağ yansıma -->
-  <circle cx="160" cy="50" r="10" fill="white" opacity="0.8"/>
-</svg>
+  <g transform="translate(-115 -118)">
+    <circle cx="100" cy="100" r="100" transform="translate(115 118)" fill="url(#a)"/>
+    <g transform="translate(154.452 166.553)">
+      <ellipse cx="17.272" cy="17.277" rx="17.272" ry="17.277" fill="#3a3a38"/>
+      <ellipse cx="17.272" cy="17.277" rx="11.153" ry="11.156" fill="#fff"/>
+      <ellipse cx="5.423" cy="5.423" rx="5.423" ry="5.423" transform="translate(11.849 11.854)" fill="#0d0e0c"/>
+      <circle cx="2.96" cy="2.96" r="2.96" t
