@@ -11,4 +11,19 @@
       <ellipse cx="17.272" cy="17.277" rx="17.272" ry="17.277" fill="#3a3a38"/>
       <ellipse cx="17.272" cy="17.277" rx="11.153" ry="11.156" fill="#fff"/>
       <ellipse cx="5.423" cy="5.423" rx="5.423" ry="5.423" transform="translate(11.849 11.854)" fill="#0d0e0c"/>
-      <circle cx="2.96" cy="2.96" r="2.96" t
+      <circle cx="2.96" cy="2.96" r="2.96" transform="translate(21.184 14.813)" fill="#fff"/>
+    </g>
+    <g transform="translate(240.256 166.553)">
+      <ellipse cx="17.272" cy="17.277" rx="17.272" ry="17.277" fill="#3a3a38"/>
+      <ellipse cx="17.272" cy="17.277" rx="11.153" ry="11.156" fill="#fff"/>
+      <ellipse cx="5.423" cy="5.423" rx="5.423" ry="5.423" transform="translate(11.849 11.854)" fill="#0d0e0c"/>
+      <circle cx="2.96" cy="2.96" r="2.96" transform="translate(21.184 14.813)" fill="#fff"/>
+    </g>
+    <g transform="translate(154.646 255.222)">
+      <path d="M128.333 64.167a64.167 64.167 0 1 1-64.167-64.167 64.167 64.167 0 0 1 64.167 64.167z" transform="translate(-64.166)" fill="#3a3a38"/>
+      <ellipse cx="51.87" cy="51.888" rx="51.87" ry="51.888" transform="translate(12.298 12.278)" fill="#fff"/>
+      <ellipse cx="28.252" cy="28.259" rx="28.252" ry="28.259" transform="translate(35.915 35.906)" fill="#0d0e0c"/>
+      <circle cx="15.609" cy="15.609" r="15.609" transform="translate(48.557 48.557)" fill="#fff"/>
+    </g>
+  </g>
+</svg>
