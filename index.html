@@ -12,146 +12,44 @@
   <meta property="og:image" content="images/preview.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
   <style>
-    .chaos-svg-wrapper {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 60px auto;
-      width: 240px;
-      height: 70px;
-      cursor: pointer;
-      position: relative;
-      z-index: 2;
-      animation: pulse 3s infinite;
+    .token-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
     }
-    .chaos-svg {
-      width: 100%;
-      height: 100%;
-    }
-    .chaos-rect {
-      fill: rgba(255, 255, 255, 0.1);
-      stroke: url(#chaosGradient);
-      stroke-width: 2;
-      rx: 30;
-      ry: 30;
-    }
-    .chaos-text {
-      position: absolute;
-      font-family: 'Poppins', sans-serif;
-      font-size: 16px;
-      font-weight: bold;
-      color: white;
-      text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
-      pointer-events: none;
-    }
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-    }
-
-    .chaos-bg-container {
-      margin: 1cm auto;
-      max-width: 100%;
-      padding: 0 1cm;
-      position: relative;
-      border-radius: 60px;
-      overflow: hidden;
-    }
-
-    @media (min-width: 768px) {
-      .chaos-bg-container {
-        margin: 1.5cm auto;
-        max-width: calc(100% - 6cm);
-        padding: 0;
-      }
-    }
-
-    .chaos-bg-svg img {
-      width: 100%;
-      height: auto;
-      opacity: 0.6;
-    }
-
-    .ad-scroll {
-      white-space: nowrap;
-      overflow: hidden;
-      position: relative;
-    }
-    .ad-scroll span {
-      display: inline-block;
-      padding-left: 100%;
-      animation: scroll-left 15s linear infinite;
-      color: #bbb;
-      font-style: italic;
-    }
-    .hidden {
-  display: none !important;
-}
-
-    @keyframes scroll-left {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-100%); }
-    }
-
-    .mobile-menu {
-      position: absolute;
-      top: 60px;
-      right: 20px;
+    .token-card {
       background: #11131b;
       border: 1px solid #333;
-      border-radius: 10px;
-      padding: 10px;
-      z-index: 9999;
-    }
-    .mobile-menu ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
-    .mobile-menu li {
-      margin: 10px 0;
-    }
-    .mobile-menu a {
+      border-radius: 16px;
+      padding: 16px;
       color: white;
-      text-decoration: none;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 8px;
-    }
-    .menu-icon {
-      width: 20px;
-      height: 20px;
-    }
-
-    #searchContainer {
       text-align: center;
-      margin: 10px;
     }
-    #searchContainer input {
-      padding: 8px 12px;
-      border-radius: 20px;
-      border: none;
+    .token-card img {
+      max-width: 100%;
+      border-radius: 12px;
+      margin-bottom: 10px;
     }
-    .token-maskot-section {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 1rem;
-  margin-bottom: -2rem;
-  pointer-events: none;
-  z-index: 0;
-  position: relative;
-}
-.token-maskot-section img {
-  max-width: 320px;
-  filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.4));
-}
-
+    .token-card h3 {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+    .token-card p {
+      margin: 6px 0;
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
   </style>
 </head>
 <body class="intro-glitch">
 <canvas id="particle-canvas"></canvas>
-
 <!-- Arama Kutusu -->
 <div id="searchContainer" class="hidden">
   <input type="text" placeholder="Search cults..." onkeydown="if(event.key === 'Enter'){ alert('Search: ' + this.value); }" />
@@ -184,7 +82,6 @@
   <div class="chaos-bg-svg">
     <img src="images/chaos-bg.svg" alt="Chaos Background" />
   </div>
-
   <div class="chaos-svg-wrapper" onclick="toggleForm()">
     <svg viewBox="0 0 220 70" class="chaos-svg">
       <defs>
@@ -221,11 +118,11 @@
     <button class="filter-btn">oldest</button>
   </div>
 </div>
-<!-- Maskot Arka Plan -->
-<section class="token-maskot-section">
-  <img src="images/floop-spirit.png" alt="Floop Mascot Background" />
-</section>
 
+<!-- Token Listesi: Supabase'den gelecek -->
+<section id="tokenList" class="token-grid">
+  <!-- Token kartları burada JavaScript ile oluşturulacak -->
+</section>
 <!-- Wallet Modal -->
 <div id="walletModal" class="wallet-modal-overlay hidden">
   <div class="wallet-modal-box">
@@ -249,6 +146,7 @@
     <p class="protected">Protected by Floop</p>
   </div>
 </div>
+
 <!-- Phantom Mobil Fallback -->
 <a href="https://phantom.app/ul/browse/https://floopfun25.github.io/floppfun/" id="phantomLink" style="display: none;">Phantom</a>
 
@@ -278,7 +176,6 @@
 
 <!-- Ses Butonu -->
 <button id="muteToggle" class="mute-button">🔊</button>
-
 <!-- Wallet Modal Stili -->
 <style>
   .wallet-modal-overlay {
@@ -346,16 +243,15 @@
     color: #888;
   }
 </style>
+
 <!-- SCRIPTLER -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
 <script src="script.js"></script>
-
 <script>
+  // === Sayfa giriş efektleri ve butonlar ===
   document.addEventListener("DOMContentLoaded", () => {
-    setTimeout(() => {
-      document.body.classList.remove("intro-glitch");
-    }, 700);
+    setTimeout(() => document.body.classList.remove("intro-glitch"), 700);
 
     document.getElementById("searchBtn")?.addEventListener("click", () => {
       document.getElementById("searchContainer")?.classList.toggle("hidden");
@@ -375,6 +271,8 @@
         document.getElementById("walletModal")?.classList.add("hidden");
       }
     });
+
+    fetchTokens();
   });
 
   function toggleForm() {
@@ -386,6 +284,7 @@
       window.location.href = "create.html";
     }, 2000);
   }
+
   function connectWallet(walletType) {
     const phantomLink = document.getElementById("phantomLink");
     if (walletType === "phantom") {
@@ -401,6 +300,44 @@
       alert(walletType + " not yet integrated.");
     }
     document.getElementById("walletModal")?.classList.add("hidden");
+  }
+
+  // === Supabase bağlantısı ===
+  const supabase = supabase.createClient(
+    "https://mlczuanztnqcngioayas.supabase.co",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sY3p1YW56dG5xY25naW9heWFzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NzIwOTYsImV4cCI6MjA2MjM0ODA5Nn0.ShPAiWshDqZD0pAP9RMGdpfrpBtoGd58r_agzigReeI"
+  );
+
+  async function fetchTokens() {
+    const { data, error } = await supabase
+      .from("create_chaos")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    const container = document.getElementById("tokenList");
+    if (error) {
+      container.innerHTML = `<p style="color:red">Error loading tokens.</p>`;
+      return;
+    }
+
+    if (!data || data.length === 0) {
+      container.innerHTML = "<p>No tokens launched yet.</p>";
+      return;
+    }
+
+    container.innerHTML = ""; // temizle
+
+    data.forEach(token => {
+      const card = document.createElement("div");
+      card.className = "token-card";
+      card.innerHTML = `
+        <img src="${token.image_url || 'images/icons/cult.png'}" alt="${token.token_name}" />
+        <h3>${token.token_name}</h3>
+        <p>${token.token_symbol}</p>
+        <p>${token.kaos_lore?.substring(0, 60) || 'No lore.'}</p>
+      `;
+      container.appendChild(card);
+    });
   }
 </script>
 </body>
