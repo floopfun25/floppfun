@@ -588,34 +588,7 @@ async function connectWallet() {
 }
 
 document.querySelector(".connect-btn").addEventListener("click", connectWallet);
-async function submitForm() {
-  const imageFile = document.getElementById('imageInput').files[0];
-  if (!imageFile) {
-    alert("Lütfen bir görsel yükleyin.");
-    return;
-  }
 
-  const tokenName = document.querySelector('input[placeholder="My Token Name"]').value.trim();
-  const ticker = document.querySelector('input[placeholder="$ TICKER"]').value.trim();
-  const supply = document.querySelector('input[placeholder="e.g. 1000000"]').value.trim();
-  const devShare = document.querySelector('input[placeholder="e.g. 10"]').value.trim();
-  const lore = document.querySelector('textarea').value.trim();
-  const lockType = document.getElementById("lockDuration").value;
-  const customDays = document.getElementById("customLock").value;
-
-  if (!tokenName || !ticker || !supply || !devShare || !lore) {
-    alert("Tüm zorunlu alanları doldurun.");
-    return;
-  }
-
-  if (lockType === "custom" && !customDays) {
-    alert("Custom lock süresi giriniz.");
-    return;
-  }
-
-  // Devamında Supabase ile gönderim işlemleri burada yapılır
-  alert("Form doğrulamaları geçti. Supabase gönderimi burada yapılır.");
-}
 </script>
   <script src="supabase-handler.js"></script>
 
