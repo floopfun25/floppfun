@@ -27,13 +27,12 @@
   <div id="socialContainer">
     <input name="social-twitter" placeholder="Twitter"><br>
     <input name="social-discord" placeholder="Discord"><br>
-    <!-- Diğer sosyal medya alanları eklenebilir -->
   </div>
 
   <button onclick="submitForm()">Gönder</button>
 
   <script>
-    const supabase = window.supabase.createClient(
+    const supabase = supabase.createClient(
       "https://mlczuanztnqcngioayas.supabase.co",
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sY3p1YW56dG5xY25naW9heWFzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NzIwOTYsImV4cCI6MjA2MjM0ODA5Nn0.ShPAiWshDqZD0pAP9RMGdpfrpBtoGd58r_agzigReeI"
     );
