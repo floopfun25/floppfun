@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Floop.fun - Create Chaos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="images/icons/floop-favicon.ico" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+  <meta name="description" content="Start your chaos on Solana. Meme tokens, just chaos." />
+  <meta property="og:title" content="Floop.fun - Meme Token Chaos" />
+  <meta property="og:image" content="images/preview.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <style>
+    .chaos-svg-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 60px auto;
+      width: 240px;
+      height: 70px;
+      cursor: pointer;
+      position: relative;
+      z-index: 2;
+      animation: pulse 3s infinite;
+    }
+    .chaos-svg {
+      width: 100%;
+      height: 100%;
+    }
+    .chaos-rect {
+      fill: rgba(255, 255, 255, 0.1);
+      stroke: url(#chaosGradient);
+      stroke-width: 2;
+      rx: 30;
+      ry: 30;
+    }
+    .chaos-text {
+      position: absolute;
+      font-family: 'Poppins', sans-serif;
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+      pointer-events: none;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+   .chaos-bg-container {
+  margin: 1cm auto;
+  max-width: 100%;
+  padding: 0 1cm;
+  position: relative;
+  border-radius: 60px;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .chaos-bg-container {
+    margin: 1.5cm auto;
+    max-width: calc(100% - 6cm);
+    padding: 0;
+  }
+}
+
+
+    .chaos-bg-svg img {
+      width: 100%;
+      height: auto;
+      opacity: 0.6;
+    }
+
+    .ad-scroll {
+      white-space: nowrap;
+      overflow: hidden;
+      position: relative;
+    }
+    .ad-scroll span {
+      display: inline-block;
+      padding-left: 100%;
+      animation: scroll-left 15s linear infinite;
+      color: #bbb;
+      font-style: italic;
+    }
+    @keyframes scroll-left {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+  </style>
+</head>
+<body class="intro-glitch">
+<canvas id="particle-canvas"></canvas>
+
+<header class="boop-header">
+  <div class="boop-left">
+    <img src="images/floop-mascot.png" alt="Floop Mascot" class="boop-logo" />
+  </div>
+  <div class="boop-center">
+    <button id="connectWallet" class="connect-btn">Connect</button>
+    <button id="searchBtn" class="icon-btn">🔍</button>
+  </div>
+  <div class="boop-right">
+    <button class="icon-btn" id="menuBtn">☰</button>
+  </div>
+</header>
+
+<!-- MOBİL MENÜ -->
+<div class="mobile-menu hidden" id="mobileMenu">
+  <ul>
+    <li><a href="https://x.com/floopfun" target="_blank"><img src="images/icons/x.svg" class="menu-icon" /> X</a></li>
+    <li><a href="https://t.me/floopfun" target="_blank"><img src="images/icons/telegram.svg" class="menu-icon" /> Telegram</a></li>
+    <li><a href="#"><img src="images/icons/chart.svg" class="menu-icon" /> Floop Chart</a></li>
+  </ul>
+</div>
+<!-- SVG ZEMİN + BUTON -->
+<section class="chaos-bg-container">
+  <!-- Arka plan SVG -->
+  <div class="chaos-bg-svg">
+    <img src="images/chaos-bg.svg" alt="Chaos Background" />
+  </div>
+
+  <!-- Parlayan SVG Buton -->
+  <div class="chaos-svg-wrapper" onclick="toggleForm()">
+    <svg viewBox="0 0 220 70" class="chaos-svg">
+      <defs>
+        <linearGradient id="chaosGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#00f0ff"/>
+          <stop offset="100%" stop-color="#ff00f0"/>
+        </linearGradient>
+      </defs>
+      <rect x="1" y="1" width="218" height="68" class="chaos-rect" />
+    </svg>
+    <div class="chaos-text">Create the Chaos</div>
+  </div>
+</section>
+
+<!-- REKLAM ALANI -->
+<section id="adBanner" style="max-width: 100%; margin: 0 auto 16px auto; height: 60px; background: rgba(255, 255, 255, 0.05); border-radius: 20px; overflow: hidden; padding: 0 20px;">
+  <div class="ad-scroll">
+    <span>Floop Ads: Create your meme token now • Featured cults get promoted • Join our Telegram for updates</span>
+  </div>
+</section>
+
+<!-- MASKOT DÖNME -->
+<div id="mascotChaos" class="hidden">
+  <img src="images/floop-mascot.png" alt="Chaos Mascot" class="mascot-popup" />
+</div>
+
+<!-- FİLTRE BAR -->
+<div class="filter-bar">
+  <img src="images/icons/settings.svg" class="filter-icon" />
+  <div class="filters">
+    <button class="filter-btn active">newly launched</button>
+    <button class="filter-btn">about to graduate</button>
+    <button class="filter-btn">highest market cap</button>
+    <button class="filter-btn">top gainers</button>
+    <button class="filter-btn">oldest</button>
+  </div>
+</div>
+
+<!-- WALLET MODAL (BOOP-STYLE) -->
+<div id="walletModal" class="wallet-modal-overlay hidden">
+  <div class="wallet-modal-box">
+    <img src="images/floop-mascot.png" class="wallet-logo" />
+    <h2>Log in or sign up</h2>
+
+    <button onclick="connectWallet('okx')" class="wallet-option">
+      <img src="images/icons/okx.svg" /> OKX Wallet <span>Solana</span>
+    </button>
+    <button onclick="connectWallet('phantom')" class="wallet-option">
+      <img src="images/icons/phantom.svg" /> Phantom <span>Solana</span>
+    </button>
+    <button onclick="connectWallet('solflare')" class="wallet-option">
+      <img src="images/icons/solflare.svg" /> Solflare <span>Solana</span>
+    </button>
+    <button onclick="connectWallet('backpack')" class="wallet-option">
+      <img src="images/icons/backpack.svg" /> Backpack <span>Solana</span>
+    </button>
+    <button onclick="alert('Twitter login not supported yet')" class="wallet-option">
+      <img src="images/icons/twitter.svg" /> Twitter
+    </button>
+
+    <p class="protected">Protected by Floop</p>
+  </div>
+</div>
+
+<!-- PHANTOM MOBİL FALLBACK -->
+<a href="https://phantom.app/ul/browse/https://floopfun25.github.io/floppfun/" id="phantomLink" style="display: none;">Phantom</a>
+<!-- ALT NAVİGASYON -->
+<nav class="bottom-nav">
+  <a href="index.html" class="nav-link active">
+    <img src="images/icons/cult.png" />
+    <span>cults</span>
+  </a>
+  <a href="rewards.html" class="nav-link">
+    <img src="images/icons/rewards.png" />
+    <span>rewards</span>
+  </a>
+  <a href="staking.html" class="nav-link">
+    <img src="images/icons/staking.png" />
+    <span>staking</span>
+  </a>
+  <a href="leaderboard.html" class="nav-link">
+    <img src="images/icons/leaderboard.png" />
+    <span>leaderb.</span>
+  </a>
+  <a href="airdrop.html" class="nav-link">
+    <img src="images/icons/airdrop.png" />
+    <span>airdrop</span>
+  </a>
+</nav>
+
+<!-- SES BUTONU -->
+<button id="muteToggle" class="mute-button">🔊</button>
+
+<!-- WALLET MODAL STİLİ (boop-style) -->
+<style>
+  .wallet-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(6px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+  .wallet-modal-box {
+    background: #11131b;
+    border-radius: 16px;
+    padding: 30px;
+    width: 320px;
+    max-width: 90%;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    animation: fadeIn 0.3s ease-out;
+  }
+  .wallet-logo {
+    width: 48px;
+    margin-bottom: 12px;
+  }
+  .wallet-modal-box h2 {
+    font-size: 1.2rem;
+    color: white;
+    margin-bottom: 20px;
+  }
+  .wallet-option {
+    width: 100%;
+    background: #222;
+    border: 1px solid #333;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    gap: 10px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .wallet-option img {
+    width: 24px;
+    height: 24px;
+  }
+  .wallet-option span {
+    font-size: 0.75rem;
+    opacity: 0.6;
+  }
+  .wallet-option:hover {
+    background: #333;
+  }
+  .protected {
+    margin-top: 12px;
+    font-size: 0.75rem;
+    color: #888;
+  }
+</style>
+<!-- SCRIPTLER -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
+<script src="script.js"></script>
+
+<script>
+  // Sayfa açıldığında glitch efektini kaldır
+  window.addEventListener("load", () => {
+    setTimeout(() => {
+      document.body.classList.remove("intro-glitch");
+    }, 700);
+  });
+
+  // Arama kutusu toggle
+  document.getElementById("searchBtn").addEventListener("click", () => {
+    const searchContainer = document.getElementById("searchContainer");
+    if (searchContainer) {
+      searchContainer.classList.toggle("hidden");
+    }
+  });
+
+  // Mobil menü toggle
+  document.getElementById("menuBtn").addEventListener("click", () => {
+    const menu = document.getElementById("mobileMenu");
+    menu.classList.toggle("hidden");
+  });
+
+  // Create Chaos butonuna tıklanınca maskot dönsün ve yönlendirsin
+  function toggleForm() {
+    const mascot = document.getElementById("mascotChaos");
+    mascot.classList.remove("hidden");
+    setTimeout(() => mascot.classList.add("spin"), 100);
+    setTimeout(() => {
+      mascot.classList.add("hidden");
+      window.location.href = "create.html";
+    }, 2000);
+  }
+
+  // Wallet bağlantısı
+  function connectWallet(walletType) {
+    const phantomLink = document.getElementById("phantomLink");
+
+    if (walletType === "phantom") {
+      if (window.solana && window.solana.isPhantom) {
+        window.solana.connect().then(resp => {
+          const pubKey = resp.publicKey.toString();
+          document.getElementById("connectWallet").innerText = `Connected: ${pubKey.slice(0, 4)}...`;
+        }).catch(() => alert("Phantom connection failed"));
+      } else {
+        phantomLink.click();
+      }
+    } else {
+      alert(walletType + " not yet integrated.");
+    }
+
+    document.getElementById("walletModal").classList.add("hidden");
+  }
+
+  // Modal dışına tıklanırsa kapat
+  document.getElementById("walletModal").addEventListener("click", (e) => {
+    const box = document.querySelector(".wallet-modal-box");
+    if (!box.contains(e.target)) {
+      document.getElementById("walletModal").classList.add("hidden");
+    }
+  });
+
+  // Connect butonuna tıklanınca modalı aç
+  document.getElementById("connectWallet").addEventListener("click", () => {
+    document.getElementById("walletModal").classList.remove("hidden");
+  });
+</script>
+</body>
+</html>
