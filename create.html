@@ -62,7 +62,25 @@
       pointer-events: none;
     }
 
-    @keyframes rotateMascot {
+    @keyframes rotateMascot {.connect-btn {
+  background: white;
+  color: #11131b;
+  border: none;
+  border-radius: 999px;
+  padding: 12px 28px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+}
+
+.connect-btn:hover {
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
       0% { transform: translate(-50%, -50%) rotate(0deg); opacity: 0; }
       30% { opacity: 1; }
       100% { transform: translate(-50%, -50%) rotate(360deg); opacity: 0; }
@@ -213,6 +231,25 @@
       padding: 10px;
       box-shadow: 0 0 10px rgba(0,255,0,0.2);
     }
+   .connect-btn {
+  background: white;
+  color: #11131b;
+  border: none;
+  border-radius: 999px;
+  padding: 12px 28px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+}
+
+.connect-btn:hover {
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+ 
   </style>
 </head>
 <body>
