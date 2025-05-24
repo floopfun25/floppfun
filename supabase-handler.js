@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Token Oluştur</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="config.js"></script>
 </head>
 <body>
   <h1>Token Formu</h1>
@@ -32,10 +33,16 @@
   <button onclick="submitForm()">Gönder</button>
 
   <script>
-    const supabase = supabase.createClient(
-      "https://mlczuanztnqcngioayas.supabase.co",
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sY3p1YW56dG5xY25naW9heWFzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NzIwOTYsImV4cCI6MjA2MjM0ODA5Nn0.ShPAiWshDqZD0pAP9RMGdpfrpBtoGd58r_agzigReeI"
-    );
+    // Initialize when page loads
+    window.onload = async function() {
+      try {
+        await initializeSupabase();
+        console.log('Handler initialized with Supabase');
+      } catch (error) {
+        console.error('Failed to initialize handler:', error);
+        alert('Supabase bağlantısı başarısız. Sayfayı yenileyin.');
+      }
+    };
 
     async function submitForm() {
       const imageFile = document.getElementById('imageInput').files[0];
@@ -66,6 +73,11 @@
       });
 
       try {
+        const supabase = getSupabaseClient();
+        if (!supabase) {
+          throw new Error('Supabase not initialized');
+        }
+
         const fileExt = imageFile.name.split('.').pop();
         const fileName = `${Date.now()}.${fileExt}`;
         const { data: uploadData, error: uploadError } = await supabase

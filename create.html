@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="config.js"></script>
   <style>
     body {
       margin: 0;
@@ -429,29 +430,32 @@ window.addEventListener("popstate", function (event) {
   if (event.state && event.state.formOpen) closeForm();
 });
 
-window.onload = function () {
-  history.pushState({ formOpen: true }, "", "#create");
+  window.onload = function () {
+    history.pushState({ formOpen: true }, "", "#create");
 
-  const form = document.getElementById("formContainer");
-  const mascot = document.getElementById("mascotSpin");
-  const audio = document.getElementById("glassBreak");
+    const form = document.getElementById("formContainer");
+    const mascot = document.getElementById("mascotSpin");
+    const audio = document.getElementById("glassBreak");
 
-  if (form) {
-    form.classList.add("animate-in");
+    if (form) {
+      form.classList.add("animate-in");
 
-    if (mascot) mascot.style.display = "block";
-    if (audio) audio.play().catch(() => {});
+      if (mascot) mascot.style.display = "block";
+      if (audio) audio.play().catch(() => {});
 
-    setTimeout(() => {
-      form.classList.add("shake");
-      setTimeout(() => form.classList.remove("shake"), 600);
-    }, 600);
+      setTimeout(() => {
+        form.classList.add("shake");
+        setTimeout(() => form.classList.remove("shake"), 600);
+      }, 600);
 
-    setTimeout(() => {
-      if (mascot) mascot.style.display = "none";
-    }, 1400);
-  }
-};
+      setTimeout(() => {
+        if (mascot) mascot.style.display = "none";
+      }, 1400);
+    }
+
+    // Initialize Supabase
+    initPage();
+  };
 </script>
 <script>
 function togglePrebuy() {
@@ -581,10 +585,20 @@ async function connectWallet() {
   }
 }
 
-const supabase = supabase.createClient(
-  "https://mlczuanztnqcngioayas.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sY3p1YW56dG5xY25naW9heWFzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3NzIwOTYsImV4cCI6MjA2MjM0ODA5Nn0.ShPAiWshDqZD0pAP9RMGdpfrpBtoGd58r_agzigReeI"
-);
+// Initialize Supabase on page load
+let supabaseClient;
+
+async function initPage() {
+  try {
+    await initializeSupabase();
+    supabaseClient = getSupabaseClient();
+    console.log('Create page initialized with Supabase');
+  } catch (error) {
+    console.error('Failed to initialize page:', error);
+    alert('Failed to connect to database. Please refresh the page.');
+  }
+}
+
 async function submitForm() {
   const imageFile = document.getElementById('imageInput').files[0];
   const tokenName = document.getElementById('tokenName').value.trim();
@@ -613,21 +627,25 @@ async function submitForm() {
   try {
     const fileExt = imageFile.name.split('.').pop();
     const fileName = `${Date.now()}.${fileExt}`;
-    const { data: uploadData, error: uploadError } = await supabase
+    if (!supabaseClient) {
+      throw new Error('Supabase not initialized');
+    }
+
+    const { data: uploadData, error: uploadError } = await supabaseClient
       .storage
       .from("chaos-images")
       .upload(fileName, imageFile);
 
     if (uploadError) throw uploadError;
 
-    const { data: urlData } = supabase
+    const { data: urlData } = supabaseClient
       .storage
       .from("chaos-images")
       .getPublicUrl(fileName);
 
     const imageUrl = urlData.publicUrl;
 
-    const { error: insertError } = await supabase
+    const { error: insertError } = await supabaseClient
       .from("create_chaos")
       .insert([
         {

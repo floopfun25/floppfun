@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Supabase Connection Test</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="config.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #0a0a0a;
+      color: white;
+    }
+    .test-section {
+      background: #1a1a1a;
+      padding: 20px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #333;
+    }
+    .success { border-color: #0f0; background: rgba(0, 255, 0, 0.1); }
+    .error { border-color: #f00; background: rgba(255, 0, 0, 0.1); }
+    button {
+      background: #0066cc;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 5px;
+    }
+    button:hover {
+      background: #0052a3;
+    }
+    .log {
+      background: #000;
+      color: #0f0;
+      padding: 10px;
+      border-radius: 5px;
+      font-family: monospace;
+      white-space: pre-wrap;
+      max-height: 200px;
+      overflow-y: auto;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔧 Supabase Connection Test</h1>
+  
+  <div id="configSection" class="test-section">
+    <h2>1. Configuration Status</h2>
+    <p id="configStatus">Checking configuration...</p>
+    <button onclick="checkConfig()">Recheck Config</button>
+  </div>
+
+  <div id="connectionSection" class="test-section">
+    <h2>2. Connection Test</h2>
+    <p id="connectionStatus">Not tested</p>
+    <button onclick="testConnection()">Test Connection</button>
+  </div>
+
+  <div id="tableSection" class="test-section">
+    <h2>3. Database Table Test</h2>
+    <p id="tableStatus">Not tested</p>
+    <button onclick="testTable()">Test Table Access</button>
+    <button onclick="inspectCurrentSchema()">Inspect Current Schema</button>
+    <button onclick="showTableInstructions()">Show Manual Setup</button>
+    <button onclick="showTableFixInstructions()">Fix Existing Table</button>
+  </div>
+
+  <div id="storageSection" class="test-section">
+    <h2>4. Storage Bucket Test</h2>
+    <p id="storageStatus">Not tested</p>
+    <button onclick="testStorage()">Test Storage</button>
+    <button onclick="showBucketInstructions()">Show Manual Setup</button>
+  </div>
+
+  <div id="insertSection" class="test-section">
+    <h2>5. Insert Test</h2>
+    <p id="insertStatus">Not tested</p>
+    <button onclick="testInsert()">Test Insert</button>
+    <button onclick="discoverCompleteSchema()">Discover Complete Schema</button>
+  </div>
+
+  <div id="logSection" class="test-section">
+    <h2>📝 Debug Log</h2>
+    <div id="debugLog" class="log"></div>
+    <button onclick="clearLog()">Clear Log</button>
+  </div>
+
+  <script>
+    // Use the global supabaseClient from config.js - no need to declare it again
+    
+    function log(message, type = 'info') {
+      const logElement = document.getElementById('debugLog');
+      const timestamp = new Date().toLocaleTimeString();
+      const logMessage = `[${timestamp}] ${type.toUpperCase()}: ${message}\n`;
+      logElement.textContent += logMessage;
+      logElement.scrollTop = logElement.scrollHeight;
+      
+      if (type === 'error') {
+        console.error(message);
+      } else {
+        console.log(message);
+      }
+    }
+
+    function clearLog() {
+      document.getElementById('debugLog').textContent = '';
+    }
+
+    function updateStatus(sectionId, message, isSuccess = null) {
+      const element = document.getElementById(sectionId);
+      const section = element.closest('.test-section');
+      
+      element.textContent = message;
+      
+      section.classList.remove('success', 'error');
+      if (isSuccess === true) {
+        section.classList.add('success');
+      } else if (isSuccess === false) {
+        section.classList.add('error');
+      }
+    }
+
+    async function checkConfig() {
+      try {
+        log('Checking configuration...');
+        
+        if (typeof SUPABASE_CONFIG === 'undefined') {
+          throw new Error('SUPABASE_CONFIG not found. Make sure config.js is loaded.');
+        }
+
+        const { url, anonKey } = SUPABASE_CONFIG;
+        
+        if (!url || url === 'YOUR_SUPABASE_PROJECT_URL_HERE') {
+          throw new Error('Supabase URL not configured');
+        }
+        
+        if (!anonKey || anonKey === 'YOUR_SUPABASE_ANON_KEY_HERE') {
+          throw new Error('Supabase anon key not configured');
+        }
+
+        log(`URL: ${url}`);
+        log(`Key: ${anonKey.substring(0, 20)}...`);
+        
+        updateStatus('configStatus', '✅ Configuration looks good', true);
+        return true;
+      } catch (error) {
+        log(`Configuration error: ${error.message}`, 'error');
+        updateStatus('configStatus', `❌ ${error.message}`, false);
+        return false;
+      }
+    }
+
+    async function testConnection() {
+      try {
+        log('Testing Supabase connection...');
+        
+        await initializeSupabase();
+        const client = getSupabaseClient();
+        
+        // Test with a simple request
+        const { error } = await client.auth.getSession();
+        
+        if (error && error.message !== 'Invalid JWT') {
+          throw error;
+        }
+        
+        log('Connection successful');
+        updateStatus('connectionStatus', '✅ Connected to Supabase', true);
+        return true;
+      } catch (error) {
+        log(`Connection error: ${error.message}`, 'error');
+        updateStatus('connectionStatus', `❌ Connection failed: ${error.message}`, false);
+        return false;
+      }
+    }
+
+    async function testTable() {
+      try {
+        log('Testing table access...');
+        
+        // Ensure Supabase is initialized first
+        try {
+          await initializeSupabase();
+        } catch (initError) {
+          log(`Failed to initialize Supabase: ${initError.message}`, 'error');
+          updateStatus('tableStatus', '❌ Failed to initialize Supabase', false);
+          return false;
+        }
+        
+        const client = getSupabaseClient();
+        
+        // First, try a simple select
+        const { data, error } = await client
+          .from('create_chaos')
+          .select('*')
+          .limit(1);
+        
+        if (error) {
+          if (error.message.includes('does not exist') || error.message.includes('not found')) {
+            log('Table "create_chaos" does not exist');
+            updateStatus('tableStatus', '❌ Table "create_chaos" not found - needs to be created manually', false);
+            return false;
+          }
+          throw error;
+        }
+        
+        log(`Table access successful. Found ${data.length} records.`);
+        
+        // Now check if all required columns exist
+        const schemaCheck = await checkTableSchema(client);
+        if (!schemaCheck) {
+          return false;
+        }
+        
+        updateStatus('tableStatus', '✅ Table accessible with correct schema', true);
+        return true;
+      } catch (error) {
+        log(`Table error: ${error.message}`, 'error');
+        updateStatus('tableStatus', `❌ Table error: ${error.message}`, false);
+        return false;
+      }
+    }
+
+    async function checkTableSchema(client) {
+      try {
+        log('Checking table schema...');
+        
+        // Try to select with all expected columns
+        const { data, error } = await client
+          .from('create_chaos')
+          .select('id, token_name, ticker, supply, dev_share, lock_percent, kaos_lore, lock_duration, image_url, socials, prebuy_sol, created_at')
+          .limit(1);
+        
+        if (error) {
+          if (error.message.includes('column') && error.message.includes('does not exist')) {
+            log(`❌ Schema error: ${error.message}`);
+            log('The table exists but is missing required columns.');
+            log('Please recreate the table with the complete schema.');
+            updateStatus('tableStatus', '❌ Table has incorrect schema - needs to be recreated', false);
+            return false;
+          }
+          throw error;
+        }
+        
+        log('✅ All required columns found in table schema');
+        return true;
+      } catch (error) {
+        log(`Schema check error: ${error.message}`, 'error');
+        return false;
+      }
+    }
+
+    async function inspectCurrentSchema() {
+      try {
+        log('🔍 INSPECTING CURRENT TABLE SCHEMA...');
+        
+        // Ensure Supabase is initialized first
+        try {
+          await initializeSupabase();
+        } catch (initError) {
+          log(`Failed to initialize Supabase: ${initError.message}`, 'error');
+          return false;
+        }
+        
+        const client = getSupabaseClient();
+        
+        // Since information_schema isn't accessible, we'll test each column individually
+        log('📋 TESTING EACH REQUIRED COLUMN:');
+        log('');
+        
+        const requiredColumns = [
+          'id', 'token_name', 'ticker', 'supply', 'dev_share', 
+          'lock_percent', 'kaos_lore', 'lock_duration', 'image_url', 
+          'socials', 'prebuy_sol', 'created_at'
+        ];
+        
+        const existingColumns = [];
+        const missingColumns = [];
+        
+        for (const column of requiredColumns) {
+          try {
+            const { data, error } = await client
+              .from('create_chaos')
+              .select(column)
+              .limit(1);
+            
+            if (error) {
+              if (error.message.includes('does not exist') || error.message.includes('column')) {
+                missingColumns.push(column);
+                log(`❌ ${column} - MISSING`);
+              } else {
+                log(`⚠️ ${column} - ERROR: ${error.message}`);
+              }
+            } else {
+              existingColumns.push(column);
+              log(`✅ ${column} - EXISTS`);
+            }
+          } catch (err) {
+            log(`⚠️ ${column} - TEST ERROR: ${err.message}`);
+          }
+        }
+        
+        log('');
+        log('📊 SUMMARY:');
+        log(`✅ Existing columns (${existingColumns.length}): ${existingColumns.join(', ')}`);
+        
+        if (missingColumns.length > 0) {
+          log(`❌ Missing columns (${missingColumns.length}): ${missingColumns.join(', ')}`);
+          updateStatus('tableStatus', `❌ Missing ${missingColumns.length} columns`, false);
+        } else {
+          log('🎉 ALL REQUIRED COLUMNS EXIST!');
+          updateStatus('tableStatus', '✅ All columns present', true);
+        }
+        
+        return missingColumns.length === 0;
+        
+      } catch (error) {
+        log(`Schema inspection error: ${error.message}`, 'error');
+        return false;
+      }
+    }
+
+    async function showTableInstructions() {
+      log('📋 MANUAL TABLE CREATION INSTRUCTIONS:');
+      log('');
+      log('1. Go to your Supabase Dashboard: https://app.supabase.com');
+      log('2. Select your project: mlczuanztnqcngioayas');
+      log('3. Go to SQL Editor in the left sidebar');
+      log('4. Click "New query"');
+      log('5. Copy and paste this SQL code:');
+      log('');
+      
+      const sql = `CREATE TABLE IF NOT EXISTS create_chaos (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  token_name TEXT NOT NULL,
+  ticker TEXT NOT NULL,
+  supply TEXT NOT NULL,
+  dev_share TEXT NOT NULL,
+  lock_percent TEXT,
+  kaos_lore TEXT NOT NULL,
+  lock_duration TEXT NOT NULL,
+  image_url TEXT,
+  socials JSONB DEFAULT '{}',
+  prebuy_sol TEXT DEFAULT '0',
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Enable Row Level Security
+ALTER TABLE create_chaos ENABLE ROW LEVEL SECURITY;
+
+-- Allow public to insert new records
+CREATE POLICY "Allow public to insert chaos" ON create_chaos
+  FOR INSERT TO public
+  WITH CHECK (true);
+
+-- Allow public to read all records
+CREATE POLICY "Allow public to read chaos" ON create_chaos
+  FOR SELECT TO public
+  USING (true);`;
+      
+      log(sql);
+      log('');
+      log('6. Click "Run" to execute the SQL');
+      log('7. After running, click "Test Table Access" again');
+      
+      updateStatus('tableStatus', '📋 Manual setup instructions logged below', null);
+    }
+
+    async function showTableFixInstructions() {
+      log('📋 TABLE FIX INSTRUCTIONS (if table exists but has wrong schema):');
+      log('');
+      log('Option 1: DROP and RECREATE the table (recommended)');
+      log('1. Go to your Supabase Dashboard: https://app.supabase.com');
+      log('2. Select your project: mlczuanztnqcngioayas');
+      log('3. Go to SQL Editor');
+      log('4. Run this SQL to drop and recreate:');
+      log('');
+      
+      const dropAndCreateSql = `-- Drop existing table
+DROP TABLE IF EXISTS create_chaos;
+
+-- Create new table with correct schema
+CREATE TABLE create_chaos (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  token_name TEXT NOT NULL,
+  ticker TEXT NOT NULL,
+  supply TEXT NOT NULL,
+  dev_share TEXT NOT NULL,
+  lock_percent TEXT,
+  kaos_lore TEXT NOT NULL,
+  lock_duration TEXT NOT NULL,
+  image_url TEXT,
+  socials JSONB DEFAULT '{}',
+  prebuy_sol TEXT DEFAULT '0',
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Enable Row Level Security
+ALTER TABLE create_chaos ENABLE ROW LEVEL SECURITY;
+
+-- Allow public to insert new records
+CREATE POLICY "Allow public to insert chaos" ON create_chaos
+  FOR INSERT TO public
+  WITH CHECK (true);
+
+-- Allow public to read all records
+CREATE POLICY "Allow public to read chaos" ON create_chaos
+  FOR SELECT TO public
+  USING (true);`;
+      
+      log(dropAndCreateSql);
+      log('');
+      log('Option 2: ADD missing columns (if you want to keep existing data)');
+      log('Run this SQL instead:');
+      log('');
+      
+      const alterSql = `-- Add missing columns
+ALTER TABLE create_chaos 
+ADD COLUMN IF NOT EXISTS kaos_lore TEXT,
+ADD COLUMN IF NOT EXISTS lock_percent TEXT,
+ADD COLUMN IF NOT EXISTS image_url TEXT,
+ADD COLUMN IF NOT EXISTS socials JSONB DEFAULT '{}',
+ADD COLUMN IF NOT EXISTS prebuy_sol TEXT DEFAULT '0';
+
+-- Make kaos_lore required if it was missing
+UPDATE create_chaos SET kaos_lore = 'Default description' WHERE kaos_lore IS NULL;
+ALTER TABLE create_chaos ALTER COLUMN kaos_lore SET NOT NULL;`;
+      
+      log(alterSql);
+      log('');
+      log('5. Click "Run" to execute the SQL');
+      log('6. After running, click "Test Table Access" again');
+      
+      updateStatus('tableStatus', '📋 Table fix instructions logged below', null);
+    }
+
+    async function testStorage() {
+      try {
+        log('Testing storage access...');
+        
+        // Ensure Supabase is initialized first
+        try {
+          await initializeSupabase();
+        } catch (initError) {
+          log(`Failed to initialize Supabase: ${initError.message}`, 'error');
+          updateStatus('storageStatus', '❌ Failed to initialize Supabase', false);
+          return false;
+        }
+        
+        const client = getSupabaseClient();
+        
+        const { data, error } = await client
+          .storage
+          .from('chaos-images')
+          .list('', { limit: 1 });
+        
+        if (error) {
+          if (error.message.includes('not found') || error.message.includes('does not exist')) {
+            log('Storage bucket "chaos-images" does not exist');
+            updateStatus('storageStatus', '❌ Bucket "chaos-images" not found - needs to be created manually', false);
+            return false;
+          }
+          throw error;
+        }
+        
+        log('Storage access successful');
+        updateStatus('storageStatus', '✅ Storage bucket accessible', true);
+        return true;
+      } catch (error) {
+        log(`Storage error: ${error.message}`, 'error');
+        updateStatus('storageStatus', `❌ Storage error: ${error.message}`, false);
+        return false;
+      }
+    }
+
+    async function showBucketInstructions() {
+      const instructions = `
+📋 MANUAL BUCKET CREATION INSTRUCTIONS:
+
+1. Go to your Supabase Dashboard: https://app.supabase.com
+2. Select your project: mlczuanztnqcngioayas
+3. Go to Storage > Buckets in the left sidebar
+4. Click "New bucket"
+5. Enter bucket name: chaos-images
+6. Set as Public bucket: ✅ (checked)
+7. Click "Create bucket"
+
+After creating the bucket, click "Test Storage" again.
+
+Note: Bucket creation requires admin privileges and cannot be done 
+from the frontend with anonymous keys due to security policies.`;
+      
+      log(instructions);
+      updateStatus('storageStatus', '📋 Manual setup instructions logged below', null);
+    }
+
+    async function testInsert() {
+      try {
+        log('Testing data insert...');
+        
+        // Ensure Supabase is initialized first
+        try {
+          await initializeSupabase();
+        } catch (initError) {
+          log(`Failed to initialize Supabase: ${initError.message}`, 'error');
+          updateStatus('insertStatus', '❌ Failed to initialize Supabase', false);
+          return false;
+        }
+        
+        const client = getSupabaseClient();
+        
+        const testData = {
+          token_name: 'Test Token',
+          ticker: 'TEST',
+          supply: '1000000',
+          dev_share: '5',
+          kaos_lore: 'This is a test token created by the connection test.',
+          lock_duration: '1m',
+          lock_percent: '0',
+          image_url: null,
+          socials: {},
+          prebuy_sol: '0',
+          prebuy_percent: '0'
+        };
+        
+        const { data, error } = await client
+          .from('create_chaos')
+          .insert([testData])
+          .select();
+        
+        if (error) {
+          if (error.message.includes('violates not-null constraint')) {
+            const match = error.message.match(/column "([^"]+)"/);
+            const missingColumn = match ? match[1] : 'unknown';
+            log(`❌ Missing required column: ${missingColumn}`);
+            log('Your table has additional required columns that we need to include.');
+            log('Try running "Show Advanced Schema Fix" for a complete solution.');
+            updateStatus('insertStatus', `❌ Missing required column: ${missingColumn}`, false);
+            return false;
+          }
+          throw error;
+        }
+        
+        log(`Insert successful. Created record with ID: ${data[0].id}`);
+        updateStatus('insertStatus', '✅ Insert test successful', true);
+        return true;
+      } catch (error) {
+        log(`Insert error: ${error.message}`, 'error');
+        updateStatus('insertStatus', `❌ Insert failed: ${error.message}`, false);
+        return false;
+      }
+    }
+
+    async function discoverCompleteSchema() {
+      log('🔍 DISCOVERING COMPLETE SCHEMA BY ERROR ANALYSIS...');
+      log('');
+      log('From the error message, we found:');
+      log('❌ "prebuy_percent" column exists and is required (NOT NULL)');
+      log('');
+      log('📋 COMPLETE SCHEMA BASED ON YOUR TABLE:');
+      log('Based on errors and successful operations, your table appears to have:');
+      log('');
+      log('✅ Known working columns:');
+      log('- id (UUID PRIMARY KEY)');
+      log('- token_name (TEXT NOT NULL)');
+      log('- ticker (TEXT NOT NULL)');
+      log('- supply (TEXT NOT NULL)');
+      log('- dev_share (TEXT NOT NULL)');
+      log('- kaos_lore (TEXT NOT NULL)');
+      log('- lock_duration (TEXT NOT NULL)');
+      log('');
+      log('❌ Additional required column found:');
+      log('- prebuy_percent (TEXT NOT NULL) ← This was missing from our test');
+      log('');
+      log('❓ Possibly optional columns:');
+      log('- lock_percent (TEXT)');
+      log('- image_url (TEXT)');
+      log('- socials (JSONB)');
+      log('- prebuy_sol (TEXT)');
+      log('- created_at (TIMESTAMP)');
+      log('');
+      log('💡 RECOMMENDED ACTION:');
+      log('The table has been customized beyond our expected schema.');
+      log('You should either:');
+      log('1. Use the current table as-is (add prebuy_percent to your forms)');
+      log('2. Recreate the table with the standard schema');
+      log('');
+      log('To see what columns actually exist, check your Supabase dashboard:');
+      log('Dashboard → Table Editor → create_chaos table');
+      
+      updateStatus('insertStatus', '📋 Schema analysis complete - check log', null);
+    }
+
+    // Run initial checks when page loads
+    window.onload = async function() {
+      log('Starting Supabase connection tests...');
+      await checkConfig();
+    };
+  </script>
+</body>
+</html> 
